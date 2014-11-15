@@ -1,0 +1,5 @@
+# Intellij user specific (see https://intellij-support.jetbrains.com/entries/23393067)
+.idea/tasks.xml
+.idea/workspace.xml
+# Generated java classes
+out

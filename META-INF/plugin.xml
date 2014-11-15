@@ -1,0 +1,46 @@
+<idea-plugin version="2">
+
+  <id>com.dubreuia</id>
+  <name>Save Actions</name>
+  <version>0.1</version>
+  <vendor email="dubreuil.alex@gmail.com" url="https://www.github.com/dubreuia">Alexandre DuBreuil</vendor>
+
+  <description><![CDATA[
+      Supports configurable save actions, including "organize imports", "reformat code" and "rearrange code" (<a href="https://www.github.com/dubreuia">github</a> | <a href="https://twitter.com/dubreuia">twitter</a>).
+    ]]></description>
+
+  <change-notes><![CDATA[
+      <dl>
+        <dt>0.1</dt>
+          <dd>
+            <ul>
+              <li>Organize imports support</li>
+              <li>Reformat code support with only changed text option</li>
+              <li>Rearrange code support</li>
+              <li>Simple option page to activate / deactivate save actions</li>
+            </ul>
+          </dd>
+      </dl>
+    ]]>
+  </change-notes>
+
+  <idea-version since-build="131"/>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <applicationService serviceImplementation="com.dubreuia.Settings"/>
+    <applicationConfigurable instance="com.dubreuia.Configuration"/>
+  </extensions>
+
+  <application-components>
+    <component>
+      <implementation-class>com.dubreuia.Component</implementation-class>
+    </component>
+  </application-components>
+
+  <project-components>
+  </project-components>
+
+  <actions>
+  </actions>
+
+</idea-plugin>
