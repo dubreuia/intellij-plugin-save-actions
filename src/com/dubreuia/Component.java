@@ -1,13 +1,11 @@
 package com.dubreuia;
 
+import com.dubreuia.processors.ProcessorFactory;
+import com.dubreuia.utils.PsiFiles;
 import com.intellij.AppTopics;
 import com.intellij.codeInsight.actions.AbstractLayoutCodeProcessor;
-import com.intellij.codeInsight.actions.OptimizeImportsProcessor;
-import com.intellij.codeInsight.actions.RearrangeCodeProcessor;
-import com.intellij.codeInsight.actions.ReformatCodeProcessor;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ApplicationComponent;
-import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.fileEditor.FileDocumentManagerAdapter;
 import com.intellij.openapi.project.Project;
@@ -20,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class Component implements ApplicationComponent {
 
-    private Settings settings = ServiceManager.getService(Settings.class);
+    public static final String COMPONENT_NAME = "Save Actions";
 
     public void initComponent() {
         MessageBus bus = ApplicationManager.getApplication().getMessageBus();
@@ -34,11 +32,14 @@ public class Component implements ApplicationComponent {
             public void beforeDocumentSaving(@NotNull Document document) {
                 for (Project project : ProjectManager.getInstance().getOpenProjects()) {
                     PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
-                    if (null != psiFile) {
-                        AbstractLayoutCodeProcessor processor;
-                        processor = getReformatCodeProcessor(project, psiFile);
-                        processor = getRearrangeCodeProcessor(processor);
-                        processor = getOptimizeImportsProcessor(processor, project, psiFile);
+                    /*
+                     * The psi files seems to be shared between projects, so we need to check if the file is physically
+                     * in that project before reformating, or else the file is formatted twice and intellij will ask to
+                     * confirm unlocking of non-project file in the other project (very annoying).
+                     */
+                    if (null != psiFile && PsiFiles.isPsiFilePhysicallyInProject(project, psiFile)) {
+                        AbstractLayoutCodeProcessor processor =
+                                ProcessorFactory.INSTANCE.getSaveActionsProcessor(project, psiFile);
                         if (null != processor) {
                             processor.run();
                         }
@@ -48,35 +49,12 @@ public class Component implements ApplicationComponent {
         };
     }
 
-    private AbstractLayoutCodeProcessor getOptimizeImportsProcessor(AbstractLayoutCodeProcessor processor, Project project, PsiFile psiFile) {
-        if (null != processor && settings.isImports()) {
-            return new OptimizeImportsProcessor(processor);
-        } else if (settings.isImports()) {
-            return new OptimizeImportsProcessor(project, psiFile);
-        }
-        return processor;
-    }
-
-    private AbstractLayoutCodeProcessor getRearrangeCodeProcessor(AbstractLayoutCodeProcessor processor) {
-        if (null != processor && settings.isRearrange()) {
-            return new RearrangeCodeProcessor(processor, null);
-        }
-        return processor;
-    }
-
-    private AbstractLayoutCodeProcessor getReformatCodeProcessor(Project project, PsiFile psiFile) {
-        if (settings.isReformat()) {
-            return new ReformatCodeProcessor(project, psiFile, null, settings.isReformatChangedCode());
-        }
-        return null;
+    @NotNull
+    public String getComponentName() {
+        return COMPONENT_NAME;
     }
 
     public void disposeComponent() {
-    }
-
-    @NotNull
-    public String getComponentName() {
-        return "Save Action";
     }
 
 }

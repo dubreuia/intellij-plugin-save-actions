@@ -7,13 +7,18 @@ import com.intellij.openapi.components.StoragePathMacros;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 
 @State(name = "SaveActionSettings",
-        storages = {@Storage(file = StoragePathMacros.APP_CONFIG + "/saveactions_settings.xml")})
+        storages = {
+                @Storage(file = StoragePathMacros.APP_CONFIG + "/saveactions_settings.xml")})
 public class Settings implements PersistentStateComponent<Settings> {
 
     private boolean activate;
+
     private boolean imports;
+
     private boolean reformat;
+
     private boolean reformatChangedCode;
+
     private boolean rearrange;
 
     public Settings getState() {

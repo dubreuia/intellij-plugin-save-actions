@@ -1,13 +1,13 @@
 # Intellij Save Actions Plugin
 
-Supports configurable save actions, including "organize imports", "reformat code" and "rearrange code".
+Supports configurable, Eclipse like, save actions, including "organize imports", "reformat code" and "rearrange code". The plugin executes the configured actions when the file is synchronised (or saved) on disk.
 
 ## Features
 
-- Organize imports support
-- Reformat code support with only changed text option
-- Rearrange code support
-- Simple option page to activate / deactivate save actions
+- Organize imports
+- Reformat code (only changed text or all)
+- Rearrange code (reorder methods, fields, etc.)
+- Simple option page to activate / deactivate actions
 
 ## Installation
 
@@ -29,6 +29,10 @@ Activate the plugin in Intellij IDEA :
 ## Bugs / features
 
 Dat plugin do not work ? You can [ask me on twitter](https://twitter.com/dubreuia) or [create an issue on github](https://github.com/dubreuia/intellij-plugin-save-actions/issues).
+
+## Compatibility
+
+This plugin works with Java 6+ and Intellij IDEA Community Edition after 131 (around version 13).
 
 ## Licence
 

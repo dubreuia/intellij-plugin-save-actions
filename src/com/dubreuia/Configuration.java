@@ -1,26 +1,30 @@
 package com.dubreuia;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.*;
-
-import org.jetbrains.annotations.Nls;
-import org.jetbrains.annotations.Nullable;
-
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.ui.IdeBorderFactory;
+import org.jetbrains.annotations.Nls;
+import org.jetbrains.annotations.Nullable;
+
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Configuration implements Configurable {
 
     private static final String TEXT_TITLE_OPTIONS = "Formatting options";
+
     private static final String TEXT_TITLE_ACTIONS = "Actions to perform on save";
 
     private static final String TEXT_ACTIVATE = "Activate save actions";
+
     private static final String TEXT_IMPORTS = "Organize imports";
+
     private static final String TEXT_REFORMAT = "Reformat code";
+
     private static final String TEXT_REFORMAT_CHANGED_CODE = "Format and rearrange only changed code";
+
     private static final String TEXT_REARRANGE = "Rearrange code";
 
     private static final String TEXT_DISPLAY_NAME = "Save Actions";
@@ -28,9 +32,13 @@ public class Configuration implements Configurable {
     private Settings settings = ServiceManager.getService(Settings.class);
 
     private JCheckBox activate;
+
     private JCheckBox imports;
+
     private JCheckBox reformat;
+
     private JCheckBox reformatChangedCode;
+
     private JCheckBox rearrange;
 
     @Nullable

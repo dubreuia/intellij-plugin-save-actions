@@ -1,46 +1,75 @@
 <idea-plugin version="2">
 
-  <id>com.dubreuia</id>
-  <name>Save Actions</name>
-  <version>0.1</version>
-  <vendor email="dubreuil.alex@gmail.com" url="https://www.github.com/dubreuia">Alexandre DuBreuil</vendor>
+    <id>com.dubreuia</id>
+    <name>Save Actions</name>
+    <version>0.2</version>
+    <vendor email="dubreuil.alex@gmail.com" url="https://www.github.com/dubreuia">Alexandre DuBreuil</vendor>
 
-  <description><![CDATA[
-      Supports configurable save actions, including "organize imports", "reformat code" and "rearrange code" (<a href="https://www.github.com/dubreuia">github</a> | <a href="https://twitter.com/dubreuia">twitter</a>).
+    <description><![CDATA[
+      <p>Supports configurable, Eclipse like, save actions, including "organize imports", "reformat code" and "rearrange code". The plugin executes the configured actions when the file is synchronised (or saved) on disk.</p>
+
+      <p><strong>features</strong></p>
+
+      <ul>
+        <li>Organize imports</li>
+        <li>Reformat code (only changed text or all)</li>
+        <li>Rearrange code (reorder methods, fields, etc.)</li>
+        <li>Simple option page to activate / deactivate actions</li>
+      </ul>
+
+      <p><strong>github</strong></p>
+
+      <ul><li><a href="https://www.github.com/dubreuia">https://www.github.com/dubreuia</a></li></ul>
+
+      <p><strong>twitter</strong></p>
+
+      <ul><li><a href="https://twitter.com/dubreuia">https://twitter.com/dubreuia</a></li></ul>
+
+      <p><strong>issues</strong></p>
+
+      <ul><li><a href="https://github.com/dubreuia/intellij-plugin-save-actions/issues">https://github.com/dubreuia/intellij-plugin-save-actions/issues</a></li></ul>
     ]]></description>
 
-  <change-notes><![CDATA[
+    <change-notes><![CDATA[
       <dl>
+        <dt>0.2</dt>
+          <dd>
+            <ul>
+              <li>Correct issue #1 (<a href="https://github.com/dubreuia/intellij-plugin-save-actions/issues/1">https://github.com/dubreuia/intellij-plugin-save-actions/issues/1</a>)</li>
+              <li>Code cleanup</li>
+            </ul>
+          </dd>
         <dt>0.1</dt>
           <dd>
             <ul>
-              <li>Organize imports support</li>
-              <li>Reformat code support with only changed text option</li>
-              <li>Rearrange code support</li>
+              <li>Organize imports</li>
+              <li>Reformat code</li>
+              <li>Reformat only changed code</li>
+              <li>Rearrange code</li>
               <li>Simple option page to activate / deactivate save actions</li>
             </ul>
           </dd>
       </dl>
     ]]>
-  </change-notes>
+    </change-notes>
 
-  <idea-version since-build="131"/>
+    <idea-version since-build="131"/>
 
-  <extensions defaultExtensionNs="com.intellij">
-    <applicationService serviceImplementation="com.dubreuia.Settings"/>
-    <applicationConfigurable instance="com.dubreuia.Configuration"/>
-  </extensions>
+    <extensions defaultExtensionNs="com.intellij">
+        <applicationService serviceImplementation="com.dubreuia.Settings"/>
+        <applicationConfigurable instance="com.dubreuia.Configuration"/>
+    </extensions>
 
-  <application-components>
-    <component>
-      <implementation-class>com.dubreuia.Component</implementation-class>
-    </component>
-  </application-components>
+    <application-components>
+        <component>
+            <implementation-class>com.dubreuia.Component</implementation-class>
+        </component>
+    </application-components>
 
-  <project-components>
-  </project-components>
+    <project-components>
+    </project-components>
 
-  <actions>
-  </actions>
+    <actions>
+    </actions>
 
 </idea-plugin>
