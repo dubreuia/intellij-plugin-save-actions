@@ -16,6 +16,8 @@ import com.intellij.util.messages.MessageBus;
 import com.intellij.util.messages.MessageBusConnection;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 public class Component implements ApplicationComponent {
 
     public static final String COMPONENT_NAME = "Save Actions";
@@ -38,10 +40,12 @@ public class Component implements ApplicationComponent {
                      * confirm unlocking of non-project file in the other project (very annoying).
                      */
                     if (null != psiFile && PsiFiles.isPsiFilePhysicallyInProject(project, psiFile)) {
-                        AbstractLayoutCodeProcessor processor =
-                                ProcessorFactory.INSTANCE.getSaveActionsProcessor(project, psiFile);
-                        if (null != processor) {
-                            processor.run();
+                        List<AbstractLayoutCodeProcessor> processors =
+                                ProcessorFactory.INSTANCE.getSaveActionsProcessors(project, psiFile);
+                        for (AbstractLayoutCodeProcessor processor : processors) {
+                            if (null != processor) {
+                                processor.run();
+                            }
                         }
                     }
                 }

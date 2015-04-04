@@ -11,6 +11,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+
 public class Configuration implements Configurable {
 
     private static final String TEXT_TITLE_OPTIONS = "Formatting options";
@@ -62,7 +63,7 @@ public class Configuration implements Configurable {
         boolean modified = settings.isActivate() != activate.isSelected();
         modified = modified || settings.isImports() != imports.isSelected();
         modified = modified || settings.isReformat() != reformat.isSelected();
-        modified = modified || settings.isReformatChangedCode() != reformatChangedCode.isSelected();
+        modified = modified || settings.isChangedCode() != reformatChangedCode.isSelected();
         modified = modified || settings.isRearrange() != rearrange.isSelected();
         return modified;
     }
@@ -72,7 +73,7 @@ public class Configuration implements Configurable {
         settings.setActivate(activate.isSelected());
         settings.setImports(imports.isSelected());
         settings.setReformat(reformat.isSelected());
-        settings.setReformatChangedCode(reformatChangedCode.isSelected());
+        settings.setChangedCode(reformatChangedCode.isSelected());
         settings.setRearrange(rearrange.isSelected());
     }
 
@@ -81,7 +82,7 @@ public class Configuration implements Configurable {
         activate.setSelected(settings.isActivate());
         imports.setSelected(settings.isImports());
         reformat.setSelected(settings.isReformat());
-        reformatChangedCode.setSelected(settings.isReformatChangedCode());
+        reformatChangedCode.setSelected(settings.isChangedCode());
         rearrange.setSelected(settings.isRearrange());
         updateDependencies();
     }

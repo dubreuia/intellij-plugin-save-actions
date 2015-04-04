@@ -7,7 +7,13 @@ import com.intellij.codeInsight.actions.RearrangeCodeProcessor;
 import com.intellij.codeInsight.actions.ReformatCodeProcessor;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vcs.changes.ChangeListManager;
 import com.intellij.psi.PsiFile;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.intellij.codeInsight.actions.RearrangeCodeProcessor.COMMAND_NAME;
 
 public enum ProcessorFactory {
 
@@ -15,34 +21,35 @@ public enum ProcessorFactory {
 
     private Settings settings = ServiceManager.getService(Settings.class);
 
-    public AbstractLayoutCodeProcessor getSaveActionsProcessor(Project project, PsiFile psiFile) {
-        AbstractLayoutCodeProcessor processor;
-        processor = getReformatCodeProcessor(project, psiFile);
-        processor = getRearrangeCodeProcessor(processor);
-        processor = getOptimizeImportsProcessor(processor, project, psiFile);
-        return processor;
+    public List<AbstractLayoutCodeProcessor> getSaveActionsProcessors(Project project, PsiFile psiFile) {
+        ArrayList<AbstractLayoutCodeProcessor> processors = new ArrayList<AbstractLayoutCodeProcessor>();
+        processors.add(getOptimizeImportsProcessor(project, psiFile));
+        processors.add(getRearrangeCodeProcessor(project, psiFile));
+        processors.add(getReformatCodeProcessor(project, psiFile));
+        return processors;
     }
 
-    private AbstractLayoutCodeProcessor getOptimizeImportsProcessor(AbstractLayoutCodeProcessor processor,
-                                                                    Project project, PsiFile psiFile) {
-        if (null != processor && settings.isImports()) {
-            return new OptimizeImportsProcessor(processor);
-        } else if (settings.isImports()) {
+    private AbstractLayoutCodeProcessor getOptimizeImportsProcessor(Project project, PsiFile psiFile) {
+        if (settings.isImports()) {
             return new OptimizeImportsProcessor(project, psiFile);
         }
-        return processor;
+        return null;
     }
 
-    private AbstractLayoutCodeProcessor getRearrangeCodeProcessor(AbstractLayoutCodeProcessor processor) {
-        if (null != processor && settings.isRearrange()) {
-            return new RearrangeCodeProcessor(processor, null);
+    private AbstractLayoutCodeProcessor getRearrangeCodeProcessor(Project project, PsiFile psiFile) {
+        if (settings.isRearrange()) {
+            return new RearrangeCodeProcessor(project, new PsiFile[]{psiFile}, COMMAND_NAME, null);
         }
-        return processor;
+        return null;
     }
 
     private AbstractLayoutCodeProcessor getReformatCodeProcessor(Project project, PsiFile psiFile) {
         if (settings.isReformat()) {
-            return new ReformatCodeProcessor(project, psiFile, null, settings.isReformatChangedCode());
+            if (null == ChangeListManager.getInstance(project).getChange(psiFile.getVirtualFile())) {
+                return new ReformatCodeProcessor(project, psiFile, null, false);
+            } else {
+                return new ReformatCodeProcessor(project, psiFile, null, settings.isChangedCode());
+            }
         }
         return null;
     }

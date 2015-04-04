@@ -2,13 +2,13 @@
 
     <id>com.dubreuia</id>
     <name>Save Actions</name>
-    <version>0.2</version>
+    <version>0.3</version>
     <vendor email="dubreuil.alex@gmail.com" url="https://www.github.com/dubreuia">Alexandre DuBreuil</vendor>
 
     <description><![CDATA[
       <p>Supports configurable, Eclipse like, save actions, including "organize imports", "reformat code" and "rearrange code". The plugin executes the configured actions when the file is synchronised (or saved) on disk.</p>
 
-      <p><strong>features</strong></p>
+      <p><strong>Features</strong></p>
 
       <ul>
         <li>Organize imports</li>
@@ -17,25 +17,39 @@
         <li>Simple option page to activate / deactivate actions</li>
       </ul>
 
-      <p><strong>github</strong></p>
+      <p><strong>Configuration</strong></p>
 
-      <ul><li><a href="https://www.github.com/dubreuia">https://www.github.com/dubreuia</a></li></ul>
+      <ul>
+        <li>Activate the plugin in Intellij IDEA: "File > Settings > Other Settings > Save Actions"</li>
+        <li>Then configure the actions you need (import, reformat, etc.)</li>
+        <li>If you want to see / configure the rearrangement options: "File > Settings > Code Style > Java > Arrangement"</li>
+      </ul>
 
-      <p><strong>twitter</strong></p>
+      <p><strong>Compatibility</strong></p>
 
-      <ul><li><a href="https://twitter.com/dubreuia">https://twitter.com/dubreuia</a></li></ul>
+      <p>This plugin works with Java 6+ and Intellij IDEA Community Edition after 131 (around version 13).</p>
 
-      <p><strong>issues</strong></p>
+      <p><strong>Resources</strong></p>
 
-      <ul><li><a href="https://github.com/dubreuia/intellij-plugin-save-actions/issues">https://github.com/dubreuia/intellij-plugin-save-actions/issues</a></li></ul>
+      <ul>
+        <li>code: <a href="https://www.github.com/dubreuia">https://www.github.com/dubreuia</a></li>
+        <li>issues: <a href="https://github.com/dubreuia/intellij-plugin-save-actions/issues">https://github.com/dubreuia/intellij-plugin-save-actions/issues</a></li>
+        <li>questions: <a href="https://twitter.com/dubreuia">https://twitter.com/dubreuia</a></li>
+      <ul>
     ]]></description>
 
     <change-notes><![CDATA[
       <dl>
+        <dt>0.3</dt>
+          <dd>
+            <ul>
+              <li>Correct issue <a href="https://github.com/dubreuia/intellij-plugin-save-actions/issues/7">#7</a></li>
+            </ul>
+          </dd>
         <dt>0.2</dt>
           <dd>
             <ul>
-              <li>Correct issue #1 (<a href="https://github.com/dubreuia/intellij-plugin-save-actions/issues/1">https://github.com/dubreuia/intellij-plugin-save-actions/issues/1</a>)</li>
+              <li>Correct issue <a href="https://github.com/dubreuia/intellij-plugin-save-actions/issues/1">#1</a></li>
               <li>Code cleanup</li>
             </ul>
           </dd>
