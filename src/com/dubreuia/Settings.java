@@ -6,20 +6,25 @@ import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.components.StoragePathMacros;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @State(name = "SaveActionSettings",
         storages = {
                 @Storage(file = StoragePathMacros.APP_CONFIG + "/saveactions_settings.xml")})
 public class Settings implements PersistentStateComponent<Settings> {
 
-    private boolean activate;
+    private boolean activate = true;
 
-    private boolean imports;
+    private boolean imports = true;
 
-    private boolean reformat;
+    private boolean reformat = true;
 
-    private boolean changedCode;
+    private boolean changedCode = true;
 
-    private boolean rearrange;
+    private boolean rearrange = false;
+
+    private Set<String> exclusions = new HashSet<String>();
 
     public Settings getState() {
         return this;
@@ -67,6 +72,14 @@ public class Settings implements PersistentStateComponent<Settings> {
 
     public void setRearrange(boolean rearrange) {
         this.rearrange = rearrange;
+    }
+
+    public Set<String> getExclusions() {
+        return exclusions;
+    }
+
+    public void setExclusions(Set<String> exclusions) {
+        this.exclusions = exclusions;
     }
 
 }

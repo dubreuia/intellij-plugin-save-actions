@@ -2,7 +2,7 @@
 
     <id>com.dubreuia</id>
     <name>Save Actions</name>
-    <version>0.3</version>
+    <version>0.4</version>
     <vendor email="dubreuil.alex@gmail.com" url="https://www.github.com/dubreuia">Alexandre DuBreuil</vendor>
 
     <description><![CDATA[
@@ -14,6 +14,7 @@
         <li>Organize imports</li>
         <li>Reformat code (only changed text or all)</li>
         <li>Rearrange code (reorder methods, fields, etc.)</li>
+        <li>Works on any file type Intellij IDEA can reformat (Java, XML, etc.)</li>
         <li>Simple option page to activate / deactivate actions</li>
       </ul>
 
@@ -21,8 +22,7 @@
 
       <ul>
         <li>Activate the plugin in Intellij IDEA: "File > Settings > Other Settings > Save Actions"</li>
-        <li>Then configure the actions you need (import, reformat, etc.)</li>
-        <li>If you want to see / configure the rearrangement options: "File > Settings > Code Style > Java > Arrangement"</li>
+        <li>See configuration documentation at https://github.com/dubreuia/intellij-plugin-save-actions/blob/master/README.md</li>
       </ul>
 
       <p><strong>Compatibility</strong></p>
@@ -32,7 +32,8 @@
       <p><strong>Resources</strong></p>
 
       <ul>
-        <li>code: <a href="https://www.github.com/dubreuia">https://www.github.com/dubreuia</a></li>
+        <li>code: <a href="https://github.com/dubreuia/intellij-plugin-save-actions">https://github.com/dubreuia/intellij-plugin-save-actions</a></li>
+        <li>documentation: <a href="https://github.com/dubreuia/intellij-plugin-save-actions/blob/master/README.md">https://github.com/dubreuia/intellij-plugin-save-actions/blob/master/README.md</a></li>
         <li>issues: <a href="https://github.com/dubreuia/intellij-plugin-save-actions/issues">https://github.com/dubreuia/intellij-plugin-save-actions/issues</a></li>
         <li>questions: <a href="https://twitter.com/dubreuia">https://twitter.com/dubreuia</a></li>
       <ul>
@@ -40,6 +41,12 @@
 
     <change-notes><![CDATA[
       <dl>
+        <dt>0.4</dt>
+          <dd>
+            <ul>
+              <li>Add file exclusion feature <a href="https://github.com/dubreuia/intellij-plugin-save-actions/issues/3">#3</a></li>
+            </ul>
+          </dd>
         <dt>0.3</dt>
           <dd>
             <ul>

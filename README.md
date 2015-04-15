@@ -7,6 +7,7 @@ Supports configurable, Eclipse like, save actions, including "organize imports",
 - Organize imports
 - Reformat code (only changed text or all)
 - Rearrange code (reorder methods, fields, etc.)
+- Works on any file type Intellij IDEA can reformat (Java, XML, etc.)
 - Simple option page to activate / deactivate actions
 
 ## Installation
@@ -21,14 +22,43 @@ The plugin is available from the [Intellij IDEA Community Edition plugin reposit
 
 ## Configuration
 
-Activate the plugin in Intellij IDEA:
+The configurations are located in "File > Settings > Other Settings > Save Actions".
 
-- "File > Settings > Other Settings > Save Actions"
-- Then configure the actions you need (import, reformat, etc.)
+### Activate save actions 
 
-If you want to see / configure the rearrangement options:
+Enable / disable the plugin.
 
-- "File > Settings > Code Style > Java > Arrangement"
+### Organize imports
+
+Enable / disable import organization (configured in "File > Settings > Code Style > Java > Imports").
+
+### Reformat code
+
+Enable / disable formatting (configured in "File > Settings > Code Style"). See "Reformat only changed code" for more options.
+
+### Rearrange code
+
+Enable / disable re-ordering of fields and methods (configured in "File > Settings > Code Style > Java > Arrangement").
+
+### Reformat only changed code
+
+Enable / disable formatting for changed code only. If VCS is configured, it is used to check which lines where modified. If VCS is not configured, the code will always get reformatted.
+
+### File path exclusions
+
+Add / remove file path exclusions to ignore files. The entries are Java regular expressions, and it matches the whole file name from the project root. A pattern that do not compile cannot be added to the list. Some examples: 
+
+Exclude 'Main.java' only in root folder:
+
+    Main\.java
+    
+Exclude file 'Foo.java' only in folder 'src':
+    
+    src/Foo\.java
+
+Exclude all xml files in any folder:
+
+    .*/.*\.xml
 
 ## Bugs / features
 

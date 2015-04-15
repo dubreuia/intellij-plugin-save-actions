@@ -6,6 +6,7 @@ import com.intellij.AppTopics;
 import com.intellij.codeInsight.actions.AbstractLayoutCodeProcessor;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ApplicationComponent;
+import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.fileEditor.FileDocumentManagerAdapter;
 import com.intellij.openapi.project.Project;
@@ -20,7 +21,9 @@ import java.util.List;
 
 public class Component implements ApplicationComponent {
 
-    public static final String COMPONENT_NAME = "Save Actions";
+    private static final String COMPONENT_NAME = "Save Actions";
+
+    private Settings settings = ServiceManager.getService(Settings.class);
 
     public void initComponent() {
         MessageBus bus = ApplicationManager.getApplication().getMessageBus();
@@ -34,14 +37,9 @@ public class Component implements ApplicationComponent {
             public void beforeDocumentSaving(@NotNull Document document) {
                 for (Project project : ProjectManager.getInstance().getOpenProjects()) {
                     PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
-                    /*
-                     * The psi files seems to be shared between projects, so we need to check if the file is physically
-                     * in that project before reformating, or else the file is formatted twice and intellij will ask to
-                     * confirm unlocking of non-project file in the other project (very annoying).
-                     */
-                    if (null != psiFile && PsiFiles.isPsiFilePhysicallyInProject(project, psiFile)) {
+                    if (isPsiFileEligible(project, psiFile)) {
                         List<AbstractLayoutCodeProcessor> processors =
-                                ProcessorFactory.INSTANCE.getSaveActionsProcessors(project, psiFile);
+                                ProcessorFactory.INSTANCE.getSaveActionsProcessors(project, psiFile, settings);
                         for (AbstractLayoutCodeProcessor processor : processors) {
                             if (null != processor) {
                                 processor.run();
@@ -51,6 +49,17 @@ public class Component implements ApplicationComponent {
                 }
             }
         };
+    }
+
+    /**
+     * The psi files seems to be shared between projects, so we need to check if the file is physically
+     * in that project before reformating, or else the file is formatted twice and intellij will ask to
+     * confirm unlocking of non-project file in the other project.
+     */
+    private boolean isPsiFileEligible(Project project, PsiFile psiFile) {
+        return null != psiFile &&
+                PsiFiles.isPsiFilePhysicallyInProject(project, psiFile) &&
+                !PsiFiles.isPsiFileExcluded(project, psiFile, settings.getExclusions());
     }
 
     @NotNull
