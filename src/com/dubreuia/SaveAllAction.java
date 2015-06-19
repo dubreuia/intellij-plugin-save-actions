@@ -22,7 +22,8 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.DumbAware;
 
 public class SaveAllAction extends AnAction implements DumbAware {
-    public static boolean TRIGGERED = false;
+    public static volatile boolean TRIGGERED = false;
+
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
         try {
