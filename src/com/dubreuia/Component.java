@@ -23,40 +23,48 @@ import java.util.List;
 
 // for more info/help, see: https://confluence.jetbrains.com/display/IDEADEV/Plugin+Development+FAQ
 // more useful: https://code.google.com/p/ide-examples/wiki/IntelliJIdeaPsiCookbook
-public class Component implements ApplicationComponent {
+public
+class Component implements ApplicationComponent {
     private static final String COMPONENT_NAME = "Save Actions";
 
     private final Settings settings = ServiceManager.getService(Settings.class);
 
-    public void initComponent() {
+    public
+    void initComponent() {
         MessageBus bus = ApplicationManager.getApplication().getMessageBus();
         MessageBusConnection connection = bus.connect();
         connection.subscribe(AppTopics.FILE_DOCUMENT_SYNC, getFileDocumentManagerAdapter());
     }
 
-    public void disposeComponent() {
+    public
+    void disposeComponent() {
     }
 
-    private FileDocumentManagerAdapter getFileDocumentManagerAdapter() {
+    private
+    FileDocumentManagerAdapter getFileDocumentManagerAdapter() {
         return new FileDocumentManagerAdapter() {
 
             @Override
-            public void beforeDocumentSaving(@NotNull Document document) {
+            public
+            void beforeDocumentSaving(@NotNull Document document) {
                 if (!SaveAllAction.TRIGGERED) {
                     return;
                 }
 
                 // only process the project that is currently active
                 final DataContext dataContext = DataManager.getInstance().getDataContextFromFocus().getResult();
-                final Project project = DataKeys.PROJECT.getData(dataContext);
-                final PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
+                if (dataContext != null) {
+                    final Project project = DataKeys.PROJECT.getData(dataContext);
+                    final PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
 
-                if (isPsiFileEligible(project, psiFile)) {
-                    processPsiFile(project, psiFile);
+                    if (isPsiFileEligible(project, psiFile)) {
+                        processPsiFile(project, psiFile);
+                    }
                 }
             }
 
-            private void processPsiFile(final Project project, final PsiFile psiFile) {
+            private
+            void processPsiFile(final Project project, final PsiFile psiFile) {
                 List<AbstractLayoutCodeProcessor> processors = ProcessorFactory.INSTANCE.getSaveActionsProcessors(project, psiFile,
                                                                                                                   settings);
                 for (AbstractLayoutCodeProcessor processor : processors) {
@@ -71,15 +79,16 @@ public class Component implements ApplicationComponent {
              * in that project before reformatting, or else the file is formatted twice and intellij will ask to
              * confirm unlocking of non-project file in the other project.
              */
-            private boolean isPsiFileEligible(Project project, PsiFile psiFile) {
-                return psiFile != null &&
-                       !PsiFiles.isPsiFileExcluded(project, psiFile, settings.getExclusions());
+            private
+            boolean isPsiFileEligible(Project project, PsiFile psiFile) {
+                return psiFile != null && !PsiFiles.isPsiFileExcluded(project, psiFile, settings.getExclusions());
             }
         };
     }
 
     @NotNull
-    public String getComponentName() {
+    public
+    String getComponentName() {
         return COMPONENT_NAME;
     }
 
