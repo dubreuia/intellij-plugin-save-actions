@@ -5,17 +5,23 @@ import com.dubreuia.utils.PsiFiles;
 import com.intellij.AppTopics;
 import com.intellij.codeInsight.actions.AbstractLayoutCodeProcessor;
 import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.components.*;
-import com.intellij.openapi.editor.*;
+import com.intellij.openapi.components.ApplicationComponent;
+import com.intellij.openapi.components.ServiceManager;
+import com.intellij.openapi.editor.Document;
+import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.fileEditor.FileDocumentManagerAdapter;
 import com.intellij.openapi.fileEditor.ex.FileEditorManagerEx;
-import com.intellij.openapi.project.*;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.project.ProjectManager;
 import com.intellij.openapi.wm.IdeFrame;
 import com.intellij.openapi.wm.impl.IdeFrameImpl;
-import com.intellij.psi.*;
-import com.intellij.util.messages.*;
-import java.util.List;
+import com.intellij.psi.PsiDocumentManager;
+import com.intellij.psi.PsiFile;
+import com.intellij.util.messages.MessageBus;
+import com.intellij.util.messages.MessageBusConnection;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public class Component implements ApplicationComponent {
 
@@ -58,13 +64,12 @@ public class Component implements ApplicationComponent {
 
             private boolean isActive(@NotNull Document document) {
                 IdeFrame activeFrame = (IdeFrame) IdeFrameImpl.getActiveFrame();
-                return activeFrame != null && activeFrame.getProject() != null
-                  && isActive(activeFrame.getProject(), document);
+                return activeFrame != null && activeFrame.getProject() != null &&
+                        isActive(activeFrame.getProject(), document);
             }
 
             private boolean isActive(@NotNull Project project, @NotNull Document document) {
                 Editor selectedTextEditor = FileEditorManagerEx.getInstance(project).getSelectedTextEditor();
-                //todo maybe check if it actually has focus
                 return selectedTextEditor != null && selectedTextEditor.getDocument() == document;
             }
         };
