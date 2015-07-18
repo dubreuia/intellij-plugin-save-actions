@@ -19,7 +19,7 @@ public enum ProcessorFactory {
     INSTANCE;
 
     public List<AbstractLayoutCodeProcessor> getSaveActionsProcessors(Project project, PsiFile psiFile, Settings settings) {
-        ArrayList<AbstractLayoutCodeProcessor> processors = new ArrayList<AbstractLayoutCodeProcessor>();
+        final ArrayList<AbstractLayoutCodeProcessor> processors = new ArrayList<AbstractLayoutCodeProcessor>();
         if (settings.isActivate()) {
             processors.add(getOptimizeImportsProcessor(project, psiFile, settings));
             processors.add(getRearrangeCodeProcessor(project, psiFile, settings));

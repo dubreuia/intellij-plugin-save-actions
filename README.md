@@ -71,6 +71,7 @@ This plugin works with Java 6+ and Intellij IDEA Community Edition build 135+ (v
 ## Contributors
 
 - [krasa](https://github.com/krasa)
+- [dorkbox](https://github.com/dorkbox)
 
 ## Licence
 
