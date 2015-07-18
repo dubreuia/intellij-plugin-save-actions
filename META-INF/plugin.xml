@@ -18,13 +18,6 @@
         <li>Simple option page to activate / deactivate actions</li>
       </ul>
 
-      <p><strong>Configuration</strong></p>
-
-      <ul>
-        <li>Activate the plugin in Intellij IDEA: "File > Settings > Other Settings > Save Actions"</li>
-        <li>See configuration documentation at https://github.com/dubreuia/intellij-plugin-save-actions/blob/master/README.md</li>
-      </ul>
-
       <p><strong>Compatibility</strong></p>
 
       <p>This plugin works with Java 6+ and Intellij IDEA Community Edition after 131 (around version 13).</p>
@@ -74,7 +67,7 @@
     ]]>
     </change-notes>
 
-    <idea-version since-build="131"/>
+    <idea-version since-build="135"/>
 
     <extensions defaultExtensionNs="com.intellij">
         <applicationService serviceImplementation="com.dubreuia.Settings"/>

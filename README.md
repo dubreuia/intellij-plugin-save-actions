@@ -66,7 +66,11 @@ Dat plugin do not work ? You can [ask me on twitter](https://twitter.com/dubreui
 
 ## Compatibility
 
-This plugin works with Java 6+ and Intellij IDEA Community Edition after 131 (around version 13).
+This plugin works with Java 6+ and Intellij IDEA Community Edition build 135+ (version 13.1.6).
+
+## Contributors
+
+- [krasa](https://github.com/krasa)
 
 ## Licence
 
