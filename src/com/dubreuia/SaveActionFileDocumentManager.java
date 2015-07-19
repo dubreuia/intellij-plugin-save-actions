@@ -27,14 +27,21 @@ public class SaveActionFileDocumentManager extends FileDocumentManagerAdapter {
         if (!SaveAllAction.TRIGGERED && isDocumentActive(document)) {
             return;
         }
-        final DataContext dataContext = DataManager.getInstance().getDataContextFromFocus().getResult();
-        final Project project = DataKeys.PROJECT.getData(dataContext);
+        final Project project = getProjectFromFocus();
         if (project != null) {
             final PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
             if (isPsiFileEligible(project, psiFile)) {
                 processPsiFile(project, psiFile);
             }
         }
+    }
+
+    private Project getProjectFromFocus() {
+        final DataContext dataContext = DataManager.getInstance().getDataContextFromFocus().getResult();
+        if (null != dataContext) {
+            return DataKeys.PROJECT.getData(dataContext);
+        }
+        return null;
     }
 
     private boolean isPsiFileEligible(Project project, PsiFile psiFile) {
