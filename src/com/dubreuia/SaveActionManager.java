@@ -2,14 +2,12 @@ package com.dubreuia;
 
 import com.dubreuia.processors.ProcessorFactory;
 import com.intellij.codeInsight.actions.AbstractLayoutCodeProcessor;
-import com.intellij.ide.DataManager;
-import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.fileEditor.FileDocumentManagerAdapter;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.project.ProjectManager;
 import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
 import org.apache.log4j.Level;
@@ -19,10 +17,11 @@ import java.util.List;
 
 import static com.dubreuia.utils.Documents.isDocumentActive;
 import static com.dubreuia.utils.PsiFiles.isPsiFileExcluded;
+import static com.dubreuia.utils.PsiFiles.isPsiFilePhysicallyInProject;
 
 public class SaveActionManager extends FileDocumentManagerAdapter {
 
-    private static final Logger LOGGER = Logger.getInstance(SaveActionManager.class);
+    public static final Logger LOGGER = Logger.getInstance(SaveActionManager.class);
 
     static {
         LOGGER.setLevel(Level.DEBUG);
@@ -33,11 +32,10 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
     @Override
     public void beforeDocumentSaving(@NotNull Document document) {
         if (!SaveAllAction.TRIGGERED && isDocumentActive(document)) {
-            LOGGER.debug("Save Actions - Document " + document + " is still active, do not execute");
+            LOGGER.debug("Document " + document + " is still active, do not execute");
             return;
         }
-        final Project project = getProjectFromFocus();
-        if (project != null) {
+        for (Project project : ProjectManager.getInstance().getOpenProjects()) {
             final PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
             if (isPsiFileEligible(project, psiFile)) {
                 processPsiFile(project, psiFile);
@@ -45,22 +43,21 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
         }
     }
 
-    private Project getProjectFromFocus() {
-        final DataContext dataContext = DataManager.getInstance().getDataContextFromFocus().getResult();
-        if (null != dataContext) {
-            return DataKeys.PROJECT.getData(dataContext);
-        }
-        return null;
-    }
-
+    /**
+     * The psi files seems to be shared between projects, so we need to check if the file is physically
+     * in that project before reformating, or else the file is formatted twice and intellij will ask to
+     * confirm unlocking of non-project file in the other project.
+     */
     private boolean isPsiFileEligible(Project project, PsiFile psiFile) {
-        return psiFile != null && !isPsiFileExcluded(project, psiFile, settings.getExclusions());
+        return psiFile != null &&
+                isPsiFilePhysicallyInProject(project, psiFile) &&
+                !isPsiFileExcluded(project, psiFile, settings.getExclusions());
     }
 
     private void processPsiFile(final Project project, final PsiFile psiFile) {
         final List<AbstractLayoutCodeProcessor> processors =
                 ProcessorFactory.INSTANCE.getSaveActionsProcessors(project, psiFile, settings);
-        LOGGER.debug("Save Actions - Running processors " + processors + ", file " + psiFile + ", project " + project);
+        LOGGER.debug("Running processors " + processors + ", file " + psiFile + ", project " + project);
         for (AbstractLayoutCodeProcessor processor : processors) {
             if (processor != null) {
                 processor.run();
