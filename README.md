@@ -7,6 +7,7 @@ Supports configurable, Eclipse like, save actions, including "organize imports",
 - Organize imports
 - Reformat code (only changed text or all)
 - Rearrange code (reorder methods, fields, etc.)
+- File exclusion with regex support
 - Works on any file type Intellij IDEA can reformat (Java, XML, etc.)
 - Simple option page to activate / deactivate actions
 

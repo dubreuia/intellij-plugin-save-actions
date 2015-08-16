@@ -22,7 +22,7 @@ public class Component implements ApplicationComponent {
     }
 
     private FileDocumentManagerAdapter getFileDocumentManagerAdapter() {
-        return new SaveActionFileDocumentManager();
+        return new SaveActionManager();
     }
 
     @NotNull

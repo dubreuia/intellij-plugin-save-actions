@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class Documents {
 
-    public Documents() {
+    private Documents() {
         // static class
     }
 

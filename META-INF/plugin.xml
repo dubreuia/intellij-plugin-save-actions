@@ -2,7 +2,7 @@
 
     <id>com.dubreuia</id>
     <name>Save Actions</name>
-    <version>0.4</version>
+    <version>0.5</version>
     <vendor email="dubreuil.alex@gmail.com" url="https://www.github.com/dubreuia">Alexandre DuBreuil</vendor>
 
     <description><![CDATA[
@@ -14,6 +14,7 @@
         <li>Organize imports</li>
         <li>Reformat code (only changed text or all)</li>
         <li>Rearrange code (reorder methods, fields, etc.)</li>
+        <li>File exclusion with regex support</li>
         <li>Works on any file type Intellij IDEA can reformat (Java, XML, etc.)</li>
         <li>Simple option page to activate / deactivate actions</li>
       </ul>
@@ -34,35 +35,31 @@
 
     <change-notes><![CDATA[
       <dl>
+        <dt>0.5</dt>
+        <dd><ul>
+          <li>Correct issue <a href="https://github.com/dubreuia/intellij-plugin-save-actions/issues/2">#2</a> (pull request from contributor krasa)</li>
+          <li>Correct issue <a href="https://github.com/dubreuia/intellij-plugin-save-actions/issues/13">#13</a> (pull request from contributor dorkbox)</li>
+        </ul></dd>
         <dt>0.4</dt>
-          <dd>
-            <ul>
-              <li>Add file exclusion feature <a href="https://github.com/dubreuia/intellij-plugin-save-actions/issues/3">#3</a></li>
-            </ul>
-          </dd>
+        <dd><ul>
+          <li>Add file exclusion feature <a href="https://github.com/dubreuia/intellij-plugin-save-actions/issues/3">#3</a></li>
+        </ul></dd>
         <dt>0.3</dt>
-          <dd>
-            <ul>
-              <li>Correct issue <a href="https://github.com/dubreuia/intellij-plugin-save-actions/issues/7">#7</a></li>
-            </ul>
-          </dd>
+        <dd><ul>
+          <li>Correct issue <a href="https://github.com/dubreuia/intellij-plugin-save-actions/issues/7">#7</a></li>
+        </ul></dd>
         <dt>0.2</dt>
-          <dd>
-            <ul>
-              <li>Correct issue <a href="https://github.com/dubreuia/intellij-plugin-save-actions/issues/1">#1</a></li>
-              <li>Code cleanup</li>
-            </ul>
-          </dd>
+        <dd><ul>
+           <li>Correct issue <a href="https://github.com/dubreuia/intellij-plugin-save-actions/issues/1">#1</a></li>
+        </ul></dd>
         <dt>0.1</dt>
-          <dd>
-            <ul>
-              <li>Organize imports</li>
-              <li>Reformat code</li>
-              <li>Reformat only changed code</li>
-              <li>Rearrange code</li>
-              <li>Simple option page to activate / deactivate save actions</li>
-            </ul>
-          </dd>
+        <dd><ul>
+          <li>Organize imports</li>
+          <li>Reformat code</li>
+          li>Reformat only changed code</li>
+          <li>Rearrange code</li>
+          <li>Simple option page to activate / deactivate save actions</li>
+        </ul></dd>
       </dl>
     ]]>
     </change-notes>

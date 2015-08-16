@@ -2,17 +2,12 @@ package com.dubreuia.processors;
 
 import com.dubreuia.Settings;
 import com.intellij.codeInsight.actions.AbstractLayoutCodeProcessor;
-import com.intellij.codeInsight.actions.OptimizeImportsProcessor;
-import com.intellij.codeInsight.actions.RearrangeCodeProcessor;
-import com.intellij.codeInsight.actions.ReformatCodeProcessor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vcs.changes.ChangeListManager;
 import com.intellij.psi.PsiFile;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.intellij.codeInsight.actions.RearrangeCodeProcessor.COMMAND_NAME;
 
 public enum ProcessorFactory {
 
@@ -37,7 +32,7 @@ public enum ProcessorFactory {
 
     private AbstractLayoutCodeProcessor getRearrangeCodeProcessor(Project project, PsiFile psiFile, Settings settings) {
         if (settings.isRearrange()) {
-            return new RearrangeCodeProcessor(project, new PsiFile[]{psiFile}, COMMAND_NAME, null);
+            return new RearrangeCodeProcessor(project, psiFile);
         }
         return null;
     }
@@ -46,9 +41,9 @@ public enum ProcessorFactory {
         if (settings.isReformat()) {
             if (null == ChangeListManager.getInstance(project).getChange(psiFile.getVirtualFile())) {
                 // That means no VCS is configured, ignore changed code configuration
-                return new ReformatCodeProcessor(project, psiFile, null, false);
+                return new ReformatCodeProcessor(project, psiFile, false);
             } else {
-                return new ReformatCodeProcessor(project, psiFile, null, settings.isChangedCode());
+                return new ReformatCodeProcessor(project, psiFile, settings.isChangedCode());
             }
         }
         return null;
