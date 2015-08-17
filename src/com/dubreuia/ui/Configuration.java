@@ -1,5 +1,7 @@
-package com.dubreuia;
+package com.dubreuia.ui;
 
+import com.dubreuia.model.Action;
+import com.dubreuia.model.Storage;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
@@ -15,33 +17,24 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collection;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import static com.dubreuia.model.Action.activate;
+import static com.dubreuia.model.Action.reformat;
+import static com.dubreuia.model.Action.reformatChangedCode;
+
 public class Configuration implements Configurable {
 
-    private static final String TEXT_TITLE_OPTIONS = "Formatting options";
-
-    private static final String TEXT_TITLE_ACTIONS = "Actions to perform on save";
-
     private static final String TEXT_TITLE_EXCLUSIONS = "File path exclusions";
-
-    private static final String TEXT_ACTIVATE = "Activate save actions";
-
-    private static final String TEXT_IMPORTS = "Organize imports";
-
-    private static final String TEXT_REFORMAT = "Reformat code";
-
-    private static final String TEXT_REFORMAT_CHANGED_CODE = "Reformat only changed code (only if VCS configured)";
-
-    private static final String TEXT_REARRANGE = "Rearrange code";
 
     private static final String TEXT_DISPLAY_NAME = "Save Actions";
 
@@ -51,7 +44,7 @@ public class Configuration implements Configurable {
             "<ul>" +
             "<strong>Main\\.java</strong>    (exclude 'Main.java' only in root folder)<br/>" +
             "<strong>src/Foo\\.java</strong> (exclude file 'Foo.java' only in folder 'src')<br/>" +
-            "<strong>.*/.*\\.xml</strong>       (exclude all xml files in any folder)<br/>" +
+            "<strong>.*/.*\\.xml</strong>    (exclude all xml files in any folder)<br/>" +
             "</ul>" +
             "</body></html>";
 
@@ -59,79 +52,78 @@ public class Configuration implements Configurable {
 
     private static final String TEXT_EXCLUSION_EMPTY = "No file path exclusions";
 
-    private SortedListModel exclusionModels = new SortedListModel();
+    private final Storage storage = ServiceManager.getService(Storage.class);
 
-    private Set<String> exclusions = new HashSet<String>();
+    private final SortedListModel exclusionModels = new SortedListModel();
 
-    private Settings settings = ServiceManager.getService(Settings.class);
+    private final Set<String> exclusions = new HashSet<String>();
+
+    private final Map<Action, JCheckBox> checkboxes = new HashMap<Action, JCheckBox>();
+
+    private final ActionListener checkboxActionListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            updateEnabled();
+        }
+    };
 
     private JBList exclusionList;
-
-    private JCheckBox activate;
-
-    private JCheckBox imports;
-
-    private JCheckBox reformat;
-
-    private JCheckBox reformatChangedCode;
-
-    private JCheckBox rearrange;
 
     @Nullable
     @Override
     public JComponent createComponent() {
         JPanel panel = initComponent();
+        initFirstLaunch();
         initActionListeners();
         return panel;
     }
 
+    private void initFirstLaunch() {
+        if (storage.isFirstLaunch()) {
+            for (Action action : Action.values()) {
+                if (action.isDefaultValue()) {
+                    storage.setEnabled(action, true);
+                }
+            }
+        }
+    }
+
     private void initActionListeners() {
-        activate.addActionListener(getActionListener());
-        imports.addActionListener(getActionListener());
-        reformat.addActionListener(getActionListener());
-        reformatChangedCode.addActionListener(getActionListener());
-        rearrange.addActionListener(getActionListener());
+        for (Map.Entry<Action, JCheckBox> checkbox : checkboxes.entrySet()) {
+            checkbox.getValue().addActionListener(checkboxActionListener);
+        }
     }
 
     @Override
     public boolean isModified() {
-        boolean modified = settings.isActivate() != activate.isSelected();
-        modified = modified || settings.isImports() != imports.isSelected();
-        modified = modified || settings.isReformat() != reformat.isSelected();
-        modified = modified || settings.isChangedCode() != reformatChangedCode.isSelected();
-        modified = modified || settings.isRearrange() != rearrange.isSelected();
-        modified = modified || !settings.getExclusions().equals(exclusions);
-        return modified;
+        for (Map.Entry<Action, JCheckBox> checkbox : checkboxes.entrySet()) {
+            if (storage.isEnabled(checkbox.getKey()) != checkbox.getValue().isSelected()) {
+                return true;
+            }
+        }
+        return !storage.getExclusions().equals(exclusions);
     }
 
     @Override
     public void apply() throws ConfigurationException {
-        settings.setActivate(activate.isSelected());
-        settings.setImports(imports.isSelected());
-        settings.setReformat(reformat.isSelected());
-        settings.setChangedCode(reformatChangedCode.isSelected());
-        settings.setRearrange(rearrange.isSelected());
-        settings.setExclusions(new HashSet<String>(exclusions));
+        for (Map.Entry<Action, JCheckBox> checkbox : checkboxes.entrySet()) {
+            storage.setEnabled(checkbox.getKey(), checkbox.getValue().isSelected());
+        }
+        storage.setExclusions(new HashSet<String>(exclusions));
     }
 
     @Override
     public void reset() {
-        activate.setSelected(settings.isActivate());
-        imports.setSelected(settings.isImports());
-        reformat.setSelected(settings.isReformat());
-        reformatChangedCode.setSelected(settings.isChangedCode());
-        rearrange.setSelected(settings.isRearrange());
+        for (Map.Entry<Action, JCheckBox> checkbox : checkboxes.entrySet()) {
+            checkbox.getValue().setSelected(storage.isEnabled(checkbox.getKey()));
+        }
         updateExclusions();
         updateEnabled();
     }
 
     @Override
     public void disposeUIResources() {
-        activate = null;
-        imports = null;
-        reformat = null;
-        reformatChangedCode = null;
-        rearrange = null;
+        checkboxes.clear();
         exclusionList = null;
         exclusions.clear();
         exclusionModels.clear();
@@ -199,34 +191,16 @@ public class Configuration implements Configurable {
         };
     }
 
-    @NotNull
-    private ActionListener getActionListener() {
-        return new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                updateEnabled();
-            }
-        };
-    }
-
     private JPanel initComponent() {
-        JPanel actions = initActions();
-        JPanel options = initOptions();
+        for (Action action : Action.values()) {
+            checkboxes.put(action, new JCheckBox(action.getText()));
+        }
+        JPanel formattingActions = new FormattingPanel(checkboxes);
+        JPanel inspectionActions = new InspectionPanel(checkboxes);
         JPanel fileMasks = initFileMasks();
-        return initPanel(actions, options, fileMasks);
+        return initPanel(formattingActions, inspectionActions, fileMasks);
     }
 
-    private JPanel initActions() {
-        JPanel actions = new JPanel();
-        actions.setBorder(IdeBorderFactory.createTitledBorder(TEXT_TITLE_ACTIONS));
-        actions.setLayout(new BoxLayout(actions, BoxLayout.PAGE_AXIS));
-        actions.add(imports = new JCheckBox(TEXT_IMPORTS));
-        actions.add(reformat = new JCheckBox(TEXT_REFORMAT));
-        actions.add(rearrange = new JCheckBox(TEXT_REARRANGE));
-        actions.add(Box.createHorizontalGlue());
-        actions.setMinimumSize(new Dimension(Short.MAX_VALUE, 0));
-        return actions;
-    }
 
     private JPanel initFileMasks() {
         exclusionList = new JBList(exclusionModels);
@@ -241,35 +215,29 @@ public class Configuration implements Configurable {
         return exclusionPanel;
     }
 
-    private JPanel initOptions() {
-        JPanel options = new JPanel();
-        options.setBorder(IdeBorderFactory.createTitledBorder(TEXT_TITLE_OPTIONS));
-        options.setLayout(new BoxLayout(options, BoxLayout.PAGE_AXIS));
-        options.add(reformatChangedCode = new JCheckBox(TEXT_REFORMAT_CHANGED_CODE));
-        options.add(Box.createHorizontalGlue());
-        return options;
-    }
-
-    private JPanel initPanel(JPanel actions, JPanel options, JPanel fileMasks) {
+    private JPanel initPanel(JPanel actions, JPanel inspections, JPanel fileMasks) {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
-        panel.add(activate = new JCheckBox(TEXT_ACTIVATE));
+        panel.add(checkboxes.get(activate));
         panel.add(actions);
-        panel.add(options);
+        panel.add(inspections);
         panel.add(fileMasks);
         return panel;
     }
 
     private void updateEnabled() {
-        imports.setEnabled(activate.isSelected());
-        reformat.setEnabled(activate.isSelected());
-        reformatChangedCode.setEnabled(activate.isSelected() && reformat.isSelected());
-        rearrange.setEnabled(activate.isSelected() && reformat.isSelected());
+        for (Map.Entry<Action, JCheckBox> checkbox : checkboxes.entrySet()) {
+            if (!activate.equals(checkbox.getKey())) {
+                checkbox.getValue().setEnabled(checkboxes.get(activate).isSelected());
+            }
+        }
+        checkboxes.get(reformatChangedCode).setEnabled(
+                checkboxes.get(activate).isSelected() && checkboxes.get(reformat).isSelected());
     }
 
     private void updateExclusions() {
         exclusions.clear();
-        exclusions.addAll(settings.getExclusions());
+        exclusions.addAll(storage.getExclusions());
         exclusionModels.clear();
         exclusionModels.addAllSorted(exclusions);
     }

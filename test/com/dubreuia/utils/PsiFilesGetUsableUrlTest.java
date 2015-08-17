@@ -29,10 +29,10 @@ public class PsiFilesGetUsableUrlTest {
         parameters.add(getParameter(null, null, null));
         parameters.add(getParameter(null,
                 "/home/alexandre/Documents/project/save-actions2",
-                "/home/alexandre/Documents/project/save-actions/src/com/dubreuia/Settings.java"));
-        parameters.add(getParameter("src/com/dubreuia/Settings.java",
+                "/home/alexandre/Documents/project/save-actions/src/com/dubreuia/Storage.java"));
+        parameters.add(getParameter("src/com/dubreuia/Storage.java",
                 "/home/alexandre/Documents/project/save-actions",
-                "/home/alexandre/Documents/project/save-actions/src/com/dubreuia/Settings.java"));
+                "/home/alexandre/Documents/project/save-actions/src/com/dubreuia/Storage.java"));
         return parameters;
     }
 

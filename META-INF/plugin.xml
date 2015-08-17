@@ -67,8 +67,8 @@
     <idea-version since-build="135"/>
 
     <extensions defaultExtensionNs="com.intellij">
-        <applicationService serviceImplementation="com.dubreuia.Settings"/>
-        <applicationConfigurable instance="com.dubreuia.Configuration"/>
+        <applicationService serviceImplementation="com.dubreuia.model.Storage"/>
+        <applicationConfigurable instance="com.dubreuia.ui.Configuration"/>
     </extensions>
 
     <application-components>
