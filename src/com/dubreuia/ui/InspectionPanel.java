@@ -15,22 +15,30 @@ import static com.dubreuia.model.Action.suppressAnnotation;
 import static com.dubreuia.model.Action.unnecessarySemicolon;
 import static com.dubreuia.model.Action.unqualifiedFieldAccess;
 
-public class InspectionPanel extends JPanel {
+public class InspectionPanel {
 
     private static final String TEXT_TITLE_INSPECTIONS = "Inspections quick fix to perform on save";
 
+    private final Map<Action, JCheckBox> checkboxes;
+
     public InspectionPanel(final Map<Action, JCheckBox> checkboxes) {
-        setBorder(IdeBorderFactory.createTitledBorder(TEXT_TITLE_INSPECTIONS));
-        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-        add(checkboxes.get(localCanBeFinal));
-        add(checkboxes.get(fieldCanBeFinal));
-        add(checkboxes.get(explicitTypeCanBeDiamond));
-        add(checkboxes.get(unqualifiedFieldAccess));
-        add(checkboxes.get(suppressAnnotation));
-        add(checkboxes.get(finalPrivateMethod));
-        add(checkboxes.get(unnecessarySemicolon));
-        add(Box.createHorizontalGlue());
-        setMinimumSize(new Dimension(Short.MAX_VALUE, 0));
+        this.checkboxes = checkboxes;
+    }
+
+    public JPanel getPanel() {
+        JPanel panel = new JPanel();
+        panel.setBorder(IdeBorderFactory.createTitledBorder(TEXT_TITLE_INSPECTIONS));
+        panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+        panel.add(checkboxes.get(localCanBeFinal));
+        panel.add(checkboxes.get(fieldCanBeFinal));
+        panel.add(checkboxes.get(explicitTypeCanBeDiamond));
+        panel.add(checkboxes.get(unqualifiedFieldAccess));
+        panel.add(checkboxes.get(suppressAnnotation));
+        panel.add(checkboxes.get(finalPrivateMethod));
+        panel.add(checkboxes.get(unnecessarySemicolon));
+        panel.add(Box.createHorizontalGlue());
+        panel.setMinimumSize(new Dimension(Short.MAX_VALUE, 0));
+        return panel;
     }
 
 }

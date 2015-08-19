@@ -1,19 +1,33 @@
 package com.dubreuia.processors;
 
+import com.dubreuia.model.StorageRO;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 
-class RearrangeCodeProcessor extends com.intellij.codeInsight.actions.RearrangeCodeProcessor {
+import static com.dubreuia.model.Action.rearrange;
+import static com.dubreuia.processors.ProcessorMessage.toStringBuilder;
 
-    private static final String NAME = "rearrange code processor";
+class RearrangeCodeProcessor extends com.intellij.codeInsight.actions.RearrangeCodeProcessor implements Processor {
 
-    public RearrangeCodeProcessor(Project project, PsiFile file) {
+    private static final String ID = "RearrangeCode";
+
+    private final StorageRO storage;
+
+    RearrangeCodeProcessor(Project project, PsiFile file, StorageRO storage) {
         super(project, new PsiFile[]{file}, COMMAND_NAME, null);
+        this.storage = storage;
+    }
+
+    @Override
+    public void writeToFile() {
+        if (storage.isEnabled(rearrange)) {
+            super.run();
+        }
     }
 
     @Override
     public String toString() {
-        return NAME;
+        return toStringBuilder(ID, storage.isEnabled(rearrange));
     }
 
 }

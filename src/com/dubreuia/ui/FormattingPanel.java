@@ -12,19 +12,27 @@ import static com.dubreuia.model.Action.rearrange;
 import static com.dubreuia.model.Action.reformat;
 import static com.dubreuia.model.Action.reformatChangedCode;
 
-public class FormattingPanel extends JPanel {
+public class FormattingPanel {
 
     private static final String TEXT_TITLE_ACTIONS = "Formatting actions to perform on save";
 
+    private final Map<Action, JCheckBox> checkboxes;
+
     public FormattingPanel(final Map<Action, JCheckBox> checkboxes) {
-        setBorder(IdeBorderFactory.createTitledBorder(TEXT_TITLE_ACTIONS));
-        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-        add(checkboxes.get(organizeImports));
-        add(checkboxes.get(reformat));
-        add(checkboxes.get(reformatChangedCode));
-        add(checkboxes.get(rearrange));
-        add(Box.createHorizontalGlue());
-        setMinimumSize(new Dimension(Short.MAX_VALUE, 0));
+        this.checkboxes = checkboxes;
+    }
+
+    public JPanel getPanel() {
+        JPanel panel = new JPanel();
+        panel.setBorder(IdeBorderFactory.createTitledBorder(TEXT_TITLE_ACTIONS));
+        panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+        panel.add(checkboxes.get(organizeImports));
+        panel.add(checkboxes.get(reformat));
+        panel.add(checkboxes.get(reformatChangedCode));
+        panel.add(checkboxes.get(rearrange));
+        panel.add(Box.createHorizontalGlue());
+        panel.setMinimumSize(new Dimension(Short.MAX_VALUE, 0));
+        return panel;
     }
 
 }

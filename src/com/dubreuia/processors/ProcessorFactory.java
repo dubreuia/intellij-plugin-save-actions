@@ -1,58 +1,47 @@
 package com.dubreuia.processors;
 
-import com.dubreuia.model.Storage;
-import com.intellij.codeInsight.actions.AbstractLayoutCodeProcessor;
+import com.dubreuia.model.StorageRO;
+import com.intellij.codeInspection.ExplicitTypeCanBeDiamondInspection;
+import com.intellij.codeInspection.localCanBeFinal.LocalCanBeFinal;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vcs.changes.ChangeListManager;
 import com.intellij.psi.PsiFile;
+import com.siyeh.ig.classlayout.FinalPrivateMethodInspection;
+import com.siyeh.ig.maturity.SuppressionAnnotationInspection;
+import com.siyeh.ig.style.FieldMayBeFinalInspection;
+import com.siyeh.ig.style.UnnecessarySemicolonInspection;
+import com.siyeh.ig.style.UnqualifiedFieldAccessInspection;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.dubreuia.model.Action.activate;
-import static com.dubreuia.model.Action.organizeImports;
-import static com.dubreuia.model.Action.rearrange;
-import static com.dubreuia.model.Action.reformat;
-import static com.dubreuia.model.Action.reformatChangedCode;
+import static com.dubreuia.model.Action.explicitTypeCanBeDiamond;
+import static com.dubreuia.model.Action.fieldCanBeFinal;
+import static com.dubreuia.model.Action.finalPrivateMethod;
+import static com.dubreuia.model.Action.localCanBeFinal;
+import static com.dubreuia.model.Action.suppressAnnotation;
+import static com.dubreuia.model.Action.unnecessarySemicolon;
+import static com.dubreuia.model.Action.unqualifiedFieldAccess;
 
 public enum ProcessorFactory {
 
     INSTANCE;
 
-    public List<AbstractLayoutCodeProcessor> getSaveActionsProcessors(Project project, PsiFile psiFile, Storage storage) {
-        final ArrayList<AbstractLayoutCodeProcessor> processors = new ArrayList<AbstractLayoutCodeProcessor>();
+    public List<Processor> getSaveActionsProcessors(Project project, PsiFile psiFile, StorageRO storage) {
+        final ArrayList<Processor> processors = new ArrayList<Processor>();
         if (storage.isEnabled(activate)) {
-            processors.add(getOptimizeImportsProcessor(project, psiFile, storage));
-            processors.add(getRearrangeCodeProcessor(project, psiFile, storage));
-            processors.add(getReformatCodeProcessor(project, psiFile, storage));
+            processors.add(new OptimizeImportsProcessor(project, psiFile, storage));
+            processors.add(new ReformatCodeProcessor(project, psiFile, storage));
+            processors.add(new RearrangeCodeProcessor(project, psiFile, storage));
+            processors.add(new InspectionProcessor(project, psiFile, storage, localCanBeFinal, new LocalCanBeFinal()));
+            processors.add(new InspectionProcessor(project, psiFile, storage, explicitTypeCanBeDiamond, new ExplicitTypeCanBeDiamondInspection()));
+            processors.add(new InspectionProcessor(project, psiFile, storage, unqualifiedFieldAccess, new UnqualifiedFieldAccessInspection()));
+            processors.add(new InspectionProcessor(project, psiFile, storage, suppressAnnotation, new SuppressionAnnotationInspection()));
+            processors.add(new InspectionProcessor(project, psiFile, storage, finalPrivateMethod, new FinalPrivateMethodInspection()));
+            processors.add(new InspectionProcessor(project, psiFile, storage, unnecessarySemicolon, new UnnecessarySemicolonInspection()));
+            processors.add(new InspectionProcessor(project, psiFile, storage, fieldCanBeFinal, new FieldMayBeFinalInspection()));
         }
         return processors;
-    }
-
-    private AbstractLayoutCodeProcessor getOptimizeImportsProcessor(Project project, PsiFile psiFile, Storage storage) {
-        if (storage.isEnabled(organizeImports)) {
-            return new OptimizeImportsProcessor(project, psiFile);
-        }
-        return null;
-    }
-
-    private AbstractLayoutCodeProcessor getRearrangeCodeProcessor(Project project, PsiFile psiFile, Storage storage) {
-        if (storage.isEnabled(rearrange)) {
-            return new RearrangeCodeProcessor(project, psiFile);
-        }
-        return null;
-    }
-
-    private AbstractLayoutCodeProcessor getReformatCodeProcessor(Project project, PsiFile psiFile, Storage storage) {
-        if (storage.isEnabled(reformat)) {
-            if (null == ChangeListManager.getInstance(project).getChange(psiFile.getVirtualFile())) {
-                // That means no VCS is configured, ignore changed code configuration
-                return new ReformatCodeProcessor(project, psiFile, false);
-            } else {
-                return new ReformatCodeProcessor(project, psiFile, storage.isEnabled(reformatChangedCode));
-            }
-        }
-        return null;
     }
 
 }
