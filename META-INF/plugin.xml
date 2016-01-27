@@ -66,6 +66,8 @@
 
     <idea-version since-build="135"/>
 
+    <depends>com.intellij.modules.lang</depends>
+    
     <extensions defaultExtensionNs="com.intellij">
         <applicationService serviceImplementation="com.dubreuia.Settings"/>
         <applicationConfigurable instance="com.dubreuia.Configuration"/>
