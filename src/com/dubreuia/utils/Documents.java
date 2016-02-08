@@ -15,12 +15,12 @@ public class Documents {
     }
 
     public static boolean isDocumentActive(@NotNull Document document) {
-        final IdeFrame activeFrame = (IdeFrame) IdeFrameImpl.getActiveFrame();
+        IdeFrame activeFrame = (IdeFrame) IdeFrameImpl.getActiveFrame();
         return activeFrame != null && activeFrame.getProject() != null && isDocumentActive(activeFrame.getProject(), document);
     }
 
     private static boolean isDocumentActive(@NotNull Project project, @NotNull Document document) {
-        final Editor selectedTextEditor = FileEditorManagerEx.getInstance(project).getSelectedTextEditor();
+        Editor selectedTextEditor = FileEditorManagerEx.getInstance(project).getSelectedTextEditor();
         return selectedTextEditor != null && selectedTextEditor.getDocument() == document;
     }
 

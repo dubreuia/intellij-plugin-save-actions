@@ -1,6 +1,6 @@
 package com.dubreuia.processors;
 
-import com.dubreuia.model.StorageRO;
+import com.dubreuia.model.Storage;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vcs.changes.ChangeListManager;
 import com.intellij.psi.PsiFile;
@@ -15,9 +15,9 @@ class ReformatCodeProcessor extends com.intellij.codeInsight.actions.ReformatCod
 
     private static final String ID_ALL_TEXT = "ReformatAllText";
 
-    private final StorageRO storage;
+    private final Storage storage;
 
-    ReformatCodeProcessor(Project project, PsiFile psiFile, StorageRO storage) {
+    ReformatCodeProcessor(Project project, PsiFile psiFile, Storage storage) {
         super(project, psiFile, null, processChangedTextOnly(project, psiFile, storage));
         this.storage = storage;
     }
@@ -35,7 +35,7 @@ class ReformatCodeProcessor extends com.intellij.codeInsight.actions.ReformatCod
                 storage.isEnabled(reformat));
     }
 
-    private static boolean processChangedTextOnly(Project project, PsiFile psiFile, StorageRO storage) {
+    private static boolean processChangedTextOnly(Project project, PsiFile psiFile, Storage storage) {
         if (null == ChangeListManager.getInstance(project).getChange(psiFile.getVirtualFile())) {
             // That means no VCS is configured, ignore changed code configuration
             return false;

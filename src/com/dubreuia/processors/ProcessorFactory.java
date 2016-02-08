@@ -1,6 +1,6 @@
 package com.dubreuia.processors;
 
-import com.dubreuia.model.StorageRO;
+import com.dubreuia.model.Storage;
 import com.intellij.codeInspection.ExplicitTypeCanBeDiamondInspection;
 import com.intellij.codeInspection.localCanBeFinal.LocalCanBeFinal;
 import com.intellij.openapi.project.Project;
@@ -14,21 +14,14 @@ import com.siyeh.ig.style.UnqualifiedFieldAccessInspection;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.dubreuia.model.Action.activate;
-import static com.dubreuia.model.Action.explicitTypeCanBeDiamond;
-import static com.dubreuia.model.Action.fieldCanBeFinal;
-import static com.dubreuia.model.Action.finalPrivateMethod;
-import static com.dubreuia.model.Action.localCanBeFinal;
-import static com.dubreuia.model.Action.suppressAnnotation;
-import static com.dubreuia.model.Action.unnecessarySemicolon;
-import static com.dubreuia.model.Action.unqualifiedFieldAccess;
+import static com.dubreuia.model.Action.*;
 
 public enum ProcessorFactory {
 
     INSTANCE;
 
-    public List<Processor> getSaveActionsProcessors(Project project, PsiFile psiFile, StorageRO storage) {
-        final ArrayList<Processor> processors = new ArrayList<Processor>();
+    public List<Processor> getSaveActionsProcessors(Project project, PsiFile psiFile, Storage storage) {
+        ArrayList<Processor> processors = new ArrayList<Processor>();
         if (storage.isEnabled(activate)) {
             processors.add(new OptimizeImportsProcessor(project, psiFile, storage));
             processors.add(new ReformatCodeProcessor(project, psiFile, storage));

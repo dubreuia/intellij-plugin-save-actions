@@ -1,6 +1,6 @@
 package com.dubreuia.processors;
 
-import com.dubreuia.model.StorageRO;
+import com.dubreuia.model.Storage;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 
@@ -11,9 +11,9 @@ class RearrangeCodeProcessor extends com.intellij.codeInsight.actions.RearrangeC
 
     private static final String ID = "RearrangeCode";
 
-    private final StorageRO storage;
+    private final Storage storage;
 
-    RearrangeCodeProcessor(Project project, PsiFile file, StorageRO storage) {
+    RearrangeCodeProcessor(Project project, PsiFile file, Storage storage) {
         super(project, new PsiFile[]{file}, COMMAND_NAME, null);
         this.storage = storage;
     }

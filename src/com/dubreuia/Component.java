@@ -12,8 +12,8 @@ public class Component implements ApplicationComponent {
     private static final String COMPONENT_NAME = "Save Actions";
 
     public void initComponent() {
-        final MessageBus bus = ApplicationManager.getApplication().getMessageBus();
-        final MessageBusConnection connection = bus.connect();
+        MessageBus bus = ApplicationManager.getApplication().getMessageBus();
+        MessageBusConnection connection = bus.connect();
         connection.subscribe(AppTopics.FILE_DOCUMENT_SYNC, new SaveActionManager());
     }
 

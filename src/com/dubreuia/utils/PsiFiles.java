@@ -25,7 +25,7 @@ public class PsiFiles {
         return psiFilePhysicallyInProject;
     }
 
-    public static boolean isPsiFilePhysicallyInProject(Project project, PsiDirectory psiDirectory) {
+    private static boolean isPsiFilePhysicallyInProject(Project project, PsiDirectory psiDirectory) {
         if (psiDirectory != null) {
             if (project.getBaseDir().equals(psiDirectory.getVirtualFile())) {
                 return true;
@@ -36,9 +36,9 @@ public class PsiFiles {
     }
 
     public static boolean isPsiFileExcluded(Project project, PsiFile psiFile, Set<String> exclusions) {
-        final String fullPsiFileUrl = psiFile.getVirtualFile().getPresentableUrl();
-        final String fullProjectUrl = project.getPresentableUrl();
-        final String usableUrl = getUsableUrl(fullProjectUrl, fullPsiFileUrl);
+        String fullPsiFileUrl = psiFile.getVirtualFile().getPresentableUrl();
+        String fullProjectUrl = project.getPresentableUrl();
+        String usableUrl = getUsableUrl(fullProjectUrl, fullPsiFileUrl);
         return null != usableUrl && isUrlExcluded(usableUrl, exclusions);
     }
 
@@ -52,8 +52,8 @@ public class PsiFiles {
     static boolean isUrlExcluded(String url, Set<String> exclusions) {
         for (String exclusion : exclusions) {
             try {
-                final Pattern pattern = Pattern.compile(exclusion);
-                final Matcher matcher = pattern.matcher(url);
+                Pattern pattern = Pattern.compile(exclusion);
+                Matcher matcher = pattern.matcher(url);
                 if (matcher.matches()) {
                     return true;
                 }

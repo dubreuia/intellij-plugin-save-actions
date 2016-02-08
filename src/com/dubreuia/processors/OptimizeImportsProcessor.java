@@ -1,6 +1,6 @@
 package com.dubreuia.processors;
 
-import com.dubreuia.model.StorageRO;
+import com.dubreuia.model.Storage;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 
@@ -11,9 +11,9 @@ class OptimizeImportsProcessor extends com.intellij.codeInsight.actions.Optimize
 
     private static final String ID = "OptimizeImports";
 
-    private final StorageRO storage;
+    private final Storage storage;
 
-    OptimizeImportsProcessor(Project project, PsiFile file, StorageRO storage) {
+    OptimizeImportsProcessor(Project project, PsiFile file, Storage storage) {
         super(project, file);
         this.storage = storage;
     }

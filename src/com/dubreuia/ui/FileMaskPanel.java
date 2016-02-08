@@ -40,7 +40,7 @@ public class FileMaskPanel extends JPanel {
 
     private final JPanel exclusionPanel;
 
-    public FileMaskPanel(final Set<String> exclusions) {
+    public FileMaskPanel(Set<String> exclusions) {
         this.exclusionList = new JBList(exclusionModels);
         this.exclusionList.setEmptyText(TEXT_EMPTY);
         this.exclusionPanel = ToolbarDecorator.createDecorator(exclusionList)
@@ -56,7 +56,7 @@ public class FileMaskPanel extends JPanel {
         return exclusionPanel;
     }
 
-    public void update(final Set<String> exclusions) {
+    public void update(Set<String> exclusions) {
         exclusionModels.clear();
         exclusionModels.addAllSorted(exclusions);
     }

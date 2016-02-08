@@ -37,7 +37,7 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
             return;
         }
         for (Project project : ProjectManager.getInstance().getOpenProjects()) {
-            final PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
+            PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
             if (isPsiFileEligible(project, psiFile)) {
                 processPsiFile(project, psiFile);
             }
@@ -45,8 +45,8 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
     }
 
 
-    private void processPsiFile(final Project project, final PsiFile psiFile) {
-        final List<Processor> processors = ProcessorFactory.INSTANCE.getSaveActionsProcessors(project, psiFile, storage);
+    private void processPsiFile(Project project, PsiFile psiFile) {
+        List<Processor> processors = ProcessorFactory.INSTANCE.getSaveActionsProcessors(project, psiFile, storage);
         LOGGER.debug("Running processors " + processors + ", file " + psiFile + ", project " + project);
         for (Processor processor : processors) {
             processor.writeToFile();

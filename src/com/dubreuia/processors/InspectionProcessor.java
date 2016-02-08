@@ -1,13 +1,8 @@
 package com.dubreuia.processors;
 
 import com.dubreuia.model.Action;
-import com.dubreuia.model.StorageRO;
-import com.intellij.codeInspection.GlobalInspectionContext;
-import com.intellij.codeInspection.InspectionEngine;
-import com.intellij.codeInspection.InspectionManager;
-import com.intellij.codeInspection.LocalInspectionTool;
-import com.intellij.codeInspection.ProblemDescriptor;
-import com.intellij.codeInspection.QuickFix;
+import com.dubreuia.model.Storage;
+import com.intellij.codeInspection.*;
 import com.intellij.codeInspection.ex.InspectionToolWrapper;
 import com.intellij.codeInspection.ex.LocalInspectionToolWrapper;
 import com.intellij.openapi.application.ApplicationManager;
@@ -25,14 +20,13 @@ class InspectionProcessor implements Processor {
 
     private final PsiFile psiFile;
 
-    private final StorageRO storage;
+    private final Storage storage;
 
     private final Action action;
 
     private final LocalInspectionTool inspectionTool;
 
-    InspectionProcessor(final Project project, final PsiFile psiFile, final StorageRO storage, final Action action,
-                        final LocalInspectionTool inspectionTool) {
+    InspectionProcessor(Project project, PsiFile psiFile, Storage storage, Action action, LocalInspectionTool inspectionTool) {
         this.project = project;
         this.psiFile = psiFile;
         this.storage = storage;
@@ -43,22 +37,18 @@ class InspectionProcessor implements Processor {
     @Override
     public void writeToFile() {
         if (storage.isEnabled(action)) {
-            ApplicationManager.getApplication().invokeLater(new InspectionRunnable());
+            ApplicationManager.getApplication().invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    new InspectionWriteQuickFixesAction(project).execute();
+                }
+            });
         }
     }
 
     @Override
     public String toString() {
         return toStringBuilder(inspectionTool.getID(), storage.isEnabled(action));
-    }
-
-    private class InspectionRunnable implements Runnable {
-
-        @Override
-        public void run() {
-            new InspectionWriteQuickFixesAction(project).execute();
-        }
-
     }
 
     private class InspectionWriteQuickFixesAction extends WriteCommandAction.Simple {
@@ -69,10 +59,10 @@ class InspectionProcessor implements Processor {
 
         @Override
         protected void run() {
-            final InspectionManager inspectionManager = InspectionManager.getInstance(project);
-            final GlobalInspectionContext context = inspectionManager.createNewGlobalContext(false);
-            final InspectionToolWrapper toolWrapper = new LocalInspectionToolWrapper(inspectionTool);
-            final List<ProblemDescriptor> problemDescriptors = InspectionEngine.runInspectionOnFile(psiFile, toolWrapper, context);
+            InspectionManager inspectionManager = InspectionManager.getInstance(project);
+            GlobalInspectionContext context = inspectionManager.createNewGlobalContext(false);
+            InspectionToolWrapper toolWrapper = new LocalInspectionToolWrapper(inspectionTool);
+            List<ProblemDescriptor> problemDescriptors = InspectionEngine.runInspectionOnFile(psiFile, toolWrapper, context);
             for (ProblemDescriptor problemDescriptor : problemDescriptors) {
                 QuickFix[] fixes = problemDescriptor.getFixes();
                 if (fixes != null) {
