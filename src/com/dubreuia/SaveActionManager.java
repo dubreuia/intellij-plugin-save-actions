@@ -18,7 +18,7 @@ import java.util.List;
 
 import static com.dubreuia.utils.Documents.isDocumentActive;
 import static com.dubreuia.utils.PsiFiles.isPsiFileExcluded;
-import static com.dubreuia.utils.PsiFiles.isPsiFilePhysicallyInProject;
+import static com.dubreuia.utils.PsiFiles.isPsiFileInFocus;
 
 public class SaveActionManager extends FileDocumentManagerAdapter {
 
@@ -44,7 +44,6 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
         }
     }
 
-
     private void processPsiFile(Project project, PsiFile psiFile) {
         List<Processor> processors = ProcessorFactory.INSTANCE.getSaveActionsProcessors(project, psiFile, storage);
         LOGGER.debug("Running processors " + processors + ", file " + psiFile + ", project " + project);
@@ -60,7 +59,7 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
      */
     private boolean isPsiFileEligible(Project project, PsiFile psiFile) {
         return psiFile != null &&
-                isPsiFilePhysicallyInProject(project, psiFile) &&
+                isPsiFileInFocus(psiFile) &&
                 !isPsiFileExcluded(project, psiFile, storage.getExclusions());
     }
 

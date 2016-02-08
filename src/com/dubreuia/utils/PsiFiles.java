@@ -1,7 +1,9 @@
 package com.dubreuia.utils;
 
+import com.intellij.ide.DataManager;
+import com.intellij.openapi.actionSystem.DataContext;
+import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiFile;
 
 import java.util.Set;
@@ -17,29 +19,31 @@ public class PsiFiles {
         // static class
     }
 
-    public static boolean isPsiFilePhysicallyInProject(Project project, PsiFile psiFile) {
-        boolean psiFilePhysicallyInProject = isPsiFilePhysicallyInProject(project, psiFile.getParent());
-        if (!psiFilePhysicallyInProject) {
-            LOGGER.debug("File " + psiFile.getVirtualFile().getCanonicalPath() + " not in project " + project);
-        }
-        return psiFilePhysicallyInProject;
-    }
-
-    private static boolean isPsiFilePhysicallyInProject(Project project, PsiDirectory psiDirectory) {
-        if (psiDirectory != null) {
-            if (project.getBaseDir().equals(psiDirectory.getVirtualFile())) {
-                return true;
+    public static boolean isPsiFileInFocus(PsiFile psiFile) {
+        DataContext result = DataManager.getInstance().getDataContextFromFocus().getResult();
+        boolean psiFileInFocus = false;
+        if (result != null) {
+            PsiFile focus = DataKeys.PSI_FILE.getData(result);
+            if (null != psiFile && null != focus) {
+                psiFileInFocus = focus.equals(psiFile);
+                if (!psiFileInFocus) {
+                    LOGGER.debug("File " + psiFile.getVirtualFile().getCanonicalPath() + " not in focus of " +
+                            focus.getVirtualFile().getCanonicalPath());
+                }
             }
-            return isPsiFilePhysicallyInProject(project, psiDirectory.getParent());
         }
-        return false;
+        return psiFileInFocus;
     }
 
     public static boolean isPsiFileExcluded(Project project, PsiFile psiFile, Set<String> exclusions) {
         String fullPsiFileUrl = psiFile.getVirtualFile().getPresentableUrl();
         String fullProjectUrl = project.getPresentableUrl();
         String usableUrl = getUsableUrl(fullProjectUrl, fullPsiFileUrl);
-        return null != usableUrl && isUrlExcluded(usableUrl, exclusions);
+        boolean psiFileExcluded = null != usableUrl && isUrlExcluded(usableUrl, exclusions);
+        if (psiFileExcluded) {
+            LOGGER.debug("File " + psiFile.getVirtualFile().getCanonicalPath() + " excluded in " + exclusions);
+        }
+        return psiFileExcluded;
     }
 
     static String getUsableUrl(String projectUrl, String psiFileUrl) {
