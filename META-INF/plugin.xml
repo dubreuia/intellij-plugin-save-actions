@@ -54,6 +54,10 @@
 
     <change-notes><![CDATA[
       <dl>
+        <dt>0.6</dt>
+        <dd><ul>
+          <li>Correct issue <a href="https://github.com/dubreuia/intellij-plugin-save-actions/issues/23">#23</a></li>
+        </ul></dd>
         <dt>0.5</dt>
         <dd><ul>
           <li>Add support inspection feature <a href="https://github.com/dubreuia/intellij-plugin-save-actions/issues/9">#9</a></li>
