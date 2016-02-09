@@ -60,4 +60,8 @@ public class Storage implements PersistentStateComponent<Storage> {
         return firstLaunch;
     }
 
+    public void stopFirstLaunch() {
+        firstLaunch = false;
+    }
+
 }

@@ -59,6 +59,7 @@ public class Configuration implements Configurable {
                     storage.setEnabled(action, true);
                 }
             }
+            storage.stopFirstLaunch();
         }
     }
 

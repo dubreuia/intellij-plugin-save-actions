@@ -2,7 +2,7 @@
 
     <id>com.dubreuia</id>
     <name>Save Actions</name>
-    <version>0.5</version>
+    <version>0.6</version>
     <vendor email="dubreuil.alex@gmail.com" url="https://www.github.com/dubreuia">Alexandre DuBreuil</vendor>
 
     <description><![CDATA[
@@ -54,6 +54,10 @@
 
     <change-notes><![CDATA[
       <dl>
+        <dt>0.6</dt>
+        <dd><ul>
+          <li>Correct issue <a href="https://github.com/dubreuia/intellij-plugin-save-actions/issues/23">#23</a></li>
+        </ul></dd>
         <dt>0.5</dt>
         <dd><ul>
           <li>Add support inspection feature <a href="https://github.com/dubreuia/intellij-plugin-save-actions/issues/9">#9</a></li>

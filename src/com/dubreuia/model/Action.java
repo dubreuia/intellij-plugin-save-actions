@@ -8,7 +8,7 @@ public enum Action {
 
     reformat("Reformat code", true),
 
-    reformatChangedCode("Reformat only changed code (only if VCS configured)", true),
+    reformatChangedCode("Reformat only changed code (only if VCS configured)", false),
 
     rearrange("Rearrange code", false),
 
