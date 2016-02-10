@@ -4,7 +4,7 @@ public enum Action {
 
     activate("Activate save actions", true),
 
-    organizeImports("Organize organize", true),
+    organizeImports("Organize imports", true),
 
     reformat("Reformat code", true),
 
