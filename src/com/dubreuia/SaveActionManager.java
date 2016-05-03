@@ -18,7 +18,7 @@ import java.util.List;
 
 import static com.dubreuia.utils.Documents.isDocumentActive;
 import static com.dubreuia.utils.PsiFiles.isPsiFileExcluded;
-import static com.dubreuia.utils.PsiFiles.isPsiFileInFocus;
+import static com.dubreuia.utils.PsiFiles.isPsiFileFocused;
 
 public class SaveActionManager extends FileDocumentManagerAdapter {
 
@@ -59,7 +59,7 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
      */
     private boolean isPsiFileEligible(Project project, PsiFile psiFile) {
         return psiFile != null &&
-                isPsiFileInFocus(psiFile) &&
+                isPsiFileFocused(psiFile) &&
                 !isPsiFileExcluded(project, psiFile, storage.getExclusions());
     }
 

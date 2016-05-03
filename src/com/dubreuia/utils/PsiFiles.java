@@ -5,6 +5,7 @@ import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiManager;
 
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -19,20 +20,12 @@ public class PsiFiles {
         // static class
     }
 
-    public static boolean isPsiFileInFocus(PsiFile psiFile) {
-        DataContext result = DataManager.getInstance().getDataContextFromFocus().getResult();
-        boolean psiFileInFocus = false;
-        if (result != null) {
-            PsiFile focus = DataKeys.PSI_FILE.getData(result);
-            if (null != psiFile && null != focus) {
-                psiFileInFocus = focus.equals(psiFile);
-                if (!psiFileInFocus) {
-                    LOGGER.debug("File " + psiFile.getVirtualFile().getCanonicalPath() + " not in focus of " +
-                            focus.getVirtualFile().getCanonicalPath());
-                }
-            }
+    public static boolean isPsiFileFocused(PsiFile psiFile) {
+        boolean searchOutsideRootModel = psiFile.getResolveScope().isSearchOutsideRootModel();
+        if (searchOutsideRootModel) {
+            LOGGER.debug("File " + psiFile.getVirtualFile().getCanonicalPath() + " not in current project");
         }
-        return psiFileInFocus;
+        return !searchOutsideRootModel;
     }
 
     public static boolean isPsiFileExcluded(Project project, PsiFile psiFile, Set<String> exclusions) {
