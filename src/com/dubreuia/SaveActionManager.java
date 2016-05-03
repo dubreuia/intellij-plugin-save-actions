@@ -16,7 +16,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-import static com.dubreuia.utils.Documents.isDocumentActive;
 import static com.dubreuia.utils.PsiFiles.isPsiFileExcluded;
 import static com.dubreuia.utils.PsiFiles.isPsiFileFocused;
 
@@ -32,10 +31,6 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
 
     @Override
     public void beforeDocumentSaving(@NotNull Document document) {
-        if (!SaveAllAction.TRIGGERED && isDocumentActive(document)) {
-            LOGGER.debug("Document " + document + " is still active, do not execute");
-            return;
-        }
         for (Project project : ProjectManager.getInstance().getOpenProjects()) {
             PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
             if (isPsiFileEligible(project, psiFile)) {

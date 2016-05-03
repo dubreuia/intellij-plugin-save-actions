@@ -110,9 +110,4 @@
     <project-components>
     </project-components>
 
-    <actions>
-        <action text="Save All" overrides="true" id="SaveAll" class="com.dubreuia.SaveAllAction"
-                icon="AllIcons.Actions.Menu_saveall"/>
-    </actions>
-
 </idea-plugin>
