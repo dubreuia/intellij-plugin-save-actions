@@ -23,6 +23,8 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
 
     public static final Logger LOGGER = Logger.getInstance(SaveActionManager.class);
 
+    private boolean running = false;
+
     static {
         LOGGER.setLevel(Level.DEBUG);
     }
@@ -31,6 +33,19 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
 
     @Override
     public void beforeDocumentSaving(@NotNull Document document) {
+        if (running) {
+            LOGGER.debug("Recursion detected, not running on document " + document);
+            return;
+        }
+        try {
+            running = true;
+            beforeDocumentSavingInternal(document);
+        } finally {
+            running = false;
+        }
+    }
+
+    private void beforeDocumentSavingInternal(@NotNull Document document) {
         for (Project project : ProjectManager.getInstance().getOpenProjects()) {
             PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
             if (isPsiFileEligible(project, psiFile)) {

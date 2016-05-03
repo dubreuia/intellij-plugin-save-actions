@@ -2,15 +2,17 @@ package com.dubreuia.model;
 
 public enum Action {
 
-    activate("Activate save actions", true),
+    activate("Activate save actions (before saving each file, performs the configured actions below)", true),
 
     organizeImports("Organize imports", true),
 
-    reformat("Reformat code", true),
+    reformat("Reformat file", true),
 
     reformatChangedCode("Reformat only changed code (only if VCS configured)", false),
 
-    rearrange("Rearrange code", false),
+    rearrange("Rearrange fields and methods (configured in \"Editor > Code Style > (...) > Arrangement\")", false),
+
+    compile("Compile file", false),
 
     localCanBeFinal("Add final to local variable", false),
 

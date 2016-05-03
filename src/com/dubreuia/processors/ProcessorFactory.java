@@ -3,6 +3,9 @@ package com.dubreuia.processors;
 import com.dubreuia.model.Storage;
 import com.intellij.codeInspection.ExplicitTypeCanBeDiamondInspection;
 import com.intellij.codeInspection.localCanBeFinal.LocalCanBeFinal;
+import com.intellij.compiler.server.BuildManager;
+import com.intellij.openapi.compiler.*;
+import com.intellij.openapi.compiler.Compiler;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 import com.siyeh.ig.classlayout.FinalPrivateMethodInspection;
@@ -33,6 +36,7 @@ public enum ProcessorFactory {
             processors.add(new InspectionProcessor(project, psiFile, storage, finalPrivateMethod, new FinalPrivateMethodInspection()));
             processors.add(new InspectionProcessor(project, psiFile, storage, unnecessarySemicolon, new UnnecessarySemicolonInspection()));
             processors.add(new InspectionProcessor(project, psiFile, storage, fieldCanBeFinal, new FieldMayBeFinalInspection()));
+            processors.add(new CompileProcessor(project, psiFile, storage));
         }
         return processors;
     }

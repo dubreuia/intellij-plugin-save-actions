@@ -17,7 +17,7 @@ import static com.dubreuia.model.Action.unqualifiedFieldAccess;
 
 public class InspectionPanel {
 
-    private static final String TEXT_TITLE_INSPECTIONS = "Inspections quick fix to perform on save";
+    private static final String TEXT_TITLE_INSPECTIONS = "Inspection and quick fix actions";
 
     private final Map<Action, JCheckBox> checkboxes;
 

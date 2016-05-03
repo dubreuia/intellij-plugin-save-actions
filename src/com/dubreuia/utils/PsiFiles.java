@@ -1,11 +1,7 @@
 package com.dubreuia.utils;
 
-import com.intellij.ide.DataManager;
-import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiManager;
 
 import java.util.Set;
 import java.util.regex.Matcher;

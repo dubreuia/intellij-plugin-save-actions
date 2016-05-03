@@ -5,6 +5,7 @@ import com.dubreuia.model.Storage;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
+import com.intellij.openapi.wm.impl.status.TextPanel;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
 
@@ -38,6 +39,8 @@ public class Configuration implements Configurable {
     };
 
     private FormattingPanel formattingPanel;
+
+    private BuildPanel buildPanel;
 
     private InspectionPanel inspectionPanel;
 
@@ -102,6 +105,7 @@ public class Configuration implements Configurable {
         checkboxes.clear();
         exclusions.clear();
         formattingPanel = null;
+        buildPanel = null;
         inspectionPanel = null;
         fileMasksPanel = null;
     }
@@ -123,16 +127,22 @@ public class Configuration implements Configurable {
             checkboxes.put(action, new JCheckBox(action.getText()));
         }
         formattingPanel = new FormattingPanel(checkboxes);
+        buildPanel = new BuildPanel(checkboxes);
         inspectionPanel = new InspectionPanel(checkboxes);
         fileMasksPanel = new FileMaskPanel(exclusions);
-        return initPanel(formattingPanel.getPanel(), inspectionPanel.getPanel(), fileMasksPanel.getPanel());
+        return initPanel(
+                formattingPanel.getPanel(),
+                buildPanel.getPanel(),
+                inspectionPanel.getPanel(),
+                fileMasksPanel.getPanel());
     }
 
-    private JPanel initPanel(JPanel actions, JPanel inspections, JPanel fileMasks) {
+    private JPanel initPanel(JPanel actions, JPanel build, JPanel inspections, JPanel fileMasks) {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
         panel.add(checkboxes.get(activate));
         panel.add(actions);
+        panel.add(build);
         panel.add(inspections);
         panel.add(fileMasks);
         return panel;
