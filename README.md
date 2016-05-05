@@ -4,13 +4,17 @@ Supports configurable, Eclipse like, save actions, including "organize imports",
 
 ## Features
 
-**Code formatting:**
+### Code formatting
 
 - Organize imports
 - Reformat code (only changed text or all)
 - Rearrange code (reorder methods, fields, etc.)
 
-**Quick fixes:**
+### Build
+
+- Compile file
+
+### Quick fixes
 
 - Add final to local variable
 - Add final to field
@@ -20,7 +24,7 @@ Supports configurable, Eclipse like, save actions, including "organize imports",
 - Remove final from private method
 - Remove unnecessary semicolon
 
-**Other:**
+### Other
 
 - File exclusion with regex support
 - Works on any file type Intellij IDEA can reformat (Java, XML, etc.)
@@ -48,17 +52,21 @@ Enable / disable the plugin.
 
 Enable / disable import organization (configured in "File > Settings > Code Style > Java > Imports").
 
-### Reformat code
+### Reformat file
 
 Enable / disable formatting (configured in "File > Settings > Code Style"). See "Reformat only changed code" for more options.
 
-### Rearrange code
+### Rearrange fields and methods
 
 Enable / disable re-ordering of fields and methods (configured in "File > Settings > Code Style > Java > Arrangement").
 
 ### Reformat only changed code
 
 Enable / disable formatting for changed code only. If VCS is configured, it is used to check which lines where modified. If VCS is not configured, the code will always get reformatted.
+
+### Compile file
+
+Enable / disable compiling of the modified file. The compiler might compile other files as well.
 
 ### File path exclusions
 

@@ -2,13 +2,13 @@
 
     <id>com.dubreuia</id>
     <name>Save Actions</name>
-    <version>0.7</version>
+    <version>0.8</version>
     <vendor email="dubreuil.alex@gmail.com" url="https://www.github.com/dubreuia">Alexandre DuBreuil</vendor>
 
     <description><![CDATA[
       <p>Supports configurable, Eclipse like, save actions, including "organize imports", "reformat code", "rearrange code" and some quick fixes like "add / remove 'this' qualifier", etc. The plugin executes the configured actions when the file is synchronised (or saved) on disk.</p>
 
-      <p><strong>Features</strong></p>
+      <p><strong>Available save actions</strong></p>
 
       <p>Code formatting:</p>
 
@@ -16,6 +16,12 @@
         <li>Organize imports</li>
         <li>Reformat code (only changed text or all)</li>
         <li>Rearrange code (reorder methods, fields, etc.)</li>
+      </ul>
+
+      <p>Build:</p>
+
+      <ul>
+        <li>Compile file</li>
       </ul>
 
       <p>Quick fixes:</p>
@@ -54,6 +60,12 @@
 
     <change-notes><![CDATA[
       <dl>
+        <dt>0.8</dt>
+        <dd><ul>
+          <li>Add "compile" save action</li>
+          <li>Remove save action skip on current file</li>
+          <li>Correct file focus when two projects are opened</li>
+        </ul></dd>
         <dt>0.7</dt>
         <dd><ul>
           <li>Correct issue <a href="https://github.com/dubreuia/intellij-plugin-save-actions/issues/25">#25</a></li>
