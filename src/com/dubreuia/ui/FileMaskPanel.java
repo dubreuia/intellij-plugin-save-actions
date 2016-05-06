@@ -16,7 +16,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-public class FileMaskPanel extends JPanel {
+class FileMaskPanel extends JPanel {
 
     private static final String TEXT_TITLE_EXCLUSIONS = "File path exclusions";
 
@@ -40,7 +40,7 @@ public class FileMaskPanel extends JPanel {
 
     private final JPanel exclusionPanel;
 
-    public FileMaskPanel(Set<String> exclusions) {
+    FileMaskPanel(Set<String> exclusions) {
         this.exclusionList = new JBList(exclusionModels);
         this.exclusionList.setEmptyText(TEXT_EMPTY);
         this.exclusionPanel = ToolbarDecorator.createDecorator(exclusionList)
@@ -52,11 +52,11 @@ public class FileMaskPanel extends JPanel {
         this.exclusionPanel.setBorder(IdeBorderFactory.createTitledBorder(TEXT_TITLE_EXCLUSIONS));
     }
 
-    public JPanel getPanel() {
+    JPanel getPanel() {
         return exclusionPanel;
     }
 
-    public void update(Set<String> exclusions) {
+    void update(Set<String> exclusions) {
         exclusionModels.clear();
         exclusionModels.addAllSorted(exclusions);
     }

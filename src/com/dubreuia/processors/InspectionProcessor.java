@@ -58,7 +58,7 @@ class InspectionProcessor implements Processor {
 
     private class InspectionWriteQuickFixesAction extends WriteCommandAction.Simple {
 
-        protected InspectionWriteQuickFixesAction(Project project, PsiFile... files) {
+        private InspectionWriteQuickFixesAction(Project project, PsiFile... files) {
             super(project, files);
         }
 
