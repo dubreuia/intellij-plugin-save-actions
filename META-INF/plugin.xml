@@ -2,11 +2,11 @@
 
     <id>com.dubreuia</id>
     <name>Save Actions</name>
-    <version>0.8</version>
+    <version>0.9</version>
     <vendor email="dubreuil.alex@gmail.com" url="https://www.github.com/dubreuia">Alexandre DuBreuil</vendor>
 
     <description><![CDATA[
-      <p>Supports configurable, Eclipse like, save actions, including "organize imports", "reformat code", "rearrange code" and some quick fixes like "add / remove 'this' qualifier", etc. The plugin executes the configured actions when the file is synchronised (or saved) on disk.</p>
+      <p>Supports configurable, Eclipse like, save actions, including "organize imports", "reformat code", "rearrange code", "compile file" and some quick fixes like "add / remove 'this' qualifier", etc. The plugin executes the configured actions when the file is synchronised (or saved) on disk.</p>
 
       <p><strong>Available save actions</strong></p>
 
@@ -60,6 +60,10 @@
 
     <change-notes><![CDATA[
       <dl>
+        <dt>0.9</dt>
+        <dd><ul>
+          <li>Correct compile processor blocks multiple files</li>
+        </ul></dd>
         <dt>0.8</dt>
         <dd><ul>
           <li>Add "compile" save action</li>

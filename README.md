@@ -1,6 +1,6 @@
 # Intellij Save Actions Plugin
 
-Supports configurable, Eclipse like, save actions, including "organize imports", "reformat code", "rearrange code" and some quick fixes like "add / remove 'this' qualifier", etc. The plugin executes the configured actions when the file is synchronised (or saved) on disk.
+Supports configurable, Eclipse like, save actions, including "organize imports", "reformat code", "rearrange code", "compile file" and some quick fixes like "add / remove 'this' qualifier", etc. The plugin executes the configured actions when the file is synchronised (or saved) on disk.
 
 ## Features
 
@@ -120,7 +120,7 @@ Will remove unnecessary semicolon.
 
 ## Bugs / features
 
-Dat plugin do not work ? You want more features ? You can [ask me on twitter](https://twitter.com/dubreuia) or [create an issue on github](https://github.com/dubreuia/intellij-plugin-save-actions/issues).
+Dat plugin do not work? You want more features? You can [ask me on twitter](https://twitter.com/dubreuia) or [create an issue on github](https://github.com/dubreuia/intellij-plugin-save-actions/issues).
 
 ## Compatibility
 
