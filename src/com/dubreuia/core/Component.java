@@ -1,4 +1,4 @@
-package com.dubreuia;
+package com.dubreuia.core;
 
 import com.intellij.AppTopics;
 import com.intellij.openapi.application.ApplicationManager;
@@ -14,7 +14,12 @@ public class Component implements ApplicationComponent {
     public void initComponent() {
         MessageBus bus = ApplicationManager.getApplication().getMessageBus();
         MessageBusConnection connection = bus.connect();
-        connection.subscribe(AppTopics.FILE_DOCUMENT_SYNC, new SaveActionManager());
+        connection.subscribe(AppTopics.FILE_DOCUMENT_SYNC, getSaveActionManager());
+    }
+
+    @NotNull
+    protected SaveActionManager getSaveActionManager() {
+        return new SaveActionManager();
     }
 
     public void disposeComponent() {

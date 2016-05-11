@@ -33,7 +33,7 @@ Supports configurable, Eclipse like, save actions, including "organize imports",
 
 ## Compatibility
 
-Intellij IDEA Community Edition build 135+
+It works in Intellij IDEA Community Edition build 135+, and is not expected to work in other products. See issue [#18](https://github.com/dubreuia/intellij-plugin-save-actions/issues/18) for a beta packaging that works in all products.
 
 ## Installation
 

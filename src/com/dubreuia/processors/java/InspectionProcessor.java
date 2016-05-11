@@ -1,7 +1,8 @@
-package com.dubreuia.processors;
+package com.dubreuia.processors.java;
 
 import com.dubreuia.model.Action;
 import com.dubreuia.model.Storage;
+import com.dubreuia.processors.Processor;
 import com.intellij.codeInspection.GlobalInspectionContext;
 import com.intellij.codeInspection.InspectionEngine;
 import com.intellij.codeInspection.InspectionManager;

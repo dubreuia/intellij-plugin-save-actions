@@ -2,7 +2,7 @@ package com.dubreuia.processors;
 
 import static java.text.MessageFormat.format;
 
-class ProcessorMessage {
+public class ProcessorMessage {
 
     private static final String FORMAT = "{0} ({1})";
 
@@ -10,7 +10,7 @@ class ProcessorMessage {
         // static class
     }
 
-    static String toStringBuilder(String id, boolean enabled) {
+    public static String toStringBuilder(String id, boolean enabled) {
         return format(FORMAT, id, enabled);
     }
 

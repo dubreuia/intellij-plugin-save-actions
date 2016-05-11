@@ -1,4 +1,4 @@
-package com.dubreuia;
+package com.dubreuia.core;
 
 import com.dubreuia.model.Storage;
 import com.dubreuia.processors.Processor;
@@ -78,16 +78,19 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
     }
 
     private void processPsiFile(Project project, PsiFile psiFile) {
-        List<Processor> processors = ProcessorFactory.INSTANCE
-                .getSaveActionsProcessors(project, psiFile, getStorage(project));
+        List<Processor> processors = getSaveActionsProcessors(project, psiFile);
         LOGGER.debug("Running processors " + processors + ", file " + psiFile + ", project " + project);
         for (Processor processor : processors) {
             processor.writeToFile();
         }
     }
 
-    private Storage getStorage(Project project) {
+    protected Storage getStorage(Project project) {
         return ServiceManager.getService(project, Storage.class);
+    }
+
+    protected List<Processor> getSaveActionsProcessors(Project project, PsiFile psiFile) {
+        return ProcessorFactory.INSTANCE.getSaveActionsProcessors(project, psiFile, getStorage(project));
     }
 
 }

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<idea-plugin version="2">
+
+    <application-components>
+        <component>
+            <implementation-class>com.dubreuia.core.java.Component</implementation-class>
+        </component>
+    </application-components>
+
+    <project-components>
+    </project-components>
+
+</idea-plugin>

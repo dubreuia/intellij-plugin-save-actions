@@ -1,3 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+
 <idea-plugin version="2">
 
     <id>com.dubreuia</id>
@@ -47,7 +49,7 @@
 
       <p><strong>Compatibility</strong></p>
 
-      <p>Intellij IDEA Community Edition build 135+</p>
+      <p>It works in Intellij IDEA Community Edition build 135+, and is not expected to work in other products. See issue <a href="https://github.com/dubreuia/intellij-plugin-save-actions/issues/18">#18</a> for a beta packaging that works in all products.</p>
 
       <p><strong>Resources</strong></p>
 
@@ -66,14 +68,18 @@
 
     <idea-version since-build="135"/>
 
+    <!-- Uncomment to make it work in all intellij products -->
+    <!--<depends>com.intellij.modules.lang</depends>-->
+    <depends optional="true" config-file="plugin-java.xml">com.intellij.modules.java</depends>
+
     <extensions defaultExtensionNs="com.intellij">
         <projectService serviceImplementation="com.dubreuia.model.Storage"/>
-        <projectConfigurable displayName="Save Actions" instance="com.dubreuia.ui.Configuration"/>
+        <projectConfigurable id="settings.saveactions" instance="com.dubreuia.ui.Configuration"/>
     </extensions>
 
     <application-components>
         <component>
-            <implementation-class>com.dubreuia.Component</implementation-class>
+            <implementation-class>com.dubreuia.core.Component</implementation-class>
         </component>
     </application-components>
 

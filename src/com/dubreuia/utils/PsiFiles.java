@@ -9,7 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import static com.dubreuia.SaveActionManager.LOGGER;
+import static com.dubreuia.core.SaveActionManager.LOGGER;
 
 public class PsiFiles {
 

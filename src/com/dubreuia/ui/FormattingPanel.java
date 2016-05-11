@@ -7,7 +7,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Map;
 
-import static com.dubreuia.model.Action.*;
+import static com.dubreuia.model.Action.organizeImports;
+import static com.dubreuia.model.Action.rearrange;
+import static com.dubreuia.model.Action.reformat;
+import static com.dubreuia.model.Action.reformatChangedCode;
 
 class FormattingPanel {
 
