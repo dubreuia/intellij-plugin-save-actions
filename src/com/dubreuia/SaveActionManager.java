@@ -17,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 import static com.dubreuia.utils.PsiFiles.isPsiFileExcluded;
-import static com.dubreuia.utils.PsiFiles.isPsiFileFocused;
+import static com.dubreuia.utils.PsiFiles.isPsiFileInProject;
 
 public class SaveActionManager extends FileDocumentManagerAdapter {
 
@@ -46,7 +46,9 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
      */
     private boolean isPsiFileEligible(Project project, PsiFile psiFile) {
         return psiFile != null &&
-                isPsiFileFocused(psiFile) &&
+                project.isInitialized() &&
+                !project.isDisposed() &&
+                isPsiFileInProject(project, psiFile) &&
                 !isPsiFileExcluded(project, psiFile, storage.getExclusions());
     }
 

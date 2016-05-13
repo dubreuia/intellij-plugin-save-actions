@@ -1,6 +1,7 @@
 package com.dubreuia.utils;
 
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.psi.PsiFile;
 
 import java.util.Set;
@@ -16,12 +17,12 @@ public class PsiFiles {
         // static class
     }
 
-    public static boolean isPsiFileFocused(PsiFile psiFile) {
-        boolean searchOutsideRootModel = psiFile.getResolveScope().isSearchOutsideRootModel();
-        if (searchOutsideRootModel) {
-            LOGGER.debug("File " + psiFile.getVirtualFile().getCanonicalPath() + " not in current project");
+    public static boolean isPsiFileInProject(Project project, PsiFile file) {
+        boolean inProject = ProjectRootManager.getInstance(project).getFileIndex().isInContent(file.getVirtualFile());
+        if (!inProject) {
+            LOGGER.debug("File " + file.getVirtualFile().getCanonicalPath() + " not in current project");
         }
-        return !searchOutsideRootModel;
+        return inProject;
     }
 
     public static boolean isPsiFileExcluded(Project project, PsiFile psiFile, Set<String> exclusions) {
