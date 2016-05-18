@@ -3,17 +3,22 @@ package com.dubreuia;
 import com.dubreuia.model.Storage;
 import com.dubreuia.processors.Processor;
 import com.dubreuia.processors.ProcessorFactory;
+import com.intellij.ide.IdeEventQueue;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.fileEditor.FileDocumentManagerAdapter;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
+import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.log4j.Level;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
+import java.awt.event.InvocationEvent;
 import java.util.List;
 
 import static com.dubreuia.utils.PsiFiles.isPsiFileExcluded;
@@ -31,12 +36,38 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
 
     @Override
     public void beforeDocumentSaving(@NotNull Document document) {
+        if (skipEvent(document))
+            return;
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Processing event: " + document + "  "
+                    + ReflectionToStringBuilder.toString(IdeEventQueue.getInstance().getTrueCurrentEvent()));
+        }
         for (Project project : ProjectManager.getInstance().getOpenProjects()) {
             PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
             if (isPsiFileEligible(project, psiFile)) {
                 processPsiFile(project, psiFile);
             }
         }
+    }
+
+    private boolean skipEvent(@NotNull Document document) {
+        AWTEvent trueCurrentEvent = IdeEventQueue.getInstance().getTrueCurrentEvent();
+        if (trueCurrentEvent instanceof InvocationEvent) {
+            String s = String.valueOf(trueCurrentEvent);
+            if (
+                    s.startsWith( // triggered by eclipse formatter plugin
+                            "java.awt.event.InvocationEvent[INVOCATION_DEFAULT,runnable=LaterInvocator.FlushQueue lastInfo=[runnable: com.intellij.codeInsight.actions.AbstractLayoutCodeProcessor")
+                            ||
+                            s.startsWith(// some strange event, not visible in my plugin dev instance
+                                    "java.awt.event.InvocationEvent[INVOCATION_DEFAULT,runnable=LaterInvocator.FlushQueue lastInfo=[runnable: com.intellij.openapi.application.TransactionGuardImpl")) {
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("Skipping event: " + document + "  "
+                            + ReflectionToStringBuilder.toString(trueCurrentEvent));
+                }
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -46,6 +77,9 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
      */
     private boolean isPsiFileEligible(Project project, PsiFile psiFile) {
         return psiFile != null &&
+                project.isInitialized() &&
+                !project.isDisposed() &&
+                ProjectRootManager.getInstance(project).getFileIndex().isInContent(psiFile.getVirtualFile()) &&
                 isPsiFileFocused(psiFile) &&
                 !isPsiFileExcluded(project, psiFile, storage.getExclusions());
     }
