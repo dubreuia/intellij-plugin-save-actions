@@ -36,8 +36,12 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
 
     @Override
     public void beforeDocumentSaving(@NotNull Document document) {
-        if (skipEvent(document)) return;
-
+        if (skipEvent(document))
+            return;
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Processing event: " + document + "  "
+                    + ReflectionToStringBuilder.toString(IdeEventQueue.getInstance().getTrueCurrentEvent()));
+        }
         for (Project project : ProjectManager.getInstance().getOpenProjects()) {
             PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
             if (isPsiFileEligible(project, psiFile)) {
@@ -49,9 +53,16 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
     private boolean skipEvent(@NotNull Document document) {
         AWTEvent trueCurrentEvent = IdeEventQueue.getInstance().getTrueCurrentEvent();
         if (trueCurrentEvent instanceof InvocationEvent) {
-            if (String.valueOf(trueCurrentEvent).startsWith("java.awt.event.InvocationEvent[INVOCATION_DEFAULT,runnable=LaterInvocator.FlushQueue lastInfo=[runnable: com.intellij.codeInsight.actions.AbstractLayoutCodeProcessor")) {
+            String s = String.valueOf(trueCurrentEvent);
+            if (
+                    s.startsWith( // triggered by eclipse formatter plugin
+                            "java.awt.event.InvocationEvent[INVOCATION_DEFAULT,runnable=LaterInvocator.FlushQueue lastInfo=[runnable: com.intellij.codeInsight.actions.AbstractLayoutCodeProcessor")
+                            ||
+                            s.startsWith(// some strange event, not visible in my plugin dev instance
+                                    "java.awt.event.InvocationEvent[INVOCATION_DEFAULT,runnable=LaterInvocator.FlushQueue lastInfo=[runnable: com.intellij.openapi.application.TransactionGuardImpl")) {
                 if (LOGGER.isDebugEnabled()) {
-                    LOGGER.debug("Skipping event: " + document + "  " + ReflectionToStringBuilder.toString(trueCurrentEvent));
+                    LOGGER.debug("Skipping event: " + document + "  "
+                            + ReflectionToStringBuilder.toString(trueCurrentEvent));
                 }
                 return true;
             }
