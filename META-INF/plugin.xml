@@ -2,7 +2,7 @@
 
     <id>com.dubreuia</id>
     <name>Save Actions</name>
-    <version>0.9</version>
+    <version>0.10</version>
     <vendor email="dubreuil.alex@gmail.com" url="https://www.github.com/dubreuia">Alexandre DuBreuil</vendor>
 
     <description><![CDATA[
@@ -60,6 +60,10 @@
 
     <change-notes><![CDATA[
       <dl>
+        <dt>0.10</dt>
+        <dd><ul>
+          <li>Correct multiple projects check not working</li>
+        </ul></dd>
         <dt>0.9</dt>
         <dd><ul>
           <li>Correct compile processor blocks multiple files</li>
