@@ -46,7 +46,7 @@
 
       <p><strong>Compatibility</strong></p>
 
-      <p>This plugin works with Java 6+ and Intellij IDEA Community Edition after 131 (around version 13).</p>
+      <p>Intellij IDEA Community Edition build 135+</p>
 
       <p><strong>Resources</strong></p>
 
@@ -59,58 +59,7 @@
     ]]></description>
 
     <change-notes><![CDATA[
-      <dl>
-        <dt>0.10</dt>
-        <dd><ul>
-          <li>Correct multiple projects check not working</li>
-        </ul></dd>
-        <dt>0.9</dt>
-        <dd><ul>
-          <li>Correct compile processor blocks multiple files</li>
-        </ul></dd>
-        <dt>0.8</dt>
-        <dd><ul>
-          <li>Add "compile" save action</li>
-          <li>Remove save action skip on current file</li>
-          <li>Correct file focus when two projects are opened</li>
-        </ul></dd>
-        <dt>0.7</dt>
-        <dd><ul>
-          <li>Correct issue <a href="https://github.com/dubreuia/intellij-plugin-save-actions/issues/25">#25</a></li>
-        </ul></dd>
-        <dt>0.6</dt>
-        <dd><ul>
-          <li>Correct issue <a href="https://github.com/dubreuia/intellij-plugin-save-actions/issues/23">#23</a></li>
-        </ul></dd>
-        <dt>0.5</dt>
-        <dd><ul>
-          <li>Add support inspection feature <a href="https://github.com/dubreuia/intellij-plugin-save-actions/issues/9">#9</a></li>
-          <li>Add debug and log info <a href="https://github.com/dubreuia/intellij-plugin-save-actions/issues/11">#11</a></li>
-          <li>Correct issue <a href="https://github.com/dubreuia/intellij-plugin-save-actions/issues/2">#2</a> (pull request from contributor krasa)</li>
-          <li>Correct issue <a href="https://github.com/dubreuia/intellij-plugin-save-actions/issues/4">#4</a></li>
-          <li>Correct issue <a href="https://github.com/dubreuia/intellij-plugin-save-actions/issues/13">#13</a> (pull request from contributor dorkbox)</li>
-        </ul></dd>
-        <dt>0.4</dt>
-        <dd><ul>
-          <li>Add file exclusion feature <a href="https://github.com/dubreuia/intellij-plugin-save-actions/issues/3">#3</a></li>
-        </ul></dd>
-        <dt>0.3</dt>
-        <dd><ul>
-          <li>Correct issue <a href="https://github.com/dubreuia/intellij-plugin-save-actions/issues/7">#7</a></li>
-        </ul></dd>
-        <dt>0.2</dt>
-        <dd><ul>
-           <li>Correct issue <a href="https://github.com/dubreuia/intellij-plugin-save-actions/issues/1">#1</a></li>
-        </ul></dd>
-        <dt>0.1</dt>
-        <dd><ul>
-          <li>Organize imports</li>
-          <li>Reformat code</li>
-          li>Reformat only changed code</li>
-          <li>Rearrange code</li>
-          <li>Simple option page to activate / deactivate save actions</li>
-        </ul></dd>
-      </dl>
+        Release notes: <a href="https://github.com/dubreuia/intellij-plugin-save-actions/releases">https://github.com/dubreuia/intellij-plugin-save-actions/releases</a>
     ]]>
     </change-notes>
 

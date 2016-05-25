@@ -30,6 +30,10 @@ Supports configurable, Eclipse like, save actions, including "organize imports",
 - Works on any file type Intellij IDEA can reformat (Java, XML, etc.)
 - Simple option page to activate / deactivate actions
 
+## Compatibility
+
+Intellij IDEA Community Edition build 135+
+
 ## Installation
 
 Install it from the plugin repository in Intellij IDEA (**recommended**):
@@ -121,10 +125,6 @@ Will remove unnecessary semicolon.
 ## Bugs / features
 
 Dat plugin do not work? You want more features? You can [ask me on twitter](https://twitter.com/dubreuia) or [create an issue on github](https://github.com/dubreuia/intellij-plugin-save-actions/issues).
-
-## Compatibility
-
-This plugin works with Java 6+ and Intellij IDEA Community Edition build 135+ (version 13.1.6).
 
 ## Contributors
 
