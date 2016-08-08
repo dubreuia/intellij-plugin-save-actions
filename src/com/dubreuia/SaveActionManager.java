@@ -3,8 +3,6 @@ package com.dubreuia;
 import com.dubreuia.model.Storage;
 import com.dubreuia.processors.Processor;
 import com.dubreuia.processors.ProcessorFactory;
-import static com.dubreuia.utils.PsiFiles.isPsiFileExcluded;
-import static com.dubreuia.utils.PsiFiles.isPsiFileInProject;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Document;
@@ -13,9 +11,13 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
 import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
-import java.util.List;
 import org.apache.log4j.Level;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+
+import static com.dubreuia.utils.PsiFiles.isPsiFileExcluded;
+import static com.dubreuia.utils.PsiFiles.isPsiFileInProject;
 
 public class SaveActionManager extends FileDocumentManagerAdapter {
 
@@ -47,7 +49,8 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
                 project.isInitialized() &&
                 !project.isDisposed() &&
                 isPsiFileInProject(project, psiFile) &&
-                !isPsiFileExcluded(psiFile, storage.getExclusions());
+                !isPsiFileExcluded(psiFile, storage.getExclusions()) &&
+                psiFile.getModificationStamp() != 0;
     }
 
     private void processPsiFile(Project project, PsiFile psiFile) {
