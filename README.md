@@ -130,6 +130,7 @@ Dat plugin do not work? You want more features? You can [ask me on twitter](http
 
 - [krasa](https://github.com/krasa)
 - [dorkbox](https://github.com/dorkbox)
+- [zhujk](https://github.com/zhujk)
 
 ## Licence
 
