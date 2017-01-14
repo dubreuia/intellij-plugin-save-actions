@@ -23,6 +23,7 @@ Supports configurable, Eclipse like, save actions, including "organize imports",
 - Remove unused suppress warning annotation
 - Remove final from private method
 - Remove unnecessary semicolon
+- Add missing @Override annotations
 
 ### Other
 
@@ -122,6 +123,10 @@ Will remove final for private method.
 
 Will remove unnecessary semicolon.
 
+### Add missing @Override annotations
+
+Will add missing @Override annotations to all inherited methods.
+
 ## Bugs / features
 
 Dat plugin do not work? You want more features? You can [ask me on twitter](https://twitter.com/dubreuia) or [create an issue on github](https://github.com/dubreuia/intellij-plugin-save-actions/issues).
@@ -131,6 +136,7 @@ Dat plugin do not work? You want more features? You can [ask me on twitter](http
 - [krasa](https://github.com/krasa)
 - [dorkbox](https://github.com/dorkbox)
 - [zhujk](https://github.com/zhujk)
+- [marcosbento](https://github.com/marcosbento)
 
 ## Licence
 

@@ -34,6 +34,7 @@
         <li>Remove unused suppress warning annotation</li>
         <li>Remove final from private method</li>
         <li>Remove unnecessary semicolon</li>
+        <li>Add missing @Override annotations</li>
       </ul>
 
       <p>Other:</p>
