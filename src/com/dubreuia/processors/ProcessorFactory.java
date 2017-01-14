@@ -9,6 +9,7 @@ import com.intellij.openapi.compiler.Compiler;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 import com.siyeh.ig.classlayout.FinalPrivateMethodInspection;
+import com.siyeh.ig.inheritance.MissingOverrideAnnotationInspection;
 import com.siyeh.ig.maturity.SuppressionAnnotationInspection;
 import com.siyeh.ig.style.FieldMayBeFinalInspection;
 import com.siyeh.ig.style.UnnecessarySemicolonInspection;
@@ -36,6 +37,7 @@ public enum ProcessorFactory {
             processors.add(new InspectionProcessor(project, psiFile, storage, finalPrivateMethod, new FinalPrivateMethodInspection()));
             processors.add(new InspectionProcessor(project, psiFile, storage, unnecessarySemicolon, new UnnecessarySemicolonInspection()));
             processors.add(new InspectionProcessor(project, psiFile, storage, fieldCanBeFinal, new FieldMayBeFinalInspection()));
+            processors.add(new InspectionProcessor(project, psiFile, storage, missingOverrideAnnotation, new MissingOverrideAnnotationInspection()));
             processors.add(new CompileProcessor(project, psiFile, storage));
         }
         return processors;
