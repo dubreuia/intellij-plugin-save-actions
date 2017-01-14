@@ -7,7 +7,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Map;
 
-import static com.dubreuia.model.Action.*;
+import static com.dubreuia.model.Action.explicitTypeCanBeDiamond;
+import static com.dubreuia.model.Action.fieldCanBeFinal;
+import static com.dubreuia.model.Action.finalPrivateMethod;
+import static com.dubreuia.model.Action.localCanBeFinal;
+import static com.dubreuia.model.Action.missingOverrideAnnotation;
+import static com.dubreuia.model.Action.suppressAnnotation;
+import static com.dubreuia.model.Action.unnecessarySemicolon;
+import static com.dubreuia.model.Action.unqualifiedFieldAccess;
 
 class InspectionPanel {
 
@@ -30,6 +37,7 @@ class InspectionPanel {
         panel.add(checkboxes.get(suppressAnnotation));
         panel.add(checkboxes.get(finalPrivateMethod));
         panel.add(checkboxes.get(unnecessarySemicolon));
+        panel.add(checkboxes.get(missingOverrideAnnotation));
         panel.add(Box.createHorizontalGlue());
         panel.setMinimumSize(new Dimension(Short.MAX_VALUE, 0));
         return panel;

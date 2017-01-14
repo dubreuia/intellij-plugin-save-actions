@@ -26,7 +26,9 @@ public enum Action {
 
     finalPrivateMethod("Remove final from private method", false),
 
-    unnecessarySemicolon("Remove unnecessary semicolon", false);
+    unnecessarySemicolon("Remove unnecessary semicolon", false),
+
+    missingOverrideAnnotation("Add missing @Override annotations", false);
 
     private final String text;
 
