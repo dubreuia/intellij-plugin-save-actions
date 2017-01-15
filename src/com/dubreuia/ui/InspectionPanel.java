@@ -7,26 +7,19 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Map;
 
-import static com.dubreuia.model.Action.explicitTypeCanBeDiamond;
-import static com.dubreuia.model.Action.fieldCanBeFinal;
-import static com.dubreuia.model.Action.finalPrivateMethod;
-import static com.dubreuia.model.Action.localCanBeFinal;
-import static com.dubreuia.model.Action.missingOverrideAnnotation;
-import static com.dubreuia.model.Action.suppressAnnotation;
-import static com.dubreuia.model.Action.unnecessarySemicolon;
-import static com.dubreuia.model.Action.unqualifiedFieldAccess;
+import static com.dubreuia.model.Action.*;
 
-public class InspectionPanel {
+class InspectionPanel {
 
-    private static final String TEXT_TITLE_INSPECTIONS = "Inspection and quick fix actions";
+    private static final String TEXT_TITLE_INSPECTIONS = "Java inspection and quick fix actions";
 
     private final Map<Action, JCheckBox> checkboxes;
 
-    public InspectionPanel(final Map<Action, JCheckBox> checkboxes) {
+    InspectionPanel(final Map<Action, JCheckBox> checkboxes) {
         this.checkboxes = checkboxes;
     }
 
-    public JPanel getPanel() {
+    JPanel getPanel() {
         JPanel panel = new JPanel();
         panel.setBorder(IdeBorderFactory.createTitledBorder(TEXT_TITLE_INSPECTIONS));
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));

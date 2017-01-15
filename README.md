@@ -1,16 +1,20 @@
 # Intellij Save Actions Plugin
 
-Supports configurable, Eclipse like, save actions, including "organize imports", "reformat code", "rearrange code" and some quick fixes like "add / remove 'this' qualifier", etc. The plugin executes the configured actions when the file is synchronised (or saved) on disk.
+Supports configurable, Eclipse like, save actions, including "organize imports", "reformat code", "rearrange code", "compile file" and some quick fixes like "add / remove 'this' qualifier", etc. The plugin executes the configured actions when the file is synchronised (or saved) on disk.
 
 ## Features
 
-**Code formatting:**
+### Code formatting
 
 - Organize imports
 - Reformat code (only changed text or all)
 - Rearrange code (reorder methods, fields, etc.)
 
-**Quick fixes:**
+### Build
+
+- Compile file
+
+### Quick fixes
 
 - Add final to local variable
 - Add final to field
@@ -21,11 +25,15 @@ Supports configurable, Eclipse like, save actions, including "organize imports",
 - Remove unnecessary semicolon
 - Add missing @Override annotations
 
-**Other:**
+### Other
 
 - File exclusion with regex support
 - Works on any file type Intellij IDEA can reformat (Java, XML, etc.)
 - Simple option page to activate / deactivate actions
+
+## Compatibility
+
+Intellij IDEA Community Edition build 135+
 
 ## Installation
 
@@ -49,17 +57,21 @@ Enable / disable the plugin.
 
 Enable / disable import organization (configured in "File > Settings > Code Style > Java > Imports").
 
-### Reformat code
+### Reformat file
 
 Enable / disable formatting (configured in "File > Settings > Code Style"). See "Reformat only changed code" for more options.
 
-### Rearrange code
+### Rearrange fields and methods
 
 Enable / disable re-ordering of fields and methods (configured in "File > Settings > Code Style > Java > Arrangement").
 
 ### Reformat only changed code
 
 Enable / disable formatting for changed code only. If VCS is configured, it is used to check which lines where modified. If VCS is not configured, the code will always get reformatted.
+
+### Compile file
+
+Enable / disable compiling of the modified file. The compiler might compile other files as well.
 
 ### File path exclusions
 
@@ -117,17 +129,14 @@ Will add missing @Override annotations to all inherited methods.
 
 ## Bugs / features
 
-Dat plugin do not work ? You want more features ? You can [ask me on twitter](https://twitter.com/dubreuia) or [create an issue on github](https://github.com/dubreuia/intellij-plugin-save-actions/issues).
-
-## Compatibility
-
-This plugin works with Java 6+ and Intellij IDEA Community Edition build 135+ (version 13.1.6).
+Dat plugin do not work? You want more features? You can [ask me on twitter](https://twitter.com/dubreuia) or [create an issue on github](https://github.com/dubreuia/intellij-plugin-save-actions/issues).
 
 ## Contributors
 
 - [krasa](https://github.com/krasa)
 - [dorkbox](https://github.com/dorkbox)
 - [marcosbento](https://github.com/marcosbento)
+- [zhujk](https://github.com/zhujk)
 
 ## Licence
 

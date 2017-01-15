@@ -1,6 +1,7 @@
 package com.dubreuia.processors;
 
 import com.dubreuia.model.Storage;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.compiler.CompilerManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -28,7 +29,12 @@ class CompileProcessor implements Processor {
     @Override
     public void writeToFile() {
         if (storage.isEnabled(compile)) {
-            CompilerManager.getInstance(project).compile(new VirtualFile[]{file.getVirtualFile()}, null);
+            ApplicationManager.getApplication().invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    CompilerManager.getInstance(project).compile(new VirtualFile[]{file.getVirtualFile()}, null);
+                }
+            });
         }
     }
 

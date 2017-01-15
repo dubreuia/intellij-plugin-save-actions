@@ -17,13 +17,11 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 import static com.dubreuia.utils.PsiFiles.isPsiFileExcluded;
-import static com.dubreuia.utils.PsiFiles.isPsiFileFocused;
+import static com.dubreuia.utils.PsiFiles.isPsiFileInProject;
 
 public class SaveActionManager extends FileDocumentManagerAdapter {
 
     public static final Logger LOGGER = Logger.getInstance(SaveActionManager.class);
-
-    private boolean running = false;
 
     static {
         LOGGER.setLevel(Level.DEBUG);
@@ -33,32 +31,11 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
 
     @Override
     public void beforeDocumentSaving(@NotNull Document document) {
-        if (running) {
-            LOGGER.debug("Recursion detected, not running on document " + document);
-            return;
-        }
-        try {
-            running = true;
-            beforeDocumentSavingInternal(document);
-        } finally {
-            running = false;
-        }
-    }
-
-    private void beforeDocumentSavingInternal(@NotNull Document document) {
         for (Project project : ProjectManager.getInstance().getOpenProjects()) {
             PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
             if (isPsiFileEligible(project, psiFile)) {
                 processPsiFile(project, psiFile);
             }
-        }
-    }
-
-    private void processPsiFile(Project project, PsiFile psiFile) {
-        List<Processor> processors = ProcessorFactory.INSTANCE.getSaveActionsProcessors(project, psiFile, storage);
-        LOGGER.debug("Running processors " + processors + ", file " + psiFile + ", project " + project);
-        for (Processor processor : processors) {
-            processor.writeToFile();
         }
     }
 
@@ -69,8 +46,19 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
      */
     private boolean isPsiFileEligible(Project project, PsiFile psiFile) {
         return psiFile != null &&
-                isPsiFileFocused(psiFile) &&
-                !isPsiFileExcluded(project, psiFile, storage.getExclusions());
+                project.isInitialized() &&
+                !project.isDisposed() &&
+                isPsiFileInProject(project, psiFile) &&
+                !isPsiFileExcluded(psiFile, storage.getExclusions()) &&
+                psiFile.getModificationStamp() != 0;
+    }
+
+    private void processPsiFile(Project project, PsiFile psiFile) {
+        List<Processor> processors = ProcessorFactory.INSTANCE.getSaveActionsProcessors(project, psiFile, storage);
+        LOGGER.debug("Running processors " + processors + ", file " + psiFile + ", project " + project);
+        for (Processor processor : processors) {
+            processor.writeToFile();
+        }
     }
 
 }

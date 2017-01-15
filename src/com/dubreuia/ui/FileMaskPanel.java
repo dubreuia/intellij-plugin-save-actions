@@ -7,30 +7,33 @@ import com.intellij.ui.AnActionButtonRunnable;
 import com.intellij.ui.IdeBorderFactory;
 import com.intellij.ui.ToolbarDecorator;
 import com.intellij.ui.components.JBList;
-import org.jetbrains.annotations.NotNull;
-
-import javax.swing.*;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+import javax.swing.DefaultListModel;
+import javax.swing.JPanel;
+import org.jetbrains.annotations.NotNull;
 
-public class FileMaskPanel extends JPanel {
+class FileMaskPanel extends JPanel {
 
     private static final String TEXT_TITLE_EXCLUSIONS = "File path exclusions";
 
     private static final String TEXT_ADD_MESSAGE = "" +
             "<html><body>" +
-            "Exclude file paths with Java regular expression. Examples: " +
+            "<p>Use case sensitive Java regular expression that matches the end of the full file path.</p>" +
+            "<p>Examples:</p>" +
             "<ul>" +
-            "<strong>Main\\.java</strong>    (exclude 'Main.java' only in root folder)<br/>" +
-            "<strong>src/Foo\\.java</strong> (exclude file 'Foo.java' only in folder 'src')<br/>" +
-            "<strong>.*/.*\\.xml</strong>    (exclude all xml files in any folder)<br/>" +
+            "<li><strong>Ignore\\.java</strong>              (exclude file 'Ignore.java' in all folders)</li>" +
+            "<li><strong>.*\\.properties</strong>            (exclude all '.properties' in all folders)</li>" +
+            "<li><strong>src/Ignore\\.java</strong>          (exclude file 'Ignore.java' in 'src' folders)</li>" +
+            "<li><strong>ignore/.*</strong>                  (exclude folder 'ignore' recursively)</li>" +
+            "<li><strong>myProject/Ignore.md</strong>        (exclude file 'Ignore.md' in project 'myProject')</li>" +
             "</ul>" +
             "</body></html>";
 
-    private static final String TEXT_ADD_TITLE = "Exclude";
+    private static final String TEXT_ADD_TITLE = "Add file path exclusion regex";
 
     private static final String TEXT_EMPTY = "No file path exclusions";
 
@@ -40,7 +43,7 @@ public class FileMaskPanel extends JPanel {
 
     private final JPanel exclusionPanel;
 
-    public FileMaskPanel(Set<String> exclusions) {
+    FileMaskPanel(Set<String> exclusions) {
         this.exclusionList = new JBList(exclusionModels);
         this.exclusionList.setEmptyText(TEXT_EMPTY);
         this.exclusionPanel = ToolbarDecorator.createDecorator(exclusionList)
@@ -52,11 +55,11 @@ public class FileMaskPanel extends JPanel {
         this.exclusionPanel.setBorder(IdeBorderFactory.createTitledBorder(TEXT_TITLE_EXCLUSIONS));
     }
 
-    public JPanel getPanel() {
+    JPanel getPanel() {
         return exclusionPanel;
     }
 
-    public void update(Set<String> exclusions) {
+    void update(Set<String> exclusions) {
         exclusionModels.clear();
         exclusionModels.addAllSorted(exclusions);
     }
