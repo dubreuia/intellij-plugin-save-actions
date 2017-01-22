@@ -72,6 +72,10 @@ The configurations are located in "File > Settings > Other Settings > Save Actio
 | Remove unnecessary semicolon              | Will remove unnecessary semicolon
 | Add missing @Override annotations         | Will add missing @Override annotations to all inherited methods
 
+### Add missing @Override annotations
+
+Will add missing @Override annotations to all inherited methods.
+
 ## Bugs / features
 
 Dat plugin do not work? You want more features? You can [ask me on twitter](https://twitter.com/dubreuia) or [create an issue on github](https://github.com/dubreuia/intellij-plugin-save-actions/issues).
