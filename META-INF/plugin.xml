@@ -2,7 +2,7 @@
 
     <id>com.dubreuia</id>
     <name>Save Actions</name>
-    <version>0.13</version>
+    <version>0.14</version>
     <vendor email="dubreuil.alex@gmail.com" url="https://www.github.com/dubreuia">Alexandre DuBreuil</vendor>
 
     <description><![CDATA[
@@ -40,7 +40,7 @@
       <p>Other:</p>
 
       <ul>
-        <li>File exclusion with regex support</li>
+        <li>File inclusion/exclusion with regex support</li>
         <li>Works on any file type Intellij IDEA can reformat (Java, XML, etc.)</li>
         <li>Simple option page to activate / deactivate actions</li>
       </ul>
@@ -60,6 +60,8 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        0.14: Support for file inclusions
+        <br>
         Release notes: <a href="https://github.com/dubreuia/intellij-plugin-save-actions/releases">https://github.com/dubreuia/intellij-plugin-save-actions/releases</a>
     ]]>
     </change-notes>

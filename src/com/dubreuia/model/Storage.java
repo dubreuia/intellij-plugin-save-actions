@@ -16,6 +16,7 @@ public class Storage implements PersistentStateComponent<Storage> {
     private Set<Action> actions = new HashSet<Action>();
 
     private Set<String> exclusions = new HashSet<String>();
+    private Set<String> inclusions = new HashSet<String>();
 
     private boolean firstLaunch = true;
 
@@ -54,6 +55,14 @@ public class Storage implements PersistentStateComponent<Storage> {
         } else {
             actions.remove(action);
         }
+    }
+
+    public Set<String> getInclusions() {
+        return inclusions;
+    }
+
+    public void setInclusions(Set<String> inclusions) {
+        this.inclusions = inclusions;
     }
 
     public boolean isFirstLaunch() {
