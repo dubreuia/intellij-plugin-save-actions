@@ -10,7 +10,7 @@ import java.util.Set;
 
 @State(name = "SaveActionSettings",
         storages = {@com.intellij.openapi.components.Storage(
-                file = StoragePathMacros.APP_CONFIG + "/saveactions_settings.xml")})
+                file = "./saveactions_settings.xml")})
 public class Storage implements PersistentStateComponent<Storage> {
 
     private Set<Action> actions = new HashSet<Action>();
