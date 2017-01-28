@@ -40,7 +40,7 @@
       <p>Other:</p>
 
       <ul>
-        <li>File exclusion with regex support</li>
+        <li>File inclusion/exclusion with regex support</li>
         <li>Works on any file type Intellij IDEA can reformat (Java, XML, etc.)</li>
         <li>Simple option page to activate / deactivate actions</li>
       </ul>
