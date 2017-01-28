@@ -2,15 +2,13 @@ package com.dubreuia.model;
 
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
-import com.intellij.openapi.components.StoragePathMacros;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @State(name = "SaveActionSettings",
-        storages = {@com.intellij.openapi.components.Storage(
-                file = StoragePathMacros.APP_CONFIG + "/saveactions_settings.xml")})
+        storages = {@com.intellij.openapi.components.Storage(file = "./saveactions_settings.xml")})
 public class Storage implements PersistentStateComponent<Storage> {
 
     private Set<Action> actions = new HashSet<Action>();

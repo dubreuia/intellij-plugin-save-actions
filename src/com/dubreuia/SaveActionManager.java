@@ -27,8 +27,6 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
         LOGGER.setLevel(Level.DEBUG);
     }
 
-    private final Storage storage = ServiceManager.getService(Storage.class);
-
     @Override
     public void beforeDocumentSaving(@NotNull Document document) {
         for (Project project : ProjectManager.getInstance().getOpenProjects()) {
@@ -49,16 +47,21 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
                 project.isInitialized() &&
                 !project.isDisposed() &&
                 isPsiFileInProject(project, psiFile) &&
-                !isPsiFileExcluded(psiFile, storage.getExclusions()) &&
+                !isPsiFileExcluded(psiFile, getStorage(project).getExclusions()) &&
                 psiFile.getModificationStamp() != 0;
     }
 
     private void processPsiFile(Project project, PsiFile psiFile) {
-        List<Processor> processors = ProcessorFactory.INSTANCE.getSaveActionsProcessors(project, psiFile, storage);
+        List<Processor> processors = ProcessorFactory.INSTANCE
+                .getSaveActionsProcessors(project, psiFile, getStorage(project));
         LOGGER.debug("Running processors " + processors + ", file " + psiFile + ", project " + project);
         for (Processor processor : processors) {
             processor.writeToFile();
         }
+    }
+
+    private Storage getStorage(Project project) {
+        return ServiceManager.getService(project, Storage.class);
     }
 
 }

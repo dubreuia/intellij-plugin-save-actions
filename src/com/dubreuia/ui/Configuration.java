@@ -5,7 +5,7 @@ import com.dubreuia.model.Storage;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
-import com.intellij.openapi.wm.impl.status.TextPanel;
+import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
 
@@ -25,7 +25,7 @@ public class Configuration implements Configurable {
 
     private static final String TEXT_DISPLAY_NAME = "Save Actions";
 
-    private final Storage storage = ServiceManager.getService(Storage.class);
+    private final Storage storage;
 
     private final Set<String> exclusions = new HashSet<String>();
 
@@ -45,6 +45,10 @@ public class Configuration implements Configurable {
     private InspectionPanel inspectionPanel;
 
     private FileMaskPanel fileMasksPanel;
+
+    public Configuration(Project project) {
+        this.storage = ServiceManager.getService(project, Storage.class);
+    }
 
     @Nullable
     @Override
@@ -154,8 +158,9 @@ public class Configuration implements Configurable {
                 checkbox.getValue().setEnabled(checkboxes.get(activate).isSelected());
             }
         }
-        checkboxes.get(reformatChangedCode).setEnabled(
-                checkboxes.get(activate).isSelected() && checkboxes.get(reformat).isSelected());
+        boolean activateSelected = checkboxes.get(activate).isSelected();
+        boolean reformatSelected = checkboxes.get(reformat).isSelected();
+        checkboxes.get(reformatChangedCode).setEnabled(activateSelected && reformatSelected);
     }
 
     private void updateExclusions() {

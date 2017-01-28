@@ -72,6 +72,11 @@ The configurations are located in "File > Settings > Other Settings > Save Actio
 | Remove unnecessary semicolon              | Will remove unnecessary semicolon
 | Add missing @Override annotations         | Will add missing @Override annotations to all inherited methods
 
+## Files location
+
+- `idea.log`: The log file the save actions plugin writes in. It contains debug information, prefixed with `com.dubreuia.SaveActionManager`. If you are using default locations, it would be in `~/.IntelliJIdeaVERSION/system/log/idea.log`.
+- `saveactions_settings.xml`: The settings file is saved by project in the `.idea` folder. That file can be commited in git thus shared in your development team. If you are using the default locations, it would be in `~/IdeaProjects/PROJECT_NAME/.idea/saveactions_settings.xml`
+
 ## Bugs / features
 
 Dat plugin do not work? You want more features? You can [ask me on twitter](https://twitter.com/dubreuia) or [create an issue on github](https://github.com/dubreuia/intellij-plugin-save-actions/issues).
