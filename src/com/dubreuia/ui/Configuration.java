@@ -5,7 +5,6 @@ import com.dubreuia.model.Storage;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
-import com.intellij.openapi.wm.impl.status.TextPanel;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
 
@@ -28,6 +27,7 @@ public class Configuration implements Configurable {
     private final Storage storage = ServiceManager.getService(Storage.class);
 
     private final Set<String> exclusions = new HashSet<String>();
+    private final Set<String> inclusions = new HashSet<String>();
 
     private final Map<Action, JCheckBox> checkboxes = new HashMap<Action, JCheckBox>();
 
@@ -44,7 +44,8 @@ public class Configuration implements Configurable {
 
     private InspectionPanel inspectionPanel;
 
-    private FileMaskPanel fileMasksPanel;
+    private AbstractFileMaskPanel fileMasksPanelExcl;
+    private AbstractFileMaskPanel fileMasksPanelIncl;
 
     @Nullable
     @Override
@@ -79,7 +80,13 @@ public class Configuration implements Configurable {
                 return true;
             }
         }
-        return !storage.getExclusions().equals(exclusions);
+        if (!storage.getExclusions().equals(exclusions)) {
+            return true;
+        }
+        if (!storage.getInclusions().equals(inclusions)) {
+            return true;
+        }
+        return false;
     }
 
 
@@ -89,6 +96,7 @@ public class Configuration implements Configurable {
             storage.setEnabled(checkbox.getKey(), checkbox.getValue().isSelected());
         }
         storage.setExclusions(new HashSet<String>(exclusions));
+        storage.setInclusions(new HashSet<String>(inclusions));
     }
 
     @Override
@@ -98,16 +106,18 @@ public class Configuration implements Configurable {
         }
         updateEnabled();
         updateExclusions();
+        updateInclusions();
     }
 
     @Override
     public void disposeUIResources() {
         checkboxes.clear();
         exclusions.clear();
+        inclusions.clear();
         formattingPanel = null;
         buildPanel = null;
         inspectionPanel = null;
-        fileMasksPanel = null;
+        fileMasksPanelExcl = null;
     }
 
     @Nls
@@ -129,22 +139,25 @@ public class Configuration implements Configurable {
         formattingPanel = new FormattingPanel(checkboxes);
         buildPanel = new BuildPanel(checkboxes);
         inspectionPanel = new InspectionPanel(checkboxes);
-        fileMasksPanel = new FileMaskPanel(exclusions);
+        fileMasksPanelExcl = new FileMaskExclusionPanel(exclusions);
+        fileMasksPanelIncl = new FileMaskInclusionPanel(inclusions);
         return initPanel(
                 formattingPanel.getPanel(),
                 buildPanel.getPanel(),
                 inspectionPanel.getPanel(),
-                fileMasksPanel.getPanel());
+                fileMasksPanelExcl.getPanel(), fileMasksPanelIncl.getPanel()
+        );
     }
 
-    private JPanel initPanel(JPanel actions, JPanel build, JPanel inspections, JPanel fileMasks) {
+    private JPanel initPanel(JPanel actions, JPanel build, JPanel inspections, JPanel fileMasksExclusions, JPanel fileMasksInclusions) {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
         panel.add(checkboxes.get(activate));
         panel.add(actions);
         panel.add(build);
         panel.add(inspections);
-        panel.add(fileMasks);
+        panel.add(fileMasksInclusions);
+        panel.add(fileMasksExclusions);
         return panel;
     }
 
@@ -161,7 +174,13 @@ public class Configuration implements Configurable {
     private void updateExclusions() {
         exclusions.clear();
         exclusions.addAll(storage.getExclusions());
-        fileMasksPanel.update(exclusions);
+        fileMasksPanelExcl.update(exclusions);
+    }
+
+    private void updateInclusions() {
+        inclusions.clear();
+        inclusions.addAll(storage.getInclusions());
+        fileMasksPanelIncl.update(inclusions);
     }
 
 }
