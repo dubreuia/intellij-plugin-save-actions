@@ -66,6 +66,8 @@
 
     <idea-version since-build="135"/>
 
+    <depends>com.intellij.modules.lang</depends>
+    
     <extensions defaultExtensionNs="com.intellij">
         <projectService serviceImplementation="com.dubreuia.model.Storage"/>
         <projectConfigurable displayName="Save Actions" instance="com.dubreuia.ui.Configuration"/>
