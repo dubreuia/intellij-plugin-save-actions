@@ -28,6 +28,7 @@ public class Configuration implements Configurable {
     private final Storage storage;
 
     private final Set<String> exclusions = new HashSet<String>();
+    private final Set<String> inclusions = new HashSet<String>();
 
     private final Map<Action, JCheckBox> checkboxes = new HashMap<Action, JCheckBox>();
 
@@ -44,7 +45,8 @@ public class Configuration implements Configurable {
 
     private InspectionPanel inspectionPanel;
 
-    private FileMaskPanel fileMasksPanel;
+    private FileMaskPanel fileMasksExclusionPanel;
+    private FileMaskPanel fileMasksInclusionPanel;
 
     public Configuration(Project project) {
         this.storage = ServiceManager.getService(project, Storage.class);
@@ -83,7 +85,13 @@ public class Configuration implements Configurable {
                 return true;
             }
         }
-        return !storage.getExclusions().equals(exclusions);
+        if (!storage.getExclusions().equals(exclusions)) {
+            return true;
+        }
+        if (!storage.getInclusions().equals(inclusions)) {
+            return true;
+        }
+        return false;
     }
 
 
@@ -93,6 +101,7 @@ public class Configuration implements Configurable {
             storage.setEnabled(checkbox.getKey(), checkbox.getValue().isSelected());
         }
         storage.setExclusions(new HashSet<String>(exclusions));
+        storage.setInclusions(new HashSet<String>(inclusions));
     }
 
     @Override
@@ -102,16 +111,19 @@ public class Configuration implements Configurable {
         }
         updateEnabled();
         updateExclusions();
+        updateInclusions();
     }
 
     @Override
     public void disposeUIResources() {
         checkboxes.clear();
         exclusions.clear();
+        inclusions.clear();
         formattingPanel = null;
         buildPanel = null;
         inspectionPanel = null;
-        fileMasksPanel = null;
+        fileMasksInclusionPanel = null;
+        fileMasksExclusionPanel = null;
     }
 
     @Nls
@@ -133,22 +145,31 @@ public class Configuration implements Configurable {
         formattingPanel = new FormattingPanel(checkboxes);
         buildPanel = new BuildPanel(checkboxes);
         inspectionPanel = new InspectionPanel(checkboxes);
-        fileMasksPanel = new FileMaskPanel(exclusions);
-        return initPanel(
+        fileMasksInclusionPanel = new FileMaskInclusionPanel(inclusions);
+        fileMasksExclusionPanel = new FileMaskExclusionPanel(exclusions);
+        return initRootPanel(
                 formattingPanel.getPanel(),
                 buildPanel.getPanel(),
                 inspectionPanel.getPanel(),
-                fileMasksPanel.getPanel());
+                fileMasksInclusionPanel.getPanel(),
+                fileMasksExclusionPanel.getPanel()
+        );
     }
 
-    private JPanel initPanel(JPanel actions, JPanel build, JPanel inspections, JPanel fileMasks) {
+    private JPanel initRootPanel(JPanel actions, JPanel build, JPanel inspections, JPanel fileMasksInclusions,
+                                 JPanel fileMasksExclusions) {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
         panel.add(checkboxes.get(activate));
         panel.add(actions);
         panel.add(build);
         panel.add(inspections);
-        panel.add(fileMasks);
+
+        JPanel fileMaskPanel = new JPanel();
+        fileMaskPanel.setLayout(new BoxLayout(fileMaskPanel, BoxLayout.LINE_AXIS));
+        fileMaskPanel.add(fileMasksInclusions);
+        fileMaskPanel.add(fileMasksExclusions);
+        panel.add(fileMaskPanel);
         return panel;
     }
 
@@ -166,7 +187,13 @@ public class Configuration implements Configurable {
     private void updateExclusions() {
         exclusions.clear();
         exclusions.addAll(storage.getExclusions());
-        fileMasksPanel.update(exclusions);
+        fileMasksExclusionPanel.update(exclusions);
+    }
+
+    private void updateInclusions() {
+        inclusions.clear();
+        inclusions.addAll(storage.getInclusions());
+        fileMasksInclusionPanel.update(inclusions);
     }
 
 }

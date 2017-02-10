@@ -27,7 +27,7 @@ Supports configurable, Eclipse like, save actions, including "organize imports",
 
 ### Other
 
-- File exclusion with regex support
+- File inclusion / exclusion with regex support
 - Works on any file type Intellij IDEA can reformat (Java, XML, etc.)
 - Simple option page to activate / deactivate actions
 
@@ -57,7 +57,8 @@ The configurations are located in "File > Settings > Other Settings > Save Actio
 | Rearrange fields and methods | Enable / disable re-ordering of fields and methods (configured in "File > Settings > Code Style > Java > Arrangement")
 | Reformat only changed code   | Enable / disable formatting for changed code only. If VCS is configured, it is used to check which lines where modified. If VCS is not configured, the code will always get reformatted
 | Compile file                 | Enable / disable compiling of the modified file. The compiler might compile other files as well
-| File path exclusions         | Add / remove file path exclusions to ignore files. The entries are Java regular expressions, and it matches the whole file name from the project root. A pattern that do not compile cannot be added to the list. Exclude 'Main.java' only in root folder: `Main\.java`. Exclude file 'Foo.java' only in folder 'src': `src/Foo\.java`. Exclude all xml files in any folder: `.*/.*\.xml`
+| File path inclusions         | Add / remove file path inclusions (by default, everything included). The Java regular expressions match the whole file name from the project root. Include only Java files: `.*\.java`. 
+| File path exclusions         | Add / remove file path exclusions to ignore files (overrides inclusions). The Java regular expressions match the whole file name from the project root. Exclude 'Main.java' only in root folder: `Main\.java`. Exclude file 'Foo.java' only in folder 'src': `src/Foo\.java`. Exclude all xml files in any folder: `.*/.*\.xml`
 
 ## Java quick fixes
 
@@ -87,6 +88,7 @@ Dat plugin do not work? You want more features? You can [ask me on twitter](http
 - [dorkbox](https://github.com/dorkbox)
 - [zhujk](https://github.com/zhujk)
 - [marcosbento](https://github.com/marcosbento)
+- [markiewb](https://github.com/markiewb)
 
 ## Licence
 

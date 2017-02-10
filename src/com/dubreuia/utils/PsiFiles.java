@@ -1,13 +1,15 @@
 package com.dubreuia.utils;
 
-import static com.dubreuia.SaveActionManager.LOGGER;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.psi.PsiFile;
+
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+
+import static com.dubreuia.SaveActionManager.LOGGER;
 
 public class PsiFiles {
 
@@ -25,23 +27,39 @@ public class PsiFiles {
         return inProject;
     }
 
-    public static boolean isPsiFileExcluded(PsiFile psiFile, Set<String> exclusions) {
-        boolean psiFileExcluded = isUrlExcluded(psiFile.getVirtualFile().getCanonicalPath(), exclusions);
+    public static boolean isIncludedAndNotExcluded(String path, Set<String> inclusions, Set<String> exclusions) {
+        return isIncluded(inclusions, path) && !isExcluded(exclusions, path);
+    }
+
+    private static boolean isExcluded(Set<String> exclusions, String path) {
+        boolean psiFileExcluded = atLeastOneMatch(path, exclusions);
         if (psiFileExcluded) {
-            LOGGER.debug("File " + psiFile.getVirtualFile().getCanonicalPath() + " excluded in " + exclusions);
+            LOGGER.debug("File " + path + " excluded in " + exclusions);
         }
         return psiFileExcluded;
     }
 
-    static boolean isUrlExcluded(String psiFileUrl, Set<String> exclusions) {
-        for (String exclusion : exclusions) {
+    private static boolean isIncluded(Set<String> inclusions, String path) {
+        if (inclusions.isEmpty()) {
+            // If no inclusion are defined, all files are allowed
+            return true;
+        }
+        boolean psiFileIncluded = atLeastOneMatch(path, inclusions);
+        if (psiFileIncluded) {
+            LOGGER.debug("File " + path + " included in " + inclusions);
+        }
+        return psiFileIncluded;
+    }
+
+    static boolean atLeastOneMatch(String psiFileUrl, Set<String> patterns) {
+        for (String pattern : patterns) {
             try {
-                Pattern pattern = Pattern.compile(REGEX_STARTS_WITH_ANY_STRING + exclusion);
-                Matcher matcher = pattern.matcher(psiFileUrl);
+                Matcher matcher = Pattern.compile(REGEX_STARTS_WITH_ANY_STRING + pattern).matcher(psiFileUrl);
                 if (matcher.matches()) {
                     return true;
                 }
             } catch (PatternSyntaxException e) {
+                // invalid patterns are ignored
                 return false;
             }
         }

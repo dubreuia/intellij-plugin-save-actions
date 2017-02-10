@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-import static com.dubreuia.utils.PsiFiles.isPsiFileExcluded;
+import static com.dubreuia.utils.PsiFiles.isIncludedAndNotExcluded;
 import static com.dubreuia.utils.PsiFiles.isPsiFileInProject;
 
 public class SaveActionManager extends FileDocumentManagerAdapter {
@@ -47,7 +47,8 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
                 project.isInitialized() &&
                 !project.isDisposed() &&
                 isPsiFileInProject(project, psiFile) &&
-                !isPsiFileExcluded(psiFile, getStorage(project).getExclusions()) &&
+                isIncludedAndNotExcluded(psiFile.getVirtualFile().getCanonicalPath(),
+                        getStorage(project).getInclusions(), getStorage(project).getExclusions()) &&
                 psiFile.getModificationStamp() != 0;
     }
 

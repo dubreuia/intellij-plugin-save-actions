@@ -7,72 +7,85 @@ import com.intellij.ui.AnActionButtonRunnable;
 import com.intellij.ui.IdeBorderFactory;
 import com.intellij.ui.ToolbarDecorator;
 import com.intellij.ui.components.JBList;
+import org.jetbrains.annotations.NotNull;
+
+import javax.swing.*;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
-import javax.swing.DefaultListModel;
-import javax.swing.JPanel;
-import org.jetbrains.annotations.NotNull;
 
-class FileMaskPanel extends JPanel {
+abstract class FileMaskPanel extends JPanel {
 
-    private static final String TEXT_TITLE_EXCLUSIONS = "File path exclusions";
+    private final SortedListModel patternModels = new SortedListModel();
 
-    private static final String TEXT_ADD_MESSAGE = "" +
-            "<html><body>" +
-            "<p>Use case sensitive Java regular expression that matches the end of the full file path.</p>" +
-            "<p>Examples:</p>" +
-            "<ul>" +
-            "<li><strong>Ignore\\.java</strong>              (exclude file 'Ignore.java' in all folders)</li>" +
-            "<li><strong>.*\\.properties</strong>            (exclude all '.properties' in all folders)</li>" +
-            "<li><strong>src/Ignore\\.java</strong>          (exclude file 'Ignore.java' in 'src' folders)</li>" +
-            "<li><strong>ignore/.*</strong>                  (exclude folder 'ignore' recursively)</li>" +
-            "<li><strong>myProject/Ignore.md</strong>        (exclude file 'Ignore.md' in project 'myProject')</li>" +
-            "</ul>" +
-            "</body></html>";
+    private final JBList patternList;
 
-    private static final String TEXT_ADD_TITLE = "Add file path exclusion regex";
+    private final JPanel patternPanel;
 
-    private static final String TEXT_EMPTY = "No file path exclusions";
+    private final String textAddMessage;
 
-    private final SortedListModel exclusionModels = new SortedListModel();
+    private final String textAddTitle;
 
-    private final JBList exclusionList;
+    private final String textEditMessage;
 
-    private final JPanel exclusionPanel;
+    private final String textEditTitle;
 
-    FileMaskPanel(Set<String> exclusions) {
-        this.exclusionList = new JBList(exclusionModels);
-        this.exclusionList.setEmptyText(TEXT_EMPTY);
-        this.exclusionPanel = ToolbarDecorator.createDecorator(exclusionList)
-                .setAddAction(getAddActionButtonRunnable(exclusions))
-                .setRemoveAction(getRemoveActionButtonRunnable(exclusions))
-                .setMoveDownAction(null)
-                .setMoveUpAction(null)
+    FileMaskPanel(Set<String> patterns, String textEmpty, String textTitle, String textAddMessage,
+                  String textAddTitle, String textEditMessage, String textEditTitle) {
+        this.textAddMessage = textAddMessage;
+        this.textAddTitle = textAddTitle;
+        this.textEditMessage = textEditMessage;
+        this.textEditTitle = textEditTitle;
+        this.patternList = new JBList(patternModels);
+        this.patternList.setEmptyText(textEmpty);
+        this.patternPanel = ToolbarDecorator.createDecorator(patternList)
+                .setAddAction(getAddActionButtonRunnable(patterns))
+                .setRemoveAction(getRemoveActionButtonRunnable(patterns))
+                .setEditAction(getEditActionButtonRunnable(patterns))
+                .disableUpDownActions()
                 .createPanel();
-        this.exclusionPanel.setBorder(IdeBorderFactory.createTitledBorder(TEXT_TITLE_EXCLUSIONS));
+        this.patternPanel.setBorder(IdeBorderFactory.createTitledBorder(textTitle));
     }
 
-    JPanel getPanel() {
-        return exclusionPanel;
-    }
-
-    void update(Set<String> exclusions) {
-        exclusionModels.clear();
-        exclusionModels.addAllSorted(exclusions);
-    }
-
-    @NotNull
-    private AnActionButtonRunnable getRemoveActionButtonRunnable(final Set<String> exclusions) {
+    private AnActionButtonRunnable getEditActionButtonRunnable(final Set<String> patterns) {
         return new AnActionButtonRunnable() {
             @Override
             public void run(AnActionButton anActionButton) {
-                for (Object object : exclusionList.getSelectedValues()) {
+                String oldValue = (String) patternList.getSelectedValue();
+                String pattern = Messages.showInputDialog(
+                        textEditMessage, textEditTitle, null, oldValue, getRegexInputValidator());
+                if (pattern != null && !pattern.equals(oldValue)) {
+                    patterns.remove(oldValue);
+                    patternModels.removeElement(oldValue);
+                    if (patterns.add(pattern)) {
+                        patternModels.addElementSorted(pattern);
+                    }
+                }
+            }
+        };
+    }
+
+
+    JPanel getPanel() {
+        return patternPanel;
+    }
+
+    void update(Set<String> patterns) {
+        patternModels.clear();
+        patternModels.addAllSorted(patterns);
+    }
+
+    @NotNull
+    private AnActionButtonRunnable getRemoveActionButtonRunnable(final Set<String> patterns) {
+        return new AnActionButtonRunnable() {
+            @Override
+            public void run(AnActionButton anActionButton) {
+                for (Object object : patternList.getSelectedValues()) {
                     String selectedValue = (String) object;
-                    exclusions.remove(selectedValue);
-                    exclusionModels.removeElement(selectedValue);
+                    patterns.remove(selectedValue);
+                    patternModels.removeElement(selectedValue);
                 }
             }
         };
@@ -80,15 +93,15 @@ class FileMaskPanel extends JPanel {
 
 
     @NotNull
-    private AnActionButtonRunnable getAddActionButtonRunnable(final Set<String> exclusions) {
+    private AnActionButtonRunnable getAddActionButtonRunnable(final Set<String> patterns) {
         return new AnActionButtonRunnable() {
             @Override
             public void run(AnActionButton anActionButton) {
-                String exclusion = Messages.showInputDialog(
-                        TEXT_ADD_MESSAGE, TEXT_ADD_TITLE, null, null, getRegexInputValidator());
-                if (exclusion != null) {
-                    if (exclusions.add(exclusion)) {
-                        exclusionModels.addElementSorted(exclusion);
+                String pattern = Messages.showInputDialog(
+                        textAddMessage, textAddTitle, null, null, getRegexInputValidator());
+                if (pattern != null) {
+                    if (patterns.add(pattern)) {
+                        patternModels.addElementSorted(pattern);
                     }
                 }
             }
@@ -102,6 +115,10 @@ class FileMaskPanel extends JPanel {
             @Override
             public boolean checkInput(String string) {
                 try {
+                    if (string == null || string.trim().isEmpty()) {
+                        //do not allow null or blank entries
+                        return false;
+                    }
                     Pattern.compile(string);
                     return true;
                 } catch (PatternSyntaxException e) {

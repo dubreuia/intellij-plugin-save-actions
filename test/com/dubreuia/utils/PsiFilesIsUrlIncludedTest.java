@@ -1,6 +1,6 @@
 package com.dubreuia.utils;
 
-import static com.dubreuia.utils.PsiFiles.isUrlExcluded;
+import static com.dubreuia.utils.PsiFiles.atLeastOneMatch;
 import java.util.ArrayList;
 import static java.util.Collections.singleton;
 import java.util.List;
@@ -61,7 +61,7 @@ public class PsiFilesIsUrlIncludedTest {
 
     @Test
     public void test() {
-        assertEquals(expected, isUrlExcluded(url, singleton(exclusion)));
+        assertEquals(expected, atLeastOneMatch(url, singleton(exclusion)));
     }
 
 }
