@@ -16,46 +16,49 @@ import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-abstract class AbstractFileMaskPanel extends JPanel {
+abstract class FileMaskPanel extends JPanel {
 
     private final SortedListModel patternModels = new SortedListModel();
 
     private final JBList patternList;
 
     private final JPanel patternPanel;
-    private final String TEXT_ADD_MESSAGE;
-    private final String TEXT_ADD_TITLE;
-    private final String TEXT_EDIT_MESSAGE;
-    private final String TEXT_EDIT_TITLE;
 
-    AbstractFileMaskPanel(Set<String> patterns, String TEXT_EMPTY, String TEXT_TITLE, String TEXT_ADD_MESSAGE, String TEXT_ADD_TITLE, String TEXT_EDIT_MESSAGE, String TEXT_EDIT_TITLE) {
-        this.TEXT_ADD_MESSAGE = TEXT_ADD_MESSAGE;
-        this.TEXT_ADD_TITLE = TEXT_ADD_TITLE;
-        this.TEXT_EDIT_MESSAGE = TEXT_EDIT_MESSAGE;
-        this.TEXT_EDIT_TITLE = TEXT_EDIT_TITLE;
+    private final String textAddMessage;
+
+    private final String textAddTitle;
+
+    private final String textEditMessage;
+
+    private final String textEditTitle;
+
+    FileMaskPanel(Set<String> patterns, String textEmpty, String textTitle, String textAddMessage,
+                  String textAddTitle, String textEditMessage, String textEditTitle) {
+        this.textAddMessage = textAddMessage;
+        this.textAddTitle = textAddTitle;
+        this.textEditMessage = textEditMessage;
+        this.textEditTitle = textEditTitle;
         this.patternList = new JBList(patternModels);
-        this.patternList.setEmptyText(TEXT_EMPTY);
+        this.patternList.setEmptyText(textEmpty);
         this.patternPanel = ToolbarDecorator.createDecorator(patternList)
                 .setAddAction(getAddActionButtonRunnable(patterns))
                 .setRemoveAction(getRemoveActionButtonRunnable(patterns))
                 .setEditAction(getEditActionButtonRunnable(patterns))
                 .disableUpDownActions()
                 .createPanel();
-        this.patternPanel.setBorder(IdeBorderFactory.createTitledBorder(TEXT_TITLE));
+        this.patternPanel.setBorder(IdeBorderFactory.createTitledBorder(textTitle));
     }
 
     private AnActionButtonRunnable getEditActionButtonRunnable(final Set<String> patterns) {
         return new AnActionButtonRunnable() {
             @Override
             public void run(AnActionButton anActionButton) {
-                final String oldValue = (String) patternList.getSelectedValue();
-
+                String oldValue = (String) patternList.getSelectedValue();
                 String pattern = Messages.showInputDialog(
-                        TEXT_EDIT_MESSAGE, TEXT_EDIT_TITLE, null, oldValue, getRegexInputValidator());
+                        textEditMessage, textEditTitle, null, oldValue, getRegexInputValidator());
                 if (pattern != null && !pattern.equals(oldValue)) {
                     patterns.remove(oldValue);
                     patternModels.removeElement(oldValue);
-
                     if (patterns.add(pattern)) {
                         patternModels.addElementSorted(pattern);
                     }
@@ -95,7 +98,7 @@ abstract class AbstractFileMaskPanel extends JPanel {
             @Override
             public void run(AnActionButton anActionButton) {
                 String pattern = Messages.showInputDialog(
-                        TEXT_ADD_MESSAGE, TEXT_ADD_TITLE, null, null, getRegexInputValidator());
+                        textAddMessage, textAddTitle, null, null, getRegexInputValidator());
                 if (pattern != null) {
                     if (patterns.add(pattern)) {
                         patternModels.addElementSorted(pattern);

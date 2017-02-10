@@ -27,6 +27,10 @@ public class PsiFiles {
         return inProject;
     }
 
+    public static boolean isIncludedAndNotExcluded(String path, Set<String> inclusions, Set<String> exclusions) {
+        return isIncluded(inclusions, path) && !isExcluded(exclusions, path);
+    }
+
     private static boolean isExcluded(Set<String> exclusions, String path) {
         boolean psiFileExcluded = atLeastOneMatch(path, exclusions);
         if (psiFileExcluded) {
@@ -37,7 +41,7 @@ public class PsiFiles {
 
     private static boolean isIncluded(Set<String> inclusions, String path) {
         if (inclusions.isEmpty()) {
-            //if no white-list is defined, all files are allowed
+            // If no inclusion are defined, all files are allowed
             return true;
         }
         boolean psiFileIncluded = atLeastOneMatch(path, inclusions);
@@ -45,10 +49,6 @@ public class PsiFiles {
             LOGGER.debug("File " + path + " included in " + inclusions);
         }
         return psiFileIncluded;
-    }
-
-    public static boolean isIncludedAndNotExcluded(String path, Set<String> inclusions, Set<String> exclusions) {
-        return isIncluded(inclusions, path) && !isExcluded(exclusions, path);
     }
 
     static boolean atLeastOneMatch(String psiFileUrl, Set<String> patterns) {

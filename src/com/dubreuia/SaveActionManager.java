@@ -49,7 +49,8 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
                 project.isInitialized() &&
                 !project.isDisposed() &&
                 isPsiFileInProject(project, psiFile) &&
-                isIncludedAndNotExcluded(psiFile.getVirtualFile().getCanonicalPath(), storage.getInclusions(), storage.getExclusions()) &&
+                isIncludedAndNotExcluded(psiFile.getVirtualFile().getCanonicalPath(),
+                        storage.getInclusions(), storage.getExclusions()) &&
                 psiFile.getModificationStamp() != 0;
     }
 

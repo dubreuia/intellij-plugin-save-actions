@@ -44,8 +44,8 @@ public class Configuration implements Configurable {
 
     private InspectionPanel inspectionPanel;
 
-    private AbstractFileMaskPanel fileMasksPanelExcl;
-    private AbstractFileMaskPanel fileMasksPanelIncl;
+    private FileMaskPanel fileMasksExclusionPanel;
+    private FileMaskPanel fileMasksInclusionPanel;
 
     @Nullable
     @Override
@@ -117,7 +117,8 @@ public class Configuration implements Configurable {
         formattingPanel = null;
         buildPanel = null;
         inspectionPanel = null;
-        fileMasksPanelExcl = null;
+        fileMasksInclusionPanel = null;
+        fileMasksExclusionPanel = null;
     }
 
     @Nls
@@ -139,25 +140,31 @@ public class Configuration implements Configurable {
         formattingPanel = new FormattingPanel(checkboxes);
         buildPanel = new BuildPanel(checkboxes);
         inspectionPanel = new InspectionPanel(checkboxes);
-        fileMasksPanelExcl = new FileMaskExclusionPanel(exclusions);
-        fileMasksPanelIncl = new FileMaskInclusionPanel(inclusions);
-        return initPanel(
+        fileMasksInclusionPanel = new FileMaskInclusionPanel(inclusions);
+        fileMasksExclusionPanel = new FileMaskExclusionPanel(exclusions);
+        return initRootPanel(
                 formattingPanel.getPanel(),
                 buildPanel.getPanel(),
                 inspectionPanel.getPanel(),
-                fileMasksPanelExcl.getPanel(), fileMasksPanelIncl.getPanel()
+                fileMasksInclusionPanel.getPanel(),
+                fileMasksExclusionPanel.getPanel()
         );
     }
 
-    private JPanel initPanel(JPanel actions, JPanel build, JPanel inspections, JPanel fileMasksExclusions, JPanel fileMasksInclusions) {
+    private JPanel initRootPanel(JPanel actions, JPanel build, JPanel inspections, JPanel fileMasksInclusions,
+                                 JPanel fileMasksExclusions) {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
         panel.add(checkboxes.get(activate));
         panel.add(actions);
         panel.add(build);
         panel.add(inspections);
-        panel.add(fileMasksInclusions);
-        panel.add(fileMasksExclusions);
+
+        JPanel fileMaskPanel = new JPanel();
+        fileMaskPanel.setLayout(new BoxLayout(fileMaskPanel, BoxLayout.LINE_AXIS));
+        fileMaskPanel.add(fileMasksInclusions);
+        fileMaskPanel.add(fileMasksExclusions);
+        panel.add(fileMaskPanel);
         return panel;
     }
 
@@ -174,13 +181,13 @@ public class Configuration implements Configurable {
     private void updateExclusions() {
         exclusions.clear();
         exclusions.addAll(storage.getExclusions());
-        fileMasksPanelExcl.update(exclusions);
+        fileMasksExclusionPanel.update(exclusions);
     }
 
     private void updateInclusions() {
         inclusions.clear();
         inclusions.addAll(storage.getInclusions());
-        fileMasksPanelIncl.update(inclusions);
+        fileMasksInclusionPanel.update(inclusions);
     }
 
 }
