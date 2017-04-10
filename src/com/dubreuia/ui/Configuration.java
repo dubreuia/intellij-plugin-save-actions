@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.Set;
 
 import static com.dubreuia.model.Action.activate;
+import static com.dubreuia.model.Action.ignoreCompileErrors;
 import static com.dubreuia.model.Action.reformat;
 import static com.dubreuia.model.Action.reformatChangedCode;
 
@@ -161,6 +162,7 @@ public class Configuration implements Configurable {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
         panel.add(checkboxes.get(activate));
+        panel.add(checkboxes.get(ignoreCompileErrors));
         panel.add(actions);
         panel.add(build);
         panel.add(inspections);

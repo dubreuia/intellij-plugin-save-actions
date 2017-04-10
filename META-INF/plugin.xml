@@ -2,7 +2,7 @@
 
     <id>com.dubreuia</id>
     <name>Save Actions</name>
-    <version>0.14</version>
+    <version>0.15</version>
     <vendor email="dubreuil.alex@gmail.com" url="https://www.github.com/dubreuia">Alexandre DuBreuil</vendor>
 
     <description><![CDATA[
@@ -60,6 +60,7 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        Add option to "ignore compile errors" (disabled by default)
         Release notes: <a href="https://github.com/dubreuia/intellij-plugin-save-actions/releases">https://github.com/dubreuia/intellij-plugin-save-actions/releases</a>
     ]]>
     </change-notes>
