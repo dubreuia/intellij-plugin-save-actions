@@ -52,6 +52,7 @@ The configurations are located in "File > Settings > Other Settings > Save Actio
 | Name                         | Description
 | ---                          | ---
 | Activate save actions        | Enable / disable the plugin
+| No action if compile errors  | Enable / disable no action if there are compile errors. Applied to each file individually
 | Organize imports             | Enable / disable import organization (configured in "File > Settings > Code Style > Java > Imports")
 | Reformat file                | Enable / disable formatting (configured in "File > Settings > Code Style"). See "Reformat only changed code" for more options
 | Rearrange fields and methods | Enable / disable re-ordering of fields and methods (configured in "File > Settings > Code Style > Java > Arrangement")
@@ -80,7 +81,7 @@ The configurations are located in "File > Settings > Other Settings > Save Actio
 
 ## Bugs / features
 
-Dat plugin do not work? You want more features? You can [ask me on twitter](https://twitter.com/dubreuia) or [create an issue on github](https://github.com/dubreuia/intellij-plugin-save-actions/issues).
+The plugin does not work? You want more features? You can [ask me on twitter](https://twitter.com/dubreuia) or [create an issue on github](https://github.com/dubreuia/intellij-plugin-save-actions/issues).
 
 ## Contributors
 
