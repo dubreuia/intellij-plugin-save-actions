@@ -10,17 +10,15 @@ import com.intellij.openapi.fileEditor.FileDocumentManagerAdapter;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
 import com.intellij.psi.PsiDocumentManager;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiErrorElement;
 import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiRecursiveElementWalkingVisitor;
+import com.intellij.util.PsiErrorElementUtil;
 import org.apache.log4j.Level;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.Set;
 
-import static com.dubreuia.model.Action.ignoreCompileErrors;
+import static com.dubreuia.model.Action.noActionIfCompileErrors;
 import static com.dubreuia.utils.PsiFiles.isIncludedAndNotExcluded;
 import static com.dubreuia.utils.PsiFiles.isPsiFileInProject;
 
@@ -37,33 +35,9 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
         for (Project project : ProjectManager.getInstance().getOpenProjects()) {
             PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
             if (isPsiFileEligible(project, psiFile)) {
-
-                if (!getStorage(project).isEnabled(ignoreCompileErrors)) {
-                    if (hasErrors(psiFile)) {
-                        continue;
-                    }
-                }
                 processPsiFile(project, psiFile);
             }
         }
-    }
-
-    @NotNull
-    private boolean hasErrors(PsiFile psiFile) {
-        final AtomicBoolean hasErrors = new AtomicBoolean(false);
-
-        psiFile.accept(new PsiRecursiveElementWalkingVisitor() {
-            @Override
-            public void visitElement(PsiElement element) {
-                super.visitElement(element);
-                //FIXME does PsiErrorElementUtil.hasErrors() the same?
-                if (!element.isValid() || !(element instanceof PsiErrorElement)) {
-                    //contains compile-errors, which may lead to strange results in formatting
-                    hasErrors.set(true);
-                }
-            }
-        });
-        return hasErrors.get();
     }
 
     /**
@@ -73,12 +47,34 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
      */
     private boolean isPsiFileEligible(Project project, PsiFile psiFile) {
         return psiFile != null &&
-                project.isInitialized() &&
-                !project.isDisposed() &&
+                isProjectValid(project) &&
                 isPsiFileInProject(project, psiFile) &&
-                isIncludedAndNotExcluded(psiFile.getVirtualFile().getCanonicalPath(),
-                        getStorage(project).getInclusions(), getStorage(project).getExclusions()) &&
-                psiFile.getModificationStamp() != 0;
+                isPsiFileValid(project, psiFile) &&
+                isPsiFileIncluded(project, psiFile) &&
+                isPsiFileFresh(psiFile);
+    }
+
+    private boolean isProjectValid(Project project) {
+        return project.isInitialized() &&
+                !project.isDisposed();
+    }
+
+    private boolean isPsiFileValid(Project project, PsiFile psiFile) {
+        if (getStorage(project).isEnabled(noActionIfCompileErrors)) {
+            return !PsiErrorElementUtil.hasErrors(project, psiFile.getVirtualFile());
+        }
+        return true;
+    }
+
+    private boolean isPsiFileIncluded(Project project, PsiFile psiFile) {
+        String canonicalPath = psiFile.getVirtualFile().getCanonicalPath();
+        Set<String> inclusions = getStorage(project).getInclusions();
+        Set<String> exclusions = getStorage(project).getExclusions();
+        return isIncludedAndNotExcluded(canonicalPath, inclusions, exclusions);
+    }
+
+    private boolean isPsiFileFresh(PsiFile psiFile) {
+        return psiFile.getModificationStamp() != 0;
     }
 
     private void processPsiFile(Project project, PsiFile psiFile) {

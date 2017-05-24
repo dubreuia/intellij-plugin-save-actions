@@ -4,7 +4,7 @@ public enum Action {
 
     activate("Activate save actions (before saving each file, performs the configured actions below)", true),
 
-    ignoreCompileErrors("Ignore compile errors", false),
+    noActionIfCompileErrors("No action if compile errors", false),
 
     organizeImports("Organize imports", true),
 
@@ -48,4 +48,5 @@ public enum Action {
     public String getText() {
         return text;
     }
+
 }
