@@ -1,6 +1,7 @@
 package com.dubreuia.processors;
 
 import com.dubreuia.model.Storage;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vcs.changes.ChangeListManager;
 import com.intellij.psi.PsiFile;
@@ -25,7 +26,12 @@ class ReformatCodeProcessor extends com.intellij.codeInsight.actions.ReformatCod
     @Override
     public void writeToFile() {
         if (storage.isEnabled(reformat)) {
-            super.run();
+            ApplicationManager.getApplication().invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    ReformatCodeProcessor.this.run();
+                }
+            }, myProject.getDisposed());
         }
     }
 

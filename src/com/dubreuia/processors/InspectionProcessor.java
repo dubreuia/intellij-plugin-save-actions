@@ -11,6 +11,7 @@ import com.intellij.codeInspection.QuickFix;
 import com.intellij.codeInspection.ex.InspectionToolWrapper;
 import com.intellij.codeInspection.ex.LocalInspectionToolWrapper;
 import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.command.CommandProcessor;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
@@ -76,13 +77,45 @@ class InspectionProcessor implements Processor {
             }
         }
 
-        private void writeQuickFixes(ProblemDescriptor problemDescriptor, QuickFix[] fixes) {
-            for (QuickFix fix : fixes) {
+        private void writeQuickFixes(final ProblemDescriptor problemDescriptor, QuickFix[] fixes) {
+            for (final QuickFix fix : fixes) {
                 if (fix != null) {
-                    fix.applyFix(project, problemDescriptor);
+                    Runnable runnableInvokeLate = getRunnableInvokeLate(problemDescriptor, fix);
+                    ApplicationManager.getApplication().invokeLater(runnableInvokeLate, project.getDisposed());
                 }
             }
         }
+
+        private Runnable getRunnableInvokeLate(final ProblemDescriptor problemDescriptor, final QuickFix fix) {
+            return new Runnable() {
+                @Override
+                public void run() {
+                    Runnable runnableCommandProcessor = getRunnableCommandProcessor(fix, problemDescriptor);
+                    CommandProcessor.getInstance().executeCommand(project, runnableCommandProcessor, null, null);
+                }
+            };
+        }
+
+        private Runnable getRunnableCommandProcessor(final QuickFix fix, final ProblemDescriptor problemDescriptor) {
+            return new Runnable() {
+                @Override
+                public void run() {
+                    Runnable runnableWriteAction = getRunnableWriteAction(fix, problemDescriptor);
+                    ApplicationManager.getApplication().runWriteAction(runnableWriteAction);
+                }
+            };
+        }
+
+        private Runnable getRunnableWriteAction(final QuickFix fix, final ProblemDescriptor problemDescriptor) {
+            return new Runnable() {
+                @Override
+                public void run() {
+                    fix.applyFix(project, problemDescriptor);
+                }
+            };
+        }
+
     }
+
 
 }
