@@ -12,6 +12,7 @@ import com.intellij.codeInspection.ex.InspectionToolWrapper;
 import com.intellij.codeInspection.ex.LocalInspectionToolWrapper;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.command.WriteCommandAction;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 
@@ -20,6 +21,8 @@ import java.util.List;
 import static com.dubreuia.processors.ProcessorMessage.toStringBuilder;
 
 class InspectionProcessor implements Processor {
+
+    private static final Logger LOGGER = Logger.getInstance(InspectionProcessor.class);
 
     private final Project project;
 
@@ -79,7 +82,11 @@ class InspectionProcessor implements Processor {
         private void writeQuickFixes(ProblemDescriptor problemDescriptor, QuickFix[] fixes) {
             for (QuickFix fix : fixes) {
                 if (fix != null) {
-                    fix.applyFix(project, problemDescriptor);
+                    try {
+                        fix.applyFix(project, problemDescriptor);
+                    } catch (Exception e) {
+                        LOGGER.error(e.getMessage(), e);
+                    }
                 }
             }
         }
