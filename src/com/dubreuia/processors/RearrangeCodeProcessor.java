@@ -1,7 +1,6 @@
 package com.dubreuia.processors;
 
 import com.dubreuia.model.Storage;
-import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 
@@ -22,12 +21,7 @@ class RearrangeCodeProcessor extends com.intellij.codeInsight.actions.RearrangeC
     @Override
     public void writeToFile() {
         if (storage.isEnabled(rearrange)) {
-            ApplicationManager.getApplication().invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    RearrangeCodeProcessor.this.run();
-                }
-            }, myProject.getDisposed());
+            super.run();
         }
     }
 
