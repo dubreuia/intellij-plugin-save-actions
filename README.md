@@ -24,6 +24,7 @@ Supports configurable, Eclipse like, save actions, including "organize imports",
 - Remove final from private method
 - Remove unnecessary semicolon
 - Add missing @Override annotations
+- Use blocks in if/while/for statements
 
 ### Other
 
@@ -73,6 +74,7 @@ The configurations are located in "File > Settings > Other Settings > Save Actio
 | Remove final from private method          | Will remove final for private method
 | Remove unnecessary semicolon              | Will remove unnecessary semicolon
 | Add missing @Override annotations         | Will add missing @Override annotations to all inherited methods
+| Use blocks in if/while/for statements     | Will add missing braces to any if, while or for statements without braces
 
 ## Files location
 
