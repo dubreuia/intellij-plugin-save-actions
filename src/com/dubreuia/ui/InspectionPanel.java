@@ -16,6 +16,7 @@ import static com.dubreuia.model.Action.missingOverrideAnnotation;
 import static com.dubreuia.model.Action.suppressAnnotation;
 import static com.dubreuia.model.Action.unnecessarySemicolon;
 import static com.dubreuia.model.Action.unqualifiedFieldAccess;
+import static com.dubreuia.model.Action.useBlocks;
 
 class InspectionPanel {
 
@@ -41,6 +42,7 @@ class InspectionPanel {
             panel.add(checkboxes.get(finalPrivateMethod));
             panel.add(checkboxes.get(unnecessarySemicolon));
             panel.add(checkboxes.get(missingOverrideAnnotation));
+            panel.add(checkboxes.get(useBlocks));
             panel.add(Box.createHorizontalGlue());
             panel.setMinimumSize(new Dimension(Short.MAX_VALUE, 0));
         }

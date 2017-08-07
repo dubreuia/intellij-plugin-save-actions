@@ -30,7 +30,9 @@ public enum Action {
 
     unnecessarySemicolon("Remove unnecessary semicolon", false),
 
-    missingOverrideAnnotation("Add missing @Override annotations", false);
+    missingOverrideAnnotation("Add missing @Override annotations", false),
+
+    useBlocks("Use blocks in if/while/for statements", false);
 
     private final String text;
 
