@@ -37,6 +37,7 @@
         <li>Remove final from private method</li>
         <li>Remove unnecessary semicolon</li>
         <li>Add missing @Override annotations</li>
+        <li>Use blocks in if/while/for statement</li>
       </ul>
 
       <p>Other:</p>
