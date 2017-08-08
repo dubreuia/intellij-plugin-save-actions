@@ -14,7 +14,7 @@ Supports configurable, Eclipse like, save actions, including "organize imports",
 
 - Compile file
 
-### Quick fixes
+### Quick fixes (Java only)
 
 - Add final to local variable
 - Add final to field
@@ -34,7 +34,13 @@ Supports configurable, Eclipse like, save actions, including "organize imports",
 
 ## Compatibility
 
-It works in Intellij IDEA Community Edition build 135+, and is not expected to work in other products. See issue [#18](https://github.com/dubreuia/intellij-plugin-save-actions/issues/18) for a beta packaging that works in all products.
+Built with IntelliJ IDEA IU-162.1447.26, JDK 1.6, those are the currently supported products, and is not expected to work in other products:
+
+- PyCharm
+- PHPStorm
+- AndroidStudio (partial, exception quick fixes do not work)
+
+See issue [#18](https://github.com/dubreuia/intellij-plugin-save-actions/issues/18) for a beta packaging that you can try in other products.
 
 ## Installation
 
@@ -76,6 +82,27 @@ The configurations are located in "File > Settings > Other Settings > Save Actio
 | Add missing @Override annotations         | Will add missing @Override annotations to all inherited methods
 | Use blocks in if/while/for statements     | Will add missing braces to any if, while or for statements without braces
 
+## Contributing
+
+To contribute:
+
+- Submit a PR without modifing the META-INF/plugin.xml file (no version change)
+
+Then the maintainer will:
+
+- Review the change, update the version, merge to master
+- Build the plugin with Intellij IDEA and test it (see compatibility section)
+- Create a new release in https://github.com/dubreuia/intellij-plugin-save-actions/releases
+- Upload the plugin to [JetBrains Plugins Repository](https://plugins.jetbrains.com/) 
+
+## Contributors
+
+- [markiewb](https://github.com/markiewb)
+- [krasa](https://github.com/krasa)
+- [dorkbox](https://github.com/dorkbox)
+- [zhujk](https://github.com/zhujk)
+- [marcosbento](https://github.com/marcosbento)
+
 ## Files location
 
 - **idea.log**: The log file the save actions plugin writes in. It contains debug information, prefixed with `com.dubreuia.SaveActionManager`. If you are using default locations, it would be in `~/.IntelliJIdeaVERSION/system/log/idea.log`.
@@ -84,14 +111,6 @@ The configurations are located in "File > Settings > Other Settings > Save Actio
 ## Bugs / features
 
 The plugin does not work? You want more features? You can [ask me on twitter](https://twitter.com/dubreuia) or [create an issue on github](https://github.com/dubreuia/intellij-plugin-save-actions/issues).
-
-## Contributors
-
-- [krasa](https://github.com/krasa)
-- [dorkbox](https://github.com/dorkbox)
-- [zhujk](https://github.com/zhujk)
-- [marcosbento](https://github.com/marcosbento)
-- [markiewb](https://github.com/markiewb)
 
 ## Licence
 
