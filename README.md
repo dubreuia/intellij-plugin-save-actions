@@ -55,7 +55,7 @@ The configurations are located in "File > Settings > Other Settings > Save Actio
 | File path inclusions         | Add / remove file path inclusions (by default, everything included). The Java regular expressions match the whole file name from the project root. Include only Java files: `.*\.java`. 
 | File path exclusions         | Add / remove file path exclusions to ignore files (overrides inclusions). The Java regular expressions match the whole file name from the project root. Exclude 'Main.java' only in root folder: `Main\.java`. Exclude file 'Foo.java' only in folder 'src': `src/Foo\.java`. Exclude all xml files in any folder: `.*/.*\.xml`
 
-## Java quick fixes
+### Java quick fixes
 
 If a quick fix adds something that is removed by another quick fix, the removal wins.
 
