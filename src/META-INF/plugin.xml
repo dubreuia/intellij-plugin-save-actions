@@ -8,57 +8,12 @@
     <vendor email="dubreuil.alex@gmail.com" url="https://www.github.com/dubreuia">Alexandre DuBreuil</vendor>
 
     <description><![CDATA[
-      <p>Supports configurable, Eclipse like, save actions, including "organize imports", "reformat code", "rearrange code", "compile file" and some quick fixes like "add / remove 'this' qualifier", etc. The plugin executes the configured actions when the file is synchronised (or saved) on disk.</p>
-
-      <p><strong>Available save actions</strong></p>
-
-      <p>Code formatting:</p>
+      <p>Supports configurable, Eclipse like, save actions, including "organize imports", "reformat code", "rearrange code", "compile file" and some quick fixes for Java like "add / remove 'this' qualifier", etc. The plugin executes the configured actions when the file is synchronised (or saved) on disk.</p>
 
       <ul>
-        <li>Organize imports</li>
-        <li>Reformat code (only changed text or all)</li>
-        <li>Rearrange code (reorder methods, fields, etc.)</li>
-      </ul>
-
-      <p>Build:</p>
-
-      <ul>
-        <li>Compile file</li>
-      </ul>
-
-      <p>Quick fixes:</p>
-
-      <ul>
-        <li>Add final to local variable</li>
-        <li>Add final to field</li>
-        <li>Remove explicit generic type for diamond</li>
-        <li>Qualify field access with this</li>
-        <li>Remove unused suppress warning annotation</li>
-        <li>Remove final from private method</li>
-        <li>Remove unnecessary semicolon</li>
-        <li>Add missing @Override annotations</li>
-        <li>Use blocks in if/while/for statement</li>
-      </ul>
-
-      <p>Other:</p>
-
-      <ul>
-        <li>File inclusion / exclusion with regex support</li>
-        <li>Works on any file type Intellij IDEA can reformat (Java, XML, etc.)</li>
-        <li>Simple option page to activate / deactivate actions</li>
-      </ul>
-
-      <p><strong>Compatibility</strong></p>
-
-      <p>It works in Intellij IDEA Community Edition build 135+, and is not expected to work in other products. See issue <a href="https://github.com/dubreuia/intellij-plugin-save-actions/issues/18">#18</a> for a beta packaging that works in all products.</p>
-
-      <p><strong>Resources</strong></p>
-
-      <ul>
-        <li>code: <a href="https://github.com/dubreuia/intellij-plugin-save-actions">https://github.com/dubreuia/intellij-plugin-save-actions</a></li>
-        <li>documentation: <a href="https://github.com/dubreuia/intellij-plugin-save-actions/blob/master/README.md">https://github.com/dubreuia/intellij-plugin-save-actions/blob/master/README.md</a></li>
-        <li>issues: <a href="https://github.com/dubreuia/intellij-plugin-save-actions/issues">https://github.com/dubreuia/intellij-plugin-save-actions/issues</a></li>
-        <li>questions: <a href="https://twitter.com/dubreuia">https://twitter.com/dubreuia</a></li>
+        <li><a href="https://github.com/dubreuia/intellij-plugin-save-actions">Github README</a></li>
+        <li><a href="https://github.com/dubreuia/intellij-plugin-save-actions/issues">Github issues</a></li>
+        <li><a href="https://twitter.com/dubreuia">Twitter for questions or comments</a></li>
       <ul>
     ]]></description>
 

@@ -4,38 +4,22 @@ Supports configurable, Eclipse like, save actions, including "organize imports",
 
 ## Features
 
-### Code formatting
-
 - Organize imports
 - Reformat code (only changed text or all)
 - Rearrange code (reorder methods, fields, etc.)
-
-### Build
-
 - Compile file
-
-### Quick fixes (Java only)
-
-- Add final to local variable
-- Add final to field
-- Remove explicit generic type for diamond
-- Qualify field access with this
-- Remove unused suppress warning annotation
-- Remove final from private method
-- Remove unnecessary semicolon
-- Add missing @Override annotations
-- Use blocks in if/while/for statements
-
-### Other
-
 - File inclusion / exclusion with regex support
 - Works on any file type Intellij IDEA can reformat (Java, XML, etc.)
 - Simple option page to activate / deactivate actions
+- Java [quick fixes](https://github.com/dubreuia/intellij-plugin-save-actions/#java-quick-fixes)
+
+### Other
 
 ## Compatibility
 
 Built with IntelliJ IDEA IU-162.1447.26, JDK 1.6, those are the currently supported products, and is not expected to work in other products:
 
+- Intellij IDEA
 - PyCharm
 - PHPStorm
 - AndroidStudio (partial, exception quick fixes do not work)
@@ -70,17 +54,21 @@ The configurations are located in "File > Settings > Other Settings > Save Actio
 
 ## Java quick fixes
 
-| Name                                      | Description
-| ---                                       | ---
-| Add final to local variable               | Will add the final modifier to any local variable (not parameters or fields)
-| Add final to field                        | Will add the final modifier to any class fields (not parameters or local variables)
-| Remove explicit generic type for diamond  | Will remove unused right side generic types for Java 7 diamond operator. This `List<String> list = new ArrayList<String>()` becomes `List<String> list = new ArrayList<>()`
-| Qualify field access with this            | Will qualify all field access with this
-| Remove unused suppress warning annotation | Will remove any unused @SuppressWarning annotations
-| Remove final from private method          | Will remove final for private method
-| Remove unnecessary semicolon              | Will remove unnecessary semicolon
-| Add missing @Override annotations         | Will add missing @Override annotations to all inherited methods
-| Use blocks in if/while/for statements     | Will add missing braces to any if, while or for statements without braces
+If a quick fix adds something that is removed by another quickfix, the removal wins.
+
+| Name                                                    | Description
+| ---                                                     | ---
+| Add final to field                                      | Will add the final modifier to fields
+| Add final to local variable or parameter                | Will add the final modifier to local variable and parameters
+| Add this to field access                                | Will qualify all field access with this
+| Add missing @Override annotations                       | Will add missing @Override annotations to all inherited methods
+| Add blocks in if/while/for statements                   | Will add missing braces to any if, while or for statements without braces
+| Remove unnecessary this                                 | Will remove unnecessary this field access
+| Remove final from private method                        | Will remove final for private method
+| Remove unnecessary final to local variable or parameter | Will remove unnecessary final to local variable or parameter
+| Remove explicit generic type for diamond                | Will remove unused right side generic types for Java 7 diamond operator. This `List<String> list = new ArrayList<String>()` becomes `List<String> list = new ArrayList<>()`
+| Remove unused suppress warning annotation               | Will remove any unused @SuppressWarning annotations
+| Remove unnecessary semicolon                            | Will remove unnecessary semicolon
 
 ## Contributing
 

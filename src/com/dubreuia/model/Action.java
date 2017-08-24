@@ -2,6 +2,8 @@ package com.dubreuia.model;
 
 public enum Action {
 
+    // Global
+
     activate("Activate save actions (before saving each file, performs the configured actions below)", true),
 
     noActionIfCompileErrors("No action if compile errors", false),
@@ -14,25 +16,33 @@ public enum Action {
 
     rearrange("Rearrange fields and methods (configured in \"Editor > Code Style > (...) > Arrangement\")", false),
 
+    // Build
+
     compile("Compile file", false),
 
-    localCanBeFinal("Add final to local variable", false),
+    // Fixes
 
     fieldCanBeFinal("Add final to field", false),
 
-    explicitTypeCanBeDiamond("Remove explicit generic type for diamond", false),
+    localCanBeFinal("Add final to local variable", false),
 
-    unqualifiedFieldAccess("Qualify field access with this", false),
-
-    suppressAnnotation("Remove unused suppress warning annotation", false),
-
-    finalPrivateMethod("Remove final from private method", false),
-
-    unnecessarySemicolon("Remove unnecessary semicolon", false),
+    unqualifiedFieldAccess("Add this to field access", false),
 
     missingOverrideAnnotation("Add missing @Override annotations", false),
 
-    useBlocks("Use blocks in if/while/for statements", false);
+    useBlocks("Add blocks in if/while/for statements", false),
+
+    unnecessaryThis("Remove unnecessary this", false),
+
+    finalPrivateMethod("Remove final from private method", false),
+
+    unnecessaryFinalOnLocalVariableOrParameter("Remove unnecessary final to local variable or parameter", false),
+
+    explicitTypeCanBeDiamond("Remove explicit generic type for diamond", false),
+
+    suppressAnnotation("Remove unused suppress warning annotation", false),
+
+    unnecessarySemicolon("Remove unnecessary semicolon", false),;
 
     private final String text;
 

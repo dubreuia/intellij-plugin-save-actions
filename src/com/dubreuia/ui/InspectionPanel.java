@@ -14,7 +14,9 @@ import static com.dubreuia.model.Action.finalPrivateMethod;
 import static com.dubreuia.model.Action.localCanBeFinal;
 import static com.dubreuia.model.Action.missingOverrideAnnotation;
 import static com.dubreuia.model.Action.suppressAnnotation;
+import static com.dubreuia.model.Action.unnecessaryFinalOnLocalVariableOrParameter;
 import static com.dubreuia.model.Action.unnecessarySemicolon;
+import static com.dubreuia.model.Action.unnecessaryThis;
 import static com.dubreuia.model.Action.unqualifiedFieldAccess;
 import static com.dubreuia.model.Action.useBlocks;
 
@@ -34,15 +36,17 @@ class InspectionPanel {
         if (javaEnabled) {
             panel.setBorder(IdeBorderFactory.createTitledBorder(TEXT_TITLE_INSPECTIONS));
             panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
-            panel.add(checkboxes.get(localCanBeFinal));
             panel.add(checkboxes.get(fieldCanBeFinal));
-            panel.add(checkboxes.get(explicitTypeCanBeDiamond));
+            panel.add(checkboxes.get(localCanBeFinal));
             panel.add(checkboxes.get(unqualifiedFieldAccess));
-            panel.add(checkboxes.get(suppressAnnotation));
-            panel.add(checkboxes.get(finalPrivateMethod));
-            panel.add(checkboxes.get(unnecessarySemicolon));
             panel.add(checkboxes.get(missingOverrideAnnotation));
             panel.add(checkboxes.get(useBlocks));
+            panel.add(checkboxes.get(unnecessaryThis));
+            panel.add(checkboxes.get(finalPrivateMethod));
+            panel.add(checkboxes.get(unnecessaryFinalOnLocalVariableOrParameter));
+            panel.add(checkboxes.get(explicitTypeCanBeDiamond));
+            panel.add(checkboxes.get(suppressAnnotation));
+            panel.add(checkboxes.get(unnecessarySemicolon));
             panel.add(Box.createHorizontalGlue());
             panel.setMinimumSize(new Dimension(Short.MAX_VALUE, 0));
         }
