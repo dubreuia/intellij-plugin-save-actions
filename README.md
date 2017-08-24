@@ -86,7 +86,7 @@ Then the maintainer will:
 - Create a new release in https://github.com/dubreuia/intellij-plugin-save-actions/releases
 - Upload the plugin to [JetBrains Plugins Repository](https://plugins.jetbrains.com/) 
 
-## Contributors
+### Contributors
 
 - [markiewb](https://github.com/markiewb)
 - [krasa](https://github.com/krasa)
