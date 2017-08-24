@@ -13,8 +13,6 @@ Supports configurable, Eclipse like, save actions, including "organize imports",
 - Simple option page to activate / deactivate actions
 - Java [quick fixes](https://github.com/dubreuia/intellij-plugin-save-actions/#java-quick-fixes)
 
-### Other
-
 ## Compatibility
 
 Built with IntelliJ IDEA IU-162.1447.26, JDK 1.6, those are the currently supported products, and is not expected to work in other products:
@@ -54,7 +52,7 @@ The configurations are located in "File > Settings > Other Settings > Save Actio
 
 ## Java quick fixes
 
-If a quick fix adds something that is removed by another quickfix, the removal wins.
+If a quick fix adds something that is removed by another quick fix, the removal wins.
 
 | Name                                                    | Description
 | ---                                                     | ---
