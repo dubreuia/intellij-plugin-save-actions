@@ -2,16 +2,20 @@
 
 Supports configurable, Eclipse like, save actions, including "organize imports", "reformat code", "rearrange code", "compile file" and some quick fixes like "add / remove 'this' qualifier", etc. The plugin executes the configured actions when the file is synchronised (or saved) on disk.
 
+Using the save actions plugin makes your code cleaner and more uniform across your code base by enforcing your code style and code rules every time you save. The settings file (see [files location](https://github.com/dubreuia/intellij-plugin-save-actions#files-location)) can be shared in your development team so that every developer has the same configuration.
+
+The code style applied by the save actions plugin is the one configured your settings at "File > Settings > Editor > Code Style". For some languages, custom formatter may also be triggered by the save actions plugin. For example for Dart developers, enable "Use the dartfmt tool when formatting the whole file" option in "File > Settings > Editor > Code Style > Dart > Dartfmt".
+
 ## Features
 
 - Organize imports
-- Reformat code (only changed text or all)
+- Reformat code (whole file or only changed text)
 - Rearrange code (reorder methods, fields, etc.)
-- Compile file
-- File inclusion / exclusion with regex support
-- Works on any file type Intellij IDEA can reformat (Java, XML, etc.)
-- Simple option page to activate / deactivate actions
+- Include / exclude files with regex support
+- Works on any file type Intellij can reformat (Java, XML, etc.)
 - Java [quick fixes](https://github.com/dubreuia/intellij-plugin-save-actions/#java-quick-fixes)
+
+![Save actions plugin settings page](https://github.com/dubreuia/intellij-plugin-save-actions/blob/master/docs/intellij-save-actions-plugin-settings-page.png)
 
 ## Compatibility
 
