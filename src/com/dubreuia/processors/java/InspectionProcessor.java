@@ -44,7 +44,7 @@ class InspectionProcessor implements Processor {
     }
 
     @Override
-    public void writeToFile() {
+    public void run() {
         if (storage.isEnabled(action)) {
             ApplicationManager.getApplication().invokeLater(new Runnable() {
                 @Override

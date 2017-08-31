@@ -22,7 +22,7 @@ public class PsiFiles {
     public static boolean isPsiFileInProject(Project project, PsiFile file) {
         boolean inProject = ProjectRootManager.getInstance(project).getFileIndex().isInContent(file.getVirtualFile());
         if (!inProject) {
-            LOGGER.debug("File " + file.getVirtualFile().getCanonicalPath() + " not in current project");
+            LOGGER.debug("File " + file.getVirtualFile().getCanonicalPath() + " not in current project " + project);
         }
         return inProject;
     }

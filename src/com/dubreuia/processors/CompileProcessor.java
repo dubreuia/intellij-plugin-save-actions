@@ -30,7 +30,7 @@ class CompileProcessor implements Processor {
     }
 
     @Override
-    public void writeToFile() {
+    public void run() {
         if (storage.isEnabled(compile)) {
             ApplicationManager.getApplication().invokeLater(new Runnable() {
                 @Override

@@ -15,6 +15,7 @@ import com.intellij.util.PsiErrorElementUtil;
 import org.apache.log4j.Level;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -22,14 +23,17 @@ import static com.dubreuia.model.Action.noActionIfCompileErrors;
 import static com.dubreuia.utils.PsiFiles.isIncludedAndNotExcluded;
 import static com.dubreuia.utils.PsiFiles.isPsiFileInProject;
 import static java.util.Collections.sort;
+import static java.util.Collections.synchronizedList;
 
 /**
  * Event handler class, instanciated by {@link Component}. The {@link #getSaveActionsProcessors(Project, PsiFile)}
- * returns the global processors (not java specific).
+ * returns the global processors (not java specific). The list {@link #runningProcessors} is shared between instances
  */
 public class SaveActionManager extends FileDocumentManagerAdapter {
 
     public static final Logger LOGGER = Logger.getInstance(SaveActionManager.class);
+
+    private static List<Processor> runningProcessors = synchronizedList(new ArrayList<Processor>());
 
     static {
         LOGGER.setLevel(Level.DEBUG);
@@ -37,12 +41,14 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
 
     @Override
     public void beforeDocumentSaving(@NotNull Document document) {
+        LOGGER.debug("Running processors before actions " + runningProcessors);
         for (Project project : ProjectManager.getInstance().getOpenProjects()) {
             PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
             if (isPsiFileEligible(project, psiFile)) {
                 processPsiFile(project, psiFile);
             }
         }
+        LOGGER.debug("Running processors after actions " + runningProcessors);
     }
 
     /**
@@ -91,7 +97,19 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
         List<Processor> processors = getSaveActionsProcessors(project, psiFile);
         getLogger().debug("Running processors " + processors + ", file " + psiFile + ", project " + project);
         for (Processor processor : processors) {
-            processor.writeToFile();
+            runProcessor(processor);
+        }
+    }
+
+    private void runProcessor(Processor processor) {
+        if (runningProcessors.contains(processor)) {
+            return;
+        }
+        try {
+            runningProcessors.add(processor);
+            processor.run();
+        } finally {
+            runningProcessors.remove(processor);
         }
     }
 

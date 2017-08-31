@@ -22,7 +22,7 @@ class OptimizeImportsProcessor extends com.intellij.codeInsight.actions.Optimize
     }
 
     @Override
-    public void writeToFile() {
+    public void run() {
         if (storage.isEnabled(organizeImports)) {
             try {
                 super.run();

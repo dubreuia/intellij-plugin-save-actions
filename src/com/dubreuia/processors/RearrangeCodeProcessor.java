@@ -78,7 +78,7 @@ class RearrangeCodeProcessor extends com.intellij.codeInsight.actions.RearrangeC
     }
 
     @Override
-    public void writeToFile() {
+    public void run() {
         if (storage.isEnabled(rearrange)) {
             try {
                 super.run();

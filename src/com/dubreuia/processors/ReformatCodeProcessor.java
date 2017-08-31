@@ -26,7 +26,7 @@ class ReformatCodeProcessor extends com.intellij.codeInsight.actions.ReformatCod
     }
 
     @Override
-    public void writeToFile() {
+    public void run() {
         if (storage.isEnabled(reformat)) {
             try {
                 super.run();

@@ -2,9 +2,13 @@ package com.dubreuia.processors;
 
 import java.util.Comparator;
 
+/**
+ * Processor interface with main method {@link #run()} that make changes to the underlying document. The
+ * method might or might not be async. For now, only {@link OptimizeImportsProcessor} seems async.
+ */
 public interface Processor {
 
-    void writeToFile();
+    void run();
 
     int order();
 
