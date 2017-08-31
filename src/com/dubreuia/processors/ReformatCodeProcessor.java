@@ -20,8 +20,8 @@ class ReformatCodeProcessor extends com.intellij.codeInsight.actions.ReformatCod
 
     private final Storage storage;
 
-    ReformatCodeProcessor(Project project, PsiFile psiFile, Storage storage) {
-        super(project, psiFile, null, processChangedTextOnly(project, psiFile, storage));
+    ReformatCodeProcessor(Project project, PsiFile file, Storage storage) {
+        super(project, file, null, processChangedTextOnly(project, file, storage));
         this.storage = storage;
     }
 

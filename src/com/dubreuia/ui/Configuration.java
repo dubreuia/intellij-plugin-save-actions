@@ -19,6 +19,8 @@ import java.util.Set;
 
 import static com.dubreuia.model.Action.activate;
 import static com.dubreuia.model.Action.noActionIfCompileErrors;
+import static com.dubreuia.model.Action.rearrange;
+import static com.dubreuia.model.Action.rearrangeChangedCode;
 import static com.dubreuia.model.Action.reformat;
 import static com.dubreuia.model.Action.reformatChangedCode;
 
@@ -183,7 +185,9 @@ public class Configuration implements Configurable {
         }
         boolean activateSelected = checkboxes.get(activate).isSelected();
         boolean reformatSelected = checkboxes.get(reformat).isSelected();
+        boolean rearangeSelected = checkboxes.get(rearrange).isSelected();
         checkboxes.get(reformatChangedCode).setEnabled(activateSelected && reformatSelected);
+        checkboxes.get(rearrangeChangedCode).setEnabled(activateSelected && rearangeSelected);
     }
 
     private void updateExclusions() {
