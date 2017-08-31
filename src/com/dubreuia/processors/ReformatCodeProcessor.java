@@ -37,6 +37,11 @@ class ReformatCodeProcessor extends com.intellij.codeInsight.actions.ReformatCod
     }
 
     @Override
+    public int order() {
+        return 2;
+    }
+
+    @Override
     public String toString() {
         return toStringBuilder(storage.isEnabled(reformatChangedCode) ? ID_CHANGED_TEXT : ID_ALL_TEXT,
                 storage.isEnabled(reformat));

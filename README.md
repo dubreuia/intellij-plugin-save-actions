@@ -12,9 +12,9 @@ The code style applied by the save actions plugin is the one configured your set
 - Reformat code (whole file or only changed text)
 - Rearrange code (reorder methods, fields, etc.)
 - Include / exclude files with regex support
-- Reformat any file type (Java, XML, etc.)
+- Works any file type (Java, Python, XML, etc.)
 - Commitable, per-projet settings
-- Fix Java [inspections](https://github.com/dubreuia/intellij-plugin-save-actions/#java-quick-fixes)
+- Automatically fix Java [inspections](https://github.com/dubreuia/intellij-plugin-save-actions/#java-quick-fixes) (Intellij IDEA only)
 
 ![Save actions plugin settings page](https://github.com/dubreuia/intellij-plugin-save-actions/blob/master/docs/intellij-save-actions-plugin-settings-page.png)
 

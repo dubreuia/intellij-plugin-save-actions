@@ -46,6 +46,11 @@ class CompileProcessor implements Processor {
     }
 
     @Override
+    public int order() {
+        return 3;
+    }
+
+    @Override
     public String toString() {
         return toStringBuilder(ID, storage.isEnabled(compile));
     }

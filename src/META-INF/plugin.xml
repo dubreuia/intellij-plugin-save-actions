@@ -8,13 +8,27 @@
     <vendor email="dubreuil.alex@gmail.com" url="https://www.github.com/dubreuia">Alexandre DuBreuil</vendor>
 
     <description><![CDATA[
-      <p>Supports configurable, Eclipse like, save actions, including "organize imports", "reformat code", "rearrange code", "compile file" and some quick fixes for Java like "add / remove 'this' qualifier", etc. The plugin executes the configured actions when the file is synchronised (or saved) on disk.</p>
+<p>Supports configurable, Eclipse like, save actions, including "organize imports", "reformat code", "rearrange code", "compile file" and some quick fixes for Java like "add / remove 'this' qualifier", etc. The plugin executes the configured actions when the file is synchronised (or saved) on disk.</p>
 
-      <ul>
-        <li><a href="https://github.com/dubreuia/intellij-plugin-save-actions">Github README</a></li>
-        <li><a href="https://github.com/dubreuia/intellij-plugin-save-actions/issues">Github issues</a></li>
-        <li><a href="https://twitter.com/dubreuia">Twitter for questions or comments</a></li>
-      <ul>
+<p><strong>Features</strong></p>
+
+<ul>
+<li>Organize imports</li>
+<li>Reformat code (whole file or only changed text)</li>
+<li>Rearrange code (reorder methods, fields, etc.)</li>
+<li>Include / exclude files with regex support</li>
+<li>Works any file type (Java, Python, XML, etc.)</li>
+<li>Automatically fix Java inspections (Intellij IDEA only)</li>
+<ul>
+
+<p><strong>Documentation</strong></p>
+
+<ul>
+<li><a href="https://plugins.jetbrains.com/plugin/7642-save-actions">Jetbrains plugin page</a></li>
+<li><a href="https://github.com/dubreuia/intellij-plugin-save-actions">Github README</a></li>
+<li><a href="https://github.com/dubreuia/intellij-plugin-save-actions/issues">Github issues</a></li>
+<li><a href="https://twitter.com/dubreuia">Twitter</a></li>
+<ul>
     ]]></description>
 
     <change-notes><![CDATA[
@@ -24,8 +38,7 @@
 
     <idea-version since-build="135"/>
 
-    <!-- Uncomment to make it work in all intellij products -->
-    <!--<depends>com.intellij.modules.lang</depends>-->
+    <!-- Other product support activated in plugin page during upload at https://plugins.jetbrains.com -->
     <depends optional="true" config-file="plugin-java.xml">com.intellij.modules.java</depends>
 
     <extensions defaultExtensionNs="com.intellij">

@@ -7,6 +7,10 @@ import com.intellij.util.messages.MessageBus;
 import com.intellij.util.messages.MessageBusConnection;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * The plugin entry class. This is not a singleton, for java based ide the corresponding component will also get
+ * instanciated (check {@link com.dubreuia.core.java.Component}).
+ */
 public class Component implements ApplicationComponent {
 
     private static final String COMPONENT_NAME = "Save Actions";

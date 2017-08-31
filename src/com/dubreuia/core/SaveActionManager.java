@@ -21,7 +21,12 @@ import java.util.Set;
 import static com.dubreuia.model.Action.noActionIfCompileErrors;
 import static com.dubreuia.utils.PsiFiles.isIncludedAndNotExcluded;
 import static com.dubreuia.utils.PsiFiles.isPsiFileInProject;
+import static java.util.Collections.sort;
 
+/**
+ * Event handler class, instanciated by {@link Component}. The {@link #getSaveActionsProcessors(Project, PsiFile)}
+ * returns the global processors (not java specific).
+ */
 public class SaveActionManager extends FileDocumentManagerAdapter {
 
     public static final Logger LOGGER = Logger.getInstance(SaveActionManager.class);
@@ -46,20 +51,21 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
      * confirm unlocking of non-project file in the other project.
      */
     private boolean isPsiFileEligible(Project project, PsiFile psiFile) {
-        return psiFile != null &&
-                isProjectValid(project) &&
-                isPsiFileInProject(project, psiFile) &&
-                isPsiFileValid(project, psiFile) &&
-                isPsiFileIncluded(project, psiFile) &&
-                isPsiFileFresh(psiFile);
+        return psiFile != null
+                && isProjectValid(project)
+                && isPsiFileInProject(project, psiFile)
+                && isPsiFileHasErrors(project, psiFile)
+                && isPsiFileIncluded(project, psiFile)
+                && isPsiFileFresh(psiFile)
+                && isPsiFileValid(psiFile);
     }
 
     private boolean isProjectValid(Project project) {
-        return project.isInitialized() &&
-                !project.isDisposed();
+        return project.isInitialized()
+                && !project.isDisposed();
     }
 
-    private boolean isPsiFileValid(Project project, PsiFile psiFile) {
+    private boolean isPsiFileHasErrors(Project project, PsiFile psiFile) {
         if (getStorage(project).isEnabled(noActionIfCompileErrors)) {
             return !PsiErrorElementUtil.hasErrors(project, psiFile.getVirtualFile());
         }
@@ -77,12 +83,20 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
         return psiFile.getModificationStamp() != 0;
     }
 
+    private boolean isPsiFileValid(PsiFile psiFile) {
+        return psiFile.isValid();
+    }
+
     private void processPsiFile(Project project, PsiFile psiFile) {
         List<Processor> processors = getSaveActionsProcessors(project, psiFile);
-        LOGGER.debug("Running processors " + processors + ", file " + psiFile + ", project " + project);
+        getLogger().debug("Running processors " + processors + ", file " + psiFile + ", project " + project);
         for (Processor processor : processors) {
             processor.writeToFile();
         }
+    }
+
+    protected Logger getLogger() {
+        return LOGGER;
     }
 
     protected Storage getStorage(Project project) {
@@ -90,7 +104,10 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
     }
 
     protected List<Processor> getSaveActionsProcessors(Project project, PsiFile psiFile) {
-        return ProcessorFactory.INSTANCE.getSaveActionsProcessors(project, psiFile, getStorage(project));
+        List<Processor> processors = ProcessorFactory.INSTANCE
+                .getSaveActionsProcessors(project, psiFile, getStorage(project));
+        sort(processors, new Processor.ProcessorComparator());
+        return processors;
     }
 
 }

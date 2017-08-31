@@ -33,6 +33,11 @@ class OptimizeImportsProcessor extends com.intellij.codeInsight.actions.Optimize
     }
 
     @Override
+    public int order() {
+        return 1;
+    }
+
+    @Override
     public String toString() {
         return toStringBuilder(ID, storage.isEnabled(organizeImports));
     }

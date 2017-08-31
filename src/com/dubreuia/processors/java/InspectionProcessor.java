@@ -56,6 +56,11 @@ class InspectionProcessor implements Processor {
     }
 
     @Override
+    public int order() {
+        return 0;
+    }
+
+    @Override
     public String toString() {
         return toStringBuilder(inspectionTool.getID(), storage.isEnabled(action));
     }
