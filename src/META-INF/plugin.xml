@@ -4,7 +4,7 @@
 
     <id>com.dubreuia</id>
     <name>Save Actions</name>
-    <version>0.19</version>
+    <version>0.20</version>
     <vendor email="dubreuil.alex@gmail.com" url="https://www.github.com/dubreuia">Alexandre DuBreuil</vendor>
 
     <description><![CDATA[
@@ -19,7 +19,7 @@
 <li>Include / exclude files with regex support</li>
 <li>Works any file type (Java, Python, XML, etc.)</li>
 <li>Automatically fix Java inspections (Intellij IDEA only)</li>
-<ul>
+</ul>
 
 <p><strong>Documentation</strong></p>
 
@@ -28,7 +28,7 @@
 <li><a href="https://github.com/dubreuia/intellij-plugin-save-actions">Github README</a></li>
 <li><a href="https://github.com/dubreuia/intellij-plugin-save-actions/issues">Github issues</a></li>
 <li><a href="https://twitter.com/dubreuia">Twitter</a></li>
-<ul>
+</ul>
     ]]></description>
 
     <change-notes><![CDATA[
