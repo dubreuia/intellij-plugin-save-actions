@@ -14,6 +14,7 @@ import com.intellij.codeInspection.ex.LocalInspectionToolWrapper;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.openapi.project.IndexNotReadyException;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 
@@ -76,7 +77,12 @@ class InspectionProcessor implements Processor {
             InspectionManager inspectionManager = InspectionManager.getInstance(project);
             GlobalInspectionContext context = inspectionManager.createNewGlobalContext(false);
             InspectionToolWrapper toolWrapper = new LocalInspectionToolWrapper(inspectionTool);
-            List<ProblemDescriptor> problemDescriptors = InspectionEngine.runInspectionOnFile(psiFile, toolWrapper, context);
+            List<ProblemDescriptor> problemDescriptors;
+            try {
+                problemDescriptors = InspectionEngine.runInspectionOnFile(psiFile, toolWrapper, context);
+            } catch (IndexNotReadyException exception) {
+                return;
+            }
             for (ProblemDescriptor problemDescriptor : problemDescriptors) {
                 QuickFix[] fixes = problemDescriptor.getFixes();
                 if (fixes != null) {

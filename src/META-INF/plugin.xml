@@ -21,6 +21,15 @@
 <li>Automatically fix Java inspections (Intellij IDEA only)</li>
 </ul>
 
+<p><strong>Compatibility (build 163.7743.44, 2016.3.6, JDK 1.6)</strong></p>
+
+<ul>
+<li>Intellij IDEA</li>
+<li>PyCharm</li>
+<li>PHPStorm</li>
+<li>AndroidStudio</li>
+</ul>
+
 <p><strong>Documentation</strong></p>
 
 <ul>

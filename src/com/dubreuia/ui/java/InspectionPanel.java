@@ -1,7 +1,7 @@
-package com.dubreuia.ui;
+package com.dubreuia.ui.java;
 
+import com.dubreuia.core.java.Component;
 import com.dubreuia.model.Action;
-import com.intellij.lang.Language;
 import com.intellij.ui.IdeBorderFactory;
 
 import javax.swing.*;
@@ -20,18 +20,18 @@ import static com.dubreuia.model.Action.unnecessaryThis;
 import static com.dubreuia.model.Action.unqualifiedFieldAccess;
 import static com.dubreuia.model.Action.useBlocks;
 
-class InspectionPanel {
+public class InspectionPanel {
 
     private static final String TEXT_TITLE_INSPECTIONS = "Java inspection and quick fix";
 
     private final Map<Action, JCheckBox> checkboxes;
 
-    InspectionPanel(Map<Action, JCheckBox> checkboxes) {
+    public InspectionPanel(Map<Action, JCheckBox> checkboxes) {
         this.checkboxes = checkboxes;
     }
 
-    JPanel getPanel() {
-        boolean javaEnabled = Language.findLanguageByID("JAVA") != null;
+    public JPanel getPanel() {
+        boolean javaEnabled = Component.JAVA_LOADED;
         JPanel panel = new JPanel();
         if (javaEnabled) {
             panel.setBorder(IdeBorderFactory.createTitledBorder(TEXT_TITLE_INSPECTIONS));

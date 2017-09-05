@@ -7,7 +7,6 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
-import com.intellij.openapi.vcs.changes.ChangeListManager;
 import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.codeStyle.arrangement.Rearranger;
@@ -20,21 +19,18 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.FutureTask;
 
 import static com.dubreuia.model.Action.rearrange;
-import static com.dubreuia.model.Action.rearrangeChangedCode;
 import static com.dubreuia.processors.ProcessorMessage.toStringBuilder;
 
 class RearrangeCodeProcessor extends com.intellij.codeInsight.actions.RearrangeCodeProcessor implements Processor {
 
     private static final Logger LOGGER = Logger.getInstance(RearrangeCodeProcessor.class);
 
-    private static final String ID_CHANGED_TEXT = "RearrangeChangedCode";
-
-    private static final String ID_ALL_TEXT = "RearrangeAllCode";
+    private static final String ID = "RearrangeCode";
 
     private final Storage storage;
 
     RearrangeCodeProcessor(Project project, PsiFile file, Storage storage) {
-        super(project, new PsiFile[]{file}, COMMAND_NAME, null, processChangedTextOnly(project, file, storage));
+        super(project, new PsiFile[]{file}, COMMAND_NAME, null);
         this.storage = storage;
     }
 
@@ -99,17 +95,7 @@ class RearrangeCodeProcessor extends com.intellij.codeInsight.actions.RearrangeC
 
     @Override
     public String toString() {
-        return toStringBuilder(storage.isEnabled(rearrangeChangedCode) ? ID_CHANGED_TEXT : ID_ALL_TEXT,
-                storage.isEnabled(rearrange));
-    }
-
-    private static boolean processChangedTextOnly(Project project, PsiFile psiFile, Storage storage) {
-        if (null == ChangeListManager.getInstance(project).getChange(psiFile.getVirtualFile())) {
-            // That means no VCS is configured, ignore changed code configuration
-            return false;
-        } else {
-            return storage.isEnabled(rearrangeChangedCode);
-        }
+        return toStringBuilder(ID, storage.isEnabled(rearrange));
     }
 
 }

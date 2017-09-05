@@ -20,12 +20,12 @@ The code style applied by the save actions plugin is the one configured your set
 
 ## Compatibility
 
-Built with IntelliJ IDEA IU-162.1447.26, JDK 1.6, those are the currently supported products, and is not expected to work in other products:
+Built with IntelliJ IDEA IU-163.7743.44 (2016.3.6), JDK 1.6, those are the currently supported products, and is not expected to work in other products:
 
 - Intellij IDEA
 - PyCharm
 - PHPStorm
-- AndroidStudio (partial, exception quick fixes do not work)
+- AndroidStudio
 
 See issue [#18](https://github.com/dubreuia/intellij-plugin-save-actions/issues/18) for a beta packaging that you can try in other products.
 

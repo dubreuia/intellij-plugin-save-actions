@@ -9,7 +9,6 @@ import java.util.Map;
 
 import static com.dubreuia.model.Action.organizeImports;
 import static com.dubreuia.model.Action.rearrange;
-import static com.dubreuia.model.Action.rearrangeChangedCode;
 import static com.dubreuia.model.Action.reformat;
 import static com.dubreuia.model.Action.reformatChangedCode;
 
@@ -31,7 +30,6 @@ class FormattingPanel {
         panel.add(checkboxes.get(reformat));
         panel.add(checkboxes.get(reformatChangedCode));
         panel.add(checkboxes.get(rearrange));
-        panel.add(checkboxes.get(rearrangeChangedCode));
         panel.add(Box.createHorizontalGlue());
         panel.setMinimumSize(new Dimension(Short.MAX_VALUE, 0));
         return panel;

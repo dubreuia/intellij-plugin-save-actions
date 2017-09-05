@@ -2,6 +2,7 @@ package com.dubreuia.ui;
 
 import com.dubreuia.model.Action;
 import com.dubreuia.model.Storage;
+import com.dubreuia.ui.java.InspectionPanel;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
@@ -88,15 +89,9 @@ public class Configuration implements Configurable {
                 return true;
             }
         }
-        if (!storage.getExclusions().equals(exclusions)) {
-            return true;
-        }
-        if (!storage.getInclusions().equals(inclusions)) {
-            return true;
-        }
-        return false;
+        return !storage.getExclusions().equals(exclusions)
+                || !storage.getInclusions().equals(inclusions);
     }
-
 
     @Override
     public void apply() throws ConfigurationException {
