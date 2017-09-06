@@ -94,9 +94,13 @@ Then the maintainer will:
 - [zhujk](https://github.com/zhujk)
 - [marcosbento](https://github.com/marcosbento)
 
-## Plugin page
+## Jetbrains plugin page
 
-The complete plugin history is available in the [JetBrains plugin repository](https://plugins.jetbrains.com/plugin/7642-save-actions). Please rate the plugin!
+The plugin is in the [JetBrains plugin repository](https://plugins.jetbrains.com/plugin/7642-save-actions).
+
+## Rate this plugin
+
+Please take the time to [rate the plugin](https://plugins.jetbrains.com/plugin/7642-save-actions)!
 
 ## Files location
 
