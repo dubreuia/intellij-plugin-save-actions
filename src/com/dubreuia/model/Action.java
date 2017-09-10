@@ -1,5 +1,8 @@
 package com.dubreuia.model;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 public enum Action {
 
     // Global
@@ -61,6 +64,18 @@ public enum Action {
 
     public String getText() {
         return text;
+    }
+
+    public static Set<Action> getDefaults() {
+
+        Set<Action> result = new LinkedHashSet<Action>();
+        for (Action action : Action.values()) {
+            if (action.isDefaultValue()) {
+                result.add(action);
+            }
+        }
+        return result;
+
     }
 
 }
