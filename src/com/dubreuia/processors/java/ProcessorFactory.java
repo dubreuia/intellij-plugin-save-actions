@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.dubreuia.model.Action.activate;
+import static com.dubreuia.model.Action.activateOnShortcut;
 import static com.dubreuia.model.Action.explicitTypeCanBeDiamond;
 import static com.dubreuia.model.Action.fieldCanBeFinal;
 import static com.dubreuia.model.Action.finalPrivateMethod;
@@ -38,7 +39,7 @@ public enum ProcessorFactory {
 
     public List<Processor> getSaveActionsProcessors(Project project, PsiFile psiFile, Storage storage) {
         List<Processor> processors = new ArrayList<Processor>();
-        if (storage.isEnabled(activate)) {
+        if (storage.isEnabled(activate) || storage.isEnabled(activateOnShortcut)) {
             // Add stuff
             processors.add(new InspectionProcessor(project, psiFile, storage, localCanBeFinal,
                     new LocalCanBeFinal()));

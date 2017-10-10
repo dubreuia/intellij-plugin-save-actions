@@ -8,6 +8,8 @@ public enum Action {
 
     noActionIfCompileErrors("No action if compile errors", false),
 
+    activateOnShortcut("Run save actions on Shortcut (performs the configured actions below)", false),
+
     organizeImports("Organize imports", true),
 
     reformat("Reformat file", true),

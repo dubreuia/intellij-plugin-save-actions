@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.Set;
 
 import static com.dubreuia.model.Action.activate;
+import static com.dubreuia.model.Action.activateOnShortcut;
 import static com.dubreuia.model.Action.noActionIfCompileErrors;
 import static com.dubreuia.model.Action.rearrange;
 import static com.dubreuia.model.Action.rearrangeChangedCode;
@@ -159,6 +160,7 @@ public class Configuration implements Configurable {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
         panel.add(checkboxes.get(activate));
+        panel.add(checkboxes.get(activateOnShortcut));
         panel.add(checkboxes.get(noActionIfCompileErrors));
         panel.add(actions);
         panel.add(build);
@@ -173,12 +175,17 @@ public class Configuration implements Configurable {
     }
 
     private void updateEnabled() {
+        boolean activateIsSelected = checkboxes.get(activate).isSelected();
+        boolean activateShortcutIsSelected = checkboxes.get(activateOnShortcut).isSelected();
+
         for (Map.Entry<Action, JCheckBox> checkbox : checkboxes.entrySet()) {
-            if (!activate.equals(checkbox.getKey())) {
-                checkbox.getValue().setEnabled(checkboxes.get(activate).isSelected());
+            Action currentCheckBoxKey = checkbox.getKey();
+
+            if (!activate.equals(currentCheckBoxKey) && !activateOnShortcut.equals(currentCheckBoxKey)) {
+                checkbox.getValue().setEnabled(activateIsSelected || activateShortcutIsSelected);
             }
         }
-        boolean activateSelected = checkboxes.get(activate).isSelected();
+        boolean activateSelected = checkboxes.get(activate).isSelected() || checkboxes.get(activateOnShortcut).isSelected();
         boolean reformatSelected = checkboxes.get(reformat).isSelected();
         boolean rearangeSelected = checkboxes.get(rearrange).isSelected();
         checkboxes.get(reformatChangedCode).setEnabled(activateSelected && reformatSelected);
