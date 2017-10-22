@@ -1,7 +1,9 @@
 package com.dubreuia.ui;
 
 import com.dubreuia.model.Action;
+import com.dubreuia.model.EpfStorage;
 import com.dubreuia.model.Storage;
+import com.dubreuia.ui.java.IdeSupportPanel;
 import com.dubreuia.ui.java.InspectionPanel;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.options.Configurable;
@@ -19,7 +21,6 @@ import java.util.Map;
 import java.util.Set;
 
 import static com.dubreuia.model.Action.activate;
-import static com.dubreuia.model.Action.noActionIfCompileErrors;
 import static com.dubreuia.model.Action.rearrange;
 import static com.dubreuia.model.Action.rearrangeChangedCode;
 import static com.dubreuia.model.Action.reformat;
@@ -43,6 +44,8 @@ public class Configuration implements Configurable {
         }
     };
 
+    private GeneralPanel generalPanel;
+
     private FormattingPanel formattingPanel;
 
     private BuildPanel buildPanel;
@@ -50,7 +53,10 @@ public class Configuration implements Configurable {
     private InspectionPanel inspectionPanel;
 
     private FileMaskPanel fileMasksExclusionPanel;
+
     private FileMaskPanel fileMasksInclusionPanel;
+
+    private IdeSupportPanel ideSupport;
 
     public Configuration(Project project) {
         this.storage = ServiceManager.getService(project, Storage.class);
@@ -67,11 +73,7 @@ public class Configuration implements Configurable {
 
     private void initFirstLaunch() {
         if (storage.isFirstLaunch()) {
-            for (Action action : Action.values()) {
-                if (action.isDefaultValue()) {
-                    storage.setEnabled(action, true);
-                }
-            }
+            updateSelectedStateOfCheckboxes(Action.getDefaults());
             storage.stopFirstLaunch();
         }
     }
@@ -89,6 +91,10 @@ public class Configuration implements Configurable {
                 return true;
             }
         }
+        if (storage.getConfigurationPath() != null
+                && !storage.getConfigurationPath().equals(ideSupport.getPath())) {
+            return true;
+        }
         return !storage.getExclusions().equals(exclusions)
                 || !storage.getInclusions().equals(inclusions);
     }
@@ -100,16 +106,26 @@ public class Configuration implements Configurable {
         }
         storage.setExclusions(new HashSet<String>(exclusions));
         storage.setInclusions(new HashSet<String>(inclusions));
+        storage.setConfigurationPath(ideSupport.getPath());
+        Storage efpStorage = EpfStorage.INSTANCE.getStorageOrDefault(ideSupport.getPath(), storage);
+        updateSelectedStateOfCheckboxes(efpStorage.getActions());
+        updateEnabled();
     }
 
     @Override
     public void reset() {
-        for (Map.Entry<Action, JCheckBox> checkbox : checkboxes.entrySet()) {
-            checkbox.getValue().setSelected(storage.isEnabled(checkbox.getKey()));
-        }
+        updateSelectedStateOfCheckboxes(storage.getActions());
         updateEnabled();
         updateExclusions();
         updateInclusions();
+        ideSupport.setPath(storage.getConfigurationPath());
+    }
+
+    private void updateSelectedStateOfCheckboxes(Set<Action> selectedActions) {
+        for (Map.Entry<Action, JCheckBox> checkbox : checkboxes.entrySet()) {
+            boolean isSelected = selectedActions.contains(checkbox.getKey());
+            checkbox.getValue().setSelected(isSelected);
+        }
     }
 
     @Override
@@ -117,11 +133,13 @@ public class Configuration implements Configurable {
         checkboxes.clear();
         exclusions.clear();
         inclusions.clear();
+        generalPanel = null;
         formattingPanel = null;
         buildPanel = null;
         inspectionPanel = null;
         fileMasksInclusionPanel = null;
         fileMasksExclusionPanel = null;
+        ideSupport = null;
     }
 
     @Nls
@@ -140,26 +158,31 @@ public class Configuration implements Configurable {
         for (Action action : Action.values()) {
             checkboxes.put(action, new JCheckBox(action.getText()));
         }
+        generalPanel = new GeneralPanel(checkboxes);
         formattingPanel = new FormattingPanel(checkboxes);
         buildPanel = new BuildPanel(checkboxes);
         inspectionPanel = new InspectionPanel(checkboxes);
         fileMasksInclusionPanel = new FileMaskInclusionPanel(inclusions);
         fileMasksExclusionPanel = new FileMaskExclusionPanel(exclusions);
+        ideSupport = new IdeSupportPanel();
         return initRootPanel(
+                generalPanel.getPanel(),
                 formattingPanel.getPanel(),
                 buildPanel.getPanel(),
                 inspectionPanel.getPanel(),
                 fileMasksInclusionPanel.getPanel(),
-                fileMasksExclusionPanel.getPanel()
+                fileMasksExclusionPanel.getPanel(),
+                ideSupport.getPanel(storage.getConfigurationPath())
         );
     }
 
-    private JPanel initRootPanel(JPanel actions, JPanel build, JPanel inspections, JPanel fileMasksInclusions,
-                                 JPanel fileMasksExclusions) {
+    private JPanel initRootPanel(JPanel general, JPanel actions, JPanel build, JPanel inspections,
+                                 JPanel fileMasksInclusions, JPanel fileMasksExclusions,
+                                 JPanel ideSupport) {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
-        panel.add(checkboxes.get(activate));
-        panel.add(checkboxes.get(noActionIfCompileErrors));
+
+        panel.add(general);
         panel.add(actions);
         panel.add(build);
         panel.add(inspections);
@@ -169,6 +192,9 @@ public class Configuration implements Configurable {
         fileMaskPanel.add(fileMasksInclusions);
         fileMaskPanel.add(fileMasksExclusions);
         panel.add(fileMaskPanel);
+
+        panel.add(ideSupport);
+
         return panel;
     }
 

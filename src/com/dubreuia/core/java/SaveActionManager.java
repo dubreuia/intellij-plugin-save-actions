@@ -1,5 +1,7 @@
 package com.dubreuia.core.java;
 
+import com.dubreuia.model.EpfStorage;
+import com.dubreuia.model.Storage;
 import com.dubreuia.processors.Processor;
 import com.dubreuia.processors.Processor.ProcessorComparator;
 import com.dubreuia.processors.java.ProcessorFactory;
@@ -31,8 +33,9 @@ class SaveActionManager extends com.dubreuia.core.SaveActionManager {
 
     @Override
     protected List<Processor> getSaveActionsProcessors(Project project, PsiFile psiFile) {
-        List<Processor> processors = ProcessorFactory.INSTANCE
-                .getSaveActionsProcessors(project, psiFile, getStorage(project));
+        Storage defaultStorage = getStorage(project);
+        Storage storage = EpfStorage.INSTANCE.getStorageOrDefault(defaultStorage.getConfigurationPath(), defaultStorage);
+        List<Processor> processors = ProcessorFactory.INSTANCE.getSaveActionsProcessors(project, psiFile, storage);
         sort(processors, new ProcessorComparator());
         return processors;
     }

@@ -1,0 +1,36 @@
+# @title Save Actions
+# @description Save Actions
+# @task_type LASTMOD
+file_export_version=3.0
+/instance/org.eclipse.jdt.ui/editor_save_participant_org.eclipse.jdt.ui.postsavelistener.cleanup=true
+/instance/org.eclipse.jdt.ui/sp_cleanup.format_source_code=true
+/instance/org.eclipse.jdt.ui/sp_cleanup.format_source_code_changes_only=false
+/instance/org.eclipse.jdt.ui/sp_cleanup.organize_imports=true
+/instance/org.eclipse.jdt.ui/sp_cleanup.remove_trailing_whitespaces=true
+/instance/org.eclipse.jdt.ui/sp_cleanup.remove_trailing_whitespaces_all=true
+/instance/org.eclipse.jdt.ui/sp_cleanup.remove_trailing_whitespaces_ignore_empty=false
+/instance/org.eclipse.jdt.ui/sp_cleanup.make_local_variable_final=true
+/instance/org.eclipse.jdt.ui/sp_cleanup.make_private_fields_final=true
+/instance/org.eclipse.jdt.ui/sp_cleanup.make_parameters_final=true
+/instance/org.eclipse.jdt.ui/sp_cleanup.make_variable_declarations_final=true
+/instance/org.eclipse.jdt.ui/sp_cleanup.add_missing_annotations=true
+/instance/org.eclipse.jdt.ui/sp_cleanup.add_missing_deprecated_annotations=true
+/instance/org.eclipse.jdt.ui/sp_cleanup.add_missing_override_annotations=true
+/instance/org.eclipse.jdt.ui/sp_cleanup.add_missing_override_annotations_interface_methods=true
+/instance/org.eclipse.jdt.ui/sp_cleanup.remove_unused_imports=true
+/instance/org.eclipse.jdt.ui/sp_cleanup.remove_unnecessary_casts=true
+/instance/org.eclipse.jdt.ui/sp_cleanup.add_serial_version_id=false
+/instance/org.eclipse.jdt.ui/sp_cleanup.use_blocks=true
+/instance/org.eclipse.jdt.ui/sp_cleanup.always_use_blocks=false
+/instance/org.eclipse.jdt.ui/sp_cleanup.remove_unused_private_members=false
+/instance/org.eclipse.jdt.ui/sp_cleanup.remove_unused_local_variables=false
+/instance/org.eclipse.jdt.ui/sp_cleanup.remove_unused_private_methods=false
+/instance/org.eclipse.jdt.ui/sp_cleanup.remove_unused_private_fields=false
+/instance/org.eclipse.jdt.ui/sp_cleanup.add_generated_serial_version_id=false
+/instance/org.eclipse.jdt.ui/sp_cleanup.correct_indentation=false
+/instance/org.eclipse.jdt.ui/sp_cleanup.sort_members_all=false
+/instance/org.eclipse.jdt.ui/sp_cleanup.on_save_use_additional_actions=true
+/instance/org.eclipse.jdt.ui/sp_cleanup.use_blocks_only_for_return_and_throw=false
+/instance/org.eclipse.jdt.ui/sp_cleanup.sort_members=true
+/instance/org.eclipse.jdt.ui/sp_cleanup.use_this_for_non_static_field_access=true
+/instance/org.eclipse.jdt.ui/sp_cleanup.remove_redundant_type_arguments=true
