@@ -82,11 +82,13 @@ public class IdeSupportPanel {
     }
 
     public String getPath() {
-        return path.getText();
+        return path == null ? null : path.getText();
     }
 
     public void setPath(String configurationPath) {
-        path.setText(configurationPath);
+        if (path != null) {
+            path.setText(configurationPath);
+        }
     }
 
 }
