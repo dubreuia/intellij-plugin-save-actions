@@ -66,4 +66,12 @@
     <project-components>
     </project-components>
 
+    <actions>
+        <action id="com.dubreuia.core.SaveActionShortcutManager" class="com.dubreuia.core.SaveActionShortcutManager"
+                text="Save Action"
+                description="Execute Save Action with a Shortcut">
+            <add-to-group group-id="CodeFormatGroup" anchor="after" relative-to-action="RearrangeCode"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl S"/>
+        </action>
+    </actions>
 </idea-plugin>

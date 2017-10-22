@@ -47,6 +47,7 @@ The configurations are located in "File > Settings > Other Settings > Save Actio
 | Name                               | Description
 | ---                                | ---
 | Activate save actions              | Enable / disable the plugin
+| Run save actions on Shortcut       | Enable / disable the plugin to be used by a short cut
 | No action if compile errors        | Enable / disable no action if there are compile errors. Applied to each file individually
 | Organize imports                   | Enable / disable import organization (configured in "File > Settings > Code Style > Java > Imports")
 | Reformat file                      | Enable / disable formatting (configured in "File > Settings > Code Style"). See "Reformat only changed code" for more options

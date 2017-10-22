@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import static com.dubreuia.model.Action.activate;
 import static com.dubreuia.model.Action.noActionIfCompileErrors;
 import static com.dubreuia.utils.PsiFiles.isIncludedAndNotExcluded;
 import static com.dubreuia.utils.PsiFiles.isPsiFileInProject;
@@ -44,11 +45,20 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
         LOGGER.debug("Running processors before actions " + runningProcessors);
         for (Project project : ProjectManager.getInstance().getOpenProjects()) {
             PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
-            if (isPsiFileEligible(project, psiFile)) {
-                processPsiFile(project, psiFile);
+            if (getStorage(project).isEnabled(activate)) {
+              checkAndProcessPsiFile(project, psiFile);
             }
         }
         LOGGER.debug("Running processors after actions " + runningProcessors);
+    }
+
+
+    void checkAndProcessPsiFile(Project project, PsiFile psiFile) {
+        LOGGER.debug("checkAndProcessPsiFile started");
+        if (isPsiFileEligible(project, psiFile)) {
+            processPsiFile(project, psiFile);
+        }
+        LOGGER.debug("checkAndProcessPsiFile finished");
     }
 
     /**
