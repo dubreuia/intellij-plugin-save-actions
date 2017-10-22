@@ -13,18 +13,16 @@ import com.intellij.codeInspection.ex.InspectionToolWrapper;
 import com.intellij.codeInspection.ex.LocalInspectionToolWrapper;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.command.WriteCommandAction;
-import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.IndexNotReadyException;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 
 import java.util.List;
 
+import static com.dubreuia.core.SaveActionManager.LOGGER;
 import static com.dubreuia.processors.ProcessorMessage.toStringBuilder;
 
 class InspectionProcessor implements Processor {
-
-    private static final Logger LOGGER = Logger.getInstance(InspectionProcessor.class);
 
     private final Project project;
 

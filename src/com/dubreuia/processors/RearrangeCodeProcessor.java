@@ -3,7 +3,6 @@ package com.dubreuia.processors;
 import com.dubreuia.model.Storage;
 import com.intellij.openapi.command.CommandProcessor;
 import com.intellij.openapi.components.ServiceManager;
-import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
@@ -18,12 +17,11 @@ import java.util.Collection;
 import java.util.concurrent.Callable;
 import java.util.concurrent.FutureTask;
 
+import static com.dubreuia.core.SaveActionManager.LOGGER;
 import static com.dubreuia.model.Action.rearrange;
 import static com.dubreuia.processors.ProcessorMessage.toStringBuilder;
 
 class RearrangeCodeProcessor extends com.intellij.codeInsight.actions.RearrangeCodeProcessor implements Processor {
-
-    private static final Logger LOGGER = Logger.getInstance(RearrangeCodeProcessor.class);
 
     private static final String ID = "RearrangeCode";
 

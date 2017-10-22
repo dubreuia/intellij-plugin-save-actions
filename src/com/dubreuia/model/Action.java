@@ -7,11 +7,11 @@ public enum Action {
 
     // Global
 
-    activate("Activate save actions (before saving each file, performs the configured actions below)", true),
+    activate("Activate save actions on save (before saving each file, performs the configured actions below)", true),
+
+    activateOnShortcut("Activate save actions on shortcut (default \"CTRL + SHIFT + S\")", false),
 
     noActionIfCompileErrors("No action if compile errors", false),
-
-    activateOnShortcut("Run save actions on Shortcut (performs the configured actions below)", false),
 
     organizeImports("Organize imports", true),
 

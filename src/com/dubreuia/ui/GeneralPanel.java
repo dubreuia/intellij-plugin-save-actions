@@ -26,8 +26,8 @@ class GeneralPanel {
         panel.setBorder(IdeBorderFactory.createTitledBorder(TEXT_TITLE_ACTIONS));
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
         panel.add(checkboxes.get(activate));
-        panel.add(checkboxes.get(noActionIfCompileErrors));
         panel.add(checkboxes.get(activateOnShortcut));
+        panel.add(checkboxes.get(noActionIfCompileErrors));
         panel.add(Box.createHorizontalGlue());
         panel.setMinimumSize(new Dimension(Short.MAX_VALUE, 0));
         return panel;

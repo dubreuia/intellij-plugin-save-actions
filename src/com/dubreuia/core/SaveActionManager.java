@@ -42,23 +42,19 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
 
     @Override
     public void beforeDocumentSaving(@NotNull Document document) {
-        LOGGER.debug("Running processors before actions " + runningProcessors);
+        LOGGER.debug("Running SaveActionManager on " + document);
         for (Project project : ProjectManager.getInstance().getOpenProjects()) {
             PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
             if (getStorage(project).isEnabled(activate)) {
-              checkAndProcessPsiFile(project, psiFile);
+                checkAndProcessPsiFile(project, psiFile);
             }
         }
-        LOGGER.debug("Running processors after actions " + runningProcessors);
     }
 
-
     void checkAndProcessPsiFile(Project project, PsiFile psiFile) {
-        LOGGER.debug("checkAndProcessPsiFile started");
         if (isPsiFileEligible(project, psiFile)) {
             processPsiFile(project, psiFile);
         }
-        LOGGER.debug("checkAndProcessPsiFile finished");
     }
 
     /**
@@ -105,7 +101,7 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
 
     private void processPsiFile(Project project, PsiFile psiFile) {
         List<Processor> processors = getSaveActionsProcessors(project, psiFile);
-        getLogger().debug("Running processors " + processors + ", file " + psiFile + ", project " + project);
+        LOGGER.debug("Running processors " + processors + ", file " + psiFile + ", project " + project);
         for (Processor processor : processors) {
             runProcessor(processor);
         }
@@ -121,10 +117,6 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
         } finally {
             runningProcessors.remove(processor);
         }
-    }
-
-    protected Logger getLogger() {
-        return LOGGER;
     }
 
     protected Storage getStorage(Project project) {

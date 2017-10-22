@@ -3,17 +3,15 @@ package com.dubreuia.processors;
 import com.dubreuia.model.Storage;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.compiler.CompilerManager;
-import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
 
+import static com.dubreuia.core.SaveActionManager.LOGGER;
 import static com.dubreuia.model.Action.compile;
 import static com.dubreuia.processors.ProcessorMessage.toStringBuilder;
 
 class CompileProcessor implements Processor {
-
-    private static final Logger LOGGER = Logger.getInstance(CompileProcessor.class);
 
     private static final String ID = "Compile";
 

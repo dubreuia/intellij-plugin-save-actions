@@ -19,8 +19,6 @@ import com.siyeh.ig.style.UnqualifiedFieldAccessInspection;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.dubreuia.model.Action.activate;
-import static com.dubreuia.model.Action.activateOnShortcut;
 import static com.dubreuia.model.Action.explicitTypeCanBeDiamond;
 import static com.dubreuia.model.Action.fieldCanBeFinal;
 import static com.dubreuia.model.Action.finalPrivateMethod;
@@ -39,33 +37,31 @@ public enum ProcessorFactory {
 
     public List<Processor> getSaveActionsProcessors(Project project, PsiFile psiFile, Storage storage) {
         List<Processor> processors = new ArrayList<Processor>();
-        if (storage.isEnabled(activate) || storage.isEnabled(activateOnShortcut)) {
-            // Add stuff
-            processors.add(new InspectionProcessor(project, psiFile, storage, localCanBeFinal,
-                    new LocalCanBeFinal()));
-            processors.add(new InspectionProcessor(project, psiFile, storage, unqualifiedFieldAccess,
-                    new UnqualifiedFieldAccessInspection()));
-            processors.add(new InspectionProcessor(project, psiFile, storage, fieldCanBeFinal,
-                    new FieldMayBeFinalInspection()));
-            processors.add(new InspectionProcessor(project, psiFile, storage, missingOverrideAnnotation,
-                    new MissingOverrideAnnotationInspection()));
-            processors.add(new InspectionProcessor(project, psiFile, storage, useBlocks,
-                    new ControlFlowStatementWithoutBracesInspection()));
+        // Add stuff
+        processors.add(new InspectionProcessor(project, psiFile, storage, localCanBeFinal,
+                new LocalCanBeFinal()));
+        processors.add(new InspectionProcessor(project, psiFile, storage, unqualifiedFieldAccess,
+                new UnqualifiedFieldAccessInspection()));
+        processors.add(new InspectionProcessor(project, psiFile, storage, fieldCanBeFinal,
+                new FieldMayBeFinalInspection()));
+        processors.add(new InspectionProcessor(project, psiFile, storage, missingOverrideAnnotation,
+                new MissingOverrideAnnotationInspection()));
+        processors.add(new InspectionProcessor(project, psiFile, storage, useBlocks,
+                new ControlFlowStatementWithoutBracesInspection()));
 
-            // Removes stuff
-            processors.add(new InspectionProcessor(project, psiFile, storage, explicitTypeCanBeDiamond,
-                    new ExplicitTypeCanBeDiamondInspection()));
-            processors.add(new InspectionProcessor(project, psiFile, storage, unnecessaryThis,
-                    new UnnecessaryThisInspection()));
-            processors.add(new InspectionProcessor(project, psiFile, storage, suppressAnnotation,
-                    new SuppressionAnnotationInspection()));
-            processors.add(new InspectionProcessor(project, psiFile, storage, finalPrivateMethod,
-                    new FinalPrivateMethodInspection()));
-            processors.add(new InspectionProcessor(project, psiFile, storage, unnecessarySemicolon,
-                    new UnnecessarySemicolonInspection()));
-            processors.add(new InspectionProcessor(project, psiFile, storage, unnecessaryFinalOnLocalVariableOrParameter,
-                    new UnnecessaryFinalOnLocalVariableOrParameterInspection()));
-        }
+        // Removes stuff
+        processors.add(new InspectionProcessor(project, psiFile, storage, explicitTypeCanBeDiamond,
+                new ExplicitTypeCanBeDiamondInspection()));
+        processors.add(new InspectionProcessor(project, psiFile, storage, unnecessaryThis,
+                new UnnecessaryThisInspection()));
+        processors.add(new InspectionProcessor(project, psiFile, storage, suppressAnnotation,
+                new SuppressionAnnotationInspection()));
+        processors.add(new InspectionProcessor(project, psiFile, storage, finalPrivateMethod,
+                new FinalPrivateMethodInspection()));
+        processors.add(new InspectionProcessor(project, psiFile, storage, unnecessarySemicolon,
+                new UnnecessarySemicolonInspection()));
+        processors.add(new InspectionProcessor(project, psiFile, storage, unnecessaryFinalOnLocalVariableOrParameter,
+                new UnnecessaryFinalOnLocalVariableOrParameterInspection()));
         return processors;
     }
 

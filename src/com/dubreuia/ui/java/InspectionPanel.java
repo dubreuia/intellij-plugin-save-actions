@@ -1,6 +1,5 @@
 package com.dubreuia.ui.java;
 
-import com.dubreuia.core.java.Component;
 import com.dubreuia.model.Action;
 import com.intellij.ui.IdeBorderFactory;
 
@@ -8,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Map;
 
+import static com.dubreuia.core.SaveActionFactory.JAVA_ENABLED;
 import static com.dubreuia.model.Action.explicitTypeCanBeDiamond;
 import static com.dubreuia.model.Action.fieldCanBeFinal;
 import static com.dubreuia.model.Action.finalPrivateMethod;
@@ -31,9 +31,8 @@ public class InspectionPanel {
     }
 
     public JPanel getPanel() {
-        boolean javaEnabled = Component.JAVA_LOADED;
         JPanel panel = new JPanel();
-        if (javaEnabled) {
+        if (JAVA_ENABLED) {
             panel.setBorder(IdeBorderFactory.createTitledBorder(TEXT_TITLE_INSPECTIONS));
             panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
             panel.add(checkboxes.get(fieldCanBeFinal));
