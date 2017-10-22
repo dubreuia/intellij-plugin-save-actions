@@ -94,6 +94,15 @@ If a quick fix adds something that is removed by another quick fix, the removal 
 | Remove unused suppress warning annotation               | Will remove any unused @SuppressWarning annotations
 | Remove unnecessary semicolon                            | Will remove unnecessary semicolon
 
+## Development environment
+
+- Checkout the save actions plugin
+- Start Intellij IDEA and import project with "File > Open > (project folder)"
+- Download intellij version 163.7743.44 at https://www.jetbrains.com/intellij-repository/releases
+- Configure project with the downloaded SDK and build
+- Create a new run with "Run > Edit configurations > + > Plugin"
+- Launch the plugin with run or debug
+
 ## Contributing
 
 To contribute:
@@ -110,6 +119,7 @@ Then the maintainer will:
 ### Contributors
 
 - [markiewb](https://github.com/markiewb)
+- [edeknede](https://github.com/edeknede)
 - [krasa](https://github.com/krasa)
 - [dorkbox](https://github.com/dorkbox)
 - [zhujk](https://github.com/zhujk)
