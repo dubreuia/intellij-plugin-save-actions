@@ -3,12 +3,12 @@ package com.dubreuia.processors.java;
 import com.dubreuia.model.Storage;
 import com.dubreuia.processors.Processor;
 import com.intellij.codeInspection.ExplicitTypeCanBeDiamondInspection;
+import com.intellij.codeInspection.RedundantSuppressInspection;
 import com.intellij.codeInspection.localCanBeFinal.LocalCanBeFinal;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 import com.siyeh.ig.classlayout.FinalPrivateMethodInspection;
 import com.siyeh.ig.inheritance.MissingOverrideAnnotationInspection;
-import com.siyeh.ig.maturity.SuppressionAnnotationInspection;
 import com.siyeh.ig.style.ControlFlowStatementWithoutBracesInspection;
 import com.siyeh.ig.style.FieldMayBeFinalInspection;
 import com.siyeh.ig.style.UnnecessaryFinalOnLocalVariableOrParameterInspection;
@@ -55,7 +55,7 @@ public enum ProcessorFactory {
         processors.add(new InspectionProcessor(project, psiFile, storage, unnecessaryThis,
                 new UnnecessaryThisInspection()));
         processors.add(new InspectionProcessor(project, psiFile, storage, suppressAnnotation,
-                new SuppressionAnnotationInspection()));
+                new RedundantSuppressInspection()));
         processors.add(new InspectionProcessor(project, psiFile, storage, finalPrivateMethod,
                 new FinalPrivateMethodInspection()));
         processors.add(new InspectionProcessor(project, psiFile, storage, unnecessarySemicolon,

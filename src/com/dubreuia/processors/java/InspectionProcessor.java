@@ -4,11 +4,14 @@ import com.dubreuia.model.Action;
 import com.dubreuia.model.Storage;
 import com.dubreuia.processors.Processor;
 import com.intellij.codeInspection.GlobalInspectionContext;
+import com.intellij.codeInspection.GlobalInspectionTool;
 import com.intellij.codeInspection.InspectionEngine;
 import com.intellij.codeInspection.InspectionManager;
+import com.intellij.codeInspection.InspectionProfileEntry;
 import com.intellij.codeInspection.LocalInspectionTool;
 import com.intellij.codeInspection.ProblemDescriptor;
 import com.intellij.codeInspection.QuickFix;
+import com.intellij.codeInspection.ex.GlobalInspectionToolWrapper;
 import com.intellij.codeInspection.ex.InspectionToolWrapper;
 import com.intellij.codeInspection.ex.LocalInspectionToolWrapper;
 import com.intellij.openapi.application.ApplicationManager;
@@ -32,9 +35,17 @@ class InspectionProcessor implements Processor {
 
     private final Action action;
 
-    private final LocalInspectionTool inspectionTool;
+    private final InspectionProfileEntry inspectionTool;
 
     InspectionProcessor(Project project, PsiFile psiFile, Storage storage, Action action, LocalInspectionTool inspectionTool) {
+        this.project = project;
+        this.psiFile = psiFile;
+        this.storage = storage;
+        this.action = action;
+        this.inspectionTool = inspectionTool;
+    }
+
+    InspectionProcessor(Project project, PsiFile psiFile, Storage storage, Action action, GlobalInspectionTool inspectionTool) {
         this.project = project;
         this.psiFile = psiFile;
         this.storage = storage;
@@ -61,7 +72,7 @@ class InspectionProcessor implements Processor {
 
     @Override
     public String toString() {
-        return toStringBuilder(inspectionTool.getID(), storage.isEnabled(action));
+        return toStringBuilder(inspectionTool.getShortName(), storage.isEnabled(action));
     }
 
     private class InspectionWriteQuickFixesAction extends WriteCommandAction.Simple {
@@ -74,7 +85,17 @@ class InspectionProcessor implements Processor {
         protected void run() {
             InspectionManager inspectionManager = InspectionManager.getInstance(project);
             GlobalInspectionContext context = inspectionManager.createNewGlobalContext(false);
-            InspectionToolWrapper toolWrapper = new LocalInspectionToolWrapper(inspectionTool);
+            InspectionToolWrapper toolWrapper;
+
+            if (inspectionTool instanceof LocalInspectionTool) {
+                toolWrapper = new LocalInspectionToolWrapper((LocalInspectionTool) inspectionTool);
+            } else if (inspectionTool instanceof GlobalInspectionTool) {
+                toolWrapper = new GlobalInspectionToolWrapper((GlobalInspectionTool) inspectionTool);
+            } else {
+                //this never happens in the current state of the code, since we only allow constructors for the two types
+                throw new UnsupportedOperationException("Either Local or Global inspection tool is required");
+            }
+
             List<ProblemDescriptor> problemDescriptors;
             try {
                 problemDescriptors = InspectionEngine.runInspectionOnFile(psiFile, toolWrapper, context);
