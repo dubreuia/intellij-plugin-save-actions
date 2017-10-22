@@ -12,7 +12,7 @@ public class Component extends com.dubreuia.core.Component {
     private static final String COMPONENT_NAME = "Save Actions Java";
 
     public Component() {
-        SaveActionFactory.JAVA_ENABLED = true;
+        SaveActionFactory.JAVA_AVAILABLE = true;
     }
 
     @NotNull

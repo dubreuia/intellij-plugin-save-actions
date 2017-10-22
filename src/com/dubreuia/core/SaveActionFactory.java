@@ -11,16 +11,26 @@ public class SaveActionFactory {
         // static only
     }
 
-    public static boolean JAVA_ENABLED = false;
+    public static boolean JAVA_AVAILABLE = false;
+
+    public static boolean COMPILING_AVAILABLE = initCompilingAvailable();
 
     @NotNull
-    public static List<SaveActionManager> getSaveActionManagers() {
+    static List<SaveActionManager> getSaveActionManagers() {
         List<SaveActionManager> managers = new ArrayList<SaveActionManager>();
         managers.add(new SaveActionManager());
-        if (JAVA_ENABLED) {
+        if (JAVA_AVAILABLE) {
             managers.add(new com.dubreuia.core.java.SaveActionManager());
         }
         return managers;
+    }
+
+    private static boolean initCompilingAvailable() {
+        try {
+            return Class.forName("com.intellij.openapi.compiler.CompilerManager") != null;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
 }

@@ -14,7 +14,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static com.dubreuia.core.SaveActionFactory.JAVA_ENABLED;
+import static com.dubreuia.core.SaveActionFactory.JAVA_AVAILABLE;
 import static com.intellij.openapi.ui.TextComponentAccessor.TEXT_FIELD_WHOLE_TEXT;
 
 /**
@@ -30,7 +30,7 @@ public class IdeSupportPanel {
 
     public JPanel getPanel(String configurationPath) {
         JPanel panel = new JPanel();
-        if (!JAVA_ENABLED) {
+        if (!JAVA_AVAILABLE) {
             return panel;
         }
 

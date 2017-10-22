@@ -7,6 +7,8 @@ import com.intellij.psi.PsiFile;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.dubreuia.core.SaveActionFactory.COMPILING_AVAILABLE;
+
 public enum ProcessorFactory {
 
     INSTANCE;
@@ -16,7 +18,9 @@ public enum ProcessorFactory {
         processors.add(new OptimizeImportsProcessor(project, psiFile, storage));
         processors.add(new ReformatCodeProcessor(project, psiFile, storage));
         processors.add(new RearrangeCodeProcessor(project, psiFile, storage));
-        processors.add(new CompileProcessor(project, psiFile, storage));
+        if (COMPILING_AVAILABLE) {
+            processors.add(new CompileProcessor(project, psiFile, storage));
+        }
         return processors;
     }
 

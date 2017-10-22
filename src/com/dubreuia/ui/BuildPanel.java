@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Map;
 
+import static com.dubreuia.core.SaveActionFactory.COMPILING_AVAILABLE;
 import static com.dubreuia.model.Action.compile;
 
 class BuildPanel {
@@ -21,6 +22,9 @@ class BuildPanel {
 
     JPanel getPanel() {
         JPanel panel = new JPanel();
+        if (!COMPILING_AVAILABLE) {
+            return panel;
+        }
         panel.setBorder(IdeBorderFactory.createTitledBorder(TEXT_TITLE_ACTIONS));
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
         panel.add(checkboxes.get(compile));
