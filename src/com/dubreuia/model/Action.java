@@ -67,7 +67,6 @@ public enum Action {
     }
 
     public static Set<Action> getDefaults() {
-
         Set<Action> result = new LinkedHashSet<Action>();
         for (Action action : Action.values()) {
             if (action.isDefaultValue()) {

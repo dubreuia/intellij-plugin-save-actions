@@ -13,30 +13,32 @@
 <p><strong>Features</strong></p>
 
 <ul>
-<li>Organize imports</li>
-<li>Reformat code (whole file or only changed text)</li>
-<li>Rearrange code (reorder methods, fields, etc.)</li>
-<li>Include / exclude files with regex support</li>
-<li>Works any file type (Java, Python, XML, etc.)</li>
-<li>Automatically fix Java inspections (Intellij IDEA only)</li>
+  <li>Organize imports</li>
+  <li>Reformat code (whole file or only changed text)</li>
+  <li>Rearrange code (reorder methods, fields, etc.)</li>
+  <li>Include / exclude files with regex support</li>
+  <li>Works any file type (Java, Python, XML, etc.)</li>
+  <li>Commitable, per-projet settings</li>
+  <li>IDE support (Eclipse *.epf files)</li>
+  <li>Automatically fix Java inspections (Intellij IDEA only)</li>
 </ul>
 
 <p><strong>Compatibility (build 163.7743.44, 2016.3.6, JDK 1.6)</strong></p>
 
 <ul>
-<li>Intellij IDEA</li>
-<li>PyCharm</li>
-<li>PHPStorm</li>
-<li>AndroidStudio</li>
+  <li>Intellij IDEA</li>
+  <li>PyCharm</li>
+  <li>PHPStorm</li>
+  <li>AndroidStudio</li>
 </ul>
 
 <p><strong>Documentation</strong></p>
 
 <ul>
-<li><a href="https://plugins.jetbrains.com/plugin/7642-save-actions">Jetbrains plugin page</a></li>
-<li><a href="https://github.com/dubreuia/intellij-plugin-save-actions">Github README</a></li>
-<li><a href="https://github.com/dubreuia/intellij-plugin-save-actions/issues">Github issues</a></li>
-<li><a href="https://twitter.com/dubreuia">Twitter</a></li>
+  <li><a href="https://plugins.jetbrains.com/plugin/7642-save-actions">Jetbrains plugin page</a></li>
+  <li><a href="https://github.com/dubreuia/intellij-plugin-save-actions">Github README</a></li>
+  <li><a href="https://github.com/dubreuia/intellij-plugin-save-actions/issues">Github issues</a></li>
+  <li><a href="https://twitter.com/dubreuia">Twitter</a></li>
 </ul>
     ]]></description>
 

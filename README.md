@@ -14,6 +14,7 @@ The code style applied by the save actions plugin is the one configured your set
 - Include / exclude files with regex support
 - Works any file type (Java, Python, XML, etc.)
 - Commitable, per-projet settings
+- IDE support (Eclipse *.epf files)
 - Automatically fix Java [inspections](https://github.com/dubreuia/intellij-plugin-save-actions/#java-quick-fixes) (Intellij IDEA only)
 
 ![Save actions plugin settings page](https://github.com/dubreuia/intellij-plugin-save-actions/blob/master/docs/intellij-save-actions-plugin-settings-page.png)
@@ -43,17 +44,18 @@ Or the plugin is available from the [Intellij IDEA Community Edition plugin repo
 
 The configurations are located in "File > Settings > Other Settings > Save Actions".
 
-| Name                         | Description
-| ---                          | ---
-| Activate save actions        | Enable / disable the plugin
-| No action if compile errors  | Enable / disable no action if there are compile errors. Applied to each file individually
-| Organize imports             | Enable / disable import organization (configured in "File > Settings > Code Style > Java > Imports")
-| Reformat file                | Enable / disable formatting (configured in "File > Settings > Code Style"). See "Reformat only changed code" for more options
-| Rearrange fields and methods | Enable / disable re-ordering of fields and methods (configured in "File > Settings > Code Style > Java > Arrangement")
-| Reformat only changed code   | Enable / disable formatting for changed code only. If VCS is configured, it is used to check which lines where modified. If VCS is not configured, the code will always get reformatted
-| Compile file                 | Enable / disable compiling of the modified file. The compiler might compile other files as well
-| File path inclusions         | Add / remove file path inclusions (by default, everything included). The Java regular expressions match the whole file name from the project root. Include only Java files: `.*\.java`. 
-| File path exclusions         | Add / remove file path exclusions to ignore files (overrides inclusions). The Java regular expressions match the whole file name from the project root. Exclude 'Main.java' only in root folder: `Main\.java`. Exclude file 'Foo.java' only in folder 'src': `src/Foo\.java`. Exclude all xml files in any folder: `.*/.*\.xml`
+| Name                               | Description
+| ---                                | ---
+| Activate save actions              | Enable / disable the plugin
+| No action if compile errors        | Enable / disable no action if there are compile errors. Applied to each file individually
+| Organize imports                   | Enable / disable import organization (configured in "File > Settings > Code Style > Java > Imports")
+| Reformat file                      | Enable / disable formatting (configured in "File > Settings > Code Style"). See "Reformat only changed code" for more options
+| Rearrange fields and methods       | Enable / disable re-ordering of fields and methods (configured in "File > Settings > Code Style > Java > Arrangement")
+| Reformat only changed code         | Enable / disable formatting for changed code only. If VCS is configured, it is used to check which lines where modified. If VCS is not configured, the code will always get reformatted
+| Compile file                       | Enable / disable compiling of the modified file. The compiler might compile other files as well
+| File path inclusions               | Add / remove file path inclusions (by default, everything included). The Java regular expressions match the whole file name from the project root. Include only Java files: `.*\.java`. 
+| File path exclusions               | Add / remove file path exclusions to ignore files (overrides inclusions). The Java regular expressions match the whole file name from the project root. Exclude 'Main.java' only in root folder: `Main\.java`. Exclude file 'Foo.java' only in folder 'src': `src/Foo\.java`. Exclude all xml files in any folder: `.*/.*\.xml`
+| Use external Eclipse configuration | Add external configuration file ".epf" to read settings from. This will update the current settings and use only the ".epf" file content. Use "reset" button to remove
 
 ### Java quick fixes
 

@@ -10,16 +10,19 @@ import java.util.Map;
 import static com.dubreuia.model.Action.activate;
 import static com.dubreuia.model.Action.noActionIfCompileErrors;
 
-public class GeneralPanel {
+class GeneralPanel {
+
+    private static final String TEXT_TITLE_ACTIONS = "General";
+
     private Map<Action, JCheckBox> checkboxes;
 
-    public GeneralPanel(Map<Action, JCheckBox> checkboxes) {
+    GeneralPanel(Map<Action, JCheckBox> checkboxes) {
         this.checkboxes = checkboxes;
     }
 
-    public JPanel getPanel() {
+    JPanel getPanel() {
         JPanel panel = new JPanel();
-        panel.setBorder(IdeBorderFactory.createTitledBorder("General"));
+        panel.setBorder(IdeBorderFactory.createTitledBorder(TEXT_TITLE_ACTIONS));
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
         panel.add(checkboxes.get(activate));
         panel.add(checkboxes.get(noActionIfCompileErrors));

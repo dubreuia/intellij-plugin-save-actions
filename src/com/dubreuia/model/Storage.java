@@ -18,18 +18,14 @@ public class Storage implements PersistentStateComponent<Storage> {
 
     private boolean firstLaunch = true;
 
-    private String configurationPath = "";
+    private String configurationPath;
 
     public String getConfigurationPath() {
         return configurationPath;
     }
 
     public void setConfigurationPath(String configurationPath) {
-        if (null == configurationPath) {
-            this.configurationPath = "";
-        } else {
-            this.configurationPath = configurationPath;
-        }
+        this.configurationPath = configurationPath;
     }
 
     public Storage getState() {
