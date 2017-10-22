@@ -4,7 +4,7 @@
 
     <id>com.dubreuia</id>
     <name>Save Actions</name>
-    <version>0.21</version>
+    <version>0.22</version>
     <vendor email="dubreuil.alex@gmail.com" url="https://www.github.com/dubreuia">Alexandre DuBreuil</vendor>
 
     <description><![CDATA[
@@ -14,12 +14,13 @@
 
 <ul>
   <li>Organize imports</li>
+  <li>Run on file save or shortcut (or both)</li>
   <li>Reformat code (whole file or only changed text)</li>
   <li>Rearrange code (reorder methods, fields, etc.)</li>
   <li>Include / exclude files with regex support</li>
   <li>Works any file type (Java, Python, XML, etc.)</li>
   <li>Commitable, per-projet settings</li>
-  <li>IDE support (Eclipse *.epf files)</li>
+  <li>Other IDE support (Eclipse *.epf files)</li>
   <li>Automatically fix Java inspections (Intellij IDEA only)</li>
 </ul>
 
@@ -66,4 +67,11 @@
     <project-components>
     </project-components>
 
+    <actions>
+        <action id="com.dubreuia.core.SaveActionShortcutManager" class="com.dubreuia.core.SaveActionShortcutManager"
+                text="Save Actions" description="Executes save actions with a shortcut">
+            <add-to-group group-id="CodeFormatGroup" anchor="after" relative-to-action="RearrangeCode"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl S"/>
+        </action>
+    </actions>
 </idea-plugin>

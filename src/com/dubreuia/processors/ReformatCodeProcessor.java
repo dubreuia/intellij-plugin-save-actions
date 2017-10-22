@@ -1,18 +1,16 @@
 package com.dubreuia.processors;
 
 import com.dubreuia.model.Storage;
-import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vcs.changes.ChangeListManager;
 import com.intellij.psi.PsiFile;
 
+import static com.dubreuia.core.SaveActionManager.LOGGER;
 import static com.dubreuia.model.Action.reformat;
 import static com.dubreuia.model.Action.reformatChangedCode;
 import static com.dubreuia.processors.ProcessorMessage.toStringBuilder;
 
 class ReformatCodeProcessor extends com.intellij.codeInsight.actions.ReformatCodeProcessor implements Processor {
-
-    private static final Logger LOGGER = Logger.getInstance(ReformatCodeProcessor.class);
 
     private static final String ID_CHANGED_TEXT = "ReformatChangedText";
 

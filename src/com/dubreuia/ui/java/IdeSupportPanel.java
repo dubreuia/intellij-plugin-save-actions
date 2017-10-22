@@ -1,6 +1,5 @@
 package com.dubreuia.ui.java;
 
-import com.dubreuia.core.java.Component;
 import com.intellij.openapi.fileChooser.FileChooserDescriptor;
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
 import com.intellij.openapi.fileChooser.FileChooserFactory;
@@ -15,6 +14,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import static com.dubreuia.core.SaveActionFactory.JAVA_ENABLED;
 import static com.intellij.openapi.ui.TextComponentAccessor.TEXT_FIELD_WHOLE_TEXT;
 
 /**
@@ -30,7 +30,7 @@ public class IdeSupportPanel {
 
     public JPanel getPanel(String configurationPath) {
         JPanel panel = new JPanel();
-        if (!Component.JAVA_LOADED) {
+        if (!JAVA_ENABLED) {
             return panel;
         }
 

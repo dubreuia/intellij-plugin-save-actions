@@ -1,16 +1,14 @@
 package com.dubreuia.processors;
 
 import com.dubreuia.model.Storage;
-import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 
+import static com.dubreuia.core.SaveActionManager.LOGGER;
 import static com.dubreuia.model.Action.organizeImports;
 import static com.dubreuia.processors.ProcessorMessage.toStringBuilder;
 
 class OptimizeImportsProcessor extends com.intellij.codeInsight.actions.OptimizeImportsProcessor implements Processor {
-
-    private static final Logger LOGGER = Logger.getInstance(OptimizeImportsProcessor.class);
 
     private static final String ID = "OptimizeImports";
 

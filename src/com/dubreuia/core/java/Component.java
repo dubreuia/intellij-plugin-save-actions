@@ -1,5 +1,6 @@
 package com.dubreuia.core.java;
 
+import com.dubreuia.core.SaveActionFactory;
 import com.dubreuia.core.SaveActionManager;
 import org.jetbrains.annotations.NotNull;
 
@@ -10,10 +11,8 @@ public class Component extends com.dubreuia.core.Component {
 
     private static final String COMPONENT_NAME = "Save Actions Java";
 
-    public static boolean JAVA_LOADED = false;
-
     public Component() {
-        JAVA_LOADED = true;
+        SaveActionFactory.JAVA_ENABLED = true;
     }
 
     @NotNull

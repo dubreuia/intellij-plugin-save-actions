@@ -1,6 +1,5 @@
 package com.dubreuia.model;
 
-import com.intellij.openapi.diagnostic.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.FileNotFoundException;
@@ -8,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
+import static com.dubreuia.core.SaveActionManager.LOGGER;
 import static com.dubreuia.model.Action.activate;
 import static com.dubreuia.model.Action.compile;
 import static com.dubreuia.model.Action.explicitTypeCanBeDiamond;
@@ -36,8 +36,6 @@ import static com.dubreuia.model.Action.useBlocks;
 public enum EpfStorage {
 
     INSTANCE;
-
-    private static final Logger LOGGER = Logger.getInstance(EpfStorage.class);
 
     private static final String EPF_ACTIVATE = "editor_save_participant_org.eclipse.jdt.ui.postsavelistener.cleanup";
 
