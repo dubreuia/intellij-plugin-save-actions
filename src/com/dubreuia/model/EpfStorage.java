@@ -9,7 +9,6 @@ import java.util.Properties;
 
 import static com.dubreuia.core.SaveActionManager.LOGGER;
 import static com.dubreuia.model.Action.activate;
-import static com.dubreuia.model.Action.activateOnShortcut;
 import static com.dubreuia.model.Action.compile;
 import static com.dubreuia.model.Action.explicitTypeCanBeDiamond;
 import static com.dubreuia.model.Action.fieldCanBeFinal;

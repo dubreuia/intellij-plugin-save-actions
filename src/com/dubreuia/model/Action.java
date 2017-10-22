@@ -5,13 +5,15 @@ import java.util.Set;
 
 public enum Action {
 
-    // Global
+    // Activation
 
     activate("Activate save actions on save (before saving each file, performs the configured actions below)", true),
 
     activateOnShortcut("Activate save actions on shortcut (default \"CTRL + SHIFT + S\")", false),
 
     noActionIfCompileErrors("No action if compile errors", false),
+
+    // Global
 
     organizeImports("Organize imports", true),
 
@@ -27,7 +29,7 @@ public enum Action {
 
     compile("Compile file", false),
 
-    // Fixes
+    // Java fixes
 
     fieldCanBeFinal("Add final to field", false),
 

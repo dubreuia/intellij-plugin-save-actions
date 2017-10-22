@@ -14,12 +14,13 @@
 
 <ul>
   <li>Organize imports</li>
+  <li>Run on file save or shortcut (or both)</li>
   <li>Reformat code (whole file or only changed text)</li>
   <li>Rearrange code (reorder methods, fields, etc.)</li>
   <li>Include / exclude files with regex support</li>
   <li>Works any file type (Java, Python, XML, etc.)</li>
   <li>Commitable, per-projet settings</li>
-  <li>IDE support (Eclipse *.epf files)</li>
+  <li>Other IDE support (Eclipse *.epf files)</li>
   <li>Automatically fix Java inspections (Intellij IDEA only)</li>
 </ul>
 
