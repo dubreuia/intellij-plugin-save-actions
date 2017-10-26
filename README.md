@@ -28,6 +28,7 @@ Built with IntelliJ IDEA IU-163.7743.44 (2016.3.6), JDK 1.6, those are the curre
 - PyCharm
 - PHPStorm
 - AndroidStudio
+- WebStorm
 
 See issue [#18](https://github.com/dubreuia/intellij-plugin-save-actions/issues/18) for a beta packaging that you can try in other products.
 
