@@ -74,5 +74,8 @@
             <add-to-group group-id="CodeFormatGroup" anchor="after" relative-to-action="RearrangeCode"/>
             <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl S"/>
         </action>
+        <action class="com.dubreuia.ui.ActivationToggleAction" id="com.dubreuia.ui.ActivationToggleAction"
+                text="Enable Save Actions"
+                description="Toggle the activation of Save Actions."/>
     </actions>
 </idea-plugin>
