@@ -24,7 +24,7 @@ public class IdeSupportPanel {
 
     private static final String TITLE = "IDE support";
     private static final String LABEL = "Use external Eclipse configuration file (.epf)";
-    private static final String BUTTON = "reset";
+    private static final String BUTTON = "Reset";
 
     private TextFieldWithBrowseButton path;
 
@@ -39,7 +39,7 @@ public class IdeSupportPanel {
 
         JBLabel label = getLabel();
         path = getPath(configurationPath);
-        Button reset = getResetButton(path);
+        JButton reset = getResetButton(path);
 
         panel.add(label, BorderLayout.WEST);
         panel.add(path, BorderLayout.CENTER);
@@ -70,8 +70,8 @@ public class IdeSupportPanel {
     }
 
     @NotNull
-    private Button getResetButton(final TextFieldWithBrowseButton path) {
-        Button reset = new Button(BUTTON);
+    private JButton getResetButton(final TextFieldWithBrowseButton path) {
+        JButton reset = new JButton(BUTTON);
         reset.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
