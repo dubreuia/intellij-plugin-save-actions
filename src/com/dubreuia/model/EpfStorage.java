@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.Properties;
 
 import static com.dubreuia.core.SaveActionManager.LOGGER;
-import static com.dubreuia.model.Action.activate;
 import static com.dubreuia.model.Action.compile;
 import static com.dubreuia.model.Action.explicitTypeCanBeDiamond;
 import static com.dubreuia.model.Action.fieldCanBeFinal;
@@ -92,26 +91,29 @@ public enum EpfStorage {
 
         Properties properties = readProperties(configurationPath);
         // Map all EPF configurations to existing actions
-        storage.setEnabled(activate, isEnablEPForJava(properties, EPF_ACTIVATE));
+
+        // do not enable save actions by epf-file settings, else you cannot disable the save action temporarily 
+        // storage.setEnabled(activate, isEnabledEPForJava(properties, EPF_ACTIVATE));
+
         storage.setEnabled(noActionIfCompileErrors, true);
 
-        storage.setEnabled(organizeImports, isEnablEPForJava(properties, EPF_ORGANIZE_IMPORTS));
-        storage.setEnabled(reformat, isEnablEPForJava(properties, EPF_REFORMAT));
-        storage.setEnabled(reformatChangedCode, isEnablEPForJava(properties, EPF_REFORMAT_CHANGED_CODE));
-        storage.setEnabled(rearrange, isEnablEPForJava(properties, EPF_REARRANGE));
+        storage.setEnabled(organizeImports, isEnabledEPForJava(properties, EPF_ORGANIZE_IMPORTS));
+        storage.setEnabled(reformat, isEnabledEPForJava(properties, EPF_REFORMAT));
+        storage.setEnabled(reformatChangedCode, isEnabledEPForJava(properties, EPF_REFORMAT_CHANGED_CODE));
+        storage.setEnabled(rearrange, isEnabledEPForJava(properties, EPF_REARRANGE));
         storage.setEnabled(rearrangeChangedCode, false);
 
         storage.setEnabled(compile, false);
 
-        storage.setEnabled(fieldCanBeFinal, isEnablEPForJava(properties, EPF_FIELD_CAN_BE_FINAL));
-        storage.setEnabled(localCanBeFinal, isEnablEPForJava(properties, EPF_LOCAL_CAN_BE_FINAL));
-        storage.setEnabled(unqualifiedFieldAccess, isEnablEPForJava(properties, EPF_UNQUALIFIED_FIELD_ACCESS));
-        storage.setEnabled(missingOverrideAnnotation, isEnablEPForJava(properties, EPF_MISSING_OVERRIDE_ANNOTATION));
-        storage.setEnabled(useBlocks, isEnablEPForJava(properties, EPF_USE_BLOCKS_1, EPF_USE_BLOCKS_2));
+        storage.setEnabled(fieldCanBeFinal, isEnabledEPForJava(properties, EPF_FIELD_CAN_BE_FINAL));
+        storage.setEnabled(localCanBeFinal, isEnabledEPForJava(properties, EPF_LOCAL_CAN_BE_FINAL));
+        storage.setEnabled(unqualifiedFieldAccess, isEnabledEPForJava(properties, EPF_UNQUALIFIED_FIELD_ACCESS));
+        storage.setEnabled(missingOverrideAnnotation, isEnabledEPForJava(properties, EPF_MISSING_OVERRIDE_ANNOTATION));
+        storage.setEnabled(useBlocks, isEnabledEPForJava(properties, EPF_USE_BLOCKS_1, EPF_USE_BLOCKS_2));
         storage.setEnabled(unnecessaryThis, false);
         storage.setEnabled(finalPrivateMethod, false);
         storage.setEnabled(unnecessaryFinalOnLocalVariableOrParameter, false);
-        storage.setEnabled(explicitTypeCanBeDiamond, isEnablEPForJava(properties, EPF_EXPLICIT_TYPE_DIAMOND));
+        storage.setEnabled(explicitTypeCanBeDiamond, isEnabledEPForJava(properties, EPF_EXPLICIT_TYPE_DIAMOND));
         storage.setEnabled(suppressAnnotation, false);
         storage.setEnabled(unnecessarySemicolon, false);
 
@@ -119,7 +121,7 @@ public enum EpfStorage {
         return storage;
     }
 
-    private boolean isEnablEPForJava(Properties properties, String... keys) {
+    private boolean isEnabledEPForJava(Properties properties, String... keys) {
         String prefix = "/instance/org.eclipse.jdt.ui/";
         for (String key : keys) {
             if ("true".equals(properties.getProperty(prefix + key, "false"))) {
