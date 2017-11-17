@@ -14,7 +14,8 @@ The code style applied by the save actions plugin is the one configured your set
 - Rearrange code (reorder methods, fields, etc.)
 - Include / exclude files with regex support
 - Works any file type (Java, Python, XML, etc.)
-- Commitable, per-projet settings
+- Uses a settings file per project you can commit
+- Available keymaps for activation
 - Other IDE support (Eclipse *.epf files)
 - Automatically fix Java [inspections](https://github.com/dubreuia/intellij-plugin-save-actions/#java-quick-fixes) (Intellij IDEA only)
 
@@ -47,6 +48,8 @@ Or the plugin is available from the [Intellij IDEA Community Edition plugin repo
 The configurations are located in "File > Settings > Other Settings > Save Actions".
 
 ### Activation
+
+You can quickly toggle the plugin activation by using the "Enable Save Action" action. Use "CTRL + SHIFT + A" then search for it. It will also show if it is currently activated or not.
 
 | Name                               | Description
 | ---                                | ---
@@ -95,7 +98,30 @@ If a quick fix adds something that is removed by another quick fix, the removal 
 | Remove unused suppress warning annotation               | Will remove any unused @SuppressWarning annotations
 | Remove unnecessary semicolon                            | Will remove unnecessary semicolon
 
-## Development environment
+## Keymap
+
+There are two keymaps that can be configured in save-actions, in "Settings > Keymap > Search 'save actions'"
+
+- **Enable save actions (default: not binded)** will activate or deactivate the plugin by changing the configuration, also available in the action menu "CTRL + SHIFT + A"
+- **Save actions (default: "CTRL + SHIFT + S")** will trigger the plugin, only if the configuration allows shortcuts
+
+## Files location
+
+- **idea.log**: The log file the save actions plugin writes in. It contains debug information, prefixed with `com.dubreuia.SaveActionManager`. If you are using default locations, it would be in `~/.IntelliJIdeaVERSION/system/log/idea.log`.
+- **saveactions_settings.xml**: The settings file is saved by project in the `.idea` folder. That file can be committed in git thus shared in your development team. If you are using the default locations, it would be in `~/IdeaProjects/PROJECT_NAME/.idea/saveactions_settings.xml`
+
+## Contributors
+
+- [markiewb](https://github.com/markiewb)
+- [edeknede](https://github.com/edeknede)
+- [krasa](https://github.com/krasa)
+- [dorkbox](https://github.com/dorkbox)
+- [zhujk](https://github.com/zhujk)
+- [marcosbento](https://github.com/marcosbento)
+
+## Contributing
+
+### Development environment
 
 - Checkout the save actions plugin
 - Start Intellij IDEA and import project with "File > Open > (project folder)"
@@ -104,7 +130,7 @@ If a quick fix adds something that is removed by another quick fix, the removal 
 - Create a new run with "Run > Edit configurations > + > Plugin"
 - Launch the plugin with run or debug
 
-## Contributing
+### Sending a pull request
 
 To contribute:
 
@@ -117,15 +143,6 @@ Then the maintainer will:
 - Create a new release in https://github.com/dubreuia/intellij-plugin-save-actions/releases
 - Upload the plugin to [JetBrains Plugins Repository](https://plugins.jetbrains.com/) 
 
-### Contributors
-
-- [markiewb](https://github.com/markiewb)
-- [edeknede](https://github.com/edeknede)
-- [krasa](https://github.com/krasa)
-- [dorkbox](https://github.com/dorkbox)
-- [zhujk](https://github.com/zhujk)
-- [marcosbento](https://github.com/marcosbento)
-
 ## Jetbrains plugin page
 
 The plugin is in the [JetBrains plugin repository](https://plugins.jetbrains.com/plugin/7642-save-actions).
@@ -133,11 +150,6 @@ The plugin is in the [JetBrains plugin repository](https://plugins.jetbrains.com
 ## Rate this plugin
 
 Please take the time to [rate the plugin](https://plugins.jetbrains.com/plugin/7642-save-actions)!
-
-## Files location
-
-- **idea.log**: The log file the save actions plugin writes in. It contains debug information, prefixed with `com.dubreuia.SaveActionManager`. If you are using default locations, it would be in `~/.IntelliJIdeaVERSION/system/log/idea.log`.
-- **saveactions_settings.xml**: The settings file is saved by project in the `.idea` folder. That file can be committed in git thus shared in your development team. If you are using the default locations, it would be in `~/IdeaProjects/PROJECT_NAME/.idea/saveactions_settings.xml`
 
 ## Bugs / features
 

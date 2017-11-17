@@ -19,7 +19,8 @@
   <li>Rearrange code (reorder methods, fields, etc.)</li>
   <li>Include / exclude files with regex support</li>
   <li>Works any file type (Java, Python, XML, etc.)</li>
-  <li>Commitable, per-projet settings</li>
+  <li>Uses a settings file per project you can commit</li>
+  <li>Available keymaps for activation</li>
   <li>Other IDE support (Eclipse *.epf files)</li>
   <li>Automatically fix Java inspections (Intellij IDEA only)</li>
 </ul>
@@ -74,8 +75,7 @@
             <add-to-group group-id="CodeFormatGroup" anchor="after" relative-to-action="RearrangeCode"/>
             <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl S"/>
         </action>
-        <action class="com.dubreuia.ui.ActivationToggleAction" id="com.dubreuia.ui.ActivationToggleAction"
-                text="Enable Save Actions"
-                description="Toggle the activation of Save Actions."/>
+        <action class="com.dubreuia.core.SaveActionToggleAction" id="com.dubreuia.core.SaveActionToggleAction"
+                text="Enable Save Actions" description="Toggle the activation of Save Actions"/>
     </actions>
 </idea-plugin>
