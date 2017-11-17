@@ -98,12 +98,14 @@ If a quick fix adds something that is removed by another quick fix, the removal 
 | Remove unused suppress warning annotation               | Will remove any unused @SuppressWarning annotations
 | Remove unnecessary semicolon                            | Will remove unnecessary semicolon
 
-## Keymap
+## Keymap and actions
 
-There are two keymaps that can be configured in save-actions, in "Settings > Keymap > Search 'save actions'"
+There are two keymaps, binded to actions, that can be configured in save-actions. The keymap are configured in "Settings > Keymap > Search 'save actions'"
 
 - **Enable save actions (default: not binded)** will activate or deactivate the plugin by changing the configuration, also available in the action menu "CTRL + SHIFT + A"
 - **Save actions (default: "CTRL + SHIFT + S")** will trigger the plugin, only if the configuration allows shortcuts
+
+![Save actions plugin actions](https://github.com/dubreuia/intellij-plugin-save-actions/blob/master/docs/intellij-save-actions-plugin-actions.png)
 
 ## Files location
 
