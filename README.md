@@ -155,6 +155,10 @@ The plugin is in the [JetBrains plugin repository](https://plugins.jetbrains.com
 
 Please take the time to [rate the plugin](https://plugins.jetbrains.com/plugin/7642-save-actions)!
 
+## Say thank you
+
+At [thank you open source](https://www.thankyouopensource.com/list/dubreuia/intellij-plugin-save-actions).
+
 ## Bugs / features
 
 The plugin does not work? You want more features? You can [ask me on twitter](https://twitter.com/dubreuia) or [create an issue on github](https://github.com/dubreuia/intellij-plugin-save-actions/issues).
