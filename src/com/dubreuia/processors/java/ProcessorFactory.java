@@ -15,6 +15,8 @@ import com.siyeh.ig.style.UnnecessaryFinalOnLocalVariableOrParameterInspection;
 import com.siyeh.ig.style.UnnecessarySemicolonInspection;
 import com.siyeh.ig.style.UnnecessaryThisInspection;
 import com.siyeh.ig.style.UnqualifiedFieldAccessInspection;
+import com.siyeh.ig.style.UnqualifiedMethodAccessInspection;
+import com.siyeh.ig.style.UnqualifiedStaticUsageInspection;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +31,8 @@ import static com.dubreuia.model.Action.unnecessaryFinalOnLocalVariableOrParamet
 import static com.dubreuia.model.Action.unnecessarySemicolon;
 import static com.dubreuia.model.Action.unnecessaryThis;
 import static com.dubreuia.model.Action.unqualifiedFieldAccess;
+import static com.dubreuia.model.Action.unqualifiedMethodAccess;
+import static com.dubreuia.model.Action.unqualifiedStaticMemberAccess;
 import static com.dubreuia.model.Action.useBlocks;
 
 public enum ProcessorFactory {
@@ -42,6 +46,14 @@ public enum ProcessorFactory {
                 new LocalCanBeFinal()));
         processors.add(new InspectionProcessor(project, psiFile, storage, unqualifiedFieldAccess,
                 new UnqualifiedFieldAccessInspection()));
+        processors.add(new InspectionProcessor(project, psiFile, storage, unqualifiedMethodAccess,
+                new UnqualifiedMethodAccessInspection()));
+        UnqualifiedStaticUsageInspection staticAccessTool = new UnqualifiedStaticUsageInspection();
+        staticAccessTool.m_ignoreStaticFieldAccesses = false;
+        staticAccessTool.m_ignoreStaticMethodCalls = false;
+        staticAccessTool.m_ignoreStaticAccessFromStaticContext = false;
+        processors.add(new InspectionProcessor(project, psiFile, storage, unqualifiedStaticMemberAccess,
+                staticAccessTool));
         processors.add(new InspectionProcessor(project, psiFile, storage, fieldCanBeFinal,
                 new FieldMayBeFinalInspection()));
         processors.add(new InspectionProcessor(project, psiFile, storage, missingOverrideAnnotation,

@@ -18,6 +18,8 @@ import static com.dubreuia.model.Action.unnecessaryFinalOnLocalVariableOrParamet
 import static com.dubreuia.model.Action.unnecessarySemicolon;
 import static com.dubreuia.model.Action.unnecessaryThis;
 import static com.dubreuia.model.Action.unqualifiedFieldAccess;
+import static com.dubreuia.model.Action.unqualifiedMethodAccess;
+import static com.dubreuia.model.Action.unqualifiedStaticMemberAccess;
 import static com.dubreuia.model.Action.useBlocks;
 
 public class InspectionPanel {
@@ -40,6 +42,8 @@ public class InspectionPanel {
         panel.add(checkboxes.get(fieldCanBeFinal));
         panel.add(checkboxes.get(localCanBeFinal));
         panel.add(checkboxes.get(unqualifiedFieldAccess));
+        panel.add(checkboxes.get(unqualifiedMethodAccess));
+        panel.add(checkboxes.get(unqualifiedStaticMemberAccess));
         panel.add(checkboxes.get(missingOverrideAnnotation));
         panel.add(checkboxes.get(useBlocks));
         panel.add(checkboxes.get(unnecessaryThis));

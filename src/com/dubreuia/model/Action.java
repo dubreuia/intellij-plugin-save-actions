@@ -37,6 +37,10 @@ public enum Action {
 
     unqualifiedFieldAccess("Add this to field access", false),
 
+    unqualifiedMethodAccess("Add this to method access", false),
+
+    unqualifiedStaticMemberAccess("Add class qualifier to static member access", false),
+
     missingOverrideAnnotation("Add missing @Override annotations", false),
 
     useBlocks("Add blocks in if/while/for statements", false),
