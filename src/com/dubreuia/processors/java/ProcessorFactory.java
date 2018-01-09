@@ -56,8 +56,11 @@ public enum ProcessorFactory {
                 staticAccessTool));
         processors.add(new InspectionProcessor(project, psiFile, storage, fieldCanBeFinal,
                 new FieldMayBeFinalInspection()));
+        MissingOverrideAnnotationInspection missingOverrideAnnotationInspection = new MissingOverrideAnnotationInspection();
+        //fix for "Add missing @Override broken after IntelliJ 2017.3.2 update on jdk inherited methods" #140
+        missingOverrideAnnotationInspection.ignoreObjectMethods = false;
         processors.add(new InspectionProcessor(project, psiFile, storage, missingOverrideAnnotation,
-                new MissingOverrideAnnotationInspection()));
+                missingOverrideAnnotationInspection));
         processors.add(new InspectionProcessor(project, psiFile, storage, useBlocks,
                 new ControlFlowStatementWithoutBracesInspection()));
 
