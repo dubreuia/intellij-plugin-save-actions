@@ -122,6 +122,7 @@ There are two keymaps, binded to actions, that can be configured in save-actions
 - [dorkbox](https://github.com/dorkbox)
 - [zhujk](https://github.com/zhujk)
 - [marcosbento](https://github.com/marcosbento)
+- [visajkin](https://github.com/visajkin)
 
 ## Contributing
 
