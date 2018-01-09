@@ -17,6 +17,7 @@ import com.siyeh.ig.style.UnnecessaryThisInspection;
 import com.siyeh.ig.style.UnqualifiedFieldAccessInspection;
 import com.siyeh.ig.style.UnqualifiedMethodAccessInspection;
 import com.siyeh.ig.style.UnqualifiedStaticUsageInspection;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,42 +43,119 @@ public enum ProcessorFactory {
     public List<Processor> getSaveActionsProcessors(Project project, PsiFile psiFile, Storage storage) {
         List<Processor> processors = new ArrayList<Processor>();
         // Add stuff
-        processors.add(new InspectionProcessor(project, psiFile, storage, localCanBeFinal,
-                new LocalCanBeFinal()));
-        processors.add(new InspectionProcessor(project, psiFile, storage, unqualifiedFieldAccess,
-                new UnqualifiedFieldAccessInspection()));
-        processors.add(new InspectionProcessor(project, psiFile, storage, unqualifiedMethodAccess,
-                new UnqualifiedMethodAccessInspection()));
-        UnqualifiedStaticUsageInspection staticAccessTool = new UnqualifiedStaticUsageInspection();
-        staticAccessTool.m_ignoreStaticFieldAccesses = false;
-        staticAccessTool.m_ignoreStaticMethodCalls = false;
-        staticAccessTool.m_ignoreStaticAccessFromStaticContext = false;
-        processors.add(new InspectionProcessor(project, psiFile, storage, unqualifiedStaticMemberAccess,
-                staticAccessTool));
-        processors.add(new InspectionProcessor(project, psiFile, storage, fieldCanBeFinal,
-                new FieldMayBeFinalInspection()));
-        MissingOverrideAnnotationInspection missingOverrideAnnotationInspection = new MissingOverrideAnnotationInspection();
-        //fix for "Add missing @Override broken after IntelliJ 2017.3.2 update on jdk inherited methods" #140
-        missingOverrideAnnotationInspection.ignoreObjectMethods = false;
-        processors.add(new InspectionProcessor(project, psiFile, storage, missingOverrideAnnotation,
-                missingOverrideAnnotationInspection));
-        processors.add(new InspectionProcessor(project, psiFile, storage, useBlocks,
-                new ControlFlowStatementWithoutBracesInspection()));
-
+        processors.add(getLocalCanBeFinalProcessor(project, psiFile, storage));
+        processors.add(getUnqualifiedFieldAccessProcessor(project, psiFile, storage));
+        processors.add(getUnqualifiedMethodAccessProcessor(project, psiFile, storage));
+        processors.add(getUnqualifiedStaticUsageInspectionProcessor(project, psiFile, storage));
+        processors.add(getFieldMayBeFinalProcessor(project, psiFile, storage));
+        processors.add(getMissingOverrideAnnotationProcessor(project, psiFile, storage));
+        processors.add(getControlFlowStatementWithoutBracesProcessor(project, psiFile, storage));
         // Removes stuff
-        processors.add(new InspectionProcessor(project, psiFile, storage, explicitTypeCanBeDiamond,
-                new ExplicitTypeCanBeDiamondInspection()));
-        processors.add(new InspectionProcessor(project, psiFile, storage, unnecessaryThis,
-                new UnnecessaryThisInspection()));
-        processors.add(new InspectionProcessor(project, psiFile, storage, suppressAnnotation,
-                new SuppressionAnnotationInspection()));
-        processors.add(new InspectionProcessor(project, psiFile, storage, finalPrivateMethod,
-                new FinalPrivateMethodInspection()));
-        processors.add(new InspectionProcessor(project, psiFile, storage, unnecessarySemicolon,
-                new UnnecessarySemicolonInspection()));
-        processors.add(new InspectionProcessor(project, psiFile, storage, unnecessaryFinalOnLocalVariableOrParameter,
-                new UnnecessaryFinalOnLocalVariableOrParameterInspection()));
+        processors.add(getExplicitTypeCanBeDiamondProcessor(project, psiFile, storage));
+        processors.add(getUnnecessaryThisProcessor(project, psiFile, storage));
+        processors.add(getSuppressionAnnotationProcessor(project, psiFile, storage));
+        processors.add(getFinalPrivateMethodProcessor(project, psiFile, storage));
+        processors.add(getUnnecessarySemicolonProcessor(project, psiFile, storage));
+        processors.add(getUnnecessaryFinalOnLocalVariableOrParameterProcessor(project, psiFile, storage));
         return processors;
+    }
+
+    @NotNull
+    private InspectionProcessor getLocalCanBeFinalProcessor(
+            Project project, PsiFile psiFile, Storage storage) {
+        return new InspectionProcessor(
+                project, psiFile, storage, localCanBeFinal, new LocalCanBeFinal());
+    }
+
+    @NotNull
+    private InspectionProcessor getUnqualifiedFieldAccessProcessor(
+            Project project, PsiFile psiFile, Storage storage) {
+        return new InspectionProcessor(
+                project, psiFile, storage, unqualifiedFieldAccess, new UnqualifiedFieldAccessInspection());
+    }
+
+    @NotNull
+    private InspectionProcessor getUnqualifiedMethodAccessProcessor(
+            Project project, PsiFile psiFile, Storage storage) {
+        return new InspectionProcessor(
+                project, psiFile, storage, unqualifiedMethodAccess, new UnqualifiedMethodAccessInspection());
+    }
+
+    @NotNull
+    private InspectionProcessor getUnqualifiedStaticUsageInspectionProcessor(
+            Project project, PsiFile psiFile, Storage storage) {
+        UnqualifiedStaticUsageInspection inspection = new UnqualifiedStaticUsageInspection();
+        inspection.m_ignoreStaticFieldAccesses = false;
+        inspection.m_ignoreStaticMethodCalls = false;
+        inspection.m_ignoreStaticAccessFromStaticContext = false;
+        return new InspectionProcessor(
+                project, psiFile, storage, unqualifiedStaticMemberAccess, inspection);
+    }
+
+    @NotNull
+    private InspectionProcessor getFieldMayBeFinalProcessor(
+            Project project, PsiFile psiFile, Storage storage) {
+        return new InspectionProcessor(
+                project, psiFile, storage, fieldCanBeFinal, new FieldMayBeFinalInspection());
+    }
+
+    @NotNull
+    private InspectionProcessor getMissingOverrideAnnotationProcessor(
+            Project project, PsiFile psiFile, Storage storage) {
+        MissingOverrideAnnotationInspection inspection = new MissingOverrideAnnotationInspection();
+        inspection.ignoreObjectMethods = false;
+        return new InspectionProcessor(
+                project, psiFile, storage, missingOverrideAnnotation, inspection);
+    }
+
+    @NotNull
+    private InspectionProcessor getControlFlowStatementWithoutBracesProcessor(
+            Project project, PsiFile psiFile, Storage storage) {
+        return new InspectionProcessor(
+                project, psiFile, storage, useBlocks, new ControlFlowStatementWithoutBracesInspection());
+    }
+
+    @NotNull
+    private InspectionProcessor getExplicitTypeCanBeDiamondProcessor(
+            Project project, PsiFile psiFile, Storage storage) {
+        return new InspectionProcessor(
+                project, psiFile, storage, explicitTypeCanBeDiamond, new ExplicitTypeCanBeDiamondInspection());
+    }
+
+    @NotNull
+    private InspectionProcessor getUnnecessaryThisProcessor(
+            Project project, PsiFile psiFile, Storage storage) {
+        return new InspectionProcessor(
+                project, psiFile, storage, unnecessaryThis, new UnnecessaryThisInspection());
+    }
+
+    @NotNull
+    private InspectionProcessor getSuppressionAnnotationProcessor(
+            Project project, PsiFile psiFile, Storage storage) {
+        return new InspectionProcessor(
+                project, psiFile, storage, suppressAnnotation, new SuppressionAnnotationInspection());
+    }
+
+    @NotNull
+    private InspectionProcessor getFinalPrivateMethodProcessor(
+            Project project, PsiFile psiFile, Storage storage) {
+        return new InspectionProcessor(
+                project, psiFile, storage, finalPrivateMethod, new FinalPrivateMethodInspection());
+    }
+
+    @NotNull
+    private InspectionProcessor getUnnecessarySemicolonProcessor(
+            Project project, PsiFile psiFile, Storage storage) {
+        return new InspectionProcessor(
+                project, psiFile, storage, unnecessarySemicolon, new UnnecessarySemicolonInspection());
+    }
+
+    @NotNull
+    private InspectionProcessor getUnnecessaryFinalOnLocalVariableOrParameterProcessor(
+            Project project, PsiFile psiFile, Storage storage) {
+        return new InspectionProcessor(
+                project, psiFile, storage, unnecessaryFinalOnLocalVariableOrParameter,
+                new UnnecessaryFinalOnLocalVariableOrParameterInspection());
     }
 
 }
