@@ -25,6 +25,8 @@ import static com.dubreuia.model.Action.unnecessaryFinalOnLocalVariableOrParamet
 import static com.dubreuia.model.Action.unnecessarySemicolon;
 import static com.dubreuia.model.Action.unnecessaryThis;
 import static com.dubreuia.model.Action.unqualifiedFieldAccess;
+import static com.dubreuia.model.Action.unqualifiedMethodAccess;
+import static com.dubreuia.model.Action.unqualifiedStaticMemberAccess;
 import static com.dubreuia.model.Action.useBlocks;
 
 /**
@@ -54,6 +56,8 @@ public enum EpfStorage {
     private static final String EPF_LOCAL_CAN_BE_FINAL = "sp_cleanup.make_local_variable_final";
 
     private static final String EPF_UNQUALIFIED_FIELD_ACCESS = "sp_cleanup.use_this_for_non_static_field_access";
+    private static final String EPF_UNQUALIFIED_METHOD_ACCESS = "sp_cleanup.always_use_this_for_non_static_method_access";
+    private static final String EPF_QUALIFY_STATIC_MEMBER_ACCESS = "sp_cleanup.qualify_static_member_accesses_with_declaring_class";
 
     private static final String[] EPF_MISSING_OVERRIDE_ANNOTATION = new String[]{
             "sp_cleanup.add_missing_override_annotations", "sp_cleanup.add_missing_override_annotations_interface_methods"};
@@ -108,6 +112,8 @@ public enum EpfStorage {
         storage.setEnabled(fieldCanBeFinal, isEnabledEPForJava(properties, EPF_FIELD_CAN_BE_FINAL));
         storage.setEnabled(localCanBeFinal, isEnabledEPForJava(properties, EPF_LOCAL_CAN_BE_FINAL));
         storage.setEnabled(unqualifiedFieldAccess, isEnabledEPForJava(properties, EPF_UNQUALIFIED_FIELD_ACCESS));
+        storage.setEnabled(unqualifiedMethodAccess, isEnabledEPForJava(properties, EPF_UNQUALIFIED_METHOD_ACCESS));
+        storage.setEnabled(unqualifiedStaticMemberAccess, isEnabledEPForJava(properties, EPF_QUALIFY_STATIC_MEMBER_ACCESS));
         storage.setEnabled(missingOverrideAnnotation, isEnabledEPForJava(properties, EPF_MISSING_OVERRIDE_ANNOTATION));
         storage.setEnabled(useBlocks, isEnabledEPForJava(properties, EPF_USE_BLOCKS_1, EPF_USE_BLOCKS_2));
         storage.setEnabled(unnecessaryThis, false);

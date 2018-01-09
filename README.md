@@ -89,6 +89,8 @@ If a quick fix adds something that is removed by another quick fix, the removal 
 | Add final to field                                      | Will add the final modifier to fields
 | Add final to local variable or parameter                | Will add the final modifier to local variable and parameters
 | Add this to field access                                | Will qualify all field access with this
+| Add this to method access                               | Will qualify all method access with this
+| Add class qualifier to static member access             | Will qualify all access to static members with Class name
 | Add missing @Override annotations                       | Will add missing @Override annotations to all inherited methods
 | Add blocks in if/while/for statements                   | Will add missing braces to any if, while or for statements without braces
 | Remove unnecessary this                                 | Will remove unnecessary this field access
