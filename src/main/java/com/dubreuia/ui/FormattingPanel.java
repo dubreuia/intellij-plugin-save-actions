@@ -18,7 +18,7 @@ class FormattingPanel {
 
     private final Map<Action, JCheckBox> checkboxes;
 
-    FormattingPanel(final Map<Action, JCheckBox> checkboxes) {
+    FormattingPanel(Map<Action, JCheckBox> checkboxes) {
         this.checkboxes = checkboxes;
     }
 

@@ -15,6 +15,7 @@ public class Component extends com.dubreuia.core.Component {
         SaveActionFactory.JAVA_AVAILABLE = true;
     }
 
+    @Override
     @NotNull
     public String getComponentName() {
         return COMPONENT_NAME;

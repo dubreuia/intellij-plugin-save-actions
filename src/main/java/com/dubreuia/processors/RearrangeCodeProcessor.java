@@ -14,7 +14,6 @@ import com.intellij.util.diff.FilesTooBigForDiffException;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
-import java.util.concurrent.Callable;
 import java.util.concurrent.FutureTask;
 
 import static com.dubreuia.core.SaveActionManager.LOGGER;
@@ -35,42 +34,36 @@ class RearrangeCodeProcessor extends com.intellij.codeInsight.actions.RearrangeC
     @NotNull
     @Override
     // com.intellij.codeInsight.actions.RearrangeCodeProcessor.prepareTask()
-    protected FutureTask<Boolean> prepareTask(@NotNull final PsiFile file, final boolean processChangedTextOnly) {
-        return new FutureTask<Boolean>(new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                try {
-                    Collection<TextRange> ranges = getRangesToFormat(file, processChangedTextOnly);
-                    Document document = PsiDocumentManager.getInstance(myProject).getDocument(file);
+    protected FutureTask<Boolean> prepareTask(@NotNull PsiFile file, boolean processChangedTextOnly) {
+        return new FutureTask<>(() -> {
+            try {
+                Collection<TextRange> ranges = getRangesToFormat(file, processChangedTextOnly);
+                Document document = PsiDocumentManager.getInstance(myProject).getDocument(file);
 
-                    if (document != null && Rearranger.EXTENSION.forLanguage(file.getLanguage()) != null) {
-                        PsiDocumentManager.getInstance(myProject).doPostponedOperationsAndUnblockDocument(document);
-                        Runnable command = prepareRearrangeCommand(file, ranges);
-                        CommandProcessor.getInstance().executeCommand(myProject, command, COMMAND_NAME, null);
-                    }
-
-                    return true;
-                } catch (FilesTooBigForDiffException e) {
-                    handleFileTooBigException(LOGGER, e, file);
-                    return false;
+                if (document != null && Rearranger.EXTENSION.forLanguage(file.getLanguage()) != null) {
+                    PsiDocumentManager.getInstance(myProject).doPostponedOperationsAndUnblockDocument(document);
+                    Runnable command = prepareRearrangeCommand(file, ranges);
+                    CommandProcessor.getInstance().executeCommand(myProject, command, COMMAND_NAME, null);
                 }
 
+                return true;
+            } catch (FilesTooBigForDiffException e) {
+                handleFileTooBigException(LOGGER, e, file);
+                return false;
             }
+
         });
     }
 
     @NotNull
     // com.intellij.codeInsight.actions.RearrangeCodeProcessor#prepareRearrangeCommand
-    private Runnable prepareRearrangeCommand(@NotNull final PsiFile file, @NotNull final Collection<TextRange> ranges) {
-        final ArrangementEngine engine = ServiceManager.getService(myProject, ArrangementEngine.class);
-        return new Runnable() {
-            @Override
-            public void run() {
-                engine.arrange(file, ranges);
-                if (getInfoCollector() != null) {
-                    String info = engine.getUserNotificationInfo();
-                    getInfoCollector().setRearrangeCodeNotification(info);
-                }
+    private Runnable prepareRearrangeCommand(@NotNull PsiFile file, @NotNull Collection<TextRange> ranges) {
+        ArrangementEngine engine = ServiceManager.getService(myProject, ArrangementEngine.class);
+        return () -> {
+            engine.arrange(file, ranges);
+            if (getInfoCollector() != null) {
+                String info = engine.getUserNotificationInfo();
+                getInfoCollector().setRearrangeCodeNotification(info);
             }
         };
     }

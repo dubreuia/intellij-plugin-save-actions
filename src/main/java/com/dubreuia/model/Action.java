@@ -1,7 +1,9 @@
 package com.dubreuia.model;
 
-import java.util.LinkedHashSet;
+import java.util.Arrays;
 import java.util.Set;
+
+import static java.util.stream.Collectors.toSet;
 
 public enum Action {
 
@@ -75,14 +77,9 @@ public enum Action {
     }
 
     public static Set<Action> getDefaults() {
-        Set<Action> result = new LinkedHashSet<Action>();
-        for (Action action : Action.values()) {
-            if (action.isDefaultValue()) {
-                result.add(action);
-            }
-        }
-        return result;
-
+        return Arrays.stream(Action.values())
+                .filter(Action::isDefaultValue)
+                .collect(toSet());
     }
 
 }

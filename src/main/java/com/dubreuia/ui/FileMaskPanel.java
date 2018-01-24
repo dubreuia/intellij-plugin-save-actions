@@ -38,18 +38,18 @@ abstract class FileMaskPanel extends JPanel {
         this.textAddTitle = textAddTitle;
         this.textEditMessage = textEditMessage;
         this.textEditTitle = textEditTitle;
-        this.patternList = new JBList(patternModels);
-        this.patternList.setEmptyText(textEmpty);
-        this.patternPanel = ToolbarDecorator.createDecorator(patternList)
+        patternList = new JBList(patternModels);
+        patternList.setEmptyText(textEmpty);
+        patternPanel = ToolbarDecorator.createDecorator(patternList)
                 .setAddAction(getAddActionButtonRunnable(patterns))
                 .setRemoveAction(getRemoveActionButtonRunnable(patterns))
                 .setEditAction(getEditActionButtonRunnable(patterns))
                 .disableUpDownActions()
                 .createPanel();
-        this.patternPanel.setBorder(IdeBorderFactory.createTitledBorder(textTitle));
+        patternPanel.setBorder(IdeBorderFactory.createTitledBorder(textTitle));
     }
 
-    private AnActionButtonRunnable getEditActionButtonRunnable(final Set<String> patterns) {
+    private AnActionButtonRunnable getEditActionButtonRunnable(Set<String> patterns) {
         return new AnActionButtonRunnable() {
             @Override
             public void run(AnActionButton anActionButton) {
@@ -78,7 +78,7 @@ abstract class FileMaskPanel extends JPanel {
     }
 
     @NotNull
-    private AnActionButtonRunnable getRemoveActionButtonRunnable(final Set<String> patterns) {
+    private AnActionButtonRunnable getRemoveActionButtonRunnable(Set<String> patterns) {
         return new AnActionButtonRunnable() {
             @Override
             public void run(AnActionButton anActionButton) {
@@ -93,7 +93,7 @@ abstract class FileMaskPanel extends JPanel {
 
 
     @NotNull
-    private AnActionButtonRunnable getAddActionButtonRunnable(final Set<String> patterns) {
+    private AnActionButtonRunnable getAddActionButtonRunnable(Set<String> patterns) {
         return new AnActionButtonRunnable() {
             @Override
             public void run(AnActionButton anActionButton) {

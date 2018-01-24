@@ -45,12 +45,8 @@ class InspectionProcessor implements Processor {
     @Override
     public void run() {
         if (storage.isEnabled(action)) {
-            ApplicationManager.getApplication().invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    new InspectionWriteQuickFixesAction(project).execute();
-                }
-            });
+            ApplicationManager.getApplication()
+                    .invokeLater(() -> new InspectionWriteQuickFixesAction(project).execute());
         }
     }
 

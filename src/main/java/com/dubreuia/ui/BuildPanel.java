@@ -16,7 +16,7 @@ class BuildPanel {
 
     private final Map<Action, JCheckBox> checkboxes;
 
-    BuildPanel(final Map<Action, JCheckBox> checkboxes) {
+    BuildPanel(Map<Action, JCheckBox> checkboxes) {
         this.checkboxes = checkboxes;
     }
 

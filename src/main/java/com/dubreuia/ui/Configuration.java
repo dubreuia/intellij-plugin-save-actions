@@ -22,7 +22,6 @@ import java.util.Set;
 
 import static com.dubreuia.model.Action.activate;
 import static com.dubreuia.model.Action.activateOnShortcut;
-import static com.dubreuia.model.Action.noActionIfCompileErrors;
 import static com.dubreuia.model.Action.rearrange;
 import static com.dubreuia.model.Action.rearrangeChangedCode;
 import static com.dubreuia.model.Action.reformat;
@@ -34,10 +33,10 @@ public class Configuration implements Configurable {
 
     private final Storage storage;
 
-    private final Set<String> exclusions = new HashSet<String>();
-    private final Set<String> inclusions = new HashSet<String>();
+    private final Set<String> exclusions = new HashSet<>();
+    private final Set<String> inclusions = new HashSet<>();
 
-    private final Map<Action, JCheckBox> checkboxes = new HashMap<Action, JCheckBox>();
+    private final Map<Action, JCheckBox> checkboxes = new HashMap<>();
 
     private final ActionListener checkboxActionListener = new ActionListener() {
         @Override
@@ -61,7 +60,7 @@ public class Configuration implements Configurable {
     private IdeSupportPanel ideSupport;
 
     public Configuration(Project project) {
-        this.storage = ServiceManager.getService(project, Storage.class);
+        storage = ServiceManager.getService(project, Storage.class);
     }
 
     @Nullable
@@ -106,8 +105,8 @@ public class Configuration implements Configurable {
         for (Map.Entry<Action, JCheckBox> checkbox : checkboxes.entrySet()) {
             storage.setEnabled(checkbox.getKey(), checkbox.getValue().isSelected());
         }
-        storage.setExclusions(new HashSet<String>(exclusions));
-        storage.setInclusions(new HashSet<String>(inclusions));
+        storage.setExclusions(new HashSet<>(exclusions));
+        storage.setInclusions(new HashSet<>(inclusions));
         storage.setConfigurationPath(ideSupport.getPath());
         Storage efpStorage = EpfStorage.INSTANCE.getStorageOrDefault(ideSupport.getPath(), storage);
         updateSelectedStateOfCheckboxes(efpStorage.getActions());

@@ -15,6 +15,7 @@ public class Component implements ApplicationComponent {
 
     private static final String COMPONENT_NAME = "Save Actions";
 
+    @Override
     public void initComponent() {
         MessageBus bus = ApplicationManager.getApplication().getMessageBus();
         MessageBusConnection connection = bus.connect();
@@ -26,9 +27,11 @@ public class Component implements ApplicationComponent {
         return new SaveActionManager();
     }
 
+    @Override
     public void disposeComponent() {
     }
 
+    @Override
     @NotNull
     public String getComponentName() {
         return COMPONENT_NAME;

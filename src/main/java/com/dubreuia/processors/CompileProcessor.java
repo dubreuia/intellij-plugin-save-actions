@@ -30,14 +30,11 @@ class CompileProcessor implements Processor {
     @Override
     public void run() {
         if (storage.isEnabled(compile)) {
-            ApplicationManager.getApplication().invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        CompilerManager.getInstance(project).compile(new VirtualFile[]{file.getVirtualFile()}, null);
-                    } catch (Exception e) {
-                        LOGGER.error(e.getMessage(), e);
-                    }
+            ApplicationManager.getApplication().invokeLater(() -> {
+                try {
+                    CompilerManager.getInstance(project).compile(new VirtualFile[]{file.getVirtualFile()}, null);
+                } catch (Exception e) {
+                    LOGGER.error(e.getMessage(), e);
                 }
             });
         }

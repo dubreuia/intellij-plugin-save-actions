@@ -70,7 +70,7 @@ public class IdeSupportPanel {
     }
 
     @NotNull
-    private JButton getResetButton(final TextFieldWithBrowseButton path) {
+    private JButton getResetButton(TextFieldWithBrowseButton path) {
         JButton reset = new JButton(BUTTON);
         reset.addActionListener(new ActionListener() {
             @Override

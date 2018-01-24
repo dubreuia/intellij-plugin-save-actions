@@ -41,7 +41,7 @@ public enum ProcessorFactory {
     INSTANCE;
 
     public List<Processor> getSaveActionsProcessors(Project project, PsiFile psiFile, Storage storage) {
-        List<Processor> processors = new ArrayList<Processor>();
+        List<Processor> processors = new ArrayList<>();
         // Add stuff
         processors.add(getLocalCanBeFinalProcessor(project, psiFile, storage));
         processors.add(getUnqualifiedFieldAccessProcessor(project, psiFile, storage));
