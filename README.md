@@ -23,7 +23,7 @@ The code style applied by the save actions plugin is the one configured your set
 
 ## Compatibility
 
-Built with IntelliJ IDEA IU-163.7743.44 (2016.3.6), JDK 1.6, those are the currently supported products, and is not expected to work in other products:
+Built with IntelliJ IDEA IC-2016.3, JDK 1.8, those are the currently supported products, and is not expected to work in other products:
 
 - Intellij IDEA
 - PyCharm
@@ -128,12 +128,18 @@ There are two keymaps, binded to actions, that can be configured in save-actions
 
 ### Development environment
 
-- Checkout the save actions plugin
-- Start Intellij IDEA and import project with "File > Open > (project folder)"
-- Download intellij version 163.7743.44 at https://www.jetbrains.com/intellij-repository/releases
-- Configure project with the downloaded SDK and build
-- Create a new run with "Run > Edit configurations > + > Plugin"
-- Launch the plugin with run or debug
+The plugin is built with gradle.
+
+```bash
+# Cleanup idea folders
+gradle cleanIdea
+
+# Initialize idea folders
+gradle idea
+
+# Run the plugin (starts new idea)
+gradle runIdea
+```
 
 ### Sending a pull request
 

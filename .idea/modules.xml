@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/save-actions.iml" filepath="$PROJECT_DIR$/save-actions.iml" />
+      <module fileurl="file://$PROJECT_DIR$/intellij-plugin-save-actions.iml" filepath="$PROJECT_DIR$/intellij-plugin-save-actions.iml" />
     </modules>
   </component>
 </project>

@@ -7,7 +7,14 @@
 out
 
 # Vim
-*.gitignore.swp
+*.swp
 
 # Plugins
 *.idea/checkstyle-idea.xml
+
+# Gradle
+.gradle/
+build/
+intellij-plugin-save-actions.iml
+intellij-plugin-save-actions.ipr
+intellij-plugin-save-actions.iws

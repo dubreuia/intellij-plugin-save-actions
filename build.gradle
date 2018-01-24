@@ -1,0 +1,23 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+
+plugins {
+    id "org.jetbrains.intellij" version "0.1.10"
+}
+
+apply plugin: 'idea'
+apply plugin: 'org.jetbrains.intellij'
+apply plugin: 'java'
+
+intellij {
+    version '2016.3'
+    plugins 'coverage'
+    pluginName 'Save Actions'
+    updateSinceUntilBuild false
+}
+
+group 'com.dubreuia'
+version '0.25'

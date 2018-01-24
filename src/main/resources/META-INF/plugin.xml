@@ -25,7 +25,7 @@
   <li>Automatically fix Java inspections (Intellij IDEA only)</li>
 </ul>
 
-<p><strong>Compatibility (build 163.7743.44, 2016.3.6, JDK 1.6)</strong></p>
+<p><strong>Compatibility (build 2016.3, JDK 1.8)</strong></p>
 
 <ul>
   <li>Intellij IDEA</li>
