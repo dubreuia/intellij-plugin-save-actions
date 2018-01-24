@@ -1,5 +1,7 @@
 # Intellij Save Actions Plugin
 
+[![Build Status](https://travis-ci.org/dubreuia/intellij-plugin-save-actions.svg?branch=master)](https://travis-ci.org/dubreuia/intellij-plugin-save-actions)
+
 Supports configurable, Eclipse like, save actions, including "organize imports", "reformat code", "rearrange code", "compile file" and some quick fixes like "add / remove 'this' qualifier", etc. The plugin executes the configured actions when the file is synchronised (or saved) on disk.
 
 Using the save actions plugin makes your code cleaner and more uniform across your code base by enforcing your code style and code rules every time you save. The settings file (see [files location](https://github.com/dubreuia/intellij-plugin-save-actions#files-location)) can be shared in your development team so that every developer has the same configuration.

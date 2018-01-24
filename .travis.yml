@@ -1,0 +1,15 @@
+language: java
+
+jdk:
+  - oraclejdk8
+
+script:
+  gradle test
+
+branches:
+  only:
+  - master
+
+notifications:
+  email: true
+
