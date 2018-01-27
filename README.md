@@ -33,6 +33,7 @@ Built with IntelliJ IDEA IC-2016.3, JDK 1.8, those are the currently supported p
 - AndroidStudio
 - WebStorm
 - RubyMine
+- CLion
 
 See issue [#18](https://github.com/dubreuia/intellij-plugin-save-actions/issues/18) for a beta packaging that you can try in other products.
 
