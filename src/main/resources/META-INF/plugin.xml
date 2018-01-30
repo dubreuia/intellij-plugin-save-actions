@@ -20,9 +20,9 @@
   <li>Include / exclude files with regex support</li>
   <li>Works any file type (Java, Python, XML, etc.)</li>
   <li>Uses a settings file per project you can commit</li>
-  <li>Available keymaps for activation</li>
-  <li>Other IDE support (Eclipse *.epf files)</li>
-  <li>Automatically fix Java inspections (Intellij IDEA only)</li>
+  <li>Available keymaps and actions for activation</li>
+  <li>Eclipse configuration file `.epf` support (Java IDE only)</li>
+  <li>Automatically fix Java inspections (Java IDEA only)</li>
 </ul>
 
 <p><strong>Compatibility (build 2016.3, JDK 1.8)</strong></p>

@@ -4,7 +4,7 @@
 
 Supports configurable, Eclipse like, save actions, including "organize imports", "reformat code", "rearrange code", "compile file" and some quick fixes like "add / remove 'this' qualifier", etc. The plugin executes the configured actions when the file is synchronised (or saved) on disk.
 
-Using the save actions plugin makes your code cleaner and more uniform across your code base by enforcing your code style and code rules every time you save. The settings file (see [files location](https://github.com/dubreuia/intellij-plugin-save-actions#files-location)) can be shared in your development team so that every developer has the same configuration.
+Using the save actions plugin makes your code cleaner and more uniform across your code base by enforcing your code style and code rules every time you save. The settings file (see [files location](#files-location)) can be shared in your development team so that every developer has the same configuration.
 
 The code style applied by the save actions plugin is the one configured your settings at "File > Settings > Editor > Code Style". For some languages, custom formatter may also be triggered by the save actions plugin. For example for Dart developers, enable "Use the dartfmt tool when formatting the whole file" option in "File > Settings > Editor > Code Style > Dart > Dartfmt".
 
@@ -16,12 +16,19 @@ The code style applied by the save actions plugin is the one configured your set
 - Rearrange code (reorder methods, fields, etc.)
 - Include / exclude files with regex support
 - Works any file type (Java, Python, XML, etc.)
-- Uses a settings file per project you can commit
-- Available keymaps for activation
-- Other IDE support (Eclipse *.epf files)
-- Automatically fix Java [inspections](https://github.com/dubreuia/intellij-plugin-save-actions/#java-quick-fixes) (Intellij IDEA only)
+- Uses a settings file per project you can commit (see [Files location](#files-location))
+- Available keymaps and actions for activation (see [Keymap and actions](#keymap-and-actions))
 
 ![Save actions plugin settings page](https://github.com/dubreuia/intellij-plugin-save-actions/blob/master/docs/intellij-save-actions-plugin-settings-page.png)
+
+## Java features
+
+Works in JetBrains IDE with Java support, like Intellij IDEA and AndroidStudio.
+
+- Eclipse configuration file `.epf` support (see [IDE support](#ide-support))
+- Automatically fix Java inspections (see [Java quick fixes](#java-fixes))
+
+![Save actions plugin settings page for Java](https://github.com/dubreuia/intellij-plugin-save-actions/blob/master/docs/intellij-save-actions-plugin-settings-page-java.png)
 
 ## Compatibility
 
@@ -103,6 +110,12 @@ If a quick fix adds something that is removed by another quick fix, the removal 
 | Remove explicit generic type for diamond                | Will remove unused right side generic types for Java 7 diamond operator. This `List<String> list = new ArrayList<String>()` becomes `List<String> list = new ArrayList<>()`
 | Remove unused suppress warning annotation               | Will remove any unused @SuppressWarning annotations
 | Remove unnecessary semicolon                            | Will remove unnecessary semicolon
+
+## IDE support
+
+The save-actions plugin supports Eclipse configuration `.epf` files (Java IDE only). You can specify a path to an Eclipse configuration file in the "IDE Support" section to import it. The plugin will load the content of the file in the plugin configuration, and disable the plugin configuration options (the checkbox will be grayed out). Use the "reset" button to remove the import.
+
+You can find an example of [an Eclipse configuration `.epf` file](src/test/resources/example.epf) in the test resources.
 
 ## Keymap and actions
 
