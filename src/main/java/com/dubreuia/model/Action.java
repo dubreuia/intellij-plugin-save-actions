@@ -43,6 +43,8 @@ public enum Action {
 
     unqualifiedStaticMemberAccess("Add class qualifier to static member access", false),
 
+    customUnqualifiedStaticMemberAccess("Add class qualifier to static member access outside declaring class only", false),
+
     missingOverrideAnnotation("Add missing @Override annotations", false),
 
     useBlocks("Add blocks in if/while/for statements", false),
@@ -81,5 +83,4 @@ public enum Action {
                 .filter(Action::isDefaultValue)
                 .collect(toSet());
     }
-
 }

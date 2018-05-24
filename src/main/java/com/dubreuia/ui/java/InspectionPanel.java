@@ -2,12 +2,15 @@ package com.dubreuia.ui.java;
 
 import com.dubreuia.model.Action;
 import com.intellij.ui.IdeBorderFactory;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Dimension;
 import java.util.Map;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JCheckBox;
+import javax.swing.JPanel;
 
 import static com.dubreuia.core.SaveActionFactory.JAVA_AVAILABLE;
+import static com.dubreuia.model.Action.customUnqualifiedStaticMemberAccess;
 import static com.dubreuia.model.Action.explicitTypeCanBeDiamond;
 import static com.dubreuia.model.Action.fieldCanBeFinal;
 import static com.dubreuia.model.Action.finalPrivateMethod;
@@ -44,6 +47,7 @@ public class InspectionPanel {
         panel.add(checkboxes.get(unqualifiedFieldAccess));
         panel.add(checkboxes.get(unqualifiedMethodAccess));
         panel.add(checkboxes.get(unqualifiedStaticMemberAccess));
+        panel.add(checkboxes.get(customUnqualifiedStaticMemberAccess));
         panel.add(checkboxes.get(missingOverrideAnnotation));
         panel.add(checkboxes.get(useBlocks));
         panel.add(checkboxes.get(unnecessaryThis));
@@ -56,5 +60,4 @@ public class InspectionPanel {
         panel.setMinimumSize(new Dimension(Short.MAX_VALUE, 0));
         return panel;
     }
-
 }

@@ -27,6 +27,7 @@ import static com.dubreuia.model.Action.unnecessaryThis;
 import static com.dubreuia.model.Action.unqualifiedFieldAccess;
 import static com.dubreuia.model.Action.unqualifiedMethodAccess;
 import static com.dubreuia.model.Action.unqualifiedStaticMemberAccess;
+import static com.dubreuia.model.Action.customUnqualifiedStaticMemberAccess;
 import static com.dubreuia.model.Action.useBlocks;
 
 /**
@@ -58,6 +59,7 @@ public enum EpfStorage {
     private static final String EPF_UNQUALIFIED_FIELD_ACCESS = "sp_cleanup.use_this_for_non_static_field_access";
     private static final String EPF_UNQUALIFIED_METHOD_ACCESS = "sp_cleanup.always_use_this_for_non_static_method_access";
     private static final String EPF_QUALIFY_STATIC_MEMBER_ACCESS = "sp_cleanup.qualify_static_member_accesses_with_declaring_class";
+    private static final String EPF_QUALIFY_STATIC_MEMBER_ACCESS_OUT_CLASS_ONLY = "sp_cleanup.qualify_static_member_accesses_with_declaring_class_out_class_only";
 
     private static final String[] EPF_MISSING_OVERRIDE_ANNOTATION = new String[]{
             "sp_cleanup.add_missing_override_annotations", "sp_cleanup.add_missing_override_annotations_interface_methods"};
@@ -114,6 +116,7 @@ public enum EpfStorage {
         storage.setEnabled(unqualifiedFieldAccess, isEnabledEPForJava(properties, EPF_UNQUALIFIED_FIELD_ACCESS));
         storage.setEnabled(unqualifiedMethodAccess, isEnabledEPForJava(properties, EPF_UNQUALIFIED_METHOD_ACCESS));
         storage.setEnabled(unqualifiedStaticMemberAccess, isEnabledEPForJava(properties, EPF_QUALIFY_STATIC_MEMBER_ACCESS));
+        storage.setEnabled(customUnqualifiedStaticMemberAccess, isEnabledEPForJava(properties, EPF_QUALIFY_STATIC_MEMBER_ACCESS_OUT_CLASS_ONLY));
         storage.setEnabled(missingOverrideAnnotation, isEnabledEPForJava(properties, EPF_MISSING_OVERRIDE_ANNOTATION));
         storage.setEnabled(useBlocks, isEnabledEPForJava(properties, EPF_USE_BLOCKS_1, EPF_USE_BLOCKS_2));
         storage.setEnabled(unnecessaryThis, false);
@@ -157,5 +160,4 @@ public enum EpfStorage {
         }
         return properties;
     }
-
 }
