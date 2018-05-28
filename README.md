@@ -98,6 +98,7 @@ If a quick fix adds something that is removed by another quick fix, the removal 
 | Name                                                    | Description
 | ---                                                     | ---
 | Add final to field                                      | Will add the final modifier to fields
+| Make method static                                      | Will add the static modifier to methods which may be static
 | Add final to local variable or parameter                | Will add the final modifier to local variable and parameters
 | Add this to field access                                | Will qualify all field access with this
 | Add this to method access                               | Will qualify all method access with this

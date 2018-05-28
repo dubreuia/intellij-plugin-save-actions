@@ -9,6 +9,7 @@ import com.intellij.psi.PsiFile;
 import com.siyeh.ig.classlayout.FinalPrivateMethodInspection;
 import com.siyeh.ig.inheritance.MissingOverrideAnnotationInspection;
 import com.siyeh.ig.maturity.SuppressionAnnotationInspection;
+import com.siyeh.ig.performance.MethodMayBeStaticInspection;
 import com.siyeh.ig.style.ControlFlowStatementWithoutBracesInspection;
 import com.siyeh.ig.style.FieldMayBeFinalInspection;
 import com.siyeh.ig.style.UnnecessaryFinalOnLocalVariableOrParameterInspection;
@@ -26,6 +27,7 @@ import static com.dubreuia.model.Action.explicitTypeCanBeDiamond;
 import static com.dubreuia.model.Action.fieldCanBeFinal;
 import static com.dubreuia.model.Action.finalPrivateMethod;
 import static com.dubreuia.model.Action.localCanBeFinal;
+import static com.dubreuia.model.Action.methodMayBeStatic;
 import static com.dubreuia.model.Action.missingOverrideAnnotation;
 import static com.dubreuia.model.Action.suppressAnnotation;
 import static com.dubreuia.model.Action.unnecessaryFinalOnLocalVariableOrParameter;
@@ -44,6 +46,7 @@ public enum ProcessorFactory {
         List<Processor> processors = new ArrayList<>();
         // Add stuff
         processors.add(getLocalCanBeFinalProcessor(project, psiFile, storage));
+        processors.add(getMethodMayBeFinalProcessor(project, psiFile, storage));
         processors.add(getUnqualifiedFieldAccessProcessor(project, psiFile, storage));
         processors.add(getUnqualifiedMethodAccessProcessor(project, psiFile, storage));
         processors.add(getUnqualifiedStaticUsageInspectionProcessor(project, psiFile, storage));
@@ -65,6 +68,12 @@ public enum ProcessorFactory {
             Project project, PsiFile psiFile, Storage storage) {
         return new InspectionProcessor(
                 project, psiFile, storage, localCanBeFinal, new LocalCanBeFinal());
+    }
+
+    @NotNull
+    private InspectionProcessor getMethodMayBeFinalProcessor(Project project, PsiFile psiFile, Storage storage) {
+        return new InspectionProcessor(
+                project, psiFile, storage, methodMayBeStatic, new MethodMayBeStaticInspection());
     }
 
     @NotNull
@@ -157,5 +166,4 @@ public enum ProcessorFactory {
                 project, psiFile, storage, unnecessaryFinalOnLocalVariableOrParameter,
                 new UnnecessaryFinalOnLocalVariableOrParameterInspection());
     }
-
 }
