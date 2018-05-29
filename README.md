@@ -1,6 +1,8 @@
 # Intellij Save Actions Plugin
 
-[![Build Status](https://travis-ci.org/dubreuia/intellij-plugin-save-actions.svg?branch=master)](https://travis-ci.org/dubreuia/intellij-plugin-save-actions)
+[![Travis Build Status](https://img.shields.io/travis/dubreuia/intellij-plugin-save-actions.svg)](https://travis-ci.org/dubreuia/intellij-plugin-save-actions.svg?branch=master)
+[![Jetbrains Plugin](https://img.shields.io/jetbrains/plugin/v/7642-save-actions.svg)](https://plugins.jetbrains.com/plugin/7642-save-actions)
+[![Github Tag](https://img.shields.io/github/tag/dubreuia/intellij-plugin-save-actions.svg)](https://github.com/dubreuia/intellij-plugin-save-actions/releases)
 
 Supports configurable, Eclipse like, save actions, including "organize imports", "reformat code", "rearrange code", "compile file" and some quick fixes like "add / remove 'this' qualifier", etc. The plugin executes the configured actions when the file is synchronised (or saved) on disk.
 
@@ -133,13 +135,7 @@ There are two keymaps, binded to actions, that can be configured in save-actions
 
 ## Contributors
 
-- [markiewb](https://github.com/markiewb)
-- [edeknede](https://github.com/edeknede)
-- [krasa](https://github.com/krasa)
-- [dorkbox](https://github.com/dorkbox)
-- [zhujk](https://github.com/zhujk)
-- [marcosbento](https://github.com/marcosbento)
-- [visajkin](https://github.com/visajkin)
+Big thanks to all the contributors submitting issues, testing, and especially submitting pull requests. See [contributors graph](https://github.com/dubreuia/intellij-plugin-save-actions/graphs/contributors).
 
 ## Contributing
 
@@ -179,10 +175,6 @@ The plugin is in the [JetBrains plugin repository](https://plugins.jetbrains.com
 
 Please take the time to [rate the plugin](https://plugins.jetbrains.com/plugin/7642-save-actions)!
 
-## Say thank you
-
-At [thank you open source](https://www.thankyouopensource.com/list/dubreuia/intellij-plugin-save-actions).
-
 ## Bugs / features
 
 The plugin does not work? You want more features? You can [ask me on twitter](https://twitter.com/dubreuia) or [create an issue on github](https://github.com/dubreuia/intellij-plugin-save-actions/issues).
@@ -190,3 +182,4 @@ The plugin does not work? You want more features? You can [ask me on twitter](ht
 ## Licence
 
 [MIT License](LICENSE.txt)
+
