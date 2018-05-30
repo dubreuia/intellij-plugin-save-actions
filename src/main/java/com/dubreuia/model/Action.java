@@ -35,7 +35,7 @@ public enum Action {
 
     localCanBeFinal("Add final to local variable", false),
 
-    methodMayBeStatic("Make method static", false),
+    methodMayBeStatic("Add static to method", false),
 
     unqualifiedFieldAccess("Add this to field access", false),
 
