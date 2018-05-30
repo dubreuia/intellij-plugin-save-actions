@@ -15,6 +15,7 @@ import static com.dubreuia.model.Action.explicitTypeCanBeDiamond;
 import static com.dubreuia.model.Action.fieldCanBeFinal;
 import static com.dubreuia.model.Action.finalPrivateMethod;
 import static com.dubreuia.model.Action.localCanBeFinal;
+import static com.dubreuia.model.Action.methodMayBeStatic;
 import static com.dubreuia.model.Action.missingOverrideAnnotation;
 import static com.dubreuia.model.Action.suppressAnnotation;
 import static com.dubreuia.model.Action.unnecessaryFinalOnLocalVariableOrParameter;
@@ -44,6 +45,7 @@ public class InspectionPanel {
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
         panel.add(checkboxes.get(fieldCanBeFinal));
         panel.add(checkboxes.get(localCanBeFinal));
+        panel.add(checkboxes.get(methodMayBeStatic));
         panel.add(checkboxes.get(unqualifiedFieldAccess));
         panel.add(checkboxes.get(unqualifiedMethodAccess));
         panel.add(checkboxes.get(unqualifiedStaticMemberAccess));
