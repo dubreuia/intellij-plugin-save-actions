@@ -3,7 +3,7 @@
 [![Jetbrains Plugin](https://img.shields.io/jetbrains/plugin/v/7642-save-actions.svg)](https://plugins.jetbrains.com/plugin/7642-save-actions)
 [![Travis Build Status](https://travis-ci.org/dubreuia/intellij-plugin-save-actions.svg?branch=master)](https://travis-ci.org/dubreuia/intellij-plugin-save-actions)
 
-Supports configurable, Eclipse like, save actions, including "organize imports", "reformat code", "rearrange code", "compile file" and some quick fixes like "add / remove 'this' qualifier", etc. The plugin executes the configured actions when the file is synchronised (or saved) on disk.
+Supports configurable, Eclipse like, save actions, including "optimize imports", "reformat code", "rearrange code", "compile file" and some quick fixes like "add / remove 'this' qualifier", etc. The plugin executes the configured actions when the file is synchronised (or saved) on disk.
 
 Using the save actions plugin makes your code cleaner and more uniform across your code base by enforcing your code style and code rules every time you save. The settings file (see [files location](#files-location)) can be shared in your development team so that every developer has the same configuration.
 
@@ -11,7 +11,7 @@ The code style applied by the save actions plugin is the one configured your set
 
 ## Features
 
-- Organize imports
+- Optimize imports
 - Run on file save or shortcut (or both)
 - Reformat code (whole file or only changed text)
 - Rearrange code (reorder methods, fields, etc.)
@@ -73,7 +73,7 @@ You can quickly toggle the plugin activation by using the "Enable Save Action" a
 
 | Name                               | Description
 | ---                                | ---
-| Organize imports                   | Enable / disable import organization (configured in "File > Settings > Code Style > Java > Imports")
+| Optimize imports                   | Enable / disable import organization (configured in "File > Settings > Code Style > Java > Imports")
 | Reformat file                      | Enable / disable formatting (configured in "File > Settings > Code Style"). See "Reformat only changed code" for more options
 | Rearrange fields and methods       | Enable / disable re-ordering of fields and methods (configured in "File > Settings > Code Style > Java > Arrangement")
 | Reformat only changed code         | Enable / disable formatting for changed code only. If VCS is configured, it is used to check which lines where modified. If VCS is not configured, the code will always get reformatted

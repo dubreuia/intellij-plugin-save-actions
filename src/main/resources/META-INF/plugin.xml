@@ -8,12 +8,12 @@
     <vendor email="dubreuil.alex@gmail.com" url="https://www.github.com/dubreuia">Alexandre DuBreuil</vendor>
 
     <description><![CDATA[
-<p>Supports configurable, Eclipse like, save actions, including "organize imports", "reformat code", "rearrange code", "compile file" and some quick fixes for Java like "add / remove 'this' qualifier", etc. The plugin executes the configured actions when the file is synchronised (or saved) on disk.</p>
+<p>Supports configurable, Eclipse like, save actions, including "optimize imports", "reformat code", "rearrange code", "compile file" and some quick fixes for Java like "add / remove 'this' qualifier", etc. The plugin executes the configured actions when the file is synchronised (or saved) on disk.</p>
 
 <p><strong>Features</strong></p>
 
 <ul>
-  <li>Organize imports</li>
+  <li>Optimize imports</li>
   <li>Run on file save or shortcut (or both)</li>
   <li>Reformat code (whole file or only changed text)</li>
   <li>Rearrange code (reorder methods, fields, etc.)</li>

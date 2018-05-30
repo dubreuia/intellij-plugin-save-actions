@@ -17,7 +17,7 @@ public enum Action {
 
     // Global
 
-    organizeImports("Organize imports", true),
+    organizeImports("Optimize imports", true),
 
     reformat("Reformat file", true),
 
@@ -60,7 +60,6 @@ public enum Action {
     suppressAnnotation("Remove unused suppress warning annotation", false),
 
     unnecessarySemicolon("Remove unnecessary semicolon", false);
-
 
     private final String text;
 
