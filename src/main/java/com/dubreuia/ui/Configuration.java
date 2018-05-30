@@ -7,12 +7,14 @@ import com.dubreuia.ui.java.IdeSupportPanel;
 import com.dubreuia.ui.java.InspectionPanel;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.options.Configurable;
-import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
 
-import javax.swing.*;
+import javax.swing.BoxLayout;
+import javax.swing.JCheckBox;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -22,10 +24,10 @@ import java.util.Set;
 
 import static com.dubreuia.model.Action.activate;
 import static com.dubreuia.model.Action.activateOnShortcut;
-import static com.dubreuia.model.Action.rearrange;
-import static com.dubreuia.model.Action.rearrangeChangedCode;
+import static com.dubreuia.model.Action.customUnqualifiedStaticMemberAccess;
 import static com.dubreuia.model.Action.reformat;
 import static com.dubreuia.model.Action.reformatChangedCode;
+import static com.dubreuia.model.Action.unqualifiedStaticMemberAccess;
 
 public class Configuration implements Configurable {
 
@@ -38,12 +40,7 @@ public class Configuration implements Configurable {
 
     private final Map<Action, JCheckBox> checkboxes = new HashMap<>();
 
-    private final ActionListener checkboxActionListener = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            updateEnabled();
-        }
-    };
+    private final ActionListener checkboxActionListener = this::updateCheckboxEnabled;
 
     private GeneralPanel generalPanel;
 
@@ -101,7 +98,7 @@ public class Configuration implements Configurable {
     }
 
     @Override
-    public void apply() throws ConfigurationException {
+    public void apply() {
         for (Map.Entry<Action, JCheckBox> checkbox : checkboxes.entrySet()) {
             storage.setEnabled(checkbox.getKey(), checkbox.getValue().isSelected());
         }
@@ -110,13 +107,13 @@ public class Configuration implements Configurable {
         storage.setConfigurationPath(ideSupport.getPath());
         Storage efpStorage = EpfStorage.INSTANCE.getStorageOrDefault(ideSupport.getPath(), storage);
         updateSelectedStateOfCheckboxes(efpStorage.getActions());
-        updateEnabled();
+        updateCheckboxEnabled(null);
     }
 
     @Override
     public void reset() {
         updateSelectedStateOfCheckboxes(storage.getActions());
-        updateEnabled();
+        updateCheckboxEnabled(null);
         updateExclusions();
         updateInclusions();
         ideSupport.setPath(storage.getConfigurationPath());
@@ -178,8 +175,8 @@ public class Configuration implements Configurable {
     }
 
     private JPanel initRootPanel(JPanel general, JPanel actions, JPanel build, JPanel inspections,
-                                 JPanel fileMasksInclusions, JPanel fileMasksExclusions,
-                                 JPanel ideSupport) {
+            JPanel fileMasksInclusions, JPanel fileMasksExclusions,
+            JPanel ideSupport) {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 
@@ -199,22 +196,10 @@ public class Configuration implements Configurable {
         return panel;
     }
 
-    private void updateEnabled() {
-        boolean activateIsSelected = checkboxes.get(activate).isSelected();
-        boolean activateShortcutIsSelected = checkboxes.get(activateOnShortcut).isSelected();
-
-        for (Map.Entry<Action, JCheckBox> checkbox : checkboxes.entrySet()) {
-            Action currentCheckBoxKey = checkbox.getKey();
-
-            if (!activate.equals(currentCheckBoxKey) && !activateOnShortcut.equals(currentCheckBoxKey)) {
-                checkbox.getValue().setEnabled(activateIsSelected || activateShortcutIsSelected);
-            }
-        }
-        boolean activateSelected = checkboxes.get(activate).isSelected() || checkboxes.get(activateOnShortcut).isSelected();
-        boolean reformatSelected = checkboxes.get(reformat).isSelected();
-        boolean rearangeSelected = checkboxes.get(rearrange).isSelected();
-        checkboxes.get(reformatChangedCode).setEnabled(activateSelected && reformatSelected);
-        checkboxes.get(rearrangeChangedCode).setEnabled(activateSelected && rearangeSelected);
+    private void updateInclusions() {
+        inclusions.clear();
+        inclusions.addAll(storage.getInclusions());
+        fileMasksInclusionPanel.update(inclusions);
     }
 
     private void updateExclusions() {
@@ -223,10 +208,44 @@ public class Configuration implements Configurable {
         fileMasksExclusionPanel.update(exclusions);
     }
 
-    private void updateInclusions() {
-        inclusions.clear();
-        inclusions.addAll(storage.getInclusions());
-        fileMasksInclusionPanel.update(inclusions);
+    private void updateCheckboxEnabled(ActionEvent event) {
+        updateCheckboxEnabledIfActiveSelected();
+        updateCheckboxEnabledGroupReformat();
+        updateCheckboxEnabledGroupStaticExclusive(event);
+    }
+
+    private void updateCheckboxEnabledIfActiveSelected() {
+        for (Map.Entry<Action, JCheckBox> checkbox : checkboxes.entrySet()) {
+            Action currentCheckBoxKey = checkbox.getKey();
+            if (!activate.equals(currentCheckBoxKey) && !activateOnShortcut.equals(currentCheckBoxKey)) {
+                checkbox.getValue().setEnabled(isActiveSelected());
+            }
+        }
+    }
+
+    private void updateCheckboxEnabledGroupReformat() {
+        boolean reformatSelected = checkboxes.get(reformat).isSelected();
+        checkboxes.get(reformatChangedCode).setEnabled(isActiveSelected() && reformatSelected);
+    }
+
+    private void updateCheckboxEnabledGroupStaticExclusive(ActionEvent event) {
+        if (event == null || !(event.getSource() instanceof JCheckBox)) {
+            return;
+        }
+        JCheckBox thisCheckbox = (JCheckBox) event.getSource();
+        if (thisCheckbox.isSelected()) {
+            if (thisCheckbox == checkboxes.get(unqualifiedStaticMemberAccess)) {
+                checkboxes.get(customUnqualifiedStaticMemberAccess).setSelected(false);
+            } else if (thisCheckbox == checkboxes.get(customUnqualifiedStaticMemberAccess)) {
+                checkboxes.get(unqualifiedStaticMemberAccess).setSelected(false);
+            }
+        }
+    }
+
+    private boolean isActiveSelected() {
+        boolean activateIsSelected = checkboxes.get(activate).isSelected();
+        boolean activateShortcutIsSelected = checkboxes.get(activateOnShortcut).isSelected();
+        return activateIsSelected || activateShortcutIsSelected;
     }
 
 }

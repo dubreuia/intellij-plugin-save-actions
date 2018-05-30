@@ -2,10 +2,13 @@ package com.dubreuia.processors.java;
 
 import com.dubreuia.model.Storage;
 import com.dubreuia.processors.Processor;
+
+import com.dubreuia.processors.java.inspections.CustomUnqualifiedStaticUsageInspection;
 import com.intellij.codeInspection.ExplicitTypeCanBeDiamondInspection;
 import com.intellij.codeInspection.localCanBeFinal.LocalCanBeFinal;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
+
 import com.siyeh.ig.classlayout.FinalPrivateMethodInspection;
 import com.siyeh.ig.inheritance.MissingOverrideAnnotationInspection;
 import com.siyeh.ig.maturity.SuppressionAnnotationInspection;
@@ -34,6 +37,7 @@ import static com.dubreuia.model.Action.unnecessaryThis;
 import static com.dubreuia.model.Action.unqualifiedFieldAccess;
 import static com.dubreuia.model.Action.unqualifiedMethodAccess;
 import static com.dubreuia.model.Action.unqualifiedStaticMemberAccess;
+import static com.dubreuia.model.Action.customUnqualifiedStaticMemberAccess;
 import static com.dubreuia.model.Action.useBlocks;
 
 public enum ProcessorFactory {
@@ -47,6 +51,7 @@ public enum ProcessorFactory {
         processors.add(getUnqualifiedFieldAccessProcessor(project, psiFile, storage));
         processors.add(getUnqualifiedMethodAccessProcessor(project, psiFile, storage));
         processors.add(getUnqualifiedStaticUsageInspectionProcessor(project, psiFile, storage));
+        processors.add(getCustomUnqualifiedStaticUsageInspectionProcessor(project, psiFile, storage));
         processors.add(getFieldMayBeFinalProcessor(project, psiFile, storage));
         processors.add(getMissingOverrideAnnotationProcessor(project, psiFile, storage));
         processors.add(getControlFlowStatementWithoutBracesProcessor(project, psiFile, storage));
@@ -90,6 +95,14 @@ public enum ProcessorFactory {
         inspection.m_ignoreStaticAccessFromStaticContext = false;
         return new InspectionProcessor(
                 project, psiFile, storage, unqualifiedStaticMemberAccess, inspection);
+    }
+
+    @NotNull
+    private InspectionProcessor getCustomUnqualifiedStaticUsageInspectionProcessor(
+            Project project, PsiFile psiFile, Storage storage) {
+        CustomUnqualifiedStaticUsageInspection inspection = new CustomUnqualifiedStaticUsageInspection();
+        return new InspectionProcessor(
+                project, psiFile, storage, customUnqualifiedStaticMemberAccess, inspection);
     }
 
     @NotNull
@@ -157,5 +170,4 @@ public enum ProcessorFactory {
                 project, psiFile, storage, unnecessaryFinalOnLocalVariableOrParameter,
                 new UnnecessaryFinalOnLocalVariableOrParameterInspection());
     }
-
 }

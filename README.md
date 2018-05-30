@@ -96,21 +96,22 @@ You can quickly toggle the plugin activation by using the "Enable Save Action" a
 
 If a quick fix adds something that is removed by another quick fix, the removal wins.
 
-| Name                                                    | Description
-| ---                                                     | ---
-| Add final to field                                      | Will add the final modifier to fields
-| Add final to local variable or parameter                | Will add the final modifier to local variable and parameters
-| Add this to field access                                | Will qualify all field access with this
-| Add this to method access                               | Will qualify all method access with this
-| Add class qualifier to static member access             | Will qualify all access to static members with Class name
-| Add missing @Override annotations                       | Will add missing @Override annotations to all inherited methods
-| Add blocks in if/while/for statements                   | Will add missing braces to any if, while or for statements without braces
-| Remove unnecessary this                                 | Will remove unnecessary this field access
-| Remove final from private method                        | Will remove final for private method
-| Remove unnecessary final to local variable or parameter | Will remove unnecessary final to local variable or parameter
-| Remove explicit generic type for diamond                | Will remove unused right side generic types for Java 7 diamond operator. This `List<String> list = new ArrayList<String>()` becomes `List<String> list = new ArrayList<>()`
-| Remove unused suppress warning annotation               | Will remove any unused @SuppressWarning annotations
-| Remove unnecessary semicolon                            | Will remove unnecessary semicolon
+| Name                                                                     | Description
+| ---                                                                      | ---
+| Add final to field                                                       | Will add the final modifier to fields
+| Add final to local variable or parameter                                 | Will add the final modifier to local variable and parameters
+| Add this to field access                                                 | Will qualify all field access with this
+| Add this to method access                                                | Will qualify all method access with this
+| Add class qualifier to static member access                              | Will qualify all access to static members with class name
+| Add class qualifier to static member access outside declaring class only | Will qualify accesses to static members with class name outside the declaring class only
+| Add missing @Override annotations                                        | Will add missing @Override annotations to all inherited methods
+| Add blocks in if/while/for statements                                    | Will add missing braces to any if, while or for statements without braces
+| Remove unnecessary this                                                  | Will remove unnecessary this field access
+| Remove final from private method                                         | Will remove final for private method
+| Remove unnecessary final to local variable or parameter                  | Will remove unnecessary final to local variable or parameter
+| Remove explicit generic type for diamond                                 | Will remove unused right side generic types for Java 7 diamond operator. This `List<String> list = new ArrayList<String>()` becomes `List<String> list = new ArrayList<>()`
+| Remove unused suppress warning annotation                                | Will remove any unused @SuppressWarning annotations
+| Remove unnecessary semicolon                                             | Will remove unnecessary semicolon
 
 ## IDE support
 

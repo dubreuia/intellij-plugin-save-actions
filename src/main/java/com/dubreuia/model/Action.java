@@ -25,8 +25,6 @@ public enum Action {
 
     rearrange("Rearrange fields and methods (configured in \"Editor > Code Style > (...) > Arrangement\")", false),
 
-    rearrangeChangedCode("Rearrange only changed code (only if VCS configured)", false),
-
     // Build
 
     compile("Compile file", false),
@@ -42,6 +40,8 @@ public enum Action {
     unqualifiedMethodAccess("Add this to method access", false),
 
     unqualifiedStaticMemberAccess("Add class qualifier to static member access", false),
+
+    customUnqualifiedStaticMemberAccess("Add class qualifier to static member access outside declaring class only", false),
 
     missingOverrideAnnotation("Add missing @Override annotations", false),
 
@@ -81,5 +81,4 @@ public enum Action {
                 .filter(Action::isDefaultValue)
                 .collect(toSet());
     }
-
 }
