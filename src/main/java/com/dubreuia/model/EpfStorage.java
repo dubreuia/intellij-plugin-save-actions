@@ -9,6 +9,7 @@ import java.util.Properties;
 
 import static com.dubreuia.core.SaveActionManager.LOGGER;
 import static com.dubreuia.model.Action.compile;
+import static com.dubreuia.model.Action.customUnqualifiedStaticMemberAccess;
 import static com.dubreuia.model.Action.explicitTypeCanBeDiamond;
 import static com.dubreuia.model.Action.fieldCanBeFinal;
 import static com.dubreuia.model.Action.finalPrivateMethod;
@@ -17,7 +18,6 @@ import static com.dubreuia.model.Action.missingOverrideAnnotation;
 import static com.dubreuia.model.Action.noActionIfCompileErrors;
 import static com.dubreuia.model.Action.organizeImports;
 import static com.dubreuia.model.Action.rearrange;
-import static com.dubreuia.model.Action.rearrangeChangedCode;
 import static com.dubreuia.model.Action.reformat;
 import static com.dubreuia.model.Action.reformatChangedCode;
 import static com.dubreuia.model.Action.suppressAnnotation;
@@ -27,7 +27,6 @@ import static com.dubreuia.model.Action.unnecessaryThis;
 import static com.dubreuia.model.Action.unqualifiedFieldAccess;
 import static com.dubreuia.model.Action.unqualifiedMethodAccess;
 import static com.dubreuia.model.Action.unqualifiedStaticMemberAccess;
-import static com.dubreuia.model.Action.customUnqualifiedStaticMemberAccess;
 import static com.dubreuia.model.Action.useBlocks;
 
 /**
@@ -107,7 +106,6 @@ public enum EpfStorage {
         storage.setEnabled(reformat, isEnabledEPForJava(properties, EPF_REFORMAT));
         storage.setEnabled(reformatChangedCode, isEnabledEPForJava(properties, EPF_REFORMAT_CHANGED_CODE));
         storage.setEnabled(rearrange, isEnabledEPForJava(properties, EPF_REARRANGE));
-        storage.setEnabled(rearrangeChangedCode, false);
 
         storage.setEnabled(compile, false);
 

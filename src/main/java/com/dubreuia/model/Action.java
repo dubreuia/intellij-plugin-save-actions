@@ -25,8 +25,6 @@ public enum Action {
 
     rearrange("Rearrange fields and methods (configured in \"Editor > Code Style > (...) > Arrangement\")", false),
 
-    rearrangeChangedCode("Rearrange only changed code (only if VCS configured)", false),
-
     // Build
 
     compile("Compile file", false),

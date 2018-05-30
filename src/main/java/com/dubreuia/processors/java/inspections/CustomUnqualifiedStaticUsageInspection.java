@@ -26,7 +26,10 @@ public class CustomUnqualifiedStaticUsageInspection extends UnqualifiedStaticUsa
         return new CustomUnqualifiedStaticCallVisitor();
     }
 
-    private class CustomUnqualifiedStaticCallVisitor extends BaseInspectionVisitor { // copy-pasting because cannot extend
+    /**
+     * Copy pasting because cannot extend, see {@link UnqualifiedStaticCallVisitor}. Do not reformat (useful for diffs)!
+     */
+    private class CustomUnqualifiedStaticCallVisitor extends BaseInspectionVisitor {
 
         @Override
         public void visitMethodCallExpression(
@@ -35,7 +38,7 @@ public class CustomUnqualifiedStaticUsageInspection extends UnqualifiedStaticUsa
             if (m_ignoreStaticMethodCalls) {
                 return;
             }
-            PsiReferenceExpression methodExpression =
+            final PsiReferenceExpression methodExpression =
                     expression.getMethodExpression();
             if (!isUnqualifiedStaticAccess(methodExpression)) {
                 return;
@@ -50,11 +53,11 @@ public class CustomUnqualifiedStaticUsageInspection extends UnqualifiedStaticUsa
             if (m_ignoreStaticFieldAccesses) {
                 return;
             }
-            PsiElement element = expression.resolve();
+            final PsiElement element = expression.resolve();
             if (!(element instanceof PsiField)) {
                 return;
             }
-            PsiField field = (PsiField) element;
+            final PsiField field = (PsiField) element;
             if (field.hasModifierProperty(PsiModifier.FINAL) &&
                     PsiUtil.isOnAssignmentLeftHand(expression)) {
                 return;
@@ -68,7 +71,7 @@ public class CustomUnqualifiedStaticUsageInspection extends UnqualifiedStaticUsa
         private boolean isUnqualifiedStaticAccess(
                 PsiReferenceExpression expression) {
             if (m_ignoreStaticAccessFromStaticContext) {
-                PsiMember member =
+                final PsiMember member =
                         PsiTreeUtil.getParentOfType(expression,
                                 PsiMember.class);
                 if (member != null &&
@@ -76,24 +79,24 @@ public class CustomUnqualifiedStaticUsageInspection extends UnqualifiedStaticUsa
                     return false;
                 }
             }
-            PsiExpression qualifierExpression =
+            final PsiExpression qualifierExpression =
                     expression.getQualifierExpression();
             if (qualifierExpression != null) {
                 return false;
             }
-            JavaResolveResult resolveResult =
+            final JavaResolveResult resolveResult =
                     expression.advancedResolve(false);
-            PsiElement currentFileResolveScope =
+            final PsiElement currentFileResolveScope =
                     resolveResult.getCurrentFileResolveScope();
             if (currentFileResolveScope instanceof PsiImportStaticStatement) {
                 return false;
             }
-            PsiElement element = resolveResult.getElement();
+            final PsiElement element = resolveResult.getElement();
             if (!(element instanceof PsiField) &&
                     !(element instanceof PsiMethod)) {
                 return false;
             }
-            PsiMember member = (PsiMember) element;
+            final PsiMember member = (PsiMember) element;
             if (member instanceof PsiEnumConstant &&
                     expression.getParent() instanceof PsiSwitchLabelStatement) {
                 return false;
@@ -107,4 +110,5 @@ public class CustomUnqualifiedStaticUsageInspection extends UnqualifiedStaticUsa
             return member.hasModifierProperty(PsiModifier.STATIC);
         }
     }
+
 }
