@@ -1,8 +1,7 @@
 # Intellij Save Actions Plugin
 
-[![Travis Build Status](https://img.shields.io/travis/dubreuia/intellij-plugin-save-actions.svg)](https://travis-ci.org/dubreuia/intellij-plugin-save-actions.svg?branch=master)
 [![Jetbrains Plugin](https://img.shields.io/jetbrains/plugin/v/7642-save-actions.svg)](https://plugins.jetbrains.com/plugin/7642-save-actions)
-[![Github Tag](https://img.shields.io/github/tag/dubreuia/intellij-plugin-save-actions.svg)](https://github.com/dubreuia/intellij-plugin-save-actions/releases)
+[![Travis Build Status](https://travis-ci.org/dubreuia/intellij-plugin-save-actions.svg?branch=master)](https://travis-ci.org/dubreuia/intellij-plugin-save-actions)
 
 Supports configurable, Eclipse like, save actions, including "organize imports", "reformat code", "rearrange code", "compile file" and some quick fixes like "add / remove 'this' qualifier", etc. The plugin executes the configured actions when the file is synchronised (or saved) on disk.
 
