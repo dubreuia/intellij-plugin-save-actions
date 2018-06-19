@@ -2,15 +2,19 @@ buildscript {
     repositories {
         mavenCentral()
     }
+    dependencies {
+        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.2.0'
+    }
 }
 
 plugins {
-    id "org.jetbrains.intellij" version "0.3.2"
+    id "org.jetbrains.intellij" version "0.3.3"
 }
 
+apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'org.jetbrains.intellij'
-apply plugin: 'java'
+apply plugin: 'org.junit.platform.gradle.plugin'
 
 intellij {
     version '2016.3'
@@ -21,3 +25,12 @@ intellij {
 
 group 'com.dubreuia'
 version '0.26'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile('org.junit.jupiter:junit-jupiter-api:5.2.0')
+    testRuntime('org.junit.jupiter:junit-jupiter-engine:5.2.0')
+}

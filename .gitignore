@@ -17,6 +17,3 @@ classes
 # Gradle
 .gradle/
 build/
-gradle/
-gradlew
-gradlew.bat
