@@ -13,6 +13,7 @@ plugins {
 // Add idea and java plugins
 apply plugin: 'java'
 apply plugin: 'idea'
+apply plugin: 'jacoco'
 apply plugin: 'org.jetbrains.intellij'
 
 // Add intellij task configuration for base intellij version (minimum compatibility)
@@ -48,5 +49,13 @@ test {
 sourceSets {
     test {
         output.resourcesDir = "build/classes/java/resources"
+    }
+}
+
+// Add jacoco test report for codecov
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        html.enabled false
     }
 }

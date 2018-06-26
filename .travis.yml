@@ -4,7 +4,11 @@ jdk:
   - oraclejdk8
 
 script:
-  ./gradlew test
+  - ./gradlew test
+  - ./gradlew jacocoTestReport
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
 
 branches:
   only:
@@ -12,4 +16,3 @@ branches:
 
 notifications:
   email: true
-
