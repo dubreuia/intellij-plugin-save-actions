@@ -75,6 +75,7 @@ You can quickly toggle the plugin activation by using the "Enable Save Action" a
 | ---                                | ---
 | Optimize imports                   | Enable / disable import organization (configured in "File > Settings > Code Style > Java > Imports")
 | Reformat file                      | Enable / disable formatting (configured in "File > Settings > Code Style"). See "Reformat only changed code" for more options
+| Reformat only changed lines        | Enable / disable formatting for only changed lines, which will work only if a VCS is configured
 | Rearrange fields and methods       | Enable / disable re-ordering of fields and methods (configured in "File > Settings > Code Style > Java > Arrangement")
 | Reformat only changed code         | Enable / disable formatting for changed code only. If VCS is configured, it is used to check which lines where modified. If VCS is not configured, the code will always get reformatted
 
