@@ -11,12 +11,12 @@ import java.util.Set;
         storages = {@com.intellij.openapi.components.Storage(file = "./saveactions_settings.xml")})
 public class Storage implements PersistentStateComponent<Storage> {
 
+    private boolean firstLaunch = true;
+
     private Set<Action> actions = new HashSet<>();
 
     private Set<String> exclusions = new HashSet<>();
     private Set<String> inclusions = new HashSet<>();
-
-    private boolean firstLaunch = true;
 
     private String configurationPath;
 
@@ -81,6 +81,14 @@ public class Storage implements PersistentStateComponent<Storage> {
 
     public void stopFirstLaunch() {
         firstLaunch = false;
+    }
+
+    public void clear() {
+        firstLaunch = true;
+        actions.clear();
+        exclusions.clear();
+        inclusions.clear();
+        configurationPath = null;
     }
 
 }

@@ -28,12 +28,9 @@ import static com.intellij.openapi.actionSystem.CommonDataKeys.PSI_FILE;
 import static com.intellij.openapi.actionSystem.impl.SimpleDataContext.getSimpleContext;
 import static com.intellij.testFramework.LightProjectDescriptor.EMPTY_PROJECT_DESCRIPTOR;
 
-public class IntegrationTest {
+public abstract class IntegrationTest {
 
-    static final String INDENTED = "Indented";
-    static final String NOT_INDENTED = "NotIndented";
-
-    static final Consumer<CodeInsightTestFixture> SAVE_ACTION_MANAGER = (fixture) ->
+    final Consumer<CodeInsightTestFixture> SAVE_ACTION_MANAGER = (fixture) ->
             new WriteCommandAction.Simple(fixture.getProject()) {
                 @Override
                 protected void run() {
@@ -41,11 +38,11 @@ public class IntegrationTest {
                     ((PsiFileImpl) fixture.getFile()).clearCaches();
 
                     // call plugin on document
-                    new SaveActionManager().beforeDocumentSaving(fixture.getDocument(fixture.getFile()));
+                    getSaveActionManager().beforeDocumentSaving(fixture.getDocument(fixture.getFile()));
                 }
             }.execute();
 
-    static final Consumer<CodeInsightTestFixture> SAVE_ACTION_SHORTCUT_MANAGER = (fixture) ->
+    final Consumer<CodeInsightTestFixture> SAVE_ACTION_SHORTCUT_MANAGER = (fixture) ->
             new WriteCommandAction.Simple(fixture.getProject()) {
                 @Override
                 protected void run() {
@@ -75,23 +72,23 @@ public class IntegrationTest {
     @BeforeEach
     public void before() throws Exception {
         IdeaTestFixtureFactory factory = IdeaTestFixtureFactory.getFixtureFactory();
-        IdeaProjectTestFixture fixture = factory.createLightFixtureBuilder(EMPTY_PROJECT_DESCRIPTOR).getFixture();
-        this.fixture = factory.createCodeInsightFixture(fixture, new LightTempDirTestFixtureImpl(true));
-        this.fixture.setUp();
-        this.fixture.setTestDataPath(getTestDataPath());
-        this.storage = ServiceManager.getService(fixture.getProject(), Storage.class);
+        IdeaProjectTestFixture testFixture = factory.createLightFixtureBuilder(EMPTY_PROJECT_DESCRIPTOR).getFixture();
+        fixture = factory.createCodeInsightFixture(testFixture, new LightTempDirTestFixtureImpl(true));
+        fixture.setUp();
+        fixture.setTestDataPath(getTestDataPath());
+        storage = ServiceManager.getService(testFixture.getProject(), Storage.class);
     }
 
     @AfterEach
     public void after() throws Exception {
-        this.fixture.tearDown();
+        fixture.tearDown();
+        storage.clear();
     }
 
-    void assertFormat(String beforeFilename, String afterFilename,
-                      Consumer<CodeInsightTestFixture> saveActionManager) {
-        fixture.configureByFile(beforeFilename + ".java");
+    void assertFormat(ActionFile before, ActionFile after, Consumer<CodeInsightTestFixture> saveActionManager) {
+        fixture.configureByFile(before.getFilename());
         saveActionManager.accept(fixture);
-        fixture.checkResultByFile(afterFilename + ".java");
+        fixture.checkResultByFile(after.getFilename());
     }
 
     private String getTestDataPath() {
@@ -100,5 +97,7 @@ public class IntegrationTest {
         Path root = Paths.get(resources.toString(), getClass().getPackage().getName().split("[.]"));
         return root.toString();
     }
+
+    abstract SaveActionManager getSaveActionManager();
 
 }

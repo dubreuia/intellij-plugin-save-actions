@@ -32,7 +32,7 @@ public class IncludeExcludeTest {
 
     @Parameterized.Parameters(name = "{index} - {0} - {1} - {2} - {3}")
     public static List<Object[]> parameters() {
-        List<Object[]> parameters = new ArrayList<Object[]>();
+        List<Object[]> parameters = new ArrayList<>();
 
         //only excludes - taken from PsiFilesIsUrlIncludedTest
         {
@@ -77,7 +77,7 @@ public class IncludeExcludeTest {
         return parameters;
     }
 
-    public static Object[] getParameter(boolean expected, String psiFileUrl, String inclusion, String exclusion) {
+    private static Object[] getParameter(boolean expected, String psiFileUrl, String inclusion, String exclusion) {
         return new Object[]{expected, psiFileUrl, inclusion, exclusion};
     }
 

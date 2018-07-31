@@ -14,9 +14,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.function.Consumer;
 
-import static com.intellij.testFramework.LightProjectDescriptor.EMPTY_PROJECT_DESCRIPTOR;
+import java.math.BigDecimal;
 
-public class Java {
+import static com.intellij.testFramework.LightProjectDescriptor.EMPTY_PROJECT_DESCRIPTOR;
+import static com.intellij.testFramework.LightProjectDescriptor.EMPTY_PROJECT_DESCRIPTOR;
+import static java.math.BigDecimal.ONE
+
+public class Class {
 
     static final String STATIC = "static";
 

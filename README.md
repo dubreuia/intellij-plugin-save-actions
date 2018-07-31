@@ -106,9 +106,9 @@ If a quick fix adds something that is removed by another quick fix, the removal 
 | Add this to method access                                                | Will qualify all method access with this
 | Add class qualifier to static member access                              | Will qualify all access to static members with class name
 | Add class qualifier to static member access outside declaring class only | Will qualify accesses to static members with class name outside the declaring class only
-| Add missing @Override annotations                                        | Will add missing @Override annotations to all inherited methods
+| Add missing @Override annotations                                        | Will add missing @Override annotations to inherited methods, except for methods from jdk and external libraries (like `toString`) 
 | Add blocks in if/while/for statements                                    | Will add missing braces to any if, while or for statements without braces
-| Remove unnecessary this                                                  | Will remove unnecessary this field access
+| Remove unnecessary this                                                  | Will remove unnecessary this on field and method access
 | Remove final from private method                                         | Will remove final for private method
 | Remove unnecessary final to local variable or parameter                  | Will remove unnecessary final to local variable or parameter
 | Remove explicit generic type for diamond                                 | Will remove unused right side generic types for Java 7 diamond operator. This `List<String> list = new ArrayList<String>()` becomes `List<String> list = new ArrayList<>()`
