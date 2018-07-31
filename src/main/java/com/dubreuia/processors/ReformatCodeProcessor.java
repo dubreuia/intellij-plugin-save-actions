@@ -2,7 +2,6 @@ package com.dubreuia.processors;
 
 import com.dubreuia.model.Storage;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vcs.changes.ChangeListManager;
 import com.intellij.psi.PsiFile;
 
 import static com.dubreuia.core.SaveActionManager.LOGGER;
@@ -19,7 +18,7 @@ class ReformatCodeProcessor extends com.intellij.codeInsight.actions.ReformatCod
     private final Storage storage;
 
     ReformatCodeProcessor(Project project, PsiFile file, Storage storage) {
-        super(project, file, null, processChangedTextOnly(project, file, storage));
+        super(project, file, null, processChangedTextOnly(storage));
         this.storage = storage;
     }
 
@@ -45,13 +44,7 @@ class ReformatCodeProcessor extends com.intellij.codeInsight.actions.ReformatCod
                 storage.isEnabled(reformat));
     }
 
-    private static boolean processChangedTextOnly(Project project, PsiFile psiFile, Storage storage) {
-        if (null == ChangeListManager.getInstance(project).getChange(psiFile.getVirtualFile())) {
-            // That means no VCS is configured, ignore changed code configuration
-            return false;
-        } else {
-            return storage.isEnabled(reformatChangedCode);
-        }
+    private static boolean processChangedTextOnly(Storage storage) {
+        return storage.isEnabled(reformatChangedCode);
     }
-
 }
