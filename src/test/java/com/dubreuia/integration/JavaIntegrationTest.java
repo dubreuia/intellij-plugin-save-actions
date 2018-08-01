@@ -3,6 +3,7 @@ package com.dubreuia.integration;
 import com.dubreuia.core.SaveActionFactory;
 import com.dubreuia.core.SaveActionManager;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -16,6 +17,8 @@ import static com.dubreuia.integration.ActionTestFile.FinalPrivateMethod_KO;
 import static com.dubreuia.integration.ActionTestFile.FinalPrivateMethod_OK;
 import static com.dubreuia.integration.ActionTestFile.LocalCanBeFinal_KO;
 import static com.dubreuia.integration.ActionTestFile.LocalCanBeFinal_OK;
+import static com.dubreuia.integration.ActionTestFile.MethodMayBeStatic_KO;
+import static com.dubreuia.integration.ActionTestFile.MethodMayBeStatic_OK;
 import static com.dubreuia.integration.ActionTestFile.MissingOverrideAnnotation_KO;
 import static com.dubreuia.integration.ActionTestFile.MissingOverrideAnnotation_OK;
 import static com.dubreuia.integration.ActionTestFile.SuppressAnnotation_KO;
@@ -41,6 +44,7 @@ import static com.dubreuia.model.Action.explicitTypeCanBeDiamond;
 import static com.dubreuia.model.Action.fieldCanBeFinal;
 import static com.dubreuia.model.Action.finalPrivateMethod;
 import static com.dubreuia.model.Action.localCanBeFinal;
+import static com.dubreuia.model.Action.methodMayBeStatic;
 import static com.dubreuia.model.Action.missingOverrideAnnotation;
 import static com.dubreuia.model.Action.suppressAnnotation;
 import static com.dubreuia.model.Action.unnecessaryFinalOnLocalVariableOrParameter;
@@ -82,6 +86,14 @@ public class JavaIntegrationTest extends IntegrationTest {
         storage.setEnabled(activate, true);
         storage.setEnabled(localCanBeFinal, true);
         assertSaveAction(LocalCanBeFinal_KO, LocalCanBeFinal_OK);
+    }
+
+    @Test
+    @Disabled("do no work")
+    public void should_methodMayBeStatic_add_static_keyword_to_method() {
+        storage.setEnabled(activateOnShortcut, true);
+        storage.setEnabled(methodMayBeStatic, true);
+        assertSaveActionShortcut(MethodMayBeStatic_KO, MethodMayBeStatic_OK);
     }
 
     @Test
@@ -148,7 +160,7 @@ public class JavaIntegrationTest extends IntegrationTest {
     }
 
     @Test
-    @Disabled("Doesn't work")
+    @Disabled("do no work")
     public void should_explicitTypeCanBeDiamond_removes_explicit_diamond() {
         storage.setEnabled(activate, true);
         storage.setEnabled(explicitTypeCanBeDiamond, true);

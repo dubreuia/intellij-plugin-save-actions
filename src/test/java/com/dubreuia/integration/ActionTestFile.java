@@ -8,6 +8,9 @@ public enum ActionTestFile {
     LocalCanBeFinal_KO,
     LocalCanBeFinal_OK,
 
+    MethodMayBeStatic_KO,
+    MethodMayBeStatic_OK,
+
     UnqualifiedFieldAccess_KO,
     UnqualifiedFieldAccess_OK,
 
