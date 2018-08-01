@@ -3,11 +3,11 @@ package com.dubreuia.integration;
 import com.dubreuia.core.SaveActionManager;
 import org.junit.jupiter.api.Test;
 
-import static com.dubreuia.integration.ActionFile.FieldCanBeFinal_KO;
-import static com.dubreuia.integration.ActionFile.Import_KO_Reformat_KO;
-import static com.dubreuia.integration.ActionFile.Import_KO_Reformat_OK;
-import static com.dubreuia.integration.ActionFile.Import_OK_Reformat_KO;
-import static com.dubreuia.integration.ActionFile.Import_OK_Reformat_OK;
+import static com.dubreuia.integration.ActionTestFile.FieldCanBeFinal_KO;
+import static com.dubreuia.integration.ActionTestFile.Import_KO_Reformat_KO;
+import static com.dubreuia.integration.ActionTestFile.Import_KO_Reformat_OK;
+import static com.dubreuia.integration.ActionTestFile.Import_OK_Reformat_KO;
+import static com.dubreuia.integration.ActionTestFile.Import_OK_Reformat_OK;
 import static com.dubreuia.model.Action.activate;
 import static com.dubreuia.model.Action.activateOnShortcut;
 import static com.dubreuia.model.Action.fieldCanBeFinal;
@@ -24,41 +24,41 @@ public class CommonIntegrationTest extends IntegrationTest {
     @Test
     public void should_reformat_without_activation_produces_same_file() {
         storage.setEnabled(reformat, true);
-        assertFormat(Import_KO_Reformat_KO, Import_KO_Reformat_KO, SAVE_ACTION_MANAGER);
+        assertSaveAction(Import_KO_Reformat_KO, Import_KO_Reformat_KO);
     }
 
     @Test
     public void should_reformat_with_activation_produces_indented_file() {
         storage.setEnabled(activate, true);
         storage.setEnabled(reformat, true);
-        assertFormat(Import_KO_Reformat_KO, Import_KO_Reformat_OK, SAVE_ACTION_MANAGER);
+        assertSaveAction(Import_KO_Reformat_KO, Import_KO_Reformat_OK);
     }
 
     @Test
     public void should_reformat_with_shortcut_produces_same_file() {
         storage.setEnabled(activateOnShortcut, true);
         storage.setEnabled(reformat, true);
-        assertFormat(Import_KO_Reformat_KO, Import_KO_Reformat_KO, SAVE_ACTION_MANAGER);
+        assertSaveAction(Import_KO_Reformat_KO, Import_KO_Reformat_KO);
     }
 
     @Test
     public void should_reformat_with_shortcut_produces_indented_file_on_shortcut() {
         storage.setEnabled(activateOnShortcut, true);
         storage.setEnabled(reformat, true);
-        assertFormat(Import_KO_Reformat_KO, Import_KO_Reformat_OK, SAVE_ACTION_SHORTCUT_MANAGER);
+        assertSaveActionShortcut(Import_KO_Reformat_KO, Import_KO_Reformat_OK);
     }
 
     @Test
     public void should_import_without_activation_produces_same_file() {
         storage.setEnabled(organizeImports, true);
-        assertFormat(Import_KO_Reformat_KO, Import_KO_Reformat_KO, SAVE_ACTION_MANAGER);
+        assertSaveAction(Import_KO_Reformat_KO, Import_KO_Reformat_KO);
     }
 
     @Test
     public void should_import_with_activation_produces_cleaned_import_file() {
         storage.setEnabled(activate, true);
         storage.setEnabled(organizeImports, true);
-        assertFormat(Import_KO_Reformat_KO, Import_OK_Reformat_KO, SAVE_ACTION_MANAGER);
+        assertSaveAction(Import_KO_Reformat_KO, Import_OK_Reformat_KO);
     }
 
     @Test
@@ -66,14 +66,14 @@ public class CommonIntegrationTest extends IntegrationTest {
         storage.setEnabled(activate, true);
         storage.setEnabled(organizeImports, true);
         storage.setEnabled(reformat, true);
-        assertFormat(Import_KO_Reformat_KO, Import_OK_Reformat_OK, SAVE_ACTION_MANAGER);
+        assertSaveAction(Import_KO_Reformat_KO, Import_OK_Reformat_OK);
     }
 
     @Test
     public void should_java_quick_fix_do_not_work_with_common_save_action_manager() {
         storage.setEnabled(activate, true);
         storage.setEnabled(fieldCanBeFinal, true);
-        assertFormat(FieldCanBeFinal_KO, FieldCanBeFinal_KO, SAVE_ACTION_MANAGER);
+        assertSaveAction(FieldCanBeFinal_KO, FieldCanBeFinal_KO);
     }
 
 }

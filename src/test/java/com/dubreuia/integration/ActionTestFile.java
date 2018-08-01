@@ -1,6 +1,6 @@
 package com.dubreuia.integration;
 
-public enum ActionFile {
+public enum ActionTestFile {
 
     FieldCanBeFinal_KO,
     FieldCanBeFinal_OK,

@@ -30,7 +30,7 @@ import static com.intellij.testFramework.LightProjectDescriptor.EMPTY_PROJECT_DE
 
 public abstract class IntegrationTest {
 
-    final Consumer<CodeInsightTestFixture> SAVE_ACTION_MANAGER = (fixture) ->
+    private final Consumer<CodeInsightTestFixture> SAVE_ACTION_MANAGER = (fixture) ->
             new WriteCommandAction.Simple(fixture.getProject()) {
                 @Override
                 protected void run() {
@@ -42,7 +42,7 @@ public abstract class IntegrationTest {
                 }
             }.execute();
 
-    final Consumer<CodeInsightTestFixture> SAVE_ACTION_SHORTCUT_MANAGER = (fixture) ->
+    private final Consumer<CodeInsightTestFixture> SAVE_ACTION_SHORTCUT_MANAGER = (fixture) ->
             new WriteCommandAction.Simple(fixture.getProject()) {
                 @Override
                 protected void run() {
@@ -85,9 +85,15 @@ public abstract class IntegrationTest {
         storage.clear();
     }
 
-    void assertFormat(ActionFile before, ActionFile after, Consumer<CodeInsightTestFixture> saveActionManager) {
+    void assertSaveAction(ActionTestFile before, ActionTestFile after) {
         fixture.configureByFile(before.getFilename());
-        saveActionManager.accept(fixture);
+        SAVE_ACTION_MANAGER.accept(fixture);
+        fixture.checkResultByFile(after.getFilename());
+    }
+
+    void assertSaveActionShortcut(ActionTestFile before, ActionTestFile after) {
+        fixture.configureByFile(before.getFilename());
+        SAVE_ACTION_SHORTCUT_MANAGER.accept(fixture);
         fixture.checkResultByFile(after.getFilename());
     }
 

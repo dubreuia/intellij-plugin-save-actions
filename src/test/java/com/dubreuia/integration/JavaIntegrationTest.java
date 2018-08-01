@@ -6,34 +6,34 @@ import org.junit.BeforeClass;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import static com.dubreuia.integration.ActionFile.CustomUnqualifiedStaticMemberAccess_KO;
-import static com.dubreuia.integration.ActionFile.CustomUnqualifiedStaticMemberAccess_OK;
-import static com.dubreuia.integration.ActionFile.ExplicitTypeCanBeDiamond_KO;
-import static com.dubreuia.integration.ActionFile.ExplicitTypeCanBeDiamond_OK;
-import static com.dubreuia.integration.ActionFile.FieldCanBeFinal_KO;
-import static com.dubreuia.integration.ActionFile.FieldCanBeFinal_OK;
-import static com.dubreuia.integration.ActionFile.FinalPrivateMethod_KO;
-import static com.dubreuia.integration.ActionFile.FinalPrivateMethod_OK;
-import static com.dubreuia.integration.ActionFile.LocalCanBeFinal_KO;
-import static com.dubreuia.integration.ActionFile.LocalCanBeFinal_OK;
-import static com.dubreuia.integration.ActionFile.MissingOverrideAnnotation_KO;
-import static com.dubreuia.integration.ActionFile.MissingOverrideAnnotation_OK;
-import static com.dubreuia.integration.ActionFile.SuppressAnnotation_KO;
-import static com.dubreuia.integration.ActionFile.SuppressAnnotation_OK;
-import static com.dubreuia.integration.ActionFile.UnnecessaryFinalOnLocalVariableOrParameter_KO;
-import static com.dubreuia.integration.ActionFile.UnnecessaryFinalOnLocalVariableOrParameter_OK;
-import static com.dubreuia.integration.ActionFile.UnnecessarySemicolon_KO;
-import static com.dubreuia.integration.ActionFile.UnnecessarySemicolon_OK;
-import static com.dubreuia.integration.ActionFile.UnnecessaryThis_KO;
-import static com.dubreuia.integration.ActionFile.UnnecessaryThis_OK;
-import static com.dubreuia.integration.ActionFile.UnqualifiedFieldAccess_KO;
-import static com.dubreuia.integration.ActionFile.UnqualifiedFieldAccess_OK;
-import static com.dubreuia.integration.ActionFile.UnqualifiedMethodAccess_KO;
-import static com.dubreuia.integration.ActionFile.UnqualifiedMethodAccess_OK;
-import static com.dubreuia.integration.ActionFile.UnqualifiedStaticMemberAccess_KO;
-import static com.dubreuia.integration.ActionFile.UnqualifiedStaticMemberAccess_OK;
-import static com.dubreuia.integration.ActionFile.UseBlocks_KO;
-import static com.dubreuia.integration.ActionFile.UseBlocks_OK;
+import static com.dubreuia.integration.ActionTestFile.CustomUnqualifiedStaticMemberAccess_KO;
+import static com.dubreuia.integration.ActionTestFile.CustomUnqualifiedStaticMemberAccess_OK;
+import static com.dubreuia.integration.ActionTestFile.ExplicitTypeCanBeDiamond_KO;
+import static com.dubreuia.integration.ActionTestFile.ExplicitTypeCanBeDiamond_OK;
+import static com.dubreuia.integration.ActionTestFile.FieldCanBeFinal_KO;
+import static com.dubreuia.integration.ActionTestFile.FieldCanBeFinal_OK;
+import static com.dubreuia.integration.ActionTestFile.FinalPrivateMethod_KO;
+import static com.dubreuia.integration.ActionTestFile.FinalPrivateMethod_OK;
+import static com.dubreuia.integration.ActionTestFile.LocalCanBeFinal_KO;
+import static com.dubreuia.integration.ActionTestFile.LocalCanBeFinal_OK;
+import static com.dubreuia.integration.ActionTestFile.MissingOverrideAnnotation_KO;
+import static com.dubreuia.integration.ActionTestFile.MissingOverrideAnnotation_OK;
+import static com.dubreuia.integration.ActionTestFile.SuppressAnnotation_KO;
+import static com.dubreuia.integration.ActionTestFile.SuppressAnnotation_OK;
+import static com.dubreuia.integration.ActionTestFile.UnnecessaryFinalOnLocalVariableOrParameter_KO;
+import static com.dubreuia.integration.ActionTestFile.UnnecessaryFinalOnLocalVariableOrParameter_OK;
+import static com.dubreuia.integration.ActionTestFile.UnnecessarySemicolon_KO;
+import static com.dubreuia.integration.ActionTestFile.UnnecessarySemicolon_OK;
+import static com.dubreuia.integration.ActionTestFile.UnnecessaryThis_KO;
+import static com.dubreuia.integration.ActionTestFile.UnnecessaryThis_OK;
+import static com.dubreuia.integration.ActionTestFile.UnqualifiedFieldAccess_KO;
+import static com.dubreuia.integration.ActionTestFile.UnqualifiedFieldAccess_OK;
+import static com.dubreuia.integration.ActionTestFile.UnqualifiedMethodAccess_KO;
+import static com.dubreuia.integration.ActionTestFile.UnqualifiedMethodAccess_OK;
+import static com.dubreuia.integration.ActionTestFile.UnqualifiedStaticMemberAccess_KO;
+import static com.dubreuia.integration.ActionTestFile.UnqualifiedStaticMemberAccess_OK;
+import static com.dubreuia.integration.ActionTestFile.UseBlocks_KO;
+import static com.dubreuia.integration.ActionTestFile.UseBlocks_OK;
 import static com.dubreuia.model.Action.activate;
 import static com.dubreuia.model.Action.activateOnShortcut;
 import static com.dubreuia.model.Action.customUnqualifiedStaticMemberAccess;
@@ -67,88 +67,84 @@ public class JavaIntegrationTest extends IntegrationTest {
     public void should_fieldCanBeFinal_add_final_to_field() {
         storage.setEnabled(activate, true);
         storage.setEnabled(fieldCanBeFinal, true);
-        assertFormat(FieldCanBeFinal_KO, FieldCanBeFinal_OK, SAVE_ACTION_MANAGER);
+        assertSaveAction(FieldCanBeFinal_KO, FieldCanBeFinal_OK);
     }
 
     @Test
     public void should_fieldCanBeFinal_add_final_to_field_on_shortcut() {
         storage.setEnabled(activateOnShortcut, true);
         storage.setEnabled(fieldCanBeFinal, true);
-        assertFormat(FieldCanBeFinal_KO, FieldCanBeFinal_OK, SAVE_ACTION_SHORTCUT_MANAGER);
+        assertSaveActionShortcut(FieldCanBeFinal_KO, FieldCanBeFinal_OK);
     }
 
     @Test
     public void should_localCanBeFinal_add_final_to_local_variable_and_parameters() {
         storage.setEnabled(activate, true);
         storage.setEnabled(localCanBeFinal, true);
-        assertFormat(LocalCanBeFinal_KO, LocalCanBeFinal_OK, SAVE_ACTION_MANAGER);
+        assertSaveAction(LocalCanBeFinal_KO, LocalCanBeFinal_OK);
     }
 
     @Test
     public void should_unqualifiedFieldAccess_add_this_to_field_access() {
         storage.setEnabled(activate, true);
         storage.setEnabled(unqualifiedFieldAccess, true);
-        assertFormat(UnqualifiedFieldAccess_KO, UnqualifiedFieldAccess_OK, SAVE_ACTION_MANAGER);
+        assertSaveAction(UnqualifiedFieldAccess_KO, UnqualifiedFieldAccess_OK);
     }
 
     @Test
     public void should_unqualifiedMethodAccess_add_this_to_method_access() {
         storage.setEnabled(activate, true);
         storage.setEnabled(unqualifiedMethodAccess, true);
-        assertFormat(UnqualifiedMethodAccess_KO, UnqualifiedMethodAccess_OK, SAVE_ACTION_MANAGER);
+        assertSaveAction(UnqualifiedMethodAccess_KO, UnqualifiedMethodAccess_OK);
     }
 
     @Test
-    @Disabled("I don't understand what it should do")
     public void should_unqualifiedStaticMemberAccess_add_this_to_method_access() {
         storage.setEnabled(activate, true);
         storage.setEnabled(unqualifiedStaticMemberAccess, true);
-        assertFormat(UnqualifiedStaticMemberAccess_KO, UnqualifiedStaticMemberAccess_OK, SAVE_ACTION_MANAGER);
+        assertSaveAction(UnqualifiedStaticMemberAccess_KO, UnqualifiedStaticMemberAccess_OK);
     }
 
     @Test
-    @Disabled("I don't understand what it should do")
     public void should_customUnqualifiedStaticMemberAccess_add_this_to_method_access() {
         storage.setEnabled(activate, true);
         storage.setEnabled(customUnqualifiedStaticMemberAccess, true);
-        assertFormat(CustomUnqualifiedStaticMemberAccess_KO, CustomUnqualifiedStaticMemberAccess_OK,
-                SAVE_ACTION_MANAGER);
+        assertSaveAction(CustomUnqualifiedStaticMemberAccess_KO, CustomUnqualifiedStaticMemberAccess_OK);
     }
 
     @Test
     public void should_missingOverrideAnnotation_add_override_annotation() {
         storage.setEnabled(activate, true);
         storage.setEnabled(missingOverrideAnnotation, true);
-        assertFormat(MissingOverrideAnnotation_KO, MissingOverrideAnnotation_OK, SAVE_ACTION_MANAGER);
+        assertSaveAction(MissingOverrideAnnotation_KO, MissingOverrideAnnotation_OK);
     }
 
     @Test
     public void should_useBlocks_add_blocks_to_if_else_while_for() {
         storage.setEnabled(activate, true);
         storage.setEnabled(useBlocks, true);
-        assertFormat(UseBlocks_KO, UseBlocks_OK, SAVE_ACTION_MANAGER);
+        assertSaveAction(UseBlocks_KO, UseBlocks_OK);
     }
 
     @Test
     public void should_unnecessaryThis_removes_this_on_method_and_field() {
         storage.setEnabled(activate, true);
         storage.setEnabled(unnecessaryThis, true);
-        assertFormat(UnnecessaryThis_KO, UnnecessaryThis_OK, SAVE_ACTION_MANAGER);
+        assertSaveAction(UnnecessaryThis_KO, UnnecessaryThis_OK);
     }
 
     @Test
     public void should_finalPrivateMethod_removes_final_on_private_methods() {
         storage.setEnabled(activate, true);
         storage.setEnabled(finalPrivateMethod, true);
-        assertFormat(FinalPrivateMethod_KO, FinalPrivateMethod_OK, SAVE_ACTION_MANAGER);
+        assertSaveAction(FinalPrivateMethod_KO, FinalPrivateMethod_OK);
     }
 
     @Test
     public void should_unnecessaryFinalOnLocalVariableOrParameter_removes_final_on_local_varible_and_parameters() {
         storage.setEnabled(activate, true);
         storage.setEnabled(unnecessaryFinalOnLocalVariableOrParameter, true);
-        assertFormat(UnnecessaryFinalOnLocalVariableOrParameter_KO, UnnecessaryFinalOnLocalVariableOrParameter_OK,
-                SAVE_ACTION_MANAGER);
+        assertSaveAction(UnnecessaryFinalOnLocalVariableOrParameter_KO, UnnecessaryFinalOnLocalVariableOrParameter_OK);
     }
 
     @Test
@@ -156,21 +152,21 @@ public class JavaIntegrationTest extends IntegrationTest {
     public void should_explicitTypeCanBeDiamond_removes_explicit_diamond() {
         storage.setEnabled(activate, true);
         storage.setEnabled(explicitTypeCanBeDiamond, true);
-        assertFormat(ExplicitTypeCanBeDiamond_KO, ExplicitTypeCanBeDiamond_OK, SAVE_ACTION_MANAGER);
+        assertSaveAction(ExplicitTypeCanBeDiamond_KO, ExplicitTypeCanBeDiamond_OK);
     }
 
     @Test
     public void should_suppressAnnotation_remove_unnecessary_suppress_warning_annotation() {
         storage.setEnabled(activate, true);
         storage.setEnabled(suppressAnnotation, true);
-        assertFormat(SuppressAnnotation_KO, SuppressAnnotation_OK, SAVE_ACTION_MANAGER);
+        assertSaveAction(SuppressAnnotation_KO, SuppressAnnotation_OK);
     }
 
     @Test
     public void should_unnecessarySemicolon_remove_unnecessary_semicolon() {
         storage.setEnabled(activate, true);
         storage.setEnabled(unnecessarySemicolon, true);
-        assertFormat(UnnecessarySemicolon_KO, UnnecessarySemicolon_OK, SAVE_ACTION_MANAGER);
+        assertSaveAction(UnnecessarySemicolon_KO, UnnecessarySemicolon_OK);
     }
 
 }
