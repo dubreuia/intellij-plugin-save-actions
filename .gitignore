@@ -1,8 +1,11 @@
 # Intellij
-.idea
+.idea/*
 *.iml
 *.ipr
 *.iws
+
+# Save actions
+!.idea/saveactions_settings.xml
 
 # Generated java classes
 out
