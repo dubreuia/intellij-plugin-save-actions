@@ -4,8 +4,10 @@
     <option name="actions">
       <set>
         <option value="activate" />
+        <option value="noActionIfCompileErrors" />
         <option value="organizeImports" />
         <option value="reformat" />
+        <option value="reformatChangedCode" />
         <option value="missingOverrideAnnotation" />
         <option value="useBlocks" />
         <option value="unnecessaryThis" />
@@ -17,5 +19,10 @@
       </set>
     </option>
     <option name="configurationPath" value="" />
+    <option name="exclusions">
+      <set>
+        <option value="src/test/resources/com/dubreuia/integration/.*" />
+      </set>
+    </option>
   </component>
 </project>

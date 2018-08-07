@@ -10,8 +10,6 @@ import com.intellij.psi.PsiFile;
 
 import java.util.List;
 
-import static java.util.Collections.sort;
-
 /**
  * Event handler class, instanciated by {@link com.dubreuia.core.java.Component}. The
  * {@link #getSaveActionsProcessors(Project, PsiFile)} returns the java specific processors.
@@ -22,7 +20,7 @@ public class SaveActionManager extends com.dubreuia.core.SaveActionManager {
     protected List<Processor> getSaveActionsProcessors(Project project, PsiFile psiFile) {
         Storage storage = getStorage(project);
         List<Processor> processors = ProcessorFactory.INSTANCE.getSaveActionsProcessors(project, psiFile, storage);
-        sort(processors, new ProcessorComparator());
+        processors.sort(new ProcessorComparator());
         return processors;
     }
 
