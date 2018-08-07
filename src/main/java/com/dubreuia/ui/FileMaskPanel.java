@@ -20,7 +20,7 @@ abstract class FileMaskPanel extends JPanel {
 
     private final SortedListModel patternModels = new SortedListModel();
 
-    private final JBList patternList;
+    private final JBList<String> patternList;
 
     private final JPanel patternPanel;
 
@@ -38,7 +38,7 @@ abstract class FileMaskPanel extends JPanel {
         this.textAddTitle = textAddTitle;
         this.textEditMessage = textEditMessage;
         this.textEditTitle = textEditTitle;
-        patternList = new JBList(patternModels);
+        patternList = new JBList<>(patternModels);
         patternList.setEmptyText(textEmpty);
         patternPanel = ToolbarDecorator.createDecorator(patternList)
                 .setAddAction(getAddActionButtonRunnable(patterns))
@@ -82,8 +82,7 @@ abstract class FileMaskPanel extends JPanel {
         return new AnActionButtonRunnable() {
             @Override
             public void run(AnActionButton anActionButton) {
-                for (Object object : patternList.getSelectedValues()) {
-                    String selectedValue = (String) object;
+                for (String selectedValue : patternList.getSelectedValuesList()) {
                     patterns.remove(selectedValue);
                     patternModels.removeElement(selectedValue);
                 }

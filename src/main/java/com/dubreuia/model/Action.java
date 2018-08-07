@@ -55,6 +55,8 @@ public enum Action {
 
     explicitTypeCanBeDiamond("Remove explicit generic type for diamond", false),
 
+    generateSerialVersionUID("Generate SerialVersionUID for Serializable", false),
+
     suppressAnnotation("Remove unused suppress warning annotation", false),
 
     unnecessarySemicolon("Remove unnecessary semicolon", false),;
