@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 import static com.dubreuia.core.SaveActionManager.LOGGER;
+import static com.dubreuia.model.Action.accessCanBeTightened;
 import static com.dubreuia.model.Action.compile;
 import static com.dubreuia.model.Action.explicitTypeCanBeDiamond;
 import static com.dubreuia.model.Action.fieldCanBeFinal;
@@ -52,8 +53,9 @@ public enum EpfStorage {
             "sp_cleanup.sort_members", "sp_cleanup.sort_members_all"};
 
     private static final String EPF_FIELD_CAN_BE_FINAL = "sp_cleanup.make_private_fields_final";
-
     private static final String EPF_LOCAL_CAN_BE_FINAL = "sp_cleanup.make_local_variable_final";
+
+    private static final String EPF_ACCESS_CAN_BE_TIGHTENED = "sp_cleanup.tighten_access_to_members";
 
     private static final String EPF_UNQUALIFIED_FIELD_ACCESS = "sp_cleanup.use_this_for_non_static_field_access";
     private static final String EPF_UNQUALIFIED_METHOD_ACCESS = "sp_cleanup.always_use_this_for_non_static_method_access";
@@ -111,6 +113,7 @@ public enum EpfStorage {
 
         storage.setEnabled(fieldCanBeFinal, isEnabledEPForJava(properties, EPF_FIELD_CAN_BE_FINAL));
         storage.setEnabled(localCanBeFinal, isEnabledEPForJava(properties, EPF_LOCAL_CAN_BE_FINAL));
+        storage.setEnabled(accessCanBeTightened, isEnabledEPForJava(properties, EPF_ACCESS_CAN_BE_TIGHTENED));
         storage.setEnabled(unqualifiedFieldAccess, isEnabledEPForJava(properties, EPF_UNQUALIFIED_FIELD_ACCESS));
         storage.setEnabled(unqualifiedMethodAccess, isEnabledEPForJava(properties, EPF_UNQUALIFIED_METHOD_ACCESS));
         storage.setEnabled(unqualifiedStaticMemberAccess, isEnabledEPForJava(properties, EPF_QUALIFY_STATIC_MEMBER_ACCESS));

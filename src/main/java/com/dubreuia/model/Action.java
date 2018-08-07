@@ -37,6 +37,8 @@ public enum Action {
 
     localCanBeFinal("Add final to local variable", false),
 
+    accessCanBeTightened("Tighten access to class members", false),
+
     unqualifiedFieldAccess("Add this to field access", false),
 
     unqualifiedMethodAccess("Add this to method access", false),

@@ -4,6 +4,7 @@ import com.dubreuia.model.Storage;
 import com.dubreuia.processors.Processor;
 import com.intellij.codeInspection.ExplicitTypeCanBeDiamondInspection;
 import com.intellij.codeInspection.localCanBeFinal.LocalCanBeFinal;
+import com.intellij.codeInspection.visibility.VisibilityInspection;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 import com.siyeh.ig.classlayout.FinalPrivateMethodInspection;
@@ -22,6 +23,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.dubreuia.model.Action.accessCanBeTightened;
 import static com.dubreuia.model.Action.explicitTypeCanBeDiamond;
 import static com.dubreuia.model.Action.fieldCanBeFinal;
 import static com.dubreuia.model.Action.finalPrivateMethod;
@@ -42,7 +44,7 @@ public enum ProcessorFactory {
 
     public List<Processor> getSaveActionsProcessors(Project project, PsiFile psiFile, Storage storage) {
         List<Processor> processors = new ArrayList<>();
-        // Add stuff
+        // Adds stuff
         processors.add(getLocalCanBeFinalProcessor(project, psiFile, storage));
         processors.add(getUnqualifiedFieldAccessProcessor(project, psiFile, storage));
         processors.add(getUnqualifiedMethodAccessProcessor(project, psiFile, storage));
@@ -57,14 +59,23 @@ public enum ProcessorFactory {
         processors.add(getFinalPrivateMethodProcessor(project, psiFile, storage));
         processors.add(getUnnecessarySemicolonProcessor(project, psiFile, storage));
         processors.add(getUnnecessaryFinalOnLocalVariableOrParameterProcessor(project, psiFile, storage));
+        // Replaces stuff
+        processors.add(getAccessCanBeTightenedProcessor(project, psiFile, storage));
         return processors;
     }
+
 
     @NotNull
     private InspectionProcessor getLocalCanBeFinalProcessor(
             Project project, PsiFile psiFile, Storage storage) {
         return new InspectionProcessor(
                 project, psiFile, storage, localCanBeFinal, new LocalCanBeFinal());
+    }
+
+
+    @NotNull
+    private InspectionProcessor getAccessCanBeTightenedProcessor(Project project, PsiFile psiFile, Storage storage) {
+        return new InspectionProcessor(project, psiFile, storage, accessCanBeTightened, new AccessCanBeTightenedInspection(new VisibilityInspection()));
     }
 
     @NotNull

@@ -8,6 +8,7 @@ import java.awt.*;
 import java.util.Map;
 
 import static com.dubreuia.core.SaveActionFactory.JAVA_AVAILABLE;
+import static com.dubreuia.model.Action.accessCanBeTightened;
 import static com.dubreuia.model.Action.explicitTypeCanBeDiamond;
 import static com.dubreuia.model.Action.fieldCanBeFinal;
 import static com.dubreuia.model.Action.finalPrivateMethod;
@@ -41,6 +42,7 @@ public class InspectionPanel {
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
         panel.add(checkboxes.get(fieldCanBeFinal));
         panel.add(checkboxes.get(localCanBeFinal));
+        panel.add(checkboxes.get(accessCanBeTightened));
         panel.add(checkboxes.get(unqualifiedFieldAccess));
         panel.add(checkboxes.get(unqualifiedMethodAccess));
         panel.add(checkboxes.get(unqualifiedStaticMemberAccess));
