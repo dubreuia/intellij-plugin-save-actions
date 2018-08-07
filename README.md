@@ -1,8 +1,9 @@
 # Intellij Save Actions Plugin
 
-[![Build Status](https://travis-ci.org/dubreuia/intellij-plugin-save-actions.svg?branch=master)](https://travis-ci.org/dubreuia/intellij-plugin-save-actions)
+[![Jetbrains Plugin](./docs/badge-jetbrains-website.svg)](https://plugins.jetbrains.com/plugin/7642-save-actions)
+[![Travis Build Status](https://travis-ci.org/dubreuia/intellij-plugin-save-actions.svg?branch=master)](https://travis-ci.org/dubreuia/intellij-plugin-save-actions)
 
-Supports configurable, Eclipse like, save actions, including "organize imports", "reformat code", "rearrange code", "compile file" and some quick fixes like "add / remove 'this' qualifier", etc. The plugin executes the configured actions when the file is synchronised (or saved) on disk.
+Supports configurable, Eclipse like, save actions, including "optimize imports", "reformat code", "rearrange code", "compile file" and some quick fixes like "add / remove 'this' qualifier", etc. The plugin executes the configured actions when the file is synchronised (or saved) on disk.
 
 Using the save actions plugin makes your code cleaner and more uniform across your code base by enforcing your code style and code rules every time you save. The settings file (see [files location](#files-location)) can be shared in your development team so that every developer has the same configuration.
 
@@ -10,7 +11,7 @@ The code style applied by the save actions plugin is the one configured your set
 
 ## Features
 
-- Organize imports
+- Optimize imports
 - Run on file save or shortcut (or both)
 - Reformat code (whole file or only changed text)
 - Rearrange code (reorder methods, fields, etc.)
@@ -72,8 +73,9 @@ You can quickly toggle the plugin activation by using the "Enable Save Action" a
 
 | Name                               | Description
 | ---                                | ---
-| Organize imports                   | Enable / disable import organization (configured in "File > Settings > Code Style > Java > Imports")
+| Optimize imports                   | Enable / disable import organization (configured in "File > Settings > Code Style > Java > Imports")
 | Reformat file                      | Enable / disable formatting (configured in "File > Settings > Code Style"). See "Reformat only changed code" for more options
+| Reformat only changed lines        | Enable / disable formatting for only changed lines, which will work only if a VCS is configured
 | Rearrange fields and methods       | Enable / disable re-ordering of fields and methods (configured in "File > Settings > Code Style > Java > Arrangement")
 | Reformat only changed code         | Enable / disable formatting for changed code only. If VCS is configured, it is used to check which lines where modified. If VCS is not configured, the code will always get reformatted
 
@@ -95,21 +97,23 @@ You can quickly toggle the plugin activation by using the "Enable Save Action" a
 
 If a quick fix adds something that is removed by another quick fix, the removal wins.
 
-| Name                                                    | Description
-| ---                                                     | ---
-| Add final to field                                      | Will add the final modifier to fields
-| Add final to local variable or parameter                | Will add the final modifier to local variable and parameters
-| Add this to field access                                | Will qualify all field access with this
-| Add this to method access                               | Will qualify all method access with this
-| Add class qualifier to static member access             | Will qualify all access to static members with Class name
-| Add missing @Override annotations                       | Will add missing @Override annotations to all inherited methods
-| Add blocks in if/while/for statements                   | Will add missing braces to any if, while or for statements without braces
-| Remove unnecessary this                                 | Will remove unnecessary this field access
-| Remove final from private method                        | Will remove final for private method
-| Remove unnecessary final to local variable or parameter | Will remove unnecessary final to local variable or parameter
-| Remove explicit generic type for diamond                | Will remove unused right side generic types for Java 7 diamond operator. This `List<String> list = new ArrayList<String>()` becomes `List<String> list = new ArrayList<>()`
-| Remove unused suppress warning annotation               | Will remove any unused @SuppressWarning annotations
-| Remove unnecessary semicolon                            | Will remove unnecessary semicolon
+| Name                                                                     | Description
+| ---                                                                      | ---
+| Add final to field                                                       | Will add the final modifier to fields
+| Add final to local variable or parameter                                 | Will add the final modifier to local variable and parameters
+| Add static modifier to methods                                           | Will add the static modifier to methods which may be static
+| Add this to field access                                                 | Will qualify all field access with this
+| Add this to method access                                                | Will qualify all method access with this
+| Add class qualifier to static member access                              | Will qualify all access to static members with class name
+| Add class qualifier to static member access outside declaring class only | Will qualify accesses to static members with class name outside the declaring class only
+| Add missing @Override annotations                                        | Will add missing @Override annotations to inherited methods, except for methods from jdk and external libraries (like `toString`) 
+| Add blocks in if/while/for statements                                    | Will add missing braces to any if, while or for statements without braces
+| Remove unnecessary this                                                  | Will remove unnecessary this on field and method access
+| Remove final from private method                                         | Will remove final for private method
+| Remove unnecessary final to local variable or parameter                  | Will remove unnecessary final to local variable or parameter
+| Remove explicit generic type for diamond                                 | Will remove unused right side generic types for Java 7 diamond operator. This `List<String> list = new ArrayList<String>()` becomes `List<String> list = new ArrayList<>()`
+| Remove unused suppress warning annotation                                | Will remove any unused @SuppressWarning annotations
+| Remove unnecessary semicolon                                             | Will remove unnecessary semicolon
 
 ## IDE support
 
@@ -133,30 +137,31 @@ There are two keymaps, binded to actions, that can be configured in save-actions
 
 ## Contributors
 
-- [markiewb](https://github.com/markiewb)
-- [edeknede](https://github.com/edeknede)
-- [krasa](https://github.com/krasa)
-- [dorkbox](https://github.com/dorkbox)
-- [zhujk](https://github.com/zhujk)
-- [marcosbento](https://github.com/marcosbento)
-- [visajkin](https://github.com/visajkin)
+Big thanks to all the contributors submitting issues, testing, and especially submitting pull requests. See [contributors graph](https://github.com/dubreuia/intellij-plugin-save-actions/graphs/contributors).
 
 ## Contributing
 
 ### Development environment
 
-The plugin is built with gradle.
+The plugin is built with gradle, but you don't need to install it if you build with the Intellij gradle plugin (check out the [prerequisites](https://www.jetbrains.org/intellij/sdk/docs/tutorials/build_system/prerequisites.html)). If you don't intend to use the Intellij gradle plugin, you can use native gradle (replace `./gradlew` by `gradle`).
+
+Start idea and import the `build.gradle` file with "File > Open". Then in the "Import Project from Gradle" window, make sure you check "Use gradle 'wrapper' task configuration" before clicking "Finish". You now have a gradle wrapper installed (`gradlew`) that you can use on the command line to generate idea folders:
 
 ```bash
-# Cleanup idea folders
-gradle cleanIdea
-
 # Initialize idea folders
-gradle idea
-
-# Run the plugin (starts new idea)
-gradle runIdea
+./gradlew cleanIdea idea
 ```
+
+Intellij should refresh and the project is now configured as a gradle project. You can find Intellij gradle tasks in "Gradle > Gradle projects > intellij-plugin-save-actions > Tasks > intellij". To run the plugin, use the `runIde` task:
+
+```bash
+# Run the plugin (starts new idea)
+./gradlew runIde
+```
+
+### Code style
+
+The code style is located in `config/code-style.xml`, you can import it by doing "File > Settings > Editor > Code Style > Scheme > (wheel) > Import scheme > Intellij IDEA code style XML". General style should resemble existing code.
 
 ### Sending a pull request
 
@@ -179,10 +184,6 @@ The plugin is in the [JetBrains plugin repository](https://plugins.jetbrains.com
 
 Please take the time to [rate the plugin](https://plugins.jetbrains.com/plugin/7642-save-actions)!
 
-## Say thank you
-
-At [thank you open source](https://www.thankyouopensource.com/list/dubreuia/intellij-plugin-save-actions).
-
 ## Bugs / features
 
 The plugin does not work? You want more features? You can [ask me on twitter](https://twitter.com/dubreuia) or [create an issue on github](https://github.com/dubreuia/intellij-plugin-save-actions/issues).
@@ -190,3 +191,4 @@ The plugin does not work? You want more features? You can [ask me on twitter](ht
 ## Licence
 
 [MIT License](LICENSE.txt)
+

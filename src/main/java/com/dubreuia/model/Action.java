@@ -17,15 +17,13 @@ public enum Action {
 
     // Global
 
-    organizeImports("Organize imports", true),
+    organizeImports("Optimize imports", true),
 
     reformat("Reformat file", true),
 
     reformatChangedCode("Reformat only changed code (only if VCS configured)", false),
 
     rearrange("Rearrange fields and methods (configured in \"Editor > Code Style > (...) > Arrangement\")", false),
-
-    rearrangeChangedCode("Rearrange only changed code (only if VCS configured)", false),
 
     // Build
 
@@ -36,14 +34,17 @@ public enum Action {
     fieldCanBeFinal("Add final to field", false),
 
     localCanBeFinal("Add final to local variable", false),
-
     accessCanBeTightened("Tighten access to class members", false),
+  
+    methodMayBeStatic("Add static to method", false),
 
     unqualifiedFieldAccess("Add this to field access", false),
 
     unqualifiedMethodAccess("Add this to method access", false),
 
     unqualifiedStaticMemberAccess("Add class qualifier to static member access", false),
+
+    customUnqualifiedStaticMemberAccess("Add class qualifier to static member access outside declaring class only", false),
 
     missingOverrideAnnotation("Add missing @Override annotations", false),
 
@@ -59,7 +60,7 @@ public enum Action {
 
     suppressAnnotation("Remove unused suppress warning annotation", false),
 
-    unnecessarySemicolon("Remove unnecessary semicolon", false),;
+    unnecessarySemicolon("Remove unnecessary semicolon", false);
 
     private final String text;
 
@@ -83,5 +84,4 @@ public enum Action {
                 .filter(Action::isDefaultValue)
                 .collect(toSet());
     }
-
 }

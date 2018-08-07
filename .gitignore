@@ -1,10 +1,15 @@
-# Intellij user specific (see https://intellij-support.jetbrains.com/entries/23393067)
-.idea/tasks.xml
-.idea/workspace.xml
-.idea/markdown-navigator*
+# Intellij
+.idea/*
+*.iml
+*.ipr
+*.iws
+
+# Save actions
+!.idea/saveactions_settings.xml
 
 # Generated java classes
 out
+classes
 
 # Vim
 *.swp
@@ -15,6 +20,3 @@ out
 # Gradle
 .gradle/
 build/
-intellij-plugin-save-actions.iml
-intellij-plugin-save-actions.ipr
-intellij-plugin-save-actions.iws

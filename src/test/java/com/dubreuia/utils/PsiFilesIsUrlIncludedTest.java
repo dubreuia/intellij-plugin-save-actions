@@ -1,13 +1,15 @@
 package com.dubreuia.utils;
 
-import static com.dubreuia.utils.PsiFiles.atLeastOneMatch;
-import java.util.ArrayList;
-import static java.util.Collections.singleton;
-import java.util.List;
-import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.dubreuia.utils.PsiFiles.atLeastOneMatch;
+import static java.util.Collections.singleton;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(Parameterized.class)
 public class PsiFilesIsUrlIncludedTest {
@@ -26,7 +28,7 @@ public class PsiFilesIsUrlIncludedTest {
 
     @Parameterized.Parameters(name = "{index} - {0} - {1} - {2}")
     public static List<Object[]> parameters() {
-        List<Object[]> parameters = new ArrayList<Object[]>();
+        List<Object[]> parameters = new ArrayList<>();
 
         // Default cases and invalid regex
         parameters.add(getParameter(false, null, "*"));
@@ -55,7 +57,7 @@ public class PsiFilesIsUrlIncludedTest {
         return parameters;
     }
 
-    public static Object[] getParameter(boolean expected, String psiFileUrl, String exclusion) {
+    private static Object[] getParameter(boolean expected, String psiFileUrl, String exclusion) {
         return new Object[]{expected, psiFileUrl, exclusion};
     }
 

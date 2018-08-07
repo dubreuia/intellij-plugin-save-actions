@@ -2,6 +2,7 @@ package com.dubreuia.processors.java;
 
 import com.dubreuia.model.Storage;
 import com.dubreuia.processors.Processor;
+import com.dubreuia.processors.java.inspections.CustomUnqualifiedStaticUsageInspection;
 import com.intellij.codeInspection.ExplicitTypeCanBeDiamondInspection;
 import com.intellij.codeInspection.localCanBeFinal.LocalCanBeFinal;
 import com.intellij.codeInspection.visibility.VisibilityInspection;
@@ -10,6 +11,7 @@ import com.intellij.psi.PsiFile;
 import com.siyeh.ig.classlayout.FinalPrivateMethodInspection;
 import com.siyeh.ig.inheritance.MissingOverrideAnnotationInspection;
 import com.siyeh.ig.maturity.SuppressionAnnotationInspection;
+import com.siyeh.ig.performance.MethodMayBeStaticInspection;
 import com.siyeh.ig.style.ControlFlowStatementWithoutBracesInspection;
 import com.siyeh.ig.style.FieldMayBeFinalInspection;
 import com.siyeh.ig.style.UnnecessaryFinalOnLocalVariableOrParameterInspection;
@@ -24,10 +26,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.dubreuia.model.Action.accessCanBeTightened;
+import static com.dubreuia.model.Action.customUnqualifiedStaticMemberAccess;
 import static com.dubreuia.model.Action.explicitTypeCanBeDiamond;
 import static com.dubreuia.model.Action.fieldCanBeFinal;
 import static com.dubreuia.model.Action.finalPrivateMethod;
 import static com.dubreuia.model.Action.localCanBeFinal;
+import static com.dubreuia.model.Action.methodMayBeStatic;
 import static com.dubreuia.model.Action.missingOverrideAnnotation;
 import static com.dubreuia.model.Action.suppressAnnotation;
 import static com.dubreuia.model.Action.unnecessaryFinalOnLocalVariableOrParameter;
@@ -46,10 +50,12 @@ public enum ProcessorFactory {
         List<Processor> processors = new ArrayList<>();
         // Adds stuff
         processors.add(getLocalCanBeFinalProcessor(project, psiFile, storage));
+        processors.add(getFieldMayBeFinalProcessor(project, psiFile, storage));
+        processors.add(getMethodMayBeStaticProcessor(project, psiFile, storage));
         processors.add(getUnqualifiedFieldAccessProcessor(project, psiFile, storage));
         processors.add(getUnqualifiedMethodAccessProcessor(project, psiFile, storage));
         processors.add(getUnqualifiedStaticUsageInspectionProcessor(project, psiFile, storage));
-        processors.add(getFieldMayBeFinalProcessor(project, psiFile, storage));
+        processors.add(getCustomUnqualifiedStaticUsageInspectionProcessor(project, psiFile, storage));
         processors.add(getMissingOverrideAnnotationProcessor(project, psiFile, storage));
         processors.add(getControlFlowStatementWithoutBracesProcessor(project, psiFile, storage));
         // Removes stuff
@@ -79,6 +85,13 @@ public enum ProcessorFactory {
     }
 
     @NotNull
+    private InspectionProcessor getMethodMayBeStaticProcessor(
+            Project project, PsiFile psiFile, Storage storage) {
+        return new InspectionProcessor(
+                project, psiFile, storage, methodMayBeStatic, new MethodMayBeStaticInspection());
+    }
+
+    @NotNull
     private InspectionProcessor getUnqualifiedFieldAccessProcessor(
             Project project, PsiFile psiFile, Storage storage) {
         return new InspectionProcessor(
@@ -101,6 +114,14 @@ public enum ProcessorFactory {
         inspection.m_ignoreStaticAccessFromStaticContext = false;
         return new InspectionProcessor(
                 project, psiFile, storage, unqualifiedStaticMemberAccess, inspection);
+    }
+
+    @NotNull
+    private InspectionProcessor getCustomUnqualifiedStaticUsageInspectionProcessor(
+            Project project, PsiFile psiFile, Storage storage) {
+        CustomUnqualifiedStaticUsageInspection inspection = new CustomUnqualifiedStaticUsageInspection();
+        return new InspectionProcessor(
+                project, psiFile, storage, customUnqualifiedStaticMemberAccess, inspection);
     }
 
     @NotNull

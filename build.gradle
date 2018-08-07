@@ -1,23 +1,61 @@
+// Add build script repository to maven central
 buildscript {
     repositories {
         mavenCentral()
     }
 }
 
+// Add idea plugin version
 plugins {
-    id "org.jetbrains.intellij" version "0.2.17"
+    id "org.jetbrains.intellij" version "0.3.3"
 }
 
-apply plugin: 'idea'
-apply plugin: 'org.jetbrains.intellij'
+// Add idea and java plugins
 apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'jacoco'
+apply plugin: 'org.jetbrains.intellij'
 
+// Add intellij task configuration for base intellij version (minimum compatibility)
 intellij {
     version '2016.3'
     plugins 'coverage'
     pluginName 'Save Actions'
+    // Do not touch the plugin.xml file
     updateSinceUntilBuild false
 }
 
+// Add plugin group and version
 group 'com.dubreuia'
-version '0.26'
+version '1.0.0'
+
+// Add only maven central as repository
+repositories {
+    mavenCentral()
+}
+
+// Add dependencies to junit5 api (annotations) and engine (runtime)
+dependencies {
+    testCompile('org.junit.jupiter:junit-jupiter-api:5.2.0')
+    testRuntime('org.junit.jupiter:junit-jupiter-engine:5.2.0')
+}
+
+// Activate junit since gradle 4.7
+test {
+    useJUnitPlatform()
+}
+
+// Add resources directory because intellij test framework checks there for test resources (instead of build/resources)
+sourceSets {
+    test {
+        output.resourcesDir = "build/classes/java/resources"
+    }
+}
+
+// Add jacoco test report for codecov
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        html.enabled false
+    }
+}
