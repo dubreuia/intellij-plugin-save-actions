@@ -3,7 +3,6 @@ package com.dubreuia.integration;
 import com.dubreuia.core.SaveActionFactory;
 import com.dubreuia.core.SaveActionManager;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 

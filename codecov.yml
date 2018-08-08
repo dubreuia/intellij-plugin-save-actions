@@ -1,0 +1,13 @@
+# remove codecov comments for pull requests
+comment: off
+
+coverage:
+  status:
+    project:
+      default:
+        # always in success
+        target: 0
+    patch:
+      default:
+        # always in success
+        target: 0
