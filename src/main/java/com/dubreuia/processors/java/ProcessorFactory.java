@@ -2,9 +2,11 @@ package com.dubreuia.processors.java;
 
 import com.dubreuia.model.Storage;
 import com.dubreuia.processors.Processor;
+import com.dubreuia.processors.java.inspections.AccessCanBeTightenedInspection;
 import com.dubreuia.processors.java.inspections.CustomUnqualifiedStaticUsageInspection;
 import com.intellij.codeInspection.ExplicitTypeCanBeDiamondInspection;
 import com.intellij.codeInspection.localCanBeFinal.LocalCanBeFinal;
+import com.intellij.codeInspection.visibility.VisibilityInspection;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 import com.siyeh.ig.classlayout.FinalPrivateMethodInspection;
@@ -25,6 +27,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.dubreuia.model.Action.accessCanBeTightened;
 import static com.dubreuia.model.Action.customUnqualifiedStaticMemberAccess;
 import static com.dubreuia.model.Action.explicitTypeCanBeDiamond;
 import static com.dubreuia.model.Action.fieldCanBeFinal;
@@ -48,7 +51,7 @@ public enum ProcessorFactory {
 
     public List<Processor> getSaveActionsProcessors(Project project, PsiFile psiFile, Storage storage) {
         List<Processor> processors = new ArrayList<>();
-        // Add stuff
+        // Adds stuff
         processors.add(getLocalCanBeFinalProcessor(project, psiFile, storage));
         processors.add(getFieldMayBeFinalProcessor(project, psiFile, storage));
         processors.add(getMethodMayBeStaticProcessor(project, psiFile, storage));
@@ -66,6 +69,8 @@ public enum ProcessorFactory {
         processors.add(getFinalPrivateMethodProcessor(project, psiFile, storage));
         processors.add(getUnnecessarySemicolonProcessor(project, psiFile, storage));
         processors.add(getUnnecessaryFinalOnLocalVariableOrParameterProcessor(project, psiFile, storage));
+        // Changes stuff
+        processors.add(getAccessCanBeTightenedProcessor(project, psiFile, storage));
         return processors;
     }
 
@@ -80,6 +85,19 @@ public enum ProcessorFactory {
                 storage,
                 localCanBeFinal,
                 new LocalCanBeFinal());
+    }
+
+    @NotNull
+    private InspectionProcessor getFieldMayBeFinalProcessor(
+            Project project,
+            PsiFile psiFile,
+            Storage storage) {
+        return new InspectionProcessor(
+                project,
+                psiFile,
+                storage,
+                fieldCanBeFinal,
+                new FieldMayBeFinalInspection());
     }
 
     @NotNull
@@ -150,19 +168,6 @@ public enum ProcessorFactory {
                 storage,
                 customUnqualifiedStaticMemberAccess,
                 inspection);
-    }
-
-    @NotNull
-    private InspectionProcessor getFieldMayBeFinalProcessor(
-            Project project,
-            PsiFile psiFile,
-            Storage storage) {
-        return new InspectionProcessor(
-                project,
-                psiFile,
-                storage,
-                fieldCanBeFinal,
-                new FieldMayBeFinalInspection());
     }
 
     @NotNull
@@ -282,6 +287,19 @@ public enum ProcessorFactory {
                 storage,
                 unnecessaryFinalOnLocalVariableOrParameter,
                 new UnnecessaryFinalOnLocalVariableOrParameterInspection());
+    }
+
+    @NotNull
+    private InspectionProcessor getAccessCanBeTightenedProcessor(
+            Project project,
+            PsiFile psiFile,
+            Storage storage) {
+        return new InspectionProcessor(
+                project,
+                psiFile,
+                storage,
+                accessCanBeTightened,
+                new AccessCanBeTightenedInspection(new VisibilityInspection()));
     }
 
 }

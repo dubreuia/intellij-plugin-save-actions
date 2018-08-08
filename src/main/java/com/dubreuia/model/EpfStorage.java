@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 import static com.dubreuia.core.SaveActionManager.LOGGER;
+import static com.dubreuia.model.Action.accessCanBeTightened;
 import static com.dubreuia.model.Action.compile;
 import static com.dubreuia.model.Action.customUnqualifiedStaticMemberAccess;
 import static com.dubreuia.model.Action.explicitTypeCanBeDiamond;
@@ -92,6 +93,9 @@ public enum EpfStorage {
     private static final String EPF_GENERATE_SERIAL_VERSION_UID =
             "sp_cleanup.generate_serial_version_uid";
 
+    private static final String EPF_ACCESS_CAN_BE_TIGHTENED =
+            "sp_cleanup.tighten_access_to_members";
+
     /**
      * @return a configuration based on EPF if the path to EPF configuration file is set and valid, or else the default
      * configuration is returned
@@ -162,6 +166,8 @@ public enum EpfStorage {
                 false);
         storage.setEnabled(unnecessarySemicolon,
                 false);
+        storage.setEnabled(accessCanBeTightened,
+                isEnabledEPForJava(properties, EPF_ACCESS_CAN_BE_TIGHTENED));
 
         LOGGER.debug("Using configuration file from " + defaultStorage.getConfigurationPath());
         return storage;

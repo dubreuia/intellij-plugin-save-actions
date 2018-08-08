@@ -119,6 +119,7 @@ If a quick fix adds something that is removed by another quick fix, the removal 
 | Remove explicit generic type for diamond                                 | The list creation `List<String> list = new ArrayList<String>()` becomes `List<String> list = new ArrayList<>()`
 | Remove unused suppress warning annotation                                | The annotation `@SuppressWarning` will be removed if it is unused (warning: "unchecked" doesn't work properly see [#87](https://github.com/dubreuia/intellij-plugin-save-actions/issues/87))
 | Remove unnecessary semicolon                                             | The statement `int variable = 0;;` becomes `int variable = 0;`
+| Change visibility of field or method to lower access                     | The field `public int field = 0` becomes `private int field = 0` if it is not used outside class, also working for methods
 
 ## IDE support
 
@@ -144,7 +145,7 @@ There are two keymaps, binded to actions, that can be configured in save-actions
 
 Big thanks to all the contributors submitting issues, testing, and especially submitting pull requests.
 
-See [contributors graph](https://github.com/dubreuia/intellij-plugin-save-actions/graphs/contributors) <3.
+See [contributors graph](https://github.com/dubreuia/intellij-plugin-save-actions/graphs/contributors) :hearts:
 
 ## Contributing
 

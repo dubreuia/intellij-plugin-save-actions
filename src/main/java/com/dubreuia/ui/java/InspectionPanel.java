@@ -11,6 +11,7 @@ import java.awt.Dimension;
 import java.util.Map;
 
 import static com.dubreuia.core.SaveActionFactory.JAVA_AVAILABLE;
+import static com.dubreuia.model.Action.accessCanBeTightened;
 import static com.dubreuia.model.Action.customUnqualifiedStaticMemberAccess;
 import static com.dubreuia.model.Action.explicitTypeCanBeDiamond;
 import static com.dubreuia.model.Action.fieldCanBeFinal;
@@ -61,6 +62,7 @@ public class InspectionPanel {
         panel.add(checkboxes.get(explicitTypeCanBeDiamond));
         panel.add(checkboxes.get(suppressAnnotation));
         panel.add(checkboxes.get(unnecessarySemicolon));
+        panel.add(checkboxes.get(accessCanBeTightened));
         panel.add(Box.createHorizontalGlue());
         panel.setMinimumSize(new Dimension(Short.MAX_VALUE, 0));
         return panel;

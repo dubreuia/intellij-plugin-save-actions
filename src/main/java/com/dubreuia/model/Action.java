@@ -31,11 +31,11 @@ public enum Action {
 
     // Java fixes
 
-    fieldCanBeFinal("Add final to field", false),
+    fieldCanBeFinal("Add final modifier to field", false),
 
-    localCanBeFinal("Add final to local variable", false),
+    localCanBeFinal("Add final modifier to local variable or parameter", false),
 
-    methodMayBeStatic("Add static to method", false),
+    methodMayBeStatic("Add static modifier to methods", false),
 
     unqualifiedFieldAccess("Add this to field access", false),
 
@@ -47,11 +47,11 @@ public enum Action {
 
     missingOverrideAnnotation("Add missing @Override annotations", false),
 
-    useBlocks("Add blocks in if/while/for statements", false),
+    useBlocks("Add blocks to if/while/for statements", false),
 
     generateSerialVersionUID("Add a serialVersionUID field for Serializable classes", false),
 
-    unnecessaryThis("Remove unnecessary this", false),
+    unnecessaryThis("Remove unnecessary this to field and method", false),
 
     finalPrivateMethod("Remove final from private method", false),
 
@@ -61,7 +61,12 @@ public enum Action {
 
     suppressAnnotation("Remove unused suppress warning annotation", false),
 
-    unnecessarySemicolon("Remove unnecessary semicolon", false);
+    unnecessarySemicolon("Remove unnecessary semicolon", false),
+
+    accessCanBeTightened("Change visibility of field or method to lower access", false),
+
+    //
+    ;
 
     private final String text;
 
