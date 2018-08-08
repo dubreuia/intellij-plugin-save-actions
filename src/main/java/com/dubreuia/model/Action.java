@@ -49,6 +49,8 @@ public enum Action {
 
     useBlocks("Add blocks in if/while/for statements", false),
 
+    generateSerialVersionUID("Add a serialVersionUID field for Serializable classes", false),
+
     unnecessaryThis("Remove unnecessary this", false),
 
     finalPrivateMethod("Remove final from private method", false),
@@ -56,8 +58,6 @@ public enum Action {
     unnecessaryFinalOnLocalVariableOrParameter("Remove unnecessary final to local variable or parameter", false),
 
     explicitTypeCanBeDiamond("Remove explicit generic type for diamond", false),
-
-    generateSerialVersionUID("Generate SerialVersionUID for Serializable", false),
 
     suppressAnnotation("Remove unused suppress warning annotation", false),
 

@@ -34,7 +34,12 @@ class InspectionProcessor implements Processor {
 
     private final LocalInspectionTool inspectionTool;
 
-    InspectionProcessor(Project project, PsiFile psiFile, Storage storage, Action action, LocalInspectionTool inspectionTool) {
+    InspectionProcessor(
+            Project project,
+            PsiFile psiFile,
+            Storage storage,
+            Action action,
+            LocalInspectionTool inspectionTool) {
         this.project = project;
         this.psiFile = psiFile;
         this.storage = storage;
@@ -87,9 +92,11 @@ class InspectionProcessor implements Processor {
 
         private void writeQuickFixes(ProblemDescriptor problemDescriptor, QuickFix[] fixes) {
             for (QuickFix fix : fixes) {
+                @SuppressWarnings("unchecked")
+                QuickFix<ProblemDescriptor> typedFix = (QuickFix<ProblemDescriptor>) fix;
                 if (fix != null) {
                     try {
-                        fix.applyFix(project, problemDescriptor);
+                        typedFix.applyFix(project, problemDescriptor);
                     } catch (Exception e) {
                         LOGGER.error(e.getMessage(), e);
                     }
