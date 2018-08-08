@@ -48,7 +48,6 @@ public class InspectionPanel {
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
         panel.add(checkboxes.get(fieldCanBeFinal));
         panel.add(checkboxes.get(localCanBeFinal));
-        panel.add(checkboxes.get(accessCanBeTightened));
         panel.add(checkboxes.get(methodMayBeStatic));
         panel.add(checkboxes.get(unqualifiedFieldAccess));
         panel.add(checkboxes.get(unqualifiedMethodAccess));
@@ -63,6 +62,7 @@ public class InspectionPanel {
         panel.add(checkboxes.get(explicitTypeCanBeDiamond));
         panel.add(checkboxes.get(suppressAnnotation));
         panel.add(checkboxes.get(unnecessarySemicolon));
+        panel.add(checkboxes.get(accessCanBeTightened));
         panel.add(Box.createHorizontalGlue());
         panel.setMinimumSize(new Dimension(Short.MAX_VALUE, 0));
         return panel;
