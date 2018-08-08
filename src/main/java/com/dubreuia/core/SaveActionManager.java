@@ -18,6 +18,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import static com.dubreuia.model.Action.activate;
 import static com.dubreuia.model.Action.noActionIfCompileErrors;
@@ -34,7 +35,7 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
 
     public static final Logger LOGGER = Logger.getInstance(SaveActionManager.class);
 
-    private static List<Processor> runningProcessors = synchronizedList(new ArrayList<Processor>());
+    private static List<Processor> runningProcessors = synchronizedList(new ArrayList<>());
 
     static {
         LOGGER.setLevel(Level.DEBUG);
@@ -51,10 +52,17 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
         }
     }
 
-    void checkAndProcessPsiFile(Project project, PsiFile psiFile) {
+    /**
+     * @param processorPredicate allows deactivation of unwanted processors (like CompileProcessor) in the batch action
+     */
+    void checkAndProcessPsiFile(Project project, PsiFile psiFile, @NotNull Predicate<Processor> processorPredicate) {
         if (isPsiFileEligible(project, psiFile)) {
-            processPsiFile(project, psiFile);
+            processPsiFile(project, psiFile, processorPredicate);
         }
+    }
+
+    void checkAndProcessPsiFile(Project project, PsiFile psiFile) {
+        checkAndProcessPsiFile(project, psiFile, x -> true);
     }
 
     /**
@@ -99,11 +107,13 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
         return psiFile.isValid();
     }
 
-    private void processPsiFile(Project project, PsiFile psiFile) {
+    private void processPsiFile(Project project, PsiFile psiFile, @NotNull Predicate<Processor> processorPredicate) {
         List<Processor> processors = getSaveActionsProcessors(project, psiFile);
         LOGGER.debug("Running processors " + processors + ", file " + psiFile + ", project " + project);
         for (Processor processor : processors) {
-            runProcessor(processor);
+            if (processorPredicate.test(processor)) {
+                runProcessor(processor);
+            }
         }
     }
 

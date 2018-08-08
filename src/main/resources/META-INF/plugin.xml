@@ -79,5 +79,11 @@
         </action>
         <action class="com.dubreuia.core.SaveActionToggleAction" id="com.dubreuia.core.SaveActionToggleAction"
                 text="Enable Save Actions" description="Toggle the activation of Save Actions"/>
+
+        <action id="SaveActionBatchAction" class="com.dubreuia.core.SaveActionBatchAction"
+                text="Save Actions..." description="Executes Save Actions on multiple files">
+            <add-to-group group-id="CodeFormatGroup" anchor="after"
+                          relative-to-action="com.dubreuia.core.SaveActionShortcutManager"/>
+        </action>
     </actions>
 </idea-plugin>
