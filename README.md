@@ -145,7 +145,7 @@ There are two keymaps, binded to actions, that can be configured in save-actions
 
 Big thanks to all the contributors submitting issues, testing, and especially submitting pull requests.
 
-See [contributors graph](https://github.com/dubreuia/intellij-plugin-save-actions/graphs/contributors) <3.
+See [contributors graph](https://github.com/dubreuia/intellij-plugin-save-actions/graphs/contributors) :hearts:
 
 ## Contributing
 
