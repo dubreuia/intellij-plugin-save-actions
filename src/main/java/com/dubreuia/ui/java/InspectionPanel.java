@@ -14,6 +14,7 @@ import static com.dubreuia.model.Action.customUnqualifiedStaticMemberAccess;
 import static com.dubreuia.model.Action.explicitTypeCanBeDiamond;
 import static com.dubreuia.model.Action.fieldCanBeFinal;
 import static com.dubreuia.model.Action.finalPrivateMethod;
+import static com.dubreuia.model.Action.generateSerialVersionUID;
 import static com.dubreuia.model.Action.localCanBeFinal;
 import static com.dubreuia.model.Action.methodMayBeStatic;
 import static com.dubreuia.model.Action.missingOverrideAnnotation;
@@ -56,6 +57,7 @@ public class InspectionPanel {
         panel.add(checkboxes.get(finalPrivateMethod));
         panel.add(checkboxes.get(unnecessaryFinalOnLocalVariableOrParameter));
         panel.add(checkboxes.get(explicitTypeCanBeDiamond));
+        panel.add(checkboxes.get(generateSerialVersionUID));
         panel.add(checkboxes.get(suppressAnnotation));
         panel.add(checkboxes.get(unnecessarySemicolon));
         panel.add(Box.createHorizontalGlue());

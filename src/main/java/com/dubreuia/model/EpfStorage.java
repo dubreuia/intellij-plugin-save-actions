@@ -13,6 +13,7 @@ import static com.dubreuia.model.Action.customUnqualifiedStaticMemberAccess;
 import static com.dubreuia.model.Action.explicitTypeCanBeDiamond;
 import static com.dubreuia.model.Action.fieldCanBeFinal;
 import static com.dubreuia.model.Action.finalPrivateMethod;
+import static com.dubreuia.model.Action.generateSerialVersionUID;
 import static com.dubreuia.model.Action.localCanBeFinal;
 import static com.dubreuia.model.Action.methodMayBeStatic;
 import static com.dubreuia.model.Action.missingOverrideAnnotation;
@@ -69,6 +70,7 @@ public enum EpfStorage {
     private static final String EPF_USE_BLOCKS_2 = "sp_cleanup.always_use_blocks";
 
     private static final String EPF_EXPLICIT_TYPE_DIAMOND = "sp_cleanup.remove_redundant_type_arguments";
+    private static final String EPF_GENERATE_SERIAL_VERSION_UID = "sp_cleanup.generate_serial_version_uid";
 
     /**
      * @return a configuration based on EPF if the path to EPF configuration file is set and valid, or else the default
@@ -123,6 +125,7 @@ public enum EpfStorage {
         storage.setEnabled(finalPrivateMethod, false);
         storage.setEnabled(unnecessaryFinalOnLocalVariableOrParameter, false);
         storage.setEnabled(explicitTypeCanBeDiamond, isEnabledEPForJava(properties, EPF_EXPLICIT_TYPE_DIAMOND));
+        storage.setEnabled(generateSerialVersionUID, isEnabledEPForJava(properties, EPF_GENERATE_SERIAL_VERSION_UID));
         storage.setEnabled(suppressAnnotation, false);
         storage.setEnabled(unnecessarySemicolon, false);
 

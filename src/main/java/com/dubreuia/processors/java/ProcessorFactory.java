@@ -10,6 +10,7 @@ import com.intellij.psi.PsiFile;
 import com.siyeh.ig.classlayout.FinalPrivateMethodInspection;
 import com.siyeh.ig.inheritance.MissingOverrideAnnotationInspection;
 import com.siyeh.ig.maturity.SuppressionAnnotationInspection;
+import com.siyeh.ig.serialization.SerializableHasSerialVersionUIDFieldInspectionBase;
 import com.siyeh.ig.performance.MethodMayBeStaticInspection;
 import com.siyeh.ig.style.ControlFlowStatementWithoutBracesInspection;
 import com.siyeh.ig.style.FieldMayBeFinalInspection;
@@ -28,6 +29,7 @@ import static com.dubreuia.model.Action.customUnqualifiedStaticMemberAccess;
 import static com.dubreuia.model.Action.explicitTypeCanBeDiamond;
 import static com.dubreuia.model.Action.fieldCanBeFinal;
 import static com.dubreuia.model.Action.finalPrivateMethod;
+import static com.dubreuia.model.Action.generateSerialVersionUID;
 import static com.dubreuia.model.Action.localCanBeFinal;
 import static com.dubreuia.model.Action.methodMayBeStatic;
 import static com.dubreuia.model.Action.missingOverrideAnnotation;
@@ -56,6 +58,7 @@ public enum ProcessorFactory {
         processors.add(getCustomUnqualifiedStaticUsageInspectionProcessor(project, psiFile, storage));
         processors.add(getMissingOverrideAnnotationProcessor(project, psiFile, storage));
         processors.add(getControlFlowStatementWithoutBracesProcessor(project, psiFile, storage));
+        processors.add(getGenerateSerialVersionUIDProcessor(project, psiFile, storage));
         // Removes stuff
         processors.add(getExplicitTypeCanBeDiamondProcessor(project, psiFile, storage));
         processors.add(getUnnecessaryThisProcessor(project, psiFile, storage));
@@ -64,6 +67,11 @@ public enum ProcessorFactory {
         processors.add(getUnnecessarySemicolonProcessor(project, psiFile, storage));
         processors.add(getUnnecessaryFinalOnLocalVariableOrParameterProcessor(project, psiFile, storage));
         return processors;
+    }
+
+    @NotNull
+    private InspectionProcessor getGenerateSerialVersionUIDProcessor(Project project, PsiFile psiFile, Storage storage) {
+        return new InspectionProcessor(project, psiFile, storage, generateSerialVersionUID, new SerializableHasSerialVersionUIDFieldInspectionBase());
     }
 
     @NotNull
