@@ -72,17 +72,27 @@
     </project-components>
 
     <actions>
-        <action id="com.dubreuia.core.SaveActionShortcutManager" class="com.dubreuia.core.SaveActionShortcutManager"
-                text="Save Actions" description="Executes save actions with a shortcut">
-            <add-to-group group-id="CodeFormatGroup" anchor="after" relative-to-action="RearrangeCode"/>
-            <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl S"/>
+        <action id="com.dubreuia.core.SaveActionShortcutManager"
+                class="com.dubreuia.core.SaveActionShortcutManager"
+                text="Execute Save Actions"
+                description="Executes save actions with a shortcut">
+            <add-to-group group-id="CodeFormatGroup"
+                          anchor="after"
+                          relative-to-action="RearrangeCode"/>
+            <keyboard-shortcut keymap="$default"
+                               first-keystroke="shift ctrl S"/>
         </action>
-        <action class="com.dubreuia.core.SaveActionToggleAction" id="com.dubreuia.core.SaveActionToggleAction"
-                text="Enable Save Actions" description="Toggle the activation of Save Actions"/>
+        <action class="com.dubreuia.core.SaveActionToggleAction"
+                id="com.dubreuia.core.SaveActionToggleAction"
+                text="Enable Save Actions"
+                description="Toggle the activation of Save Actions"/>
 
-        <action id="SaveActionBatchAction" class="com.dubreuia.core.SaveActionBatchAction"
-                text="Save Actions..." description="Executes Save Actions on multiple files">
-            <add-to-group group-id="CodeFormatGroup" anchor="after"
+        <action id="com.dubreuia.core.SaveActionBatchAction"
+                class="com.dubreuia.core.SaveActionBatchAction"
+                text="Execute Save Actions on multiple files"
+                description="Executes save actions on multiple files">
+            <add-to-group group-id="CodeFormatGroup"
+                          anchor="after"
                           relative-to-action="com.dubreuia.core.SaveActionShortcutManager"/>
         </action>
     </actions>

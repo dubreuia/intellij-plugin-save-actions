@@ -10,7 +10,7 @@ import static com.dubreuia.processors.ProcessorMessage.toStringBuilder;
 
 class OptimizeImportsProcessor extends com.intellij.codeInsight.actions.OptimizeImportsProcessor implements Processor {
 
-    private static final String ID = "OptimizeImports";
+    private static final String NAME = "OptimizeImports";
 
     private final Storage storage;
 
@@ -31,13 +31,13 @@ class OptimizeImportsProcessor extends com.intellij.codeInsight.actions.Optimize
     }
 
     @Override
-    public int order() {
+    public int getOrder() {
         return 1;
     }
 
     @Override
     public String toString() {
-        return toStringBuilder(ID, storage.isEnabled(organizeImports));
+        return toStringBuilder(NAME, storage.isEnabled(organizeImports));
     }
 
 }

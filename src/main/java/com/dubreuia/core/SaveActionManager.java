@@ -2,6 +2,7 @@ package com.dubreuia.core;
 
 import com.dubreuia.model.Storage;
 import com.dubreuia.processors.Processor;
+import com.dubreuia.processors.Processor.ProcessorComparator;
 import com.dubreuia.processors.ProcessorFactory;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
@@ -18,13 +19,11 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Predicate;
 
 import static com.dubreuia.model.Action.activate;
 import static com.dubreuia.model.Action.noActionIfCompileErrors;
 import static com.dubreuia.utils.PsiFiles.isIncludedAndNotExcluded;
 import static com.dubreuia.utils.PsiFiles.isPsiFileInProject;
-import static java.util.Collections.sort;
 import static java.util.Collections.synchronizedList;
 
 /**
@@ -47,22 +46,15 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
         for (Project project : ProjectManager.getInstance().getOpenProjects()) {
             PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
             if (getStorage(project).isEnabled(activate)) {
-                checkAndProcessPsiFile(project, psiFile);
+                processPsiFile(project, psiFile, ExecutionMode.normal);
             }
         }
     }
 
-    /**
-     * @param processorPredicate allows deactivation of unwanted processors (like CompileProcessor) in the batch action
-     */
-    void checkAndProcessPsiFile(Project project, PsiFile psiFile, @NotNull Predicate<Processor> processorPredicate) {
+    void processPsiFile(Project project, PsiFile psiFile, ExecutionMode mode) {
         if (isPsiFileEligible(project, psiFile)) {
-            processPsiFile(project, psiFile, processorPredicate);
+            processPsiFile0(project, psiFile, mode);
         }
-    }
-
-    void checkAndProcessPsiFile(Project project, PsiFile psiFile) {
-        checkAndProcessPsiFile(project, psiFile, x -> true);
     }
 
     /**
@@ -107,14 +99,12 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
         return psiFile.isValid();
     }
 
-    private void processPsiFile(Project project, PsiFile psiFile, @NotNull Predicate<Processor> processorPredicate) {
+    private void processPsiFile0(Project project, PsiFile psiFile, ExecutionMode mode) {
         List<Processor> processors = getSaveActionsProcessors(project, psiFile);
         LOGGER.debug("Running processors " + processors + ", file " + psiFile + ", project " + project);
-        for (Processor processor : processors) {
-            if (processorPredicate.test(processor)) {
-                runProcessor(processor);
-            }
-        }
+        processors.stream()
+                .filter(processor -> processor.canRun(mode))
+                .forEach(this::runProcessor);
     }
 
     private void runProcessor(Processor processor) {
@@ -136,7 +126,7 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
     protected List<Processor> getSaveActionsProcessors(Project project, PsiFile psiFile) {
         List<Processor> processors = ProcessorFactory.INSTANCE
                 .getSaveActionsProcessors(project, psiFile, getStorage(project));
-        sort(processors, new Processor.ProcessorComparator());
+        processors.sort(new ProcessorComparator());
         return processors;
     }
 

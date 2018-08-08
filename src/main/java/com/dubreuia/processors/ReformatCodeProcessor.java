@@ -11,14 +11,14 @@ import static com.dubreuia.processors.ProcessorMessage.toStringBuilder;
 
 class ReformatCodeProcessor extends com.intellij.codeInsight.actions.ReformatCodeProcessor implements Processor {
 
-    private static final String ID_CHANGED_TEXT = "ReformatChangedText";
+    private static final String NAME_CHANGED_TEXT = "ReformatChangedText";
 
-    private static final String ID_ALL_TEXT = "ReformatAllText";
+    private static final String NAME_ALL_TEXT = "ReformatAllText";
 
     private final Storage storage;
 
     ReformatCodeProcessor(Project project, PsiFile file, Storage storage) {
-        super(project, file, null, processChangedTextOnly(storage));
+        super(project, file, null, storage.isEnabled(reformatChangedCode));
         this.storage = storage;
     }
 
@@ -34,17 +34,14 @@ class ReformatCodeProcessor extends com.intellij.codeInsight.actions.ReformatCod
     }
 
     @Override
-    public int order() {
+    public int getOrder() {
         return 2;
     }
 
     @Override
     public String toString() {
-        return toStringBuilder(storage.isEnabled(reformatChangedCode) ? ID_CHANGED_TEXT : ID_ALL_TEXT,
+        return toStringBuilder(storage.isEnabled(reformatChangedCode) ? NAME_CHANGED_TEXT : NAME_ALL_TEXT,
                 storage.isEnabled(reformat));
     }
 
-    private static boolean processChangedTextOnly(Storage storage) {
-        return storage.isEnabled(reformatChangedCode);
-    }
 }

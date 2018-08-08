@@ -22,7 +22,7 @@ import static com.dubreuia.processors.ProcessorMessage.toStringBuilder;
 
 class RearrangeCodeProcessor extends com.intellij.codeInsight.actions.RearrangeCodeProcessor implements Processor {
 
-    private static final String ID = "RearrangeCode";
+    private static final String NAME = "RearrangeCode";
 
     private final Storage storage;
 
@@ -80,13 +80,13 @@ class RearrangeCodeProcessor extends com.intellij.codeInsight.actions.RearrangeC
     }
 
     @Override
-    public int order() {
+    public int getOrder() {
         return 0;
     }
 
     @Override
     public String toString() {
-        return toStringBuilder(ID, storage.isEnabled(rearrange));
+        return toStringBuilder(NAME, storage.isEnabled(rearrange));
     }
 
 }

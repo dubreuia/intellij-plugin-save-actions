@@ -15,7 +15,6 @@
  */
 package com.dubreuia.core;
 
-import com.dubreuia.processors.ProcessorACCESSOR;
 import com.intellij.analysis.AnalysisScope;
 import com.intellij.analysis.BaseAnalysisAction;
 import com.intellij.openapi.diagnostic.Logger;
@@ -24,13 +23,14 @@ import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
+
+import static com.dubreuia.core.Component.COMPONENT_NAME;
 
 /**
  * Runs the save actions on the given scope of files. The user is asked for the scope using a standard IDEA dialog.
  * <p>
- * Originally based on https://github.com/JetBrains/intellij-community/blob/master/java/java-impl/src/com/intellij/codeInspection/inferNullity/InferNullityAnnotationsAction.java
+ * Originally based on {@link com.intellij.codeInspection.inferNullity.InferNullityAnnotationsAction}
  *
  * @author markiewb
  */
@@ -39,31 +39,24 @@ public class SaveActionBatchAction extends BaseAnalysisAction {
     public static final Logger LOGGER = Logger.getInstance(SaveActionBatchAction.class);
 
     public SaveActionBatchAction() {
-        super("Save Actions", "Save Actions");
+        super(COMPONENT_NAME, COMPONENT_NAME);
     }
 
     @Override
     protected void analyze(@NotNull Project project, @NotNull AnalysisScope scope) {
-
-        List<SaveActionManager> saveActionManagers = SaveActionFactory.getSaveActionManagers();
-        LOGGER.debug("Running Save Actions on multiple files " + scope);
+        LOGGER.debug("Running SaveActionBatchAction on " + project + " with scope " + scope);
         AtomicLong fileCount = new AtomicLong();
         scope.accept(new PsiElementVisitor() {
             @Override
             public void visitFile(PsiFile psiFile) {
                 super.visitFile(psiFile);
                 fileCount.incrementAndGet();
-
-                for (SaveActionManager saveActionManager : saveActionManagers) {
-                    saveActionManager.checkAndProcessPsiFile(project, psiFile,
-                            //don't compile in a batch action
-                            x -> !ProcessorACCESSOR.getCompileProcessorClass().isInstance(x));
+                for (SaveActionManager saveActionManager : SaveActionFactory.getSaveActionManagers()) {
+                    saveActionManager.processPsiFile(project, psiFile, ExecutionMode.batch);
                 }
             }
         });
-        LOGGER.debug("Ran Save Actions on " + fileCount.get() + " files ");
-
+        LOGGER.debug("Executed SaveActionBatchAction on " + fileCount.get() + " files ");
     }
-
 
 }

@@ -1,5 +1,6 @@
 package com.dubreuia.processors;
 
+import com.dubreuia.core.ExecutionMode;
 import com.dubreuia.model.Storage;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.compiler.CompilerManager;
@@ -13,7 +14,7 @@ import static com.dubreuia.processors.ProcessorMessage.toStringBuilder;
 
 class CompileProcessor implements Processor {
 
-    private static final String ID = "Compile";
+    private static final String NAME = "Compile";
 
     private final Project project;
 
@@ -41,13 +42,18 @@ class CompileProcessor implements Processor {
     }
 
     @Override
-    public int order() {
+    public int getOrder() {
         return 3;
     }
 
     @Override
+    public boolean canRun(ExecutionMode mode) {
+        return !ExecutionMode.batch.equals(mode);
+    }
+
+    @Override
     public String toString() {
-        return toStringBuilder(ID, storage.isEnabled(compile));
+        return toStringBuilder(NAME, storage.isEnabled(compile));
     }
 
 }

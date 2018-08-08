@@ -23,7 +23,7 @@ public class SaveActionShortcutManager extends AnAction {
         for (SaveActionManager saveActionManager : saveActionManagers) {
             Storage storage = saveActionManager.getStorage(project);
             if (storage.isEnabled(activateOnShortcut)) {
-                saveActionManager.checkAndProcessPsiFile(project, psiFile);
+                saveActionManager.processPsiFile(project, psiFile, ExecutionMode.shortcut);
             }
         }
     }

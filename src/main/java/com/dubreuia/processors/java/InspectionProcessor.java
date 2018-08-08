@@ -56,7 +56,7 @@ class InspectionProcessor implements Processor {
     }
 
     @Override
-    public int order() {
+    public int getOrder() {
         return 0;
     }
 
