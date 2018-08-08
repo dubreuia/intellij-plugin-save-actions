@@ -47,11 +47,15 @@ See issue [#18](https://github.com/dubreuia/intellij-plugin-save-actions/issues/
 
 ## Installation
 
-Install it from the plugin repository in Intellij IDEA (**recommended**):
+### IDE (recommended)
+
+Install it from your IDE (Intellij IDEA, PyCharm, etc.):
 
 - "File > Settings > Plugins > Browse repositories... > Search 'Save Actions' > Category 'Code tools'"
 
-Or the plugin is available from the [Intellij IDEA Community Edition plugin repository](https://plugins.jetbrains.com/plugin/7642) and you can also download the jar from there then add it in Intellij IDEA:
+### Jetbrains plugin repository
+
+All versions of the plugin are available from the [Jetbrains plugin repository](https://plugins.jetbrains.com/plugin/7642). You can download the jar and add it to your IDE (you won't get updates thought):
 
 - "File > Settings > Plugins > Install plugin from disk..."
 
@@ -99,22 +103,22 @@ If a quick fix adds something that is removed by another quick fix, the removal 
 
 | Name                                                                     | Description
 | ---                                                                      | ---
-| Add final to field                                                       | Will add the final modifier to fields
-| Add final to local variable or parameter                                 | Will add the final modifier to local variable and parameters
-| Add static modifier to methods                                           | Will add the static modifier to methods which may be static
-| Add this to field access                                                 | Will qualify all field access with this
-| Add this to method access                                                | Will qualify all method access with this
-| Add class qualifier to static member access                              | Will qualify all access to static members with class name
-| Add class qualifier to static member access outside declaring class only | Will qualify accesses to static members with class name outside the declaring class only
-| Add missing @Override annotations                                        | Will add missing @Override annotations to inherited methods, except for methods from jdk and external libraries (like `toString`) 
-| Add blocks in if/while/for statements                                    | Will add missing braces to any if, while or for statements without braces
-| Add missing serialVersionUID field for Serializable classes              | Will add missing serialVersionUID field for Serializable classes
-| Remove unnecessary this                                                  | Will remove unnecessary this on field and method access
-| Remove final from private method                                         | Will remove final for private method
-| Remove unnecessary final to local variable or parameter                  | Will remove unnecessary final to local variable or parameter
-| Remove explicit generic type for diamond                                 | Will remove unused right side generic types for Java 7 diamond operator. This `List<String> list = new ArrayList<String>()` becomes `List<String> list = new ArrayList<>()`
-| Remove unused suppress warning annotation                                | Will remove any unused @SuppressWarning annotations
-| Remove unnecessary semicolon                                             | Will remove unnecessary semicolon
+| Add final modifier to field                                              | The field `private int field = 0` becomes `private final int field = 0`
+| Add final modifier to local variable or parameter                        | The local variable `int variable = 0` becomes `final int variable = 0`
+| Add static modifier to methods                                           | The method `private void method()` becomes `private static void method()` if the content does not references instance fields
+| Add this to field access                                                 | The access to instance field `field = 0` becomes `this.field = 0`
+| Add this to method access                                                | The access to instance method `method()` becomes `this.method()`
+| Add class qualifier to static member access                              | The access to class field `FIELD = 0` becomes `Class.FIELD` for a class named Class
+| Add class qualifier to static member access outside declaring class only | The access to class field `FIELD = 0` becomes `Class.FIELD` for a class named class, but only if the static member is outside declaring class
+| Add missing @Override annotations                                        | The method `void method()` becomes `@Override void method()` if it overrides a method from the parent class
+| Add blocks to if/while/for statements                                    | The statement `if (true) return false` becomes `if (true) { return false; }` (a block), also working for `for` and `while` statements
+| Add missing serialVersionUID field for Serializable classes              | The class `class Class implements Serializable` will get a new field `private static final long serialVersionUID` with generated serial version uid
+| Remove unnecessary this to field and method                              | The access to instance field `this.field = 0` becomes `field = 0`, also working for methods
+| Remove final from private method                                         | The method `private final void method()` becomes `private void method()`
+| Remove unnecessary final to local variable or parameter                  | The local variable `int final variable = 0` becomes `int variable = 0`
+| Remove explicit generic type for diamond                                 | The list creation `List<String> list = new ArrayList<String>()` becomes `List<String> list = new ArrayList<>()`
+| Remove unused suppress warning annotation                                | The annotation `@SuppressWarning` will be removed if it is unused (warning: "unchecked" doesn't work properly see [#87](https://github.com/dubreuia/intellij-plugin-save-actions/issues/87))
+| Remove unnecessary semicolon                                             | The statement `int variable = 0;;` becomes `int variable = 0;`
 
 ## IDE support
 
@@ -138,7 +142,9 @@ There are two keymaps, binded to actions, that can be configured in save-actions
 
 ## Contributors
 
-Big thanks to all the contributors submitting issues, testing, and especially submitting pull requests. See [contributors graph](https://github.com/dubreuia/intellij-plugin-save-actions/graphs/contributors).
+Big thanks to all the contributors submitting issues, testing, and especially submitting pull requests.
+
+See [contributors graph](https://github.com/dubreuia/intellij-plugin-save-actions/graphs/contributors) <3.
 
 ## Contributing
 
@@ -166,16 +172,7 @@ The code style is located in `config/code-style.xml`, you can import it by doing
 
 ### Sending a pull request
 
-To contribute:
-
-- Submit a PR without modifying the META-INF/plugin.xml file (no version change)
-
-Then the maintainer will:
-
-- Review the change, update the version, merge to master
-- Build the plugin with Intellij IDEA and test it (see compatibility section)
-- Create a new release in https://github.com/dubreuia/intellij-plugin-save-actions/releases
-- Upload the plugin to [JetBrains Plugins Repository](https://plugins.jetbrains.com/) 
+To contribute, submit a PR without modifying the plugin version. Before sending, think about documenting your feature, code style, unit tests (if possible), integration tests (see `com.dubreuia.integration.IntegrationTest`) and proper manual testing.
 
 ## Jetbrains plugin page
 
