@@ -2,6 +2,7 @@ package com.dubreuia.processors.java;
 
 import com.dubreuia.model.Storage;
 import com.dubreuia.processors.Processor;
+import com.dubreuia.processors.java.inspections.AccessCanBeTightenedInspection;
 import com.dubreuia.processors.java.inspections.CustomUnqualifiedStaticUsageInspection;
 import com.intellij.codeInspection.ExplicitTypeCanBeDiamondInspection;
 import com.intellij.codeInspection.localCanBeFinal.LocalCanBeFinal;

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.dubreuia.processors.java;
+package com.dubreuia.processors.java.inspections;
 
 import com.intellij.codeInsight.daemon.GroupNames;
 import com.intellij.codeInsight.daemon.impl.UnusedSymbolUtil;
@@ -42,6 +42,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * Copy pasting because cannot extend, see {@link com.intellij.codeInspection.visibility.AccessCanBeTightenedInspection}
+ * Do not reformat (useful for diffs)!
+ */
 public class AccessCanBeTightenedInspection extends BaseJavaBatchLocalInspectionTool {
   private final VisibilityInspection myVisibilityInspection;
 
