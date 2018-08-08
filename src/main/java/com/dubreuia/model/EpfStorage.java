@@ -62,9 +62,6 @@ public enum EpfStorage {
     private static final String EPF_LOCAL_CAN_BE_FINAL =
             "sp_cleanup.make_local_variable_final";
 
-    private static final String EPF_ACCESS_CAN_BE_TIGHTENED =
-            "sp_cleanup.tighten_access_to_members";
-
     private static final String EPF_METHOD_MAY_BE_STATIC =
             "sp_cleanup.make_method_static";
 
@@ -95,6 +92,9 @@ public enum EpfStorage {
 
     private static final String EPF_GENERATE_SERIAL_VERSION_UID =
             "sp_cleanup.generate_serial_version_uid";
+
+    private static final String EPF_ACCESS_CAN_BE_TIGHTENED =
+            "sp_cleanup.tighten_access_to_members";
 
     /**
      * @return a configuration based on EPF if the path to EPF configuration file is set and valid, or else the default
@@ -138,8 +138,6 @@ public enum EpfStorage {
                 isEnabledEPForJava(properties, EPF_FIELD_CAN_BE_FINAL));
         storage.setEnabled(localCanBeFinal,
                 isEnabledEPForJava(properties, EPF_LOCAL_CAN_BE_FINAL));
-        storage.setEnabled(accessCanBeTightened,
-                isEnabledEPForJava(properties, EPF_ACCESS_CAN_BE_TIGHTENED));
         storage.setEnabled(methodMayBeStatic,
                 isEnabledEPForJava(properties, EPF_METHOD_MAY_BE_STATIC));
         storage.setEnabled(unqualifiedFieldAccess,
@@ -168,6 +166,8 @@ public enum EpfStorage {
                 false);
         storage.setEnabled(unnecessarySemicolon,
                 false);
+        storage.setEnabled(accessCanBeTightened,
+                isEnabledEPForJava(properties, EPF_ACCESS_CAN_BE_TIGHTENED));
 
         LOGGER.debug("Using configuration file from " + defaultStorage.getConfigurationPath());
         return storage;

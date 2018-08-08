@@ -6,6 +6,8 @@ import org.junit.BeforeClass;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import static com.dubreuia.integration.ActionTestFile.AccessCanBeTightened_KO;
+import static com.dubreuia.integration.ActionTestFile.AccessCanBeTightened_OK;
 import static com.dubreuia.integration.ActionTestFile.CustomUnqualifiedStaticMemberAccess_KO;
 import static com.dubreuia.integration.ActionTestFile.CustomUnqualifiedStaticMemberAccess_OK;
 import static com.dubreuia.integration.ActionTestFile.ExplicitTypeCanBeDiamond_KO;
@@ -38,6 +40,7 @@ import static com.dubreuia.integration.ActionTestFile.UnqualifiedStaticMemberAcc
 import static com.dubreuia.integration.ActionTestFile.UnqualifiedStaticMemberAccess_OK;
 import static com.dubreuia.integration.ActionTestFile.UseBlocks_KO;
 import static com.dubreuia.integration.ActionTestFile.UseBlocks_OK;
+import static com.dubreuia.model.Action.accessCanBeTightened;
 import static com.dubreuia.model.Action.activate;
 import static com.dubreuia.model.Action.activateOnShortcut;
 import static com.dubreuia.model.Action.customUnqualifiedStaticMemberAccess;
@@ -189,6 +192,13 @@ public class JavaIntegrationTest extends IntegrationTest {
         storage.setEnabled(activate, true);
         storage.setEnabled(unnecessarySemicolon, true);
         assertSaveAction(UnnecessarySemicolon_KO, UnnecessarySemicolon_OK);
+    }
+
+    @Test
+    public void should_accessCanBeTightened_remove_unnecessary_semicolon() {
+        storage.setEnabled(activate, true);
+        storage.setEnabled(accessCanBeTightened, true);
+        assertSaveAction(AccessCanBeTightened_KO, AccessCanBeTightened_OK);
     }
 
 }

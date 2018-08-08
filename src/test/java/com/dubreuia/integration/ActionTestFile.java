@@ -2,6 +2,11 @@ package com.dubreuia.integration;
 
 public enum ActionTestFile {
 
+    Import_KO_Reformat_KO,
+    Import_KO_Reformat_OK,
+    Import_OK_Reformat_KO,
+    Import_OK_Reformat_OK,
+
     FieldCanBeFinal_KO,
     FieldCanBeFinal_OK,
 
@@ -50,10 +55,8 @@ public enum ActionTestFile {
     UnnecessarySemicolon_KO,
     UnnecessarySemicolon_OK,
 
-    Import_KO_Reformat_KO,
-    Import_KO_Reformat_OK,
-    Import_OK_Reformat_KO,
-    Import_OK_Reformat_OK,
+    AccessCanBeTightened_KO,
+    AccessCanBeTightened_OK,
 
     //
     ;

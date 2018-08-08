@@ -35,8 +35,6 @@ public enum Action {
 
     localCanBeFinal("Add final to local variable", false),
 
-    accessCanBeTightened("Tighten access to class members", false),
-  
     methodMayBeStatic("Add static to method", false),
 
     unqualifiedFieldAccess("Add this to field access", false),
@@ -63,7 +61,12 @@ public enum Action {
 
     suppressAnnotation("Remove unused suppress warning annotation", false),
 
-    unnecessarySemicolon("Remove unnecessary semicolon", false);
+    unnecessarySemicolon("Remove unnecessary semicolon", false),
+
+    accessCanBeTightened("Change visibility of field or method to lower access", false),
+
+    //
+    ;
 
     private final String text;
 

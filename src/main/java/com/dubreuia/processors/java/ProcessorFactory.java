@@ -69,11 +69,10 @@ public enum ProcessorFactory {
         processors.add(getFinalPrivateMethodProcessor(project, psiFile, storage));
         processors.add(getUnnecessarySemicolonProcessor(project, psiFile, storage));
         processors.add(getUnnecessaryFinalOnLocalVariableOrParameterProcessor(project, psiFile, storage));
-        // Replaces stuff
+        // Changes stuff
         processors.add(getAccessCanBeTightenedProcessor(project, psiFile, storage));
         return processors;
     }
-
 
     @NotNull
     private InspectionProcessor getLocalCanBeFinalProcessor(
@@ -88,7 +87,6 @@ public enum ProcessorFactory {
                 new LocalCanBeFinal());
     }
 
-
     @NotNull
     private InspectionProcessor getFieldMayBeFinalProcessor(
             Project project,
@@ -100,19 +98,6 @@ public enum ProcessorFactory {
                 storage,
                 fieldCanBeFinal,
                 new FieldMayBeFinalInspection());
-    }
-
-    @NotNull
-    private InspectionProcessor getAccessCanBeTightenedProcessor(
-            Project project,
-            PsiFile psiFile,
-            Storage storage) {
-        return new InspectionProcessor(
-                project,
-                psiFile,
-                storage,
-                accessCanBeTightened,
-                new AccessCanBeTightenedInspection(new VisibilityInspection()));
     }
 
     @NotNull
@@ -302,6 +287,19 @@ public enum ProcessorFactory {
                 storage,
                 unnecessaryFinalOnLocalVariableOrParameter,
                 new UnnecessaryFinalOnLocalVariableOrParameterInspection());
+    }
+
+    @NotNull
+    private InspectionProcessor getAccessCanBeTightenedProcessor(
+            Project project,
+            PsiFile psiFile,
+            Storage storage) {
+        return new InspectionProcessor(
+                project,
+                psiFile,
+                storage,
+                accessCanBeTightened,
+                new AccessCanBeTightenedInspection(new VisibilityInspection()));
     }
 
 }
