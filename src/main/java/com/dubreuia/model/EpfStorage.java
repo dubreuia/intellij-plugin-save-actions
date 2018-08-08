@@ -13,6 +13,7 @@ import static com.dubreuia.model.Action.customUnqualifiedStaticMemberAccess;
 import static com.dubreuia.model.Action.explicitTypeCanBeDiamond;
 import static com.dubreuia.model.Action.fieldCanBeFinal;
 import static com.dubreuia.model.Action.finalPrivateMethod;
+import static com.dubreuia.model.Action.generateSerialVersionUID;
 import static com.dubreuia.model.Action.localCanBeFinal;
 import static com.dubreuia.model.Action.methodMayBeStatic;
 import static com.dubreuia.model.Action.missingOverrideAnnotation;
@@ -39,36 +40,57 @@ public enum EpfStorage {
 
     INSTANCE;
 
-    private static final String EPF_ACTIVATE = "editor_save_participant_org.eclipse.jdt.ui.postsavelistener.cleanup";
-
     private static final String[] EPF_ORGANIZE_IMPORTS = new String[]{
-            "sp_cleanup.organize_imports", "sp_cleanup.remove_unused_imports"};
+            "sp_cleanup.organize_imports",
+            "sp_cleanup.remove_unused_imports"};
 
     private static final String[] EPF_REFORMAT = new String[]{
-            "sp_cleanup.format_source_code", "sp_cleanup.format_source_code_changes_only"};
+            "sp_cleanup.format_source_code",
+            "sp_cleanup.format_source_code_changes_only"};
 
-    private static final String EPF_REFORMAT_CHANGED_CODE = "sp_cleanup.format_source_code_changes_only";
+    private static final String EPF_REFORMAT_CHANGED_CODE =
+            "sp_cleanup.format_source_code_changes_only";
 
     private static final String[] EPF_REARRANGE = new String[]{
-            "sp_cleanup.sort_members", "sp_cleanup.sort_members_all"};
+            "sp_cleanup.sort_members",
+            "sp_cleanup.sort_members_all"};
 
-    private static final String EPF_FIELD_CAN_BE_FINAL = "sp_cleanup.make_private_fields_final";
-    private static final String EPF_LOCAL_CAN_BE_FINAL = "sp_cleanup.make_local_variable_final";
-    private static final String EPF_METHOD_MAY_BE_STATIC = "sp_cleanup.make_method_static";
+    private static final String EPF_FIELD_CAN_BE_FINAL =
+            "sp_cleanup.make_private_fields_final";
 
-    private static final String EPF_UNQUALIFIED_FIELD_ACCESS = "sp_cleanup.use_this_for_non_static_field_access";
-    private static final String EPF_UNQUALIFIED_METHOD_ACCESS = "sp_cleanup.always_use_this_for_non_static_method_access";
-    private static final String EPF_QUALIFY_STATIC_MEMBER_ACCESS = "sp_cleanup.qualify_static_member_accesses_with_declaring_class";
-    private static final String EPF_QUALIFY_STATIC_MEMBER_ACCESS_OUT_CLASS_ONLY = "sp_cleanup.qualify_static_member_accesses_with_declaring_class_out_class_only";
+    private static final String EPF_LOCAL_CAN_BE_FINAL =
+            "sp_cleanup.make_local_variable_final";
+
+    private static final String EPF_METHOD_MAY_BE_STATIC =
+            "sp_cleanup.make_method_static";
+
+    private static final String EPF_UNQUALIFIED_FIELD_ACCESS =
+            "sp_cleanup.use_this_for_non_static_field_access";
+
+    private static final String EPF_UNQUALIFIED_METHOD_ACCESS =
+            "sp_cleanup.always_use_this_for_non_static_method_access";
+
+    private static final String EPF_QUALIFY_STATIC_MEMBER_ACCESS =
+            "sp_cleanup.qualify_static_member_accesses_with_declaring_class";
+
+    private static final String EPF_QUALIFY_STATIC_MEMBER_ACCESS_OUT_CLASS_ONLY =
+            "sp_cleanup.qualify_static_member_accesses_with_declaring_class_out_class_only";
 
     private static final String[] EPF_MISSING_OVERRIDE_ANNOTATION = new String[]{
-            "sp_cleanup.add_missing_override_annotations", "sp_cleanup.add_missing_override_annotations_interface_methods"};
+            "sp_cleanup.add_missing_override_annotations",
+            "sp_cleanup.add_missing_override_annotations_interface_methods"};
 
-    private static final String EPF_USE_BLOCKS_1 = "sp_cleanup.use_blocks";
+    private static final String EPF_USE_BLOCKS_1 =
+            "sp_cleanup.use_blocks";
 
-    private static final String EPF_USE_BLOCKS_2 = "sp_cleanup.always_use_blocks";
+    private static final String EPF_USE_BLOCKS_2 =
+            "sp_cleanup.always_use_blocks";
 
-    private static final String EPF_EXPLICIT_TYPE_DIAMOND = "sp_cleanup.remove_redundant_type_arguments";
+    private static final String EPF_EXPLICIT_TYPE_DIAMOND =
+            "sp_cleanup.remove_redundant_type_arguments";
+
+    private static final String EPF_GENERATE_SERIAL_VERSION_UID =
+            "sp_cleanup.generate_serial_version_uid";
 
     /**
      * @return a configuration based on EPF if the path to EPF configuration file is set and valid, or else the default
@@ -90,17 +112,15 @@ public enum EpfStorage {
         }
 
         Storage storage = new Storage();
+
         // Copy the current values
         storage.setActions(defaultStorage.getActions());
         storage.setInclusions(defaultStorage.getInclusions());
         storage.setExclusions(defaultStorage.getExclusions());
 
         Properties properties = readProperties(configurationPath);
+
         // Map all EPF configurations to existing actions
-
-        // do not enable save actions by epf-file settings, else you cannot disable the save action temporarily 
-        // storage.setEnabled(activate, isEnabledEPForJava(properties, EPF_ACTIVATE));
-
         storage.setEnabled(noActionIfCompileErrors, true);
 
         storage.setEnabled(organizeImports, isEnabledEPForJava(properties, EPF_ORGANIZE_IMPORTS));
@@ -110,21 +130,38 @@ public enum EpfStorage {
 
         storage.setEnabled(compile, false);
 
-        storage.setEnabled(fieldCanBeFinal, isEnabledEPForJava(properties, EPF_FIELD_CAN_BE_FINAL));
-        storage.setEnabled(localCanBeFinal, isEnabledEPForJava(properties, EPF_LOCAL_CAN_BE_FINAL));
-        storage.setEnabled(methodMayBeStatic, isEnabledEPForJava(properties, EPF_METHOD_MAY_BE_STATIC));
-        storage.setEnabled(unqualifiedFieldAccess, isEnabledEPForJava(properties, EPF_UNQUALIFIED_FIELD_ACCESS));
-        storage.setEnabled(unqualifiedMethodAccess, isEnabledEPForJava(properties, EPF_UNQUALIFIED_METHOD_ACCESS));
-        storage.setEnabled(unqualifiedStaticMemberAccess, isEnabledEPForJava(properties, EPF_QUALIFY_STATIC_MEMBER_ACCESS));
-        storage.setEnabled(customUnqualifiedStaticMemberAccess, isEnabledEPForJava(properties, EPF_QUALIFY_STATIC_MEMBER_ACCESS_OUT_CLASS_ONLY));
-        storage.setEnabled(missingOverrideAnnotation, isEnabledEPForJava(properties, EPF_MISSING_OVERRIDE_ANNOTATION));
-        storage.setEnabled(useBlocks, isEnabledEPForJava(properties, EPF_USE_BLOCKS_1, EPF_USE_BLOCKS_2));
-        storage.setEnabled(unnecessaryThis, false);
-        storage.setEnabled(finalPrivateMethod, false);
-        storage.setEnabled(unnecessaryFinalOnLocalVariableOrParameter, false);
-        storage.setEnabled(explicitTypeCanBeDiamond, isEnabledEPForJava(properties, EPF_EXPLICIT_TYPE_DIAMOND));
-        storage.setEnabled(suppressAnnotation, false);
-        storage.setEnabled(unnecessarySemicolon, false);
+        storage.setEnabled(fieldCanBeFinal,
+                isEnabledEPForJava(properties, EPF_FIELD_CAN_BE_FINAL));
+        storage.setEnabled(localCanBeFinal,
+                isEnabledEPForJava(properties, EPF_LOCAL_CAN_BE_FINAL));
+        storage.setEnabled(methodMayBeStatic,
+                isEnabledEPForJava(properties, EPF_METHOD_MAY_BE_STATIC));
+        storage.setEnabled(unqualifiedFieldAccess,
+                isEnabledEPForJava(properties, EPF_UNQUALIFIED_FIELD_ACCESS));
+        storage.setEnabled(unqualifiedMethodAccess,
+                isEnabledEPForJava(properties, EPF_UNQUALIFIED_METHOD_ACCESS));
+        storage.setEnabled(unqualifiedStaticMemberAccess,
+                isEnabledEPForJava(properties, EPF_QUALIFY_STATIC_MEMBER_ACCESS));
+        storage.setEnabled(customUnqualifiedStaticMemberAccess,
+                isEnabledEPForJava(properties, EPF_QUALIFY_STATIC_MEMBER_ACCESS_OUT_CLASS_ONLY));
+        storage.setEnabled(missingOverrideAnnotation,
+                isEnabledEPForJava(properties, EPF_MISSING_OVERRIDE_ANNOTATION));
+        storage.setEnabled(useBlocks,
+                isEnabledEPForJava(properties, EPF_USE_BLOCKS_1, EPF_USE_BLOCKS_2));
+        storage.setEnabled(generateSerialVersionUID,
+                isEnabledEPForJava(properties, EPF_GENERATE_SERIAL_VERSION_UID));
+        storage.setEnabled(unnecessaryThis,
+                false);
+        storage.setEnabled(finalPrivateMethod,
+                false);
+        storage.setEnabled(unnecessaryFinalOnLocalVariableOrParameter,
+                false);
+        storage.setEnabled(explicitTypeCanBeDiamond,
+                isEnabledEPForJava(properties, EPF_EXPLICIT_TYPE_DIAMOND));
+        storage.setEnabled(suppressAnnotation,
+                false);
+        storage.setEnabled(unnecessarySemicolon,
+                false);
 
         LOGGER.debug("Using configuration file from " + defaultStorage.getConfigurationPath());
         return storage;

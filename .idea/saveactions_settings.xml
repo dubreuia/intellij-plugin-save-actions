@@ -14,7 +14,6 @@
         <option value="finalPrivateMethod" />
         <option value="unnecessaryFinalOnLocalVariableOrParameter" />
         <option value="explicitTypeCanBeDiamond" />
-        <option value="suppressAnnotation" />
         <option value="unnecessarySemicolon" />
       </set>
     </option>

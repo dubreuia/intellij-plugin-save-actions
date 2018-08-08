@@ -49,6 +49,8 @@ public enum Action {
 
     useBlocks("Add blocks in if/while/for statements", false),
 
+    generateSerialVersionUID("Add a serialVersionUID field for Serializable classes", false),
+
     unnecessaryThis("Remove unnecessary this", false),
 
     finalPrivateMethod("Remove final from private method", false),

@@ -14,6 +14,8 @@ import static com.dubreuia.integration.ActionTestFile.FieldCanBeFinal_KO;
 import static com.dubreuia.integration.ActionTestFile.FieldCanBeFinal_OK;
 import static com.dubreuia.integration.ActionTestFile.FinalPrivateMethod_KO;
 import static com.dubreuia.integration.ActionTestFile.FinalPrivateMethod_OK;
+import static com.dubreuia.integration.ActionTestFile.GenerateSerialVersionUID_KO;
+import static com.dubreuia.integration.ActionTestFile.GenerateSerialVersionUID_OK;
 import static com.dubreuia.integration.ActionTestFile.LocalCanBeFinal_KO;
 import static com.dubreuia.integration.ActionTestFile.LocalCanBeFinal_OK;
 import static com.dubreuia.integration.ActionTestFile.MethodMayBeStatic_KO;
@@ -42,6 +44,7 @@ import static com.dubreuia.model.Action.customUnqualifiedStaticMemberAccess;
 import static com.dubreuia.model.Action.explicitTypeCanBeDiamond;
 import static com.dubreuia.model.Action.fieldCanBeFinal;
 import static com.dubreuia.model.Action.finalPrivateMethod;
+import static com.dubreuia.model.Action.generateSerialVersionUID;
 import static com.dubreuia.model.Action.localCanBeFinal;
 import static com.dubreuia.model.Action.methodMayBeStatic;
 import static com.dubreuia.model.Action.missingOverrideAnnotation;
@@ -88,7 +91,7 @@ public class JavaIntegrationTest extends IntegrationTest {
     }
 
     @Test
-    @Disabled("do no work")
+    @Disabled("do not work")
     public void should_methodMayBeStatic_add_static_keyword_to_method() {
         storage.setEnabled(activateOnShortcut, true);
         storage.setEnabled(methodMayBeStatic, true);
@@ -138,6 +141,14 @@ public class JavaIntegrationTest extends IntegrationTest {
     }
 
     @Test
+    @Disabled("do not work")
+    public void should_generateSerialVersionUID_generates_serial_version_uid_for_serializable_class() {
+        storage.setEnabled(activate, true);
+        storage.setEnabled(generateSerialVersionUID, true);
+        assertSaveAction(GenerateSerialVersionUID_KO, GenerateSerialVersionUID_OK);
+    }
+
+    @Test
     public void should_unnecessaryThis_removes_this_on_method_and_field() {
         storage.setEnabled(activate, true);
         storage.setEnabled(unnecessaryThis, true);
@@ -159,7 +170,7 @@ public class JavaIntegrationTest extends IntegrationTest {
     }
 
     @Test
-    @Disabled("do no work")
+    @Disabled("do not work")
     public void should_explicitTypeCanBeDiamond_removes_explicit_diamond() {
         storage.setEnabled(activate, true);
         storage.setEnabled(explicitTypeCanBeDiamond, true);

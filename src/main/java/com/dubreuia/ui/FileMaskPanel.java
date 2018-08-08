@@ -2,14 +2,14 @@ package com.dubreuia.ui;
 
 import com.intellij.openapi.ui.InputValidator;
 import com.intellij.openapi.ui.Messages;
-import com.intellij.ui.AnActionButton;
 import com.intellij.ui.AnActionButtonRunnable;
 import com.intellij.ui.IdeBorderFactory;
 import com.intellij.ui.ToolbarDecorator;
 import com.intellij.ui.components.JBList;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.*;
+import javax.swing.DefaultListModel;
+import javax.swing.JPanel;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Set;
@@ -20,7 +20,7 @@ abstract class FileMaskPanel extends JPanel {
 
     private final SortedListModel patternModels = new SortedListModel();
 
-    private final JBList patternList;
+    private final JBList<String> patternList;
 
     private final JPanel patternPanel;
 
@@ -38,7 +38,7 @@ abstract class FileMaskPanel extends JPanel {
         this.textAddTitle = textAddTitle;
         this.textEditMessage = textEditMessage;
         this.textEditTitle = textEditTitle;
-        patternList = new JBList(patternModels);
+        patternList = new JBList<>(patternModels);
         patternList.setEmptyText(textEmpty);
         patternPanel = ToolbarDecorator.createDecorator(patternList)
                 .setAddAction(getAddActionButtonRunnable(patterns))
@@ -50,23 +50,19 @@ abstract class FileMaskPanel extends JPanel {
     }
 
     private AnActionButtonRunnable getEditActionButtonRunnable(Set<String> patterns) {
-        return new AnActionButtonRunnable() {
-            @Override
-            public void run(AnActionButton anActionButton) {
-                String oldValue = (String) patternList.getSelectedValue();
-                String pattern = Messages.showInputDialog(
-                        textEditMessage, textEditTitle, null, oldValue, getRegexInputValidator());
-                if (pattern != null && !pattern.equals(oldValue)) {
-                    patterns.remove(oldValue);
-                    patternModels.removeElement(oldValue);
-                    if (patterns.add(pattern)) {
-                        patternModels.addElementSorted(pattern);
-                    }
+        return actionButton -> {
+            String oldValue = patternList.getSelectedValue();
+            String pattern = Messages.showInputDialog(
+                    textEditMessage, textEditTitle, null, oldValue, getRegexInputValidator());
+            if (pattern != null && !pattern.equals(oldValue)) {
+                patterns.remove(oldValue);
+                patternModels.removeElement(oldValue);
+                if (patterns.add(pattern)) {
+                    patternModels.addElementSorted(pattern);
                 }
             }
         };
     }
-
 
     JPanel getPanel() {
         return patternPanel;
@@ -79,46 +75,37 @@ abstract class FileMaskPanel extends JPanel {
 
     @NotNull
     private AnActionButtonRunnable getRemoveActionButtonRunnable(Set<String> patterns) {
-        return new AnActionButtonRunnable() {
-            @Override
-            public void run(AnActionButton anActionButton) {
-                for (Object object : patternList.getSelectedValues()) {
-                    String selectedValue = (String) object;
-                    patterns.remove(selectedValue);
-                    patternModels.removeElement(selectedValue);
-                }
+        return actionButton -> {
+            for (String selectedValue : patternList.getSelectedValuesList()) {
+                patterns.remove(selectedValue);
+                patternModels.removeElement(selectedValue);
             }
         };
     }
-
 
     @NotNull
     private AnActionButtonRunnable getAddActionButtonRunnable(Set<String> patterns) {
-        return new AnActionButtonRunnable() {
-            @Override
-            public void run(AnActionButton anActionButton) {
-                String pattern = Messages.showInputDialog(
-                        textAddMessage, textAddTitle, null, null, getRegexInputValidator());
-                if (pattern != null) {
-                    if (patterns.add(pattern)) {
-                        patternModels.addElementSorted(pattern);
-                    }
+        return actionButton -> {
+            String pattern = Messages.showInputDialog(
+                    textAddMessage, textAddTitle, null, null, getRegexInputValidator());
+            if (pattern != null) {
+                if (patterns.add(pattern)) {
+                    patternModels.addElementSorted(pattern);
                 }
             }
         };
     }
-
 
     @NotNull
     private InputValidator getRegexInputValidator() {
         return new InputValidator() {
             @Override
             public boolean checkInput(String string) {
+                if (string == null || string.trim().isEmpty()) {
+                    // do not allow null or blank entries
+                    return false;
+                }
                 try {
-                    if (string == null || string.trim().isEmpty()) {
-                        //do not allow null or blank entries
-                        return false;
-                    }
                     Pattern.compile(string);
                     return true;
                 } catch (PatternSyntaxException e) {
@@ -133,8 +120,7 @@ abstract class FileMaskPanel extends JPanel {
         };
     }
 
-
-    private static class SortedListModel extends DefaultListModel {
+    private static class SortedListModel extends DefaultListModel<String> {
 
         private void addElementSorted(String element) {
             Enumeration<?> modelElements = elements();

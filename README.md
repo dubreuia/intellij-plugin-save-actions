@@ -108,6 +108,7 @@ If a quick fix adds something that is removed by another quick fix, the removal 
 | Add class qualifier to static member access outside declaring class only | Will qualify accesses to static members with class name outside the declaring class only
 | Add missing @Override annotations                                        | Will add missing @Override annotations to inherited methods, except for methods from jdk and external libraries (like `toString`) 
 | Add blocks in if/while/for statements                                    | Will add missing braces to any if, while or for statements without braces
+| Add missing serialVersionUID field for Serializable classes              | Will add missing serialVersionUID field for Serializable classes
 | Remove unnecessary this                                                  | Will remove unnecessary this on field and method access
 | Remove final from private method                                         | Will remove final for private method
 | Remove unnecessary final to local variable or parameter                  | Will remove unnecessary final to local variable or parameter
