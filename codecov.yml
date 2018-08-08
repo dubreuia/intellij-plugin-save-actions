@@ -7,7 +7,11 @@ coverage:
       default:
         # always in success
         target: 0
+        # remove ui code that cannot be tested in intellij
+        paths: "!src/main/java/com/dubreuia/ui/"
     patch:
       default:
         # always in success
         target: 0
+        # remove ui code that cannot be tested in intellij
+        paths: "!src/main/java/com/dubreuia/ui/"
