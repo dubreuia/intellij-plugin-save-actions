@@ -29,6 +29,9 @@ public enum ActionTestFile {
     UseBlocks_KO,
     UseBlocks_OK,
 
+    GenerateSerialVersionUID_KO,
+    GenerateSerialVersionUID_OK,
+
     UnnecessaryThis_KO,
     UnnecessaryThis_OK,
 
