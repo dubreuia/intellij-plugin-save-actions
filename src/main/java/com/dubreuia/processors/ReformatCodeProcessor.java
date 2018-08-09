@@ -4,7 +4,7 @@ import com.dubreuia.model.Storage;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 
-import static com.dubreuia.core.SaveActionManager.LOGGER;
+import static com.dubreuia.core.component.SaveActionManager.LOGGER;
 import static com.dubreuia.model.Action.reformat;
 import static com.dubreuia.model.Action.reformatChangedCode;
 import static com.dubreuia.processors.ProcessorMessage.toStringBuilder;

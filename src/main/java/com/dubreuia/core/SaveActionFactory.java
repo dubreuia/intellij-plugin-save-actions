@@ -1,9 +1,10 @@
 package com.dubreuia.core;
 
-import org.jetbrains.annotations.NotNull;
+import com.dubreuia.core.component.SaveActionManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class SaveActionFactory {
 
@@ -15,14 +16,17 @@ public class SaveActionFactory {
 
     public static boolean COMPILING_AVAILABLE = initCompilingAvailable();
 
-    @NotNull
-    static List<SaveActionManager> getSaveActionManagers() {
+    public static List<SaveActionManager> getManagers() {
         List<SaveActionManager> managers = new ArrayList<>();
         managers.add(new SaveActionManager());
         if (JAVA_AVAILABLE) {
-            managers.add(new com.dubreuia.core.java.SaveActionManager());
+            managers.add(new com.dubreuia.core.component.java.SaveActionManager());
         }
         return managers;
+    }
+
+    public static Stream<SaveActionManager> streamManagers() {
+        return getManagers().stream();
     }
 
     private static boolean initCompilingAvailable() {

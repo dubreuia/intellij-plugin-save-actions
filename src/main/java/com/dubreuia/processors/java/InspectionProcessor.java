@@ -19,7 +19,7 @@ import com.intellij.psi.PsiFile;
 
 import java.util.List;
 
-import static com.dubreuia.core.SaveActionManager.LOGGER;
+import static com.dubreuia.core.component.SaveActionManager.LOGGER;
 import static com.dubreuia.processors.ProcessorMessage.toStringBuilder;
 
 class InspectionProcessor implements Processor {

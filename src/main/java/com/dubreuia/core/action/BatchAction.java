@@ -13,8 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.dubreuia.core;
+package com.dubreuia.core.action;
 
+import com.dubreuia.core.SaveActionFactory;
+import com.dubreuia.core.component.SaveActionManager;
 import com.intellij.analysis.AnalysisScope;
 import com.intellij.analysis.BaseAnalysisAction;
 import com.intellij.openapi.diagnostic.Logger;
@@ -25,20 +27,23 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.atomic.AtomicLong;
 
-import static com.dubreuia.core.Component.COMPONENT_NAME;
+import static com.dubreuia.core.ExecutionMode.batch;
+import static com.dubreuia.core.component.Component.COMPONENT_NAME;
+import static com.dubreuia.model.Action.activate;
 
 /**
- * Runs the save actions on the given scope of files. The user is asked for the scope using a standard IDEA dialog.
- * <p>
- * Originally based on {@link com.intellij.codeInspection.inferNullity.InferNullityAnnotationsAction}
+ * This action runs the save actions on the given scope of files. The user is asked for the scope using a
+ * standard IDEA dialog. It delegates to {@link SaveActionManager}. Originally based on
+ * {@link com.intellij.codeInspection.inferNullity.InferNullityAnnotationsAction}.
  *
  * @author markiewb
+ * @see SaveActionManager
  */
-public class SaveActionBatchAction extends BaseAnalysisAction {
+public class BatchAction extends BaseAnalysisAction {
 
-    public static final Logger LOGGER = Logger.getInstance(SaveActionBatchAction.class);
+    public static final Logger LOGGER = Logger.getInstance(BatchAction.class);
 
-    public SaveActionBatchAction() {
+    public BatchAction() {
         super(COMPONENT_NAME, COMPONENT_NAME);
     }
 
@@ -51,9 +56,9 @@ public class SaveActionBatchAction extends BaseAnalysisAction {
             public void visitFile(PsiFile psiFile) {
                 super.visitFile(psiFile);
                 fileCount.incrementAndGet();
-                for (SaveActionManager saveActionManager : SaveActionFactory.getSaveActionManagers()) {
-                    saveActionManager.processPsiFile(project, psiFile, ExecutionMode.batch);
-                }
+                SaveActionFactory.streamManagers()
+                        .filter(manager -> manager.getStorage(project).isEnabled(activate))
+                        .forEach(manager -> manager.processPsiFile(project, psiFile, batch));
             }
         });
         LOGGER.debug("Executed SaveActionBatchAction on " + fileCount.get() + " files ");

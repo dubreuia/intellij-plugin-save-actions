@@ -7,7 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
-import static com.dubreuia.core.SaveActionManager.LOGGER;
+import static com.dubreuia.core.component.SaveActionManager.LOGGER;
 import static com.dubreuia.model.Action.accessCanBeTightened;
 import static com.dubreuia.model.Action.compile;
 import static com.dubreuia.model.Action.customUnqualifiedStaticMemberAccess;

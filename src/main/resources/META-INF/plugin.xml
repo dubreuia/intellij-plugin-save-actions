@@ -64,7 +64,7 @@
 
     <application-components>
         <component>
-            <implementation-class>com.dubreuia.core.Component</implementation-class>
+            <implementation-class>com.dubreuia.core.component.Component</implementation-class>
         </component>
     </application-components>
 
@@ -72,28 +72,31 @@
     </project-components>
 
     <actions>
-        <action id="com.dubreuia.core.SaveActionShortcutManager"
-                class="com.dubreuia.core.SaveActionShortcutManager"
-                text="Execute Save Actions"
-                description="Executes save actions with a shortcut">
+        <group id="com.dubreuia.core.action.SaveActionsGroup"
+               text="Save Actions"
+               popup="true">
             <add-to-group group-id="CodeFormatGroup"
                           anchor="after"
                           relative-to-action="RearrangeCode"/>
-            <keyboard-shortcut keymap="$default"
-                               first-keystroke="shift ctrl S"/>
-        </action>
-        <action class="com.dubreuia.core.SaveActionToggleAction"
-                id="com.dubreuia.core.SaveActionToggleAction"
-                text="Enable Save Actions"
-                description="Toggle the activation of Save Actions"/>
 
-        <action id="com.dubreuia.core.SaveActionBatchAction"
-                class="com.dubreuia.core.SaveActionBatchAction"
-                text="Execute Save Actions on multiple files"
-                description="Executes save actions on multiple files">
-            <add-to-group group-id="CodeFormatGroup"
-                          anchor="after"
-                          relative-to-action="com.dubreuia.core.SaveActionShortcutManager"/>
-        </action>
+            <action id="com.dubreuia.core.action.ToggleAction"
+                    class="com.dubreuia.core.action.ToggleAction"
+                    text="Enable Save Actions"
+                    description="Toggle the activation of Save Actions"/>
+
+            <action id="com.dubreuia.core.action.ShortcutAction"
+                    class="com.dubreuia.core.action.ShortcutAction"
+                    text="Execute Save Actions"
+                    description="Executes Save Actions with a shortcut">
+                <keyboard-shortcut keymap="$default"
+                                   first-keystroke="shift ctrl S"/>
+            </action>
+
+            <action id="com.dubreuia.core.action.BatchAction"
+                    class="com.dubreuia.core.action.BatchAction"
+                    text="Execute Save Actions on multiple files"
+                    description="Executes save actions on multiple files">
+            </action>
+        </group>
     </actions>
 </idea-plugin>

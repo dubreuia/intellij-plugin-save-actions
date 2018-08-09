@@ -8,7 +8,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
 
-import static com.dubreuia.core.SaveActionManager.LOGGER;
+import static com.dubreuia.core.component.SaveActionManager.LOGGER;
 import static com.dubreuia.model.Action.compile;
 import static com.dubreuia.processors.ProcessorMessage.toStringBuilder;
 

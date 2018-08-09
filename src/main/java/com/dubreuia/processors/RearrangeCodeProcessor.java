@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Collection;
 import java.util.concurrent.FutureTask;
 
-import static com.dubreuia.core.SaveActionManager.LOGGER;
+import static com.dubreuia.core.component.SaveActionManager.LOGGER;
 import static com.dubreuia.model.Action.rearrange;
 import static com.dubreuia.processors.ProcessorMessage.toStringBuilder;
 

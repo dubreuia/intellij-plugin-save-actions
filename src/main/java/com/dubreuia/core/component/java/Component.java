@@ -1,13 +1,13 @@
-package com.dubreuia.core.java;
+package com.dubreuia.core.component.java;
 
 import com.dubreuia.core.SaveActionFactory;
-import com.dubreuia.core.SaveActionManager;
+import com.dubreuia.core.component.SaveActionManager;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * The plugin entry class for java based ide. This is not a singleton, the parent is also instanciated.
  */
-public class Component extends com.dubreuia.core.Component {
+public class Component extends com.dubreuia.core.component.Component {
 
     private static final String COMPONENT_NAME = "Save Actions Java";
 
@@ -24,7 +24,7 @@ public class Component extends com.dubreuia.core.Component {
     @NotNull
     @Override
     protected SaveActionManager getSaveActionManager() {
-        return new com.dubreuia.core.java.SaveActionManager();
+        return new com.dubreuia.core.component.java.SaveActionManager();
     }
 
 }
