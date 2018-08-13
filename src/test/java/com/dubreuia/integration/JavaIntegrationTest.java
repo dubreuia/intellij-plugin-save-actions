@@ -1,7 +1,7 @@
 package com.dubreuia.integration;
 
 import com.dubreuia.core.SaveActionFactory;
-import com.dubreuia.core.SaveActionManager;
+import com.dubreuia.core.component.SaveActionManager;
 import org.junit.BeforeClass;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -64,7 +64,7 @@ public class JavaIntegrationTest extends IntegrationTest {
 
     @Override
     SaveActionManager getSaveActionManager() {
-        return new com.dubreuia.core.java.SaveActionManager();
+        return new com.dubreuia.core.component.java.SaveActionManager();
     }
 
     @BeforeClass

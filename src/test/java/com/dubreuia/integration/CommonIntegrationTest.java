@@ -1,6 +1,7 @@
 package com.dubreuia.integration;
 
-import com.dubreuia.core.SaveActionManager;
+import com.dubreuia.core.component.SaveActionManager;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static com.dubreuia.integration.ActionTestFile.FieldCanBeFinal_KO;
@@ -46,6 +47,14 @@ public class CommonIntegrationTest extends IntegrationTest {
         storage.setEnabled(activateOnShortcut, true);
         storage.setEnabled(reformat, true);
         assertSaveActionShortcut(Import_KO_Reformat_KO, Import_KO_Reformat_OK);
+    }
+
+    @Test
+    @Disabled("only works for ui")
+    public void should_reformat_as_batch_produces_indented_file() {
+        storage.setEnabled(activateOnShortcut, true);
+        storage.setEnabled(reformat, true);
+        assertSaveActionBatch(Import_KO_Reformat_KO, Import_KO_Reformat_OK);
     }
 
     @Test

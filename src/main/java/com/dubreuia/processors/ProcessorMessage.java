@@ -10,8 +10,8 @@ public class ProcessorMessage {
         // static class
     }
 
-    public static String toStringBuilder(String id, boolean enabled) {
-        return format(FORMAT, id, enabled);
+    public static String toStringBuilder(String name, boolean enabled) {
+        return format(FORMAT, name, enabled);
     }
 
 }

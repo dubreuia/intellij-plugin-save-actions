@@ -1,7 +1,10 @@
-package com.dubreuia.core;
+package com.dubreuia.core.component;
 
+import com.dubreuia.core.ExecutionMode;
+import com.dubreuia.core.action.ShortcutAction;
 import com.dubreuia.model.Storage;
 import com.dubreuia.processors.Processor;
+import com.dubreuia.processors.Processor.ProcessorComparator;
 import com.dubreuia.processors.ProcessorFactory;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
@@ -19,22 +22,31 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import static com.dubreuia.core.ExecutionMode.normal;
 import static com.dubreuia.model.Action.activate;
 import static com.dubreuia.model.Action.noActionIfCompileErrors;
 import static com.dubreuia.utils.PsiFiles.isIncludedAndNotExcluded;
 import static com.dubreuia.utils.PsiFiles.isPsiFileInProject;
-import static java.util.Collections.sort;
 import static java.util.Collections.synchronizedList;
 
 /**
  * Event handler class, instanciated by {@link Component}. The {@link #getSaveActionsProcessors(Project, PsiFile)}
- * returns the global processors (not java specific). The list {@link #runningProcessors} is shared between instances
+ * returns the global processors (not java specific). The list {@link #runningProcessors} is shared between instances.
+ * <p>
+ * The main method is {@link #processPsiFile(Project, PsiFile, ExecutionMode)}. Make sure the action is activated before
+ * calling the method.
+ * <p>
+ * The psi files seems to be shared between projects, so we need to check if the file is physically
+ * in that project before reformating, or else the file is formatted twice and intellij will ask to
+ * confirm unlocking of non-project file in the other project, see {@link #isPsiFileEligible(Project, PsiFile)}.
+ *
+ * @see ShortcutAction
  */
 public class SaveActionManager extends FileDocumentManagerAdapter {
 
     public static final Logger LOGGER = Logger.getInstance(SaveActionManager.class);
 
-    private static List<Processor> runningProcessors = synchronizedList(new ArrayList<Processor>());
+    private static List<Processor> runningProcessors = synchronizedList(new ArrayList<>());
 
     static {
         LOGGER.setLevel(Level.DEBUG);
@@ -46,22 +58,17 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
         for (Project project : ProjectManager.getInstance().getOpenProjects()) {
             PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
             if (getStorage(project).isEnabled(activate)) {
-                checkAndProcessPsiFile(project, psiFile);
+                processPsiFile(project, psiFile, normal);
             }
         }
     }
 
-    void checkAndProcessPsiFile(Project project, PsiFile psiFile) {
+    public void processPsiFile(Project project, PsiFile psiFile, ExecutionMode mode) {
         if (isPsiFileEligible(project, psiFile)) {
-            processPsiFile(project, psiFile);
+            processPsiFile0(project, psiFile, mode);
         }
     }
 
-    /**
-     * The psi files seems to be shared between projects, so we need to check if the file is physically
-     * in that project before reformating, or else the file is formatted twice and intellij will ask to
-     * confirm unlocking of non-project file in the other project.
-     */
     private boolean isPsiFileEligible(Project project, PsiFile psiFile) {
         return psiFile != null
                 && isProjectValid(project)
@@ -99,12 +106,12 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
         return psiFile.isValid();
     }
 
-    private void processPsiFile(Project project, PsiFile psiFile) {
+    private void processPsiFile0(Project project, PsiFile psiFile, ExecutionMode mode) {
         List<Processor> processors = getSaveActionsProcessors(project, psiFile);
         LOGGER.debug("Running processors " + processors + ", file " + psiFile + ", project " + project);
-        for (Processor processor : processors) {
-            runProcessor(processor);
-        }
+        processors.stream()
+                .filter(processor -> processor.canRun(mode))
+                .forEach(this::runProcessor);
     }
 
     private void runProcessor(Processor processor) {
@@ -119,14 +126,14 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
         }
     }
 
-    protected Storage getStorage(Project project) {
+    public Storage getStorage(Project project) {
         return ServiceManager.getService(project, Storage.class);
     }
 
     protected List<Processor> getSaveActionsProcessors(Project project, PsiFile psiFile) {
         List<Processor> processors = ProcessorFactory.INSTANCE
                 .getSaveActionsProcessors(project, psiFile, getStorage(project));
-        sort(processors, new Processor.ProcessorComparator());
+        processors.sort(new ProcessorComparator());
         return processors;
     }
 

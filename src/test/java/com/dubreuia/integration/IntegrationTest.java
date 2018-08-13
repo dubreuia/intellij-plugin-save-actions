@@ -1,7 +1,8 @@
 package com.dubreuia.integration;
 
-import com.dubreuia.core.SaveActionManager;
-import com.dubreuia.core.SaveActionShortcutManager;
+import com.dubreuia.core.action.BatchAction;
+import com.dubreuia.core.action.ShortcutAction;
+import com.dubreuia.core.component.SaveActionManager;
 import com.dubreuia.model.Storage;
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.AnAction;
@@ -25,6 +26,7 @@ import java.util.function.Consumer;
 
 import static com.intellij.openapi.actionSystem.CommonDataKeys.PROJECT;
 import static com.intellij.openapi.actionSystem.CommonDataKeys.PSI_FILE;
+import static com.intellij.openapi.actionSystem.PlatformDataKeys.PROJECT_CONTEXT;
 import static com.intellij.openapi.actionSystem.impl.SimpleDataContext.getSimpleContext;
 import static com.intellij.testFramework.LightProjectDescriptor.EMPTY_PROJECT_DESCRIPTOR;
 
@@ -50,18 +52,37 @@ public abstract class IntegrationTest {
                     ((PsiFileImpl) fixture.getFile()).clearCaches();
 
                     ActionManager actionManager = ActionManager.getInstance();
-                    AnAction action = actionManager.getAction("com.dubreuia.core.SaveActionShortcutManager");
+                    AnAction action = actionManager.getAction(ShortcutAction.class.getName());
 
                     Map<String, Object> data = new HashMap<>();
                     data.put(PROJECT.getName(), fixture.getProject());
                     data.put(PSI_FILE.getName(), fixture.getFile());
                     DataContext dataContext = getSimpleContext(data, null);
 
+                    // call plugin on document
                     AnActionEvent event = AnActionEvent.createFromAnAction(action, null, "save-actions", dataContext);
-                    event.getProject();
+                    new ShortcutAction().actionPerformed(event);
+                }
+            }.execute();
+
+    private final Consumer<CodeInsightTestFixture> SAVE_ACTION_BATCH_MANAGER = (fixture) ->
+            new WriteCommandAction.Simple(fixture.getProject()) {
+                @Override
+                protected void run() {
+                    // set modification timestamp ++
+                    ((PsiFileImpl) fixture.getFile()).clearCaches();
+
+                    ActionManager actionManager = ActionManager.getInstance();
+                    AnAction action = actionManager.getAction(BatchAction.class.getName());
+
+                    Map<String, Object> data = new HashMap<>();
+                    data.put(PROJECT.getName(), fixture.getProject());
+                    data.put(PROJECT_CONTEXT.getName(), fixture.getProject());
+                    DataContext dataContext = getSimpleContext(data, null);
 
                     // call plugin on document
-                    new SaveActionShortcutManager().actionPerformed(event);
+                    AnActionEvent event = AnActionEvent.createFromAnAction(action, null, "save-actions", dataContext);
+                    new BatchAction().actionPerformed(event);
                 }
             }.execute();
 
@@ -94,6 +115,12 @@ public abstract class IntegrationTest {
     void assertSaveActionShortcut(ActionTestFile before, ActionTestFile after) {
         fixture.configureByFile(before.getFilename());
         SAVE_ACTION_SHORTCUT_MANAGER.accept(fixture);
+        fixture.checkResultByFile(after.getFilename());
+    }
+
+    void assertSaveActionBatch(ActionTestFile before, ActionTestFile after) {
+        fixture.configureByFile(before.getFilename());
+        SAVE_ACTION_BATCH_MANAGER.accept(fixture);
         fixture.checkResultByFile(after.getFilename());
     }
 
