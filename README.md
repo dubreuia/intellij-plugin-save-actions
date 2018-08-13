@@ -1,4 +1,4 @@
-# Intellij Save Actions Plugin
+# Save Actions Plugin
 
 [![Jetbrains Plugin](./docs/badge-jetbrains-website.svg)](https://plugins.jetbrains.com/plugin/7642-save-actions)
 [![Travis Build Status](https://travis-ci.org/dubreuia/intellij-plugin-save-actions.svg?branch=master)](https://travis-ci.org/dubreuia/intellij-plugin-save-actions)
@@ -35,13 +35,13 @@ Works in JetBrains IDE with Java support, like Intellij IDEA and AndroidStudio.
 
 Built with IntelliJ IDEA IC-2016.3, JDK 1.8, those are the currently supported products, and is not expected to work in other products:
 
-- Intellij IDEA
-- PyCharm
-- PHPStorm
-- AndroidStudio
-- WebStorm
-- RubyMine
-- CLion
+- <img src="./docs/icon-intellij-idea.svg" width="30"> Intellij IDEA (ultimate and community)
+- <img src="./docs/icon-pycharm.svg" width="30"> PyCharm (professional and community)
+- <img src="./docs/icon-phpstorm.svg" width="30"> PHPStorm
+- <img src="./docs/icon-android-studio.svg" width="30"> AndroidStudio
+- <img src="./docs/icon-webstorm.svg" width="30"> WebStorm
+- <img src="./docs/icon-rubymine.svg" width="30"> RubyMine
+- <img src="./docs/icon-clion.svg" width="30"> CLion
 
 See issue [#18](https://github.com/dubreuia/intellij-plugin-save-actions/issues/18) for a beta packaging that you can try in other products.
 
@@ -81,7 +81,6 @@ You can quickly toggle the plugin activation by using the "Enable Save Action" a
 | Reformat file                      | Enable / disable formatting (configured in "File > Settings > Code Style"). See "Reformat only changed code" for more options
 | Reformat only changed lines        | Enable / disable formatting for only changed lines, which will work only if a VCS is configured
 | Rearrange fields and methods       | Enable / disable re-ordering of fields and methods (configured in "File > Settings > Code Style > Java > Arrangement")
-| Reformat only changed code         | Enable / disable formatting for changed code only. If VCS is configured, it is used to check which lines where modified. If VCS is not configured, the code will always get reformatted
 
 ### Build
 

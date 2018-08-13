@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="512px" height="512px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.8.3 (29802) - http://www.bohemiancoding.com/sketch -->
+    <title>intellij-idea</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="-0.0307692308%" y1="49.962069%" x2="100.052308%" y2="49.962069%" id="linearGradient-1">
+            <stop stop-color="#F97A12" offset="25.8%"></stop>
+            <stop stop-color="#B07B58" offset="45.9%"></stop>
+            <stop stop-color="#577BAE" offset="72.4%"></stop>
+            <stop stop-color="#1E7CE5" offset="91%"></stop>
+            <stop stop-color="#087CFA" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="0.376126126%" y1="34.5137881%" x2="121.225225%" y2="77.605225%" id="linearGradient-2">
+            <stop stop-color="#F97A12" offset="0%"></stop>
+            <stop stop-color="#CB7A3E" offset="7.2%"></stop>
+            <stop stop-color="#9E7B6A" offset="15.4%"></stop>
+            <stop stop-color="#757B91" offset="24.2%"></stop>
+            <stop stop-color="#537BB1" offset="33.4%"></stop>
+            <stop stop-color="#387CCC" offset="43.2%"></stop>
+            <stop stop-color="#237CE0" offset="53.8%"></stop>
+            <stop stop-color="#147CEF" offset="65.5%"></stop>
+            <stop stop-color="#0B7CF7" offset="79.2%"></stop>
+            <stop stop-color="#087CFA" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="78.2250804%" y1="97.6985981%" x2="30.192926%" y2="-6.5864486%" id="linearGradient-3">
+            <stop stop-color="#FE315D" offset="0%"></stop>
+            <stop stop-color="#CB417E" offset="7.8%"></stop>
+            <stop stop-color="#9E4E9B" offset="16%"></stop>
+            <stop stop-color="#755BB4" offset="24.7%"></stop>
+            <stop stop-color="#5365CA" offset="33.9%"></stop>
+            <stop stop-color="#386DDB" offset="43.6%"></stop>
+            <stop stop-color="#2374E9" offset="54.1%"></stop>
+            <stop stop-color="#1478F3" offset="65.8%"></stop>
+            <stop stop-color="#0B7BF8" offset="79.4%"></stop>
+            <stop stop-color="#087CFA" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="19.9627561%" y1="24.1185944%" x2="103.396648%" y2="132.620791%" id="linearGradient-4">
+            <stop stop-color="#FE315D" offset="0%"></stop>
+            <stop stop-color="#F63462" offset="4%"></stop>
+            <stop stop-color="#DF3A71" offset="10.4%"></stop>
+            <stop stop-color="#C24383" offset="16.7%"></stop>
+            <stop stop-color="#AD4A91" offset="29.1%"></stop>
+            <stop stop-color="#755BB4" offset="55%"></stop>
+            <stop stop-color="#1D76ED" offset="91.7%"></stop>
+            <stop stop-color="#087CFA" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="jetbrains" transform="translate(0.000000, -1611.000000)">
+            <g id="intellij-idea" transform="translate(0.000000, 1611.000000)">
+                <g>
+                    <g>
+                        <polyline id="Shape" fill="url(#linearGradient-1)" points="129.462857 399.36 5.85142857 301.348571 67.2914286 187.245714 243.565714 256"></polyline>
+                        <polyline id="Shape" fill="url(#linearGradient-2)" points="512 136.777143 502.491429 433.005714 305.737143 512 187.245714 435.931429 360.594286 256 284.525714 89.9657143 352.548571 8.04571429"></polyline>
+                        <polyline id="Shape" fill="url(#linearGradient-3)" points="512 136.777143 356.205714 321.097143 284.525714 89.9657143 352.548571 8.04571429"></polyline>
+                        <polyline id="Shape" fill="url(#linearGradient-4)" points="246.491429 424.96 40.96 499.565714 73.8742857 384 117.028571 242.102857 0 202.605714 73.8742857 0 234.788571 19.7485714 392.777143 200.411429"></polyline>
+                        <g id="Group" transform="translate(95.085714, 95.085714)">
+                            <polygon id="Shape" fill="#000000" points="5.12 3.65714286 321.097143 3.65714286 321.097143 319.634286 5.12 319.634286"></polygon>
+                            <path d="M34.3771429,260.388571 L152.868571,260.388571 L152.868571,280.137143 L34.3771429,280.137143 L34.3771429,260.388571 Z M119.954286,68.7542857 L119.954286,44.6171429 L54.1257143,44.6171429 L54.1257143,68.7542857 L73.1428571,68.7542857 L73.1428571,151.405714 L54.1257143,151.405714 L54.1257143,175.542857 L119.954286,175.542857 L119.954286,151.405714 L101.668571,151.405714 L101.668571,68.7542857 L119.954286,68.7542857 Z M182.857143,177.737143 C172.617143,177.737143 163.84,175.542857 157.257143,171.885714 C150.674286,168.228571 144.822857,163.108571 140.434286,157.988571 L158.72,137.508571 C162.377143,141.897143 166.034286,144.822857 169.691429,147.017143 C173.348571,149.211429 177.737143,150.674286 182.125714,150.674286 C187.245714,150.674286 191.634286,149.211429 195.291429,145.554286 C198.217143,141.897143 199.68,136.777143 199.68,128.731429 L199.68,44.6171429 L228.937143,44.6171429 L228.937143,130.194286 C228.937143,138.24 228.205714,144.822857 226.011429,150.674286 C223.817143,156.525714 220.891429,160.914286 216.502857,165.302857 C212.845714,168.96 207.725714,172.617143 201.874286,174.08 C196.022857,176.274286 190.171429,177.737143 182.857143,177.737143 L182.857143,177.737143 Z" id="Shape" fill="#FFFFFF"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
