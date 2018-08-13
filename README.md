@@ -121,20 +121,19 @@ If a quick fix adds something that is removed by another quick fix, the removal 
 | Remove unnecessary semicolon                                             | The statement `int variable = 0;;` becomes `int variable = 0;`
 | Change visibility of field or method to lower access                     | The field `public int field = 0` becomes `private int field = 0` if it is not used outside class, also working for methods
 
+## Actions
+
+Save actions are grouped under the menu "Code > Save Actions". Remember that any action is available in the action menu "CTRL + SHIFT + A". You can associate a keymap to any action in "Settings > Keymap > Search 'save actions'".
+
+- **Enable Save Actions (default: not binded)** will activate or deactivate the plugin by changing the configuration
+- **Execute Save Actions on shortcut (default: "CTRL + SHIFT + S")** will trigger the plugin manually, only if the configuration allows shortcuts (see [activation](#activation) section, the "Activate save actions on shortcut" needs to be enabled)
+- **Execute Save Actions on multiple files (default: not binded)** will show a popup to select the files (or a scope) on which to trigger the plugin
+
 ## IDE support
 
 The save-actions plugin supports Eclipse configuration `.epf` files (Java IDE only). You can specify a path to an Eclipse configuration file in the "IDE Support" section to import it. The plugin will load the content of the file in the plugin configuration, and disable the plugin configuration options (the checkbox will be grayed out). Use the "reset" button to remove the import.
 
 You can find an example of [an Eclipse configuration `.epf` file](src/test/resources/example.epf) in the test resources.
-
-## Keymap and actions
-
-There are two keymaps, binded to actions, that can be configured in save-actions. The keymap are configured in "Settings > Keymap > Search 'save actions'"
-
-- **Enable save actions (default: not binded)** will activate or deactivate the plugin by changing the configuration, also available in the action menu "CTRL + SHIFT + A"
-- **Save actions (default: "CTRL + SHIFT + S")** will trigger the plugin, only if the configuration allows shortcuts
-
-![Save actions plugin actions](https://github.com/dubreuia/intellij-plugin-save-actions/blob/master/docs/intellij-save-actions-plugin-actions.png)
 
 ## Files location
 

@@ -86,7 +86,7 @@
 
             <action id="com.dubreuia.core.action.ShortcutAction"
                     class="com.dubreuia.core.action.ShortcutAction"
-                    text="Execute Save Actions"
+                    text="Execute Save Actions on shortcut"
                     description="Executes Save Actions with a shortcut">
                 <keyboard-shortcut keymap="$default"
                                    first-keystroke="shift ctrl S"/>
