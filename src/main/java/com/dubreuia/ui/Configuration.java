@@ -11,10 +11,8 @@ import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
 
-import javax.swing.BoxLayout;
-import javax.swing.JCheckBox;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -22,12 +20,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import static com.dubreuia.model.Action.activate;
-import static com.dubreuia.model.Action.activateOnShortcut;
-import static com.dubreuia.model.Action.customUnqualifiedStaticMemberAccess;
-import static com.dubreuia.model.Action.reformat;
-import static com.dubreuia.model.Action.reformatChangedCode;
-import static com.dubreuia.model.Action.unqualifiedStaticMemberAccess;
+import static com.dubreuia.model.Action.*;
 
 public class Configuration implements Configurable {
 
@@ -175,23 +168,35 @@ public class Configuration implements Configurable {
     }
 
     private JPanel initRootPanel(JPanel general, JPanel actions, JPanel build, JPanel inspections,
-            JPanel fileMasksInclusions, JPanel fileMasksExclusions,
-            JPanel ideSupport) {
+                                 JPanel fileMasksInclusions, JPanel fileMasksExclusions,
+                                 JPanel ideSupport) {
         JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+        panel.setLayout(new GridBagLayout()); // #129 BoxLayout was causing vertical alignment issue
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.BOTH;
+        c.weightx = 1;
+        c.weighty = 1;
+        c.gridx = 0;
 
-        panel.add(general);
-        panel.add(actions);
-        panel.add(build);
-        panel.add(inspections);
+        c.gridy = 0;
+        panel.add(general, c);
+        c.gridy = 1;
+        panel.add(actions, c);
+        c.gridy = 2;
+        panel.add(build, c);
+        c.gridy = 3;
+        panel.add(inspections, c);
 
         JPanel fileMaskPanel = new JPanel();
         fileMaskPanel.setLayout(new BoxLayout(fileMaskPanel, BoxLayout.LINE_AXIS));
         fileMaskPanel.add(fileMasksInclusions);
+        fileMaskPanel.add(Box.createRigidArea(new Dimension(10, 0)));
         fileMaskPanel.add(fileMasksExclusions);
-        panel.add(fileMaskPanel);
+        c.gridy = 4;
+        panel.add(fileMaskPanel, c);
 
-        panel.add(ideSupport);
+        c.gridy = 5;
+        panel.add(ideSupport, c);
 
         return panel;
     }
