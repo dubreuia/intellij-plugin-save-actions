@@ -26,7 +26,7 @@ The code style applied by the save actions plugin is the one configured your set
 
 Works in JetBrains IDE with Java support, like Intellij IDEA and AndroidStudio.
 
-- Eclipse configuration file `.epf` support (see [IDE support](#ide-support))
+- Eclipse configuration file `.epf` support (see [Eclipse support](#eclipse-support))
 - Automatically fix Java inspections (see [Java quick fixes](#java-fixes))
 
 ![Save actions plugin settings page for Java](https://github.com/dubreuia/intellij-plugin-save-actions/blob/master/docs/intellij-save-actions-plugin-settings-page-java.png)
@@ -128,11 +128,11 @@ Save actions are grouped under the menu "Code > Save Actions". Remember that any
 - **Execute Save Actions on shortcut (default: "CTRL + SHIFT + S")** will trigger the plugin manually, only if the configuration allows shortcuts (see [activation](#activation) section, the "Activate save actions on shortcut" needs to be enabled)
 - **Execute Save Actions on multiple files (default: not binded)** will show a popup to select the files (or a scope) on which to trigger the plugin
 
-## IDE support
+## Eclipse support
 
-The save-actions plugin supports Eclipse configuration `.epf` files (Java IDE only). You can specify a path to an Eclipse configuration file in the "IDE Support" section to import it. The plugin will load the content of the file in the plugin configuration, and disable the plugin configuration options (the checkbox will be grayed out). Use the "reset" button to remove the import.
+The save-actions plugin supports Eclipse configuration `.epf` files (Java IDE only). You can specify a path to an Eclipse configuration file in the "Eclipse support" settings section to import it. The plugin will load the content of the file in the plugin configuration, and disable the plugin configuration options (the checkbox will be grayed out). Use the "reset" button to remove the import.
 
-You can find an example of [an Eclipse configuration `.epf` file](src/test/resources/example.epf) in the test resources.
+You can find an example of [an Eclipse configuration `.epf` file](src/test/resources/com/dubreuia/model) in the test resources.
 
 ## Files location
 

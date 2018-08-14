@@ -1,8 +1,8 @@
 package com.dubreuia.ui;
 
 import com.dubreuia.model.Action;
-import com.dubreuia.model.EpfStorage;
 import com.dubreuia.model.Storage;
+import com.dubreuia.model.epf.EpfStorage;
 import com.dubreuia.ui.java.IdeSupportPanel;
 import com.dubreuia.ui.java.InspectionPanel;
 import com.intellij.openapi.components.ServiceManager;
@@ -37,23 +37,15 @@ public class Configuration implements Configurable {
 
     private final Set<String> exclusions = new HashSet<>();
     private final Set<String> inclusions = new HashSet<>();
-
     private final Map<Action, JCheckBox> checkboxes = new HashMap<>();
-
     private final ActionListener checkboxActionListener = this::updateCheckboxEnabled;
 
     private GeneralPanel generalPanel;
-
     private FormattingPanel formattingPanel;
-
     private BuildPanel buildPanel;
-
     private InspectionPanel inspectionPanel;
-
     private FileMaskPanel fileMasksExclusionPanel;
-
     private FileMaskPanel fileMasksInclusionPanel;
-
     private IdeSupportPanel ideSupport;
 
     public Configuration(Project project) {
@@ -175,8 +167,8 @@ public class Configuration implements Configurable {
     }
 
     private JPanel initRootPanel(JPanel general, JPanel actions, JPanel build, JPanel inspections,
-            JPanel fileMasksInclusions, JPanel fileMasksExclusions,
-            JPanel ideSupport) {
+                                 JPanel fileMasksInclusions, JPanel fileMasksExclusions,
+                                 JPanel ideSupport) {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 

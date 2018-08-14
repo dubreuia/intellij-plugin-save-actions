@@ -1,0 +1,5 @@
+# @title Save Actions
+# @description Save Actions
+# @task_type LASTMOD
+file_export_version=3.0
+/instance/org.eclipse.jdt.ui/editor_save_participant_org.eclipse.jdt.ui.postsavelistener.cleanup=true

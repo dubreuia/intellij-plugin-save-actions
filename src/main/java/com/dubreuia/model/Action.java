@@ -2,6 +2,7 @@ package com.dubreuia.model;
 
 import java.util.Arrays;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toSet;
 
@@ -90,4 +91,9 @@ public enum Action {
                 .filter(Action::isDefaultValue)
                 .collect(toSet());
     }
+
+    public static Stream<Action> stream() {
+        return Arrays.stream(values());
+    }
+
 }
