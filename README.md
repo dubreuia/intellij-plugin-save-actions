@@ -129,11 +129,30 @@ Save actions are grouped under the menu "Code > Save Actions". Remember that any
 - **Execute Save Actions on shortcut (default: "CTRL + SHIFT + S")** will trigger the plugin manually, only if the configuration allows shortcuts (see [activation](#activation) section, the "Activate save actions on shortcut" needs to be enabled)
 - **Execute Save Actions on multiple files (default: not binded)** will show a popup to select the files (or a scope) on which to trigger the plugin
 
+<p align="center">
+  <img src="./docs/intellij-save-actions-plugin-action-menu.png" width="371" height="77">
+</p>
+
 ## Eclipse support
 
 The save-actions plugin supports Eclipse configuration `.epf` files (Java IDE only). You can specify a path to an Eclipse configuration file in the "Eclipse support" settings section to import it. The plugin will load the content of the file in the plugin configuration, and disable the plugin configuration options (the checkbox will be grayed out). Use the "reset" button to remove the import.
 
+The plugin will stay in sync with your Eclipse configuration file. Not every features are present on either side, but the ones that are in common are supported.
+
 You can find an example of [an Eclipse configuration `.epf` file](src/test/resources/com/dubreuia/model) in the test resources.
+
+```properties
+# @title Save Actions
+# @description Save Actions
+# @task_type LASTMOD
+file_export_version=3.0
+/instance/org.eclipse.jdt.ui/editor_save_participant_org.eclipse.jdt.ui.postsavelistener.cleanup=true
+/instance/org.eclipse.jdt.ui/sp_cleanup.format_source_code=true
+/instance/org.eclipse.jdt.ui/sp_cleanup.format_source_code_changes_only=false
+/instance/org.eclipse.jdt.ui/sp_cleanup.organize_imports=true
+/instance/org.eclipse.jdt.ui/sp_cleanup.remove_trailing_whitespaces=true
+...
+```
 
 ## Files location
 
