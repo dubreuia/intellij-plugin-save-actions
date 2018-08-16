@@ -1,16 +1,8 @@
 package com.dubreuia.integration;
 
-import com.dubreuia.core.action.BatchAction;
-import com.dubreuia.core.action.ShortcutAction;
 import com.dubreuia.core.component.SaveActionManager;
 import com.dubreuia.model.Storage;
-import com.intellij.openapi.actionSystem.ActionManager;
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.components.ServiceManager;
-import com.intellij.psi.impl.source.PsiFileImpl;
 import com.intellij.testFramework.fixtures.CodeInsightTestFixture;
 import com.intellij.testFramework.fixtures.IdeaProjectTestFixture;
 import com.intellij.testFramework.fixtures.IdeaTestFixtureFactory;
@@ -20,71 +12,13 @@ import org.junit.jupiter.api.BeforeEach;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Consumer;
 
-import static com.intellij.openapi.actionSystem.CommonDataKeys.PROJECT;
-import static com.intellij.openapi.actionSystem.CommonDataKeys.PSI_FILE;
-import static com.intellij.openapi.actionSystem.PlatformDataKeys.PROJECT_CONTEXT;
-import static com.intellij.openapi.actionSystem.impl.SimpleDataContext.getSimpleContext;
+import static com.dubreuia.core.action.BatchActionConstants.SAVE_ACTION_BATCH_MANAGER;
+import static com.dubreuia.core.action.ShortcutActionConstants.SAVE_ACTION_SHORTCUT_MANAGER;
+import static com.dubreuia.core.component.SaveActionsManagerConstants.SAVE_ACTION_MANAGER;
 import static com.intellij.testFramework.LightProjectDescriptor.EMPTY_PROJECT_DESCRIPTOR;
 
 public abstract class IntegrationTest {
-
-    private final Consumer<CodeInsightTestFixture> SAVE_ACTION_MANAGER = (fixture) ->
-            new WriteCommandAction.Simple(fixture.getProject()) {
-                @Override
-                protected void run() {
-                    // set modification timestamp ++
-                    ((PsiFileImpl) fixture.getFile()).clearCaches();
-
-                    // call plugin on document
-                    getSaveActionManager().beforeDocumentSaving(fixture.getDocument(fixture.getFile()));
-                }
-            }.execute();
-
-    private final Consumer<CodeInsightTestFixture> SAVE_ACTION_SHORTCUT_MANAGER = (fixture) ->
-            new WriteCommandAction.Simple(fixture.getProject()) {
-                @Override
-                protected void run() {
-                    // set modification timestamp ++
-                    ((PsiFileImpl) fixture.getFile()).clearCaches();
-
-                    ActionManager actionManager = ActionManager.getInstance();
-                    AnAction action = actionManager.getAction(ShortcutAction.class.getName());
-
-                    Map<String, Object> data = new HashMap<>();
-                    data.put(PROJECT.getName(), fixture.getProject());
-                    data.put(PSI_FILE.getName(), fixture.getFile());
-                    DataContext dataContext = getSimpleContext(data, null);
-
-                    // call plugin on document
-                    AnActionEvent event = AnActionEvent.createFromAnAction(action, null, "save-actions", dataContext);
-                    new ShortcutAction().actionPerformed(event);
-                }
-            }.execute();
-
-    private final Consumer<CodeInsightTestFixture> SAVE_ACTION_BATCH_MANAGER = (fixture) ->
-            new WriteCommandAction.Simple(fixture.getProject()) {
-                @Override
-                protected void run() {
-                    // set modification timestamp ++
-                    ((PsiFileImpl) fixture.getFile()).clearCaches();
-
-                    ActionManager actionManager = ActionManager.getInstance();
-                    AnAction action = actionManager.getAction(BatchAction.class.getName());
-
-                    Map<String, Object> data = new HashMap<>();
-                    data.put(PROJECT.getName(), fixture.getProject());
-                    data.put(PROJECT_CONTEXT.getName(), fixture.getProject());
-                    DataContext dataContext = getSimpleContext(data, null);
-
-                    // call plugin on document
-                    AnActionEvent event = AnActionEvent.createFromAnAction(action, null, "save-actions", dataContext);
-                    new BatchAction().actionPerformed(event);
-                }
-            }.execute();
 
     private CodeInsightTestFixture fixture;
 
@@ -108,7 +42,7 @@ public abstract class IntegrationTest {
 
     void assertSaveAction(ActionTestFile before, ActionTestFile after) {
         fixture.configureByFile(before.getFilename());
-        SAVE_ACTION_MANAGER.accept(fixture);
+        SAVE_ACTION_MANAGER.accept(fixture, getSaveActionManager());
         fixture.checkResultByFile(after.getFilename());
     }
 

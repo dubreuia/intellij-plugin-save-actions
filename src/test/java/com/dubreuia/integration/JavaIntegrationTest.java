@@ -87,6 +87,13 @@ public class JavaIntegrationTest extends IntegrationTest {
     }
 
     @Test
+    public void should_fieldCanBeFinal_add_final_to_field_on_batch() {
+        storage.setEnabled(activate, true);
+        storage.setEnabled(fieldCanBeFinal, true);
+        assertSaveActionBatch(FieldCanBeFinal_KO, FieldCanBeFinal_OK);
+    }
+
+    @Test
     public void should_localCanBeFinal_add_final_to_local_variable_and_parameters() {
         storage.setEnabled(activate, true);
         storage.setEnabled(localCanBeFinal, true);
