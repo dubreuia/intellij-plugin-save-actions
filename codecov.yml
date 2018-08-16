@@ -1,18 +1,6 @@
 # remove codecov comments for pull requests
 comment: off
 
-# remove coverage as a requirement for build, info only for now
-coverage:
-  status:
-    project:
-      default:
-        # always in success
-        target: 0
-    patch:
-      default:
-        # always in success
-        target: 0
-
 # remove ui code that cannot be tested in intellij
 ignore:
 - "src/main/java/com/dubreuia/ui/"
