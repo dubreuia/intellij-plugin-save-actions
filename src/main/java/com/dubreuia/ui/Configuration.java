@@ -11,8 +11,14 @@ import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JCheckBox;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -20,7 +26,13 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import static com.dubreuia.model.Action.*;
+import static com.dubreuia.model.Action.activate;
+import static com.dubreuia.model.Action.activateOnShortcut;
+import static com.dubreuia.model.Action.customUnqualifiedStaticMemberAccess;
+import static com.dubreuia.model.Action.reformat;
+import static com.dubreuia.model.Action.reformatChangedCode;
+import static com.dubreuia.model.Action.unqualifiedStaticMemberAccess;
+
 
 public class Configuration implements Configurable {
 
@@ -173,9 +185,9 @@ public class Configuration implements Configurable {
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout()); // #129 BoxLayout was causing vertical alignment issue
         GridBagConstraints c = new GridBagConstraints();
-        c.fill = GridBagConstraints.BOTH;
+        c.anchor = GridBagConstraints.NORTH;
+        c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 1;
-        c.weighty = 1;
         c.gridx = 0;
 
         c.gridy = 0;
@@ -197,6 +209,13 @@ public class Configuration implements Configurable {
 
         c.gridy = 5;
         panel.add(ideSupport, c);
+
+        c.gridy = 6;
+        c.weighty = 1;
+        c.fill = GridBagConstraints.BOTH;
+        JPanel filler = new JPanel();
+        filler.setOpaque(false);
+        panel.add(filler, c);
 
         return panel;
     }
