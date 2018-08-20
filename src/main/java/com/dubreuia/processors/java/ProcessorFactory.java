@@ -2,10 +2,9 @@ package com.dubreuia.processors.java;
 
 import com.dubreuia.model.Storage;
 import com.dubreuia.processors.Processor;
-import com.dubreuia.processors.java.inspections.AccessCanBeTightenedInspection;
-import com.dubreuia.processors.java.inspections.CustomUnqualifiedStaticUsageInspection;
 import com.intellij.codeInspection.ExplicitTypeCanBeDiamondInspection;
 import com.intellij.codeInspection.localCanBeFinal.LocalCanBeFinal;
+import com.intellij.codeInspection.visibility.CustomAccessCanBeTightenedInspection;
 import com.intellij.codeInspection.visibility.VisibilityInspection;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
@@ -15,6 +14,7 @@ import com.siyeh.ig.maturity.SuppressionAnnotationInspection;
 import com.siyeh.ig.performance.MethodMayBeStaticInspection;
 import com.siyeh.ig.serialization.SerializableHasSerialVersionUIDFieldInspectionBase;
 import com.siyeh.ig.style.ControlFlowStatementWithoutBracesInspection;
+import com.siyeh.ig.style.CustomUnqualifiedStaticUsageInspection;
 import com.siyeh.ig.style.FieldMayBeFinalInspection;
 import com.siyeh.ig.style.UnnecessaryFinalOnLocalVariableOrParameterInspection;
 import com.siyeh.ig.style.UnnecessarySemicolonInspection;
@@ -299,7 +299,7 @@ public enum ProcessorFactory {
                 psiFile,
                 storage,
                 accessCanBeTightened,
-                new AccessCanBeTightenedInspection(new VisibilityInspection()));
+                new CustomAccessCanBeTightenedInspection(new VisibilityInspection()));
     }
 
 }

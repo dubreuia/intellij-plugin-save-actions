@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.dubreuia.processors.java.inspections;
+package com.intellij.codeInspection.visibility;
 
 import com.intellij.codeInsight.daemon.GroupNames;
 import com.intellij.codeInsight.daemon.impl.UnusedSymbolUtil;
@@ -21,12 +21,37 @@ import com.intellij.codeInspection.BaseJavaBatchLocalInspectionTool;
 import com.intellij.codeInspection.InspectionProfile;
 import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.codeInspection.deadCode.UnusedDeclarationInspectionBase;
-import com.intellij.codeInspection.visibility.VisibilityInspection;
 import com.intellij.openapi.progress.EmptyProgressIndicator;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Comparing;
 import com.intellij.profile.codeInspection.InspectionProjectProfileManager;
-import com.intellij.psi.*;
+import com.intellij.psi.JavaDirectoryService;
+import com.intellij.psi.JavaElementVisitor;
+import com.intellij.psi.JavaRecursiveElementWalkingVisitor;
+import com.intellij.psi.LambdaUtil;
+import com.intellij.psi.PsiAnonymousClass;
+import com.intellij.psi.PsiClass;
+import com.intellij.psi.PsiDirectory;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiElementVisitor;
+import com.intellij.psi.PsiEnumConstant;
+import com.intellij.psi.PsiField;
+import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiJavaCodeReferenceElement;
+import com.intellij.psi.PsiJavaFile;
+import com.intellij.psi.PsiKeyword;
+import com.intellij.psi.PsiManager;
+import com.intellij.psi.PsiMember;
+import com.intellij.psi.PsiMethod;
+import com.intellij.psi.PsiModifier;
+import com.intellij.psi.PsiModifierList;
+import com.intellij.psi.PsiNameIdentifierOwner;
+import com.intellij.psi.PsiNewExpression;
+import com.intellij.psi.PsiPackage;
+import com.intellij.psi.PsiReference;
+import com.intellij.psi.PsiSyntheticClass;
+import com.intellij.psi.PsiTypeParameter;
+import com.intellij.psi.SyntheticElement;
 import com.intellij.psi.search.searches.FunctionalExpressionSearch;
 import com.intellij.psi.util.ClassUtil;
 import com.intellij.psi.util.PsiTreeUtil;
@@ -43,13 +68,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Copy pasting because cannot extend, see {@link com.intellij.codeInspection.visibility.AccessCanBeTightenedInspection}
+ * Copy pasting because cannot extend, see {@link CustomAccessCanBeTightenedInspection}
  * Do not reformat (useful for diffs)!
  */
-public class AccessCanBeTightenedInspection extends BaseJavaBatchLocalInspectionTool {
+public class CustomAccessCanBeTightenedInspection extends BaseJavaBatchLocalInspectionTool {
   private final VisibilityInspection myVisibilityInspection;
 
-  public AccessCanBeTightenedInspection(@NotNull VisibilityInspection visibilityInspection) {
+  public CustomAccessCanBeTightenedInspection(@NotNull VisibilityInspection visibilityInspection) {
     myVisibilityInspection = visibilityInspection;
   }
 
@@ -78,7 +103,7 @@ public class AccessCanBeTightenedInspection extends BaseJavaBatchLocalInspection
 
   @NotNull
   @Override
-  public PsiElementVisitor buildVisitor(@NotNull final ProblemsHolder holder, final boolean isOnTheFly) {
+  public PsiElementVisitor buildVisitor(@NotNull ProblemsHolder holder, boolean isOnTheFly) {
     return new MyVisitor(holder);
   }
 
@@ -109,10 +134,12 @@ public class AccessCanBeTightenedInspection extends BaseJavaBatchLocalInspection
       checkMember(field);
     }
 
-    private void checkMember(@NotNull final PsiMember member) {
-      final PsiClass memberClass = member.getContainingClass();
+    private void checkMember(@NotNull PsiMember member) {
+      PsiClass memberClass = member.getContainingClass();
       PsiModifierList memberModifierList = member.getModifierList();
-      if (memberModifierList == null) return;
+      if (memberModifierList == null) {
+        return;
+      }
       int currentLevel = PsiUtil.getAccessLevel(memberModifierList);
       int suggestedLevel = suggestLevel(member, memberClass, currentLevel);
       if (memberClass != null) {
@@ -146,8 +173,12 @@ public class AccessCanBeTightenedInspection extends BaseJavaBatchLocalInspection
 
     @PsiUtil.AccessLevel
     private int suggestLevel(@NotNull PsiMember member, PsiClass memberClass, @PsiUtil.AccessLevel int currentLevel) {
-      if (member.hasModifierProperty(PsiModifier.PRIVATE) || member.hasModifierProperty(PsiModifier.NATIVE)) return currentLevel;
-      if (member instanceof PsiMethod && member instanceof SyntheticElement || !member.isPhysical()) return currentLevel;
+      if (member.hasModifierProperty(PsiModifier.PRIVATE) || member.hasModifierProperty(PsiModifier.NATIVE)) {
+        return currentLevel;
+      }
+      if (member instanceof PsiMethod && member instanceof SyntheticElement || !member.isPhysical()) {
+        return currentLevel;
+      }
 
       if (member instanceof PsiMethod) {
         PsiMethod method = (PsiMethod)member;
@@ -160,7 +191,9 @@ public class AccessCanBeTightenedInspection extends BaseJavaBatchLocalInspection
           return currentLevel;
         }
       }
-      if (member instanceof PsiEnumConstant) return currentLevel;
+      if (member instanceof PsiEnumConstant) {
+        return currentLevel;
+      }
       if (member instanceof PsiClass && (member instanceof PsiAnonymousClass ||
                                          member instanceof PsiTypeParameter ||
                                          member instanceof PsiSyntheticClass ||
@@ -170,7 +203,7 @@ public class AccessCanBeTightenedInspection extends BaseJavaBatchLocalInspection
       if (memberClass != null && (memberClass.isInterface() || memberClass.isEnum() || memberClass.isAnnotationType() || PsiUtil.isLocalClass(memberClass) && member instanceof PsiClass)) {
         return currentLevel;
       }
-      final PsiFile memberFile = member.getContainingFile();
+      PsiFile memberFile = member.getContainingFile();
       Project project = memberFile.getProject();
 
       if (myDeadCodeInspection.isEntryPoint(member)) {
@@ -179,16 +212,20 @@ public class AccessCanBeTightenedInspection extends BaseJavaBatchLocalInspection
       }
 
       PsiDirectory memberDirectory = memberFile.getContainingDirectory();
-      final PsiPackage memberPackage = memberDirectory == null ? null : JavaDirectoryService.getInstance().getPackage(memberDirectory);
+      PsiPackage memberPackage = memberDirectory == null ? null : JavaDirectoryService.getInstance().getPackage(memberDirectory);
       log(member.getName()+ ": checking effective level for "+member);
 
       AtomicInteger maxLevel = new AtomicInteger(PsiUtil.ACCESS_LEVEL_PRIVATE);
       AtomicBoolean foundUsage = new AtomicBoolean();
       boolean proceed = UnusedSymbolUtil.processUsages(project, memberFile, member, new EmptyProgressIndicator(), null, info -> {
         PsiElement element = info.getElement();
-        if (element == null) return true;
+        if (element == null) {
+          return true;
+        }
         PsiFile psiFile = info.getFile();
-        if (psiFile == null) return true;
+        if (psiFile == null) {
+          return true;
+        }
 
         return handleUsage(member, memberClass, memberFile, maxLevel, memberPackage, element, psiFile, foundUsage);
       });
@@ -289,10 +326,12 @@ public class AccessCanBeTightenedInspection extends BaseJavaBatchLocalInspection
     return memberClass.getContainingClass() != null || memberClass instanceof PsiAnonymousClass;
   }
 
-  private static boolean isInReferenceList(@Nullable PsiElement list, @NotNull final PsiMember member) {
-    if (list == null) return false;
-    final PsiManager psiManager = member.getManager();
-    final boolean[] result = new boolean[1];
+  private static boolean isInReferenceList(@Nullable PsiElement list, @NotNull PsiMember member) {
+    if (list == null) {
+      return false;
+    }
+    PsiManager psiManager = member.getManager();
+    boolean[] result = new boolean[1];
     list.accept(new JavaRecursiveElementWalkingVisitor() {
       @Override
       public void visitReferenceElement(PsiJavaCodeReferenceElement reference) {
