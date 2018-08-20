@@ -51,7 +51,7 @@ public class PsiFiles {
         return psiFileIncluded;
     }
 
-    static boolean atLeastOneMatch(String psiFileUrl, Set<String> patterns) {
+    private static boolean atLeastOneMatch(String psiFileUrl, Set<String> patterns) {
         for (String pattern : patterns) {
             try {
                 Matcher matcher = Pattern.compile(REGEX_STARTS_WITH_ANY_STRING + pattern).matcher(psiFileUrl);
