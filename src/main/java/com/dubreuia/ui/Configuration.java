@@ -175,7 +175,7 @@ public class Configuration implements Configurable {
                                  JPanel fileMasksInclusions, JPanel fileMasksExclusions,
                                  JPanel ideSupport) {
         JPanel panel = new JPanel();
-        panel.setLayout(new GridBagLayout()); // #129 BoxLayout was causing vertical alignment issue
+        panel.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.anchor = GridBagConstraints.NORTH;
         c.fill = GridBagConstraints.HORIZONTAL;
