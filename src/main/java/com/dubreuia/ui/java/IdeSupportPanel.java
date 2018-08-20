@@ -13,8 +13,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import static com.dubreuia.core.SaveActionFactory.JAVA_AVAILABLE;
 import static com.intellij.openapi.ui.TextComponentAccessor.TEXT_FIELD_WHOLE_TEXT;
@@ -74,12 +72,7 @@ public class IdeSupportPanel {
     @NotNull
     private JButton getResetButton(TextFieldWithBrowseButton path) {
         JButton reset = new JButton(BUTTON);
-        reset.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                path.setText("");
-            }
-        });
+        reset.addActionListener(e -> path.setText(""));
         return reset;
     }
 
