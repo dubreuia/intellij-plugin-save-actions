@@ -3,9 +3,11 @@ package com.dubreuia.model.epf;
 import com.dubreuia.model.Action;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
+
+import static java.util.Collections.unmodifiableList;
 
 public enum EpfAction {
 
@@ -76,13 +78,15 @@ public enum EpfAction {
     }
 
     public List<EpfKey> getEpfKeys() {
-        return Collections.unmodifiableList(epfKeys);
+        return unmodifiableList(epfKeys);
     }
 
     public static Optional<EpfAction> getEpfActionForAction(Action action) {
-        return Arrays.stream(values())
-                .filter(epfAction -> epfAction.action.equals(action))
-                .findFirst();
+        return stream().filter(epfAction -> epfAction.action.equals(action)).findFirst();
+    }
+
+    public static Stream<EpfAction> stream() {
+        return Arrays.stream(values());
     }
 
 }

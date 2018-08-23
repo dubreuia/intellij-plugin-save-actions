@@ -48,12 +48,6 @@ public class EpfKeyTest {
         propertiesKeyNames.forEach(propertiesKeyName -> assertThat(epfKeyNames).contains(propertiesKeyName));
     }
 
-    private void assertEpfPresenceInProperty(Properties properties) {
-        List<String> epfKeyNames = getEpfKeyNames();
-        List<String> propertiesKeyNames = getPropertiesKeyNames(properties);
-        epfKeyNames.forEach(epfKeyName -> assertThat(propertiesKeyNames).contains(epfKeyName));
-    }
-
     private List<String> getPropertiesKeyNames(Properties properties) {
         return properties.entrySet().stream()
                 .map(Map.Entry::getKey)

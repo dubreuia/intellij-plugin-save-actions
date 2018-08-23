@@ -1,14 +1,14 @@
 package com.dubreuia.model;
 
+import java.util.Arrays;
+import java.util.Set;
+import java.util.stream.Stream;
+
 import static com.dubreuia.model.ActionType.activation;
 import static com.dubreuia.model.ActionType.build;
 import static com.dubreuia.model.ActionType.global;
 import static com.dubreuia.model.ActionType.java;
 import static java.util.stream.Collectors.toSet;
-
-import java.util.Arrays;
-import java.util.Set;
-import java.util.stream.Stream;
 
 public enum Action {
 
@@ -107,12 +107,16 @@ public enum Action {
         this.defaultValue = defaultValue;
     }
 
-    public boolean isDefaultValue() {
-        return defaultValue;
-    }
-
     public String getText() {
         return text;
+    }
+
+    public ActionType getType() {
+        return type;
+    }
+
+    public boolean isDefaultValue() {
+        return defaultValue;
     }
 
     public static Set<Action> getDefaults() {
