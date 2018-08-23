@@ -10,7 +10,36 @@ Using the save actions plugin makes your code cleaner and more uniform across yo
 
 The code style applied by the save actions plugin is the one configured your settings at "File > Settings > Editor > Code Style". For some languages, custom formatter may also be triggered by the save actions plugin. For example for Dart developers, enable "Use the dartfmt tool when formatting the whole file" option in "File > Settings > Editor > Code Style > Dart > Dartfmt".
 
+## Content
+
+- [Features](#features)
+    - [All Jetbrains products](#all-jetbrains-products)
+    - [Java IDE products](#java-ide-products)
+- [Compatibility](#compatibility)
+- [Installation](#installation)
+    - [IDE (recommended)](#ide-recommended)
+    - [Jetbrains plugin repository](#jetbrains-plugin-repository)
+- [Configuration](#configuration)
+    - [Activation](#activation)
+    - [Global](#global)
+    - [Build](#build)
+    - [File](#file)
+    - [Java fixes](#java-fixes)
+- [Actions](#actions)
+- [Eclipse support](#eclipse-support)
+- [Files location](#files-location)
+- [Contributing](#contributing)
+    - [Development environment](#development-environment)
+    - [Code style](#code-style)
+    - [Sending a pull request](#sending-a-pull-request)
+- [Jetbrains plugin page](#jetbrains-plugin-page)
+- [Rate this plugin](#rate-this-plugin)
+- [Issues](#issues)
+- [Licence](#licence)
+
 ## Features
+
+### All Jetbrains products
 
 - Optimize imports
 - Run on file save or shortcut (or both)
@@ -23,7 +52,7 @@ The code style applied by the save actions plugin is the one configured your set
 
 ![Save actions plugin settings page](https://github.com/dubreuia/intellij-plugin-save-actions/blob/master/docs/intellij-save-actions-plugin-settings-page.png)
 
-## Java features
+### Java IDE products
 
 Works in JetBrains IDE with Java support, like Intellij IDEA and AndroidStudio.
 
@@ -89,7 +118,7 @@ You can quickly toggle the plugin activation by using the "Enable Save Action" a
 | ---                                | ---
 | Compile file                       | Enable / disable compiling of the modified file. The compiler might compile other files as well
 
-### Configuration
+### File
 
 | Name                               | Description
 | ---                                | ---
@@ -201,7 +230,7 @@ The plugin is in the [JetBrains plugin repository](https://plugins.jetbrains.com
 
 Please take the time to [rate the plugin](https://plugins.jetbrains.com/plugin/7642-save-actions)!
 
-## Bugs / features
+## Issues
 
 The plugin does not work? You want more features? You can [ask me on twitter](https://twitter.com/dubreuia) or [create an issue on github](https://github.com/dubreuia/intellij-plugin-save-actions/issues).
 
