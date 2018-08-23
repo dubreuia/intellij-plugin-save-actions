@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 import static com.dubreuia.utils.PsiFiles.isIncludedAndNotExcluded;
 import static java.util.Collections.emptySet;
 import static java.util.Collections.singleton;
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class PsiFileTest {
 

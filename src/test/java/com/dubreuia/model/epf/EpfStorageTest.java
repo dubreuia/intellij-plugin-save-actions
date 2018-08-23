@@ -24,7 +24,7 @@ import static com.dubreuia.model.Action.useBlocks;
 import static com.dubreuia.model.epf.EpfTestConstants.EXAMPLE_EPF_0;
 import static com.dubreuia.model.epf.EpfTestConstants.EXAMPLE_EPF_1;
 import static com.dubreuia.model.epf.EpfTestConstants.EXAMPLE_EPF_2;
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class EpfStorageTest {
 

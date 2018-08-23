@@ -1,14 +1,13 @@
 package com.dubreuia.processors.java;
 
 import com.dubreuia.model.Action;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 import static com.dubreuia.model.ActionType.java;
 import static java.util.stream.Collectors.toList;
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class JavaProcessorTest {
 
@@ -25,9 +24,8 @@ public class JavaProcessorTest {
     }
 
     @Test
-    @Disabled("need assertj")
     public void should_java_action_have_java_processor() {
-        Action.stream(java).forEach(action -> assertThat(JavaProcessor.getJavaProcessorForAction(action)).isNotNull());
+        Action.stream(java).forEach(action -> assertThat(JavaProcessor.getJavaProcessorForAction(action)).isNotEmpty());
     }
 
 }
