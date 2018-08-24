@@ -6,23 +6,25 @@ import com.intellij.psi.PsiFile;
 
 import static com.dubreuia.core.component.SaveActionManager.LOGGER;
 import static com.dubreuia.model.Action.organizeImports;
-import static com.dubreuia.processors.ProcessorMessage.toStringBuilder;
 
 class OptimizeImportsProcessor extends com.intellij.codeInsight.actions.OptimizeImportsProcessor implements Processor {
 
     private static final String NAME = "OptimizeImports";
 
     private final Storage storage;
+    private final PsiFile psiFile;
 
-    OptimizeImportsProcessor(Project project, PsiFile file, Storage storage) {
-        super(project, file);
+    OptimizeImportsProcessor(Project project, PsiFile psiFile, Storage storage) {
+        super(project, psiFile);
         this.storage = storage;
+        this.psiFile = psiFile;
     }
 
     @Override
     public void run() {
         if (storage.isEnabled(organizeImports)) {
             try {
+                commitDocument(myProject, psiFile);
                 super.run();
             } catch (Exception e) {
                 LOGGER.error(e.getMessage(), e);
@@ -37,7 +39,7 @@ class OptimizeImportsProcessor extends com.intellij.codeInsight.actions.Optimize
 
     @Override
     public String toString() {
-        return toStringBuilder(NAME, storage.isEnabled(organizeImports));
+        return toString(NAME, storage.isEnabled(organizeImports));
     }
 
 }

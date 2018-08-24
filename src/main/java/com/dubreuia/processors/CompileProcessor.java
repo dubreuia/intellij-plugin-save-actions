@@ -10,21 +10,18 @@ import com.intellij.psi.PsiFile;
 
 import static com.dubreuia.core.component.SaveActionManager.LOGGER;
 import static com.dubreuia.model.Action.compile;
-import static com.dubreuia.processors.ProcessorMessage.toStringBuilder;
 
 class CompileProcessor implements Processor {
 
     private static final String NAME = "Compile";
 
     private final Project project;
-
-    private final PsiFile file;
-
+    private final PsiFile psiFile;
     private final Storage storage;
 
-    CompileProcessor(Project project, PsiFile file, Storage storage) {
+    CompileProcessor(Project project, PsiFile psiFile, Storage storage) {
         this.project = project;
-        this.file = file;
+        this.psiFile = psiFile;
         this.storage = storage;
     }
 
@@ -33,7 +30,8 @@ class CompileProcessor implements Processor {
         if (storage.isEnabled(compile)) {
             ApplicationManager.getApplication().invokeLater(() -> {
                 try {
-                    CompilerManager.getInstance(project).compile(new VirtualFile[]{file.getVirtualFile()}, null);
+                    commitDocument(project, psiFile);
+                    CompilerManager.getInstance(project).compile(new VirtualFile[]{psiFile.getVirtualFile()}, null);
                 } catch (Exception e) {
                     LOGGER.error(e.getMessage(), e);
                 }
@@ -53,7 +51,7 @@ class CompileProcessor implements Processor {
 
     @Override
     public String toString() {
-        return toStringBuilder(NAME, storage.isEnabled(compile));
+        return toString(NAME, storage.isEnabled(compile));
     }
 
 }

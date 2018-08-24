@@ -58,7 +58,7 @@ public class BatchAction extends BaseAnalysisAction {
                 fileCount.incrementAndGet();
                 SaveActionFactory.streamManagers()
                         .filter(manager -> manager.getStorage(project).isEnabled(activate))
-                        .forEach(manager -> manager.processPsiFile(project, psiFile, batch));
+                        .forEach(manager -> manager.processPsiFileIfNecessary(project, psiFile, batch));
             }
         });
         LOGGER.debug("Executed SaveActionBatchAction on " + fileCount.get() + " files ");

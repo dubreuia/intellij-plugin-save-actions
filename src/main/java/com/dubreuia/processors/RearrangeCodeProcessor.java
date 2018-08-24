@@ -18,17 +18,18 @@ import java.util.concurrent.FutureTask;
 
 import static com.dubreuia.core.component.SaveActionManager.LOGGER;
 import static com.dubreuia.model.Action.rearrange;
-import static com.dubreuia.processors.ProcessorMessage.toStringBuilder;
 
 class RearrangeCodeProcessor extends com.intellij.codeInsight.actions.RearrangeCodeProcessor implements Processor {
 
     private static final String NAME = "RearrangeCode";
 
     private final Storage storage;
+    private final PsiFile psiFile;
 
-    RearrangeCodeProcessor(Project project, PsiFile file, Storage storage) {
-        super(project, new PsiFile[]{file}, COMMAND_NAME, null);
+    RearrangeCodeProcessor(Project project, PsiFile psiFile, Storage storage) {
+        super(project, new PsiFile[]{psiFile}, COMMAND_NAME, null);
         this.storage = storage;
+        this.psiFile = psiFile;
     }
 
     @NotNull
@@ -72,6 +73,7 @@ class RearrangeCodeProcessor extends com.intellij.codeInsight.actions.RearrangeC
     public void run() {
         if (storage.isEnabled(rearrange)) {
             try {
+                commitDocument(myProject, psiFile);
                 super.run();
             } catch (Exception e) {
                 LOGGER.error(e.getMessage(), e);
@@ -86,7 +88,7 @@ class RearrangeCodeProcessor extends com.intellij.codeInsight.actions.RearrangeC
 
     @Override
     public String toString() {
-        return toStringBuilder(NAME, storage.isEnabled(rearrange));
+        return toString(NAME, storage.isEnabled(rearrange));
     }
 
 }

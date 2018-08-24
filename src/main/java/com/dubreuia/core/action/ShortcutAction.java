@@ -27,7 +27,7 @@ public class ShortcutAction extends AnAction {
         Project project = event.getProject();
         SaveActionFactory.streamManagers()
                 .filter(manager -> manager.getStorage(project).isEnabled(activateOnShortcut))
-                .forEach(manager -> manager.processPsiFile(project, psiFile, shortcut));
+                .forEach(manager -> manager.processPsiFileIfNecessary(project, psiFile, shortcut));
     }
 
 }

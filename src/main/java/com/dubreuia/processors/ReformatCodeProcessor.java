@@ -7,25 +7,26 @@ import com.intellij.psi.PsiFile;
 import static com.dubreuia.core.component.SaveActionManager.LOGGER;
 import static com.dubreuia.model.Action.reformat;
 import static com.dubreuia.model.Action.reformatChangedCode;
-import static com.dubreuia.processors.ProcessorMessage.toStringBuilder;
 
 class ReformatCodeProcessor extends com.intellij.codeInsight.actions.ReformatCodeProcessor implements Processor {
 
     private static final String NAME_CHANGED_TEXT = "ReformatChangedText";
-
     private static final String NAME_ALL_TEXT = "ReformatAllText";
 
     private final Storage storage;
+    private final PsiFile psiFile;
 
-    ReformatCodeProcessor(Project project, PsiFile file, Storage storage) {
-        super(project, file, null, storage.isEnabled(reformatChangedCode));
+    ReformatCodeProcessor(Project project, PsiFile psiFile, Storage storage) {
+        super(project, psiFile, null, storage.isEnabled(reformatChangedCode));
         this.storage = storage;
+        this.psiFile = psiFile;
     }
 
     @Override
     public void run() {
         if (storage.isEnabled(reformat)) {
             try {
+                commitDocument(myProject, psiFile);
                 super.run();
             } catch (Exception e) {
                 LOGGER.error(e.getMessage(), e);
@@ -40,7 +41,7 @@ class ReformatCodeProcessor extends com.intellij.codeInsight.actions.ReformatCod
 
     @Override
     public String toString() {
-        return toStringBuilder(storage.isEnabled(reformatChangedCode) ? NAME_CHANGED_TEXT : NAME_ALL_TEXT,
+        return toString(storage.isEnabled(reformatChangedCode) ? NAME_CHANGED_TEXT : NAME_ALL_TEXT,
                 storage.isEnabled(reformat));
     }
 

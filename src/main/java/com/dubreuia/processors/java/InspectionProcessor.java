@@ -13,25 +13,23 @@ import com.intellij.codeInspection.ex.InspectionToolWrapper;
 import com.intellij.codeInspection.ex.LocalInspectionToolWrapper;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.command.WriteCommandAction;
+import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.project.IndexNotReadyException;
 import com.intellij.openapi.project.Project;
+import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 import static com.dubreuia.core.component.SaveActionManager.LOGGER;
-import static com.dubreuia.processors.ProcessorMessage.toStringBuilder;
 
 class InspectionProcessor implements Processor {
 
     private final Project project;
-
     private final PsiFile psiFile;
-
     private final Storage storage;
-
     private final Action action;
-
     private final LocalInspectionTool inspectionTool;
 
     InspectionProcessor(
@@ -50,8 +48,9 @@ class InspectionProcessor implements Processor {
     @Override
     public void run() {
         if (storage.isEnabled(action)) {
+            commitDocument(project, psiFile);
             ApplicationManager.getApplication()
-                    .invokeLater(() -> new InspectionWriteQuickFixesAction(project).execute());
+                    .invokeLater(() -> new InspectionWriteQuickFixesAction(project, psiFile).execute());
         }
     }
 
@@ -62,7 +61,7 @@ class InspectionProcessor implements Processor {
 
     @Override
     public String toString() {
-        return toStringBuilder(inspectionTool.getID(), storage.isEnabled(action));
+        return toString(inspectionTool.getID(), storage.isEnabled(action));
     }
 
     private class InspectionWriteQuickFixesAction extends WriteCommandAction.Simple {
@@ -103,6 +102,7 @@ class InspectionProcessor implements Processor {
                 }
             }
         }
+
     }
 
 }

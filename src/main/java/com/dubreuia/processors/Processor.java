@@ -1,13 +1,21 @@
 package com.dubreuia.processors;
 
 import com.dubreuia.core.ExecutionMode;
+import com.intellij.openapi.editor.Document;
+import com.intellij.openapi.project.Project;
+import com.intellij.psi.PsiDocumentManager;
+import com.intellij.psi.PsiFile;
 
 import java.util.Comparator;
+
+import static java.text.MessageFormat.format;
 
 /**
  * Processor interface with main method {@link #run()}.
  */
 public interface Processor {
+
+    String FORMAT = "{0} ({1})";
 
     /**
      * Makes the change to the underlying document. The method might or might not be async. For now,
@@ -46,6 +54,18 @@ public interface Processor {
             return o1.getOrder() < o2.getOrder() ? -1 : 1;
         }
 
+    }
+
+    default void commitDocument(Project project, PsiFile psiFile) {
+        PsiDocumentManager psiDocumentManager = PsiDocumentManager.getInstance(project);
+        Document document = psiDocumentManager.getDocument(psiFile);
+        if (document != null) {
+            psiDocumentManager.commitDocument(document);
+        }
+    }
+
+    default String toString(String name, boolean enabled) {
+        return format(FORMAT, name, enabled);
     }
 
 }

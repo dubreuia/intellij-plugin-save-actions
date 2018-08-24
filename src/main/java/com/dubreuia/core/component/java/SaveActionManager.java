@@ -1,5 +1,6 @@
 package com.dubreuia.core.component.java;
 
+import com.dubreuia.core.ExecutionMode;
 import com.dubreuia.model.Storage;
 import com.dubreuia.model.epf.EpfStorage;
 import com.dubreuia.processors.Processor;
@@ -10,6 +11,8 @@ import com.intellij.psi.PsiFile;
 
 import java.util.List;
 
+import static com.dubreuia.core.ExecutionMode.batch;
+
 /**
  * Event handler class, instanciated by {@link com.dubreuia.core.component.java.Component}. The
  * {@link #getSaveActionsProcessors(Project, PsiFile)} returns the java specific processors.
@@ -17,17 +20,25 @@ import java.util.List;
 public class SaveActionManager extends com.dubreuia.core.component.SaveActionManager {
 
     @Override
+    public Storage getStorage(Project project) {
+        Storage defaultStorage = super.getStorage(project);
+        return EpfStorage.INSTANCE.getStorageOrDefault(defaultStorage.getConfigurationPath(), defaultStorage);
+    }
+
+    @Override
+    protected void commitDocumentAndSaveIfNecessary(Project project, PsiFile psiFile, ExecutionMode mode) {
+        if (batch.equals(mode)) {
+            return;
+        }
+        commitDocumentAndSave(project, psiFile);
+    }
+
+    @Override
     protected List<Processor> getSaveActionsProcessors(Project project, PsiFile psiFile) {
         Storage storage = getStorage(project);
         List<Processor> processors = ProcessorFactory.INSTANCE.getSaveActionsProcessors(project, psiFile, storage);
         processors.sort(new ProcessorComparator());
         return processors;
-    }
-
-    @Override
-    public Storage getStorage(Project project) {
-        Storage defaultStorage = super.getStorage(project);
-        return EpfStorage.INSTANCE.getStorageOrDefault(defaultStorage.getConfigurationPath(), defaultStorage);
     }
 
 }
