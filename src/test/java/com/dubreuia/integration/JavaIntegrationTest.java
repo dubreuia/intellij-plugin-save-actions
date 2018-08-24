@@ -18,6 +18,8 @@ import static com.dubreuia.integration.ActionTestFile.FinalPrivateMethod_KO;
 import static com.dubreuia.integration.ActionTestFile.FinalPrivateMethod_OK;
 import static com.dubreuia.integration.ActionTestFile.GenerateSerialVersionUID_KO;
 import static com.dubreuia.integration.ActionTestFile.GenerateSerialVersionUID_OK;
+import static com.dubreuia.integration.ActionTestFile.InspectionsAll_KO;
+import static com.dubreuia.integration.ActionTestFile.InspectionsAll_OK;
 import static com.dubreuia.integration.ActionTestFile.LocalCanBeFinal_KO;
 import static com.dubreuia.integration.ActionTestFile.LocalCanBeFinal_OK;
 import static com.dubreuia.integration.ActionTestFile.MethodMayBeStatic_KO;
@@ -206,6 +208,16 @@ public class JavaIntegrationTest extends IntegrationTest {
         storage.setEnabled(activate, true);
         storage.setEnabled(accessCanBeTightened, true);
         assertSaveAction(AccessCanBeTightened_KO, AccessCanBeTightened_OK);
+    }
+
+    @Test
+    @Disabled("do not work with multiple elements (only first works)")
+    public void should_inspectionsAll_boogaloo() {
+        storage.setEnabled(activate, true);
+        storage.setEnabled(useBlocks, true);
+        storage.setEnabled(accessCanBeTightened, true);
+        storage.setEnabled(unnecessarySemicolon, true);
+        assertSaveAction(InspectionsAll_KO, InspectionsAll_OK);
     }
 
 }

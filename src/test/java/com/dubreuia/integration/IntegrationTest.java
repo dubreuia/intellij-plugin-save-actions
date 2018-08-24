@@ -16,6 +16,7 @@ import java.nio.file.Paths;
 import static com.dubreuia.core.action.BatchActionConstants.SAVE_ACTION_BATCH_MANAGER;
 import static com.dubreuia.core.action.ShortcutActionConstants.SAVE_ACTION_SHORTCUT_MANAGER;
 import static com.dubreuia.core.component.SaveActionsManagerConstants.SAVE_ACTION_MANAGER;
+import static com.dubreuia.junit.JUnit5Utils.rethrowAsJunit5Error;
 import static com.intellij.testFramework.LightProjectDescriptor.EMPTY_PROJECT_DESCRIPTOR;
 
 public abstract class IntegrationTest {
@@ -43,19 +44,19 @@ public abstract class IntegrationTest {
     void assertSaveAction(ActionTestFile before, ActionTestFile after) {
         fixture.configureByFile(before.getFilename());
         SAVE_ACTION_MANAGER.accept(fixture, getSaveActionManager());
-        fixture.checkResultByFile(after.getFilename());
+        rethrowAsJunit5Error(() -> fixture.checkResultByFile(after.getFilename()));
     }
 
     void assertSaveActionShortcut(ActionTestFile before, ActionTestFile after) {
         fixture.configureByFile(before.getFilename());
         SAVE_ACTION_SHORTCUT_MANAGER.accept(fixture);
-        fixture.checkResultByFile(after.getFilename());
+        rethrowAsJunit5Error(() -> fixture.checkResultByFile(after.getFilename()));
     }
 
     void assertSaveActionBatch(ActionTestFile before, ActionTestFile after) {
         fixture.configureByFile(before.getFilename());
         SAVE_ACTION_BATCH_MANAGER.accept(fixture);
-        fixture.checkResultByFile(after.getFilename());
+        rethrowAsJunit5Error(() -> fixture.checkResultByFile(after.getFilename()));
     }
 
     private String getTestDataPath() {

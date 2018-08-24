@@ -2,10 +2,14 @@ package com.dubreuia.integration;
 
 public enum ActionTestFile {
 
-    Import_KO_Reformat_KO,
-    Import_KO_Reformat_OK,
-    Import_OK_Reformat_KO,
-    Import_OK_Reformat_OK,
+    Reformat_KO_Import_KO,
+    Reformat_KO_Import_OK,
+    Reformat_OK_Import_KO,
+    Reformat_OK_Import_OK,
+
+    Reformat_KO_Rearrange_KO,
+    Reformat_KO_Rearrange_OK,
+    Reformat_OK_Rearrange_OK,
 
     FieldCanBeFinal_KO,
     FieldCanBeFinal_OK,
@@ -57,6 +61,9 @@ public enum ActionTestFile {
 
     AccessCanBeTightened_KO,
     AccessCanBeTightened_OK,
+
+    InspectionsAll_KO,
+    InspectionsAll_OK,
 
     //
     ;
