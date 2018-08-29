@@ -1,7 +1,6 @@
 package com.dubreuia.core.component;
 
 import com.dubreuia.core.ExecutionMode;
-import com.dubreuia.core.SaveActionFactory;
 import com.dubreuia.core.action.ShortcutAction;
 import com.dubreuia.model.Action;
 import com.dubreuia.model.Storage;
@@ -11,7 +10,6 @@ import com.dubreuia.processors.ProcessorFactory;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.fileEditor.FileDocumentManagerAdapter;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
@@ -24,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static com.dubreuia.core.ExecutionMode.batch;
 import static com.dubreuia.core.ExecutionMode.normal;
 import static com.dubreuia.model.Action.activate;
 import static com.dubreuia.utils.PsiFiles.isPsiFileEligible;
@@ -70,7 +67,6 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
         boolean noActionIfCompileErrors = getStorage(project).isEnabled(Action.noActionIfCompileErrors);
         if (isPsiFileEligible(project, psiFile, inclusions, exclusions, noActionIfCompileErrors)) {
             processPsiFile(project, psiFile, mode);
-            commitDocumentAndSaveIfNecessary(project, psiFile, mode);
         }
     }
 
@@ -94,30 +90,8 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
         }
     }
 
-    protected void commitDocumentAndSave(Project project, PsiFile psiFile) {
-        PsiDocumentManager psiDocumentManager = PsiDocumentManager.getInstance(project);
-        FileDocumentManager fileDocumentManager = FileDocumentManager.getInstance();
-        Document document = psiDocumentManager.getDocument(psiFile);
-        if (document != null) {
-            psiDocumentManager.doPostponedOperationsAndUnblockDocument(document);
-            psiDocumentManager.commitDocument(document);
-            fileDocumentManager.saveDocument(document);
-        }
-    }
-
     public Storage getStorage(Project project) {
         return ServiceManager.getService(project, Storage.class);
-    }
-
-    protected void commitDocumentAndSaveIfNecessary(Project project, PsiFile psiFile, ExecutionMode mode) {
-        if (batch.equals(mode)) {
-            return;
-        }
-        if (SaveActionFactory.JAVA_AVAILABLE) {
-            // the cleanup is done in the child class
-            return;
-        }
-        commitDocumentAndSave(project, psiFile);
     }
 
     protected List<Processor> getSaveActionsProcessors(Project project, PsiFile psiFile) {

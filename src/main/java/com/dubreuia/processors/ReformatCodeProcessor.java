@@ -26,7 +26,6 @@ class ReformatCodeProcessor extends com.intellij.codeInsight.actions.ReformatCod
     public void run() {
         if (storage.isEnabled(reformat)) {
             try {
-                commitDocument(myProject, psiFile);
                 super.run();
             } catch (Exception e) {
                 LOGGER.error(e.getMessage(), e);

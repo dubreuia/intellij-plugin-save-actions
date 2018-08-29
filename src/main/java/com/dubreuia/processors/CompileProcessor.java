@@ -30,7 +30,6 @@ class CompileProcessor implements Processor {
         if (storage.isEnabled(compile)) {
             ApplicationManager.getApplication().invokeLater(() -> {
                 try {
-                    commitDocument(project, psiFile);
                     CompilerManager.getInstance(project).compile(new VirtualFile[]{psiFile.getVirtualFile()}, null);
                 } catch (Exception e) {
                     LOGGER.error(e.getMessage(), e);

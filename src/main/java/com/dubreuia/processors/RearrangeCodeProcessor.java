@@ -73,7 +73,6 @@ class RearrangeCodeProcessor extends com.intellij.codeInsight.actions.RearrangeC
     public void run() {
         if (storage.isEnabled(rearrange)) {
             try {
-                commitDocument(myProject, psiFile);
                 super.run();
             } catch (Exception e) {
                 LOGGER.error(e.getMessage(), e);

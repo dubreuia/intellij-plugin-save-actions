@@ -1,6 +1,5 @@
 package com.dubreuia.core.component.java;
 
-import com.dubreuia.core.ExecutionMode;
 import com.dubreuia.model.Storage;
 import com.dubreuia.model.epf.EpfStorage;
 import com.dubreuia.processors.Processor;
@@ -10,8 +9,6 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 
 import java.util.List;
-
-import static com.dubreuia.core.ExecutionMode.batch;
 
 /**
  * Event handler class, instanciated by {@link com.dubreuia.core.component.java.Component}. The
@@ -23,14 +20,6 @@ public class SaveActionManager extends com.dubreuia.core.component.SaveActionMan
     public Storage getStorage(Project project) {
         Storage defaultStorage = super.getStorage(project);
         return EpfStorage.INSTANCE.getStorageOrDefault(defaultStorage.getConfigurationPath(), defaultStorage);
-    }
-
-    @Override
-    protected void commitDocumentAndSaveIfNecessary(Project project, PsiFile psiFile, ExecutionMode mode) {
-        if (batch.equals(mode)) {
-            return;
-        }
-        commitDocumentAndSave(project, psiFile);
     }
 
     @Override

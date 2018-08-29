@@ -24,7 +24,6 @@ class OptimizeImportsProcessor extends com.intellij.codeInsight.actions.Optimize
     public void run() {
         if (storage.isEnabled(organizeImports)) {
             try {
-                commitDocument(myProject, psiFile);
                 super.run();
             } catch (Exception e) {
                 LOGGER.error(e.getMessage(), e);

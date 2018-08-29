@@ -13,12 +13,9 @@ import com.intellij.codeInspection.ex.InspectionToolWrapper;
 import com.intellij.codeInspection.ex.LocalInspectionToolWrapper;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.command.WriteCommandAction;
-import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.project.IndexNotReadyException;
 import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -48,7 +45,6 @@ class InspectionProcessor implements Processor {
     @Override
     public void run() {
         if (storage.isEnabled(action)) {
-            commitDocument(project, psiFile);
             ApplicationManager.getApplication()
                     .invokeLater(() -> new InspectionWriteQuickFixesAction(project, psiFile).execute());
         }
