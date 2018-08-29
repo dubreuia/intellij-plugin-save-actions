@@ -31,12 +31,13 @@ import static java.util.Collections.synchronizedList;
  * Event handler class, instanciated by {@link Component}. The {@link #getSaveActionsProcessors(Project, PsiFile)}
  * returns the global processors (not java specific). The list {@link #runningProcessors} is shared between instances.
  * <p>
- * The main method is {@link #processPsiFileIfNecessary(Project, PsiFile, ExecutionMode)}. Make sure the action is activated before
- * calling the method.
+ * The main method is {@link #processPsiFileIfNecessary(Project, PsiFile, ExecutionMode)}. Make sure the action is
+ * activated before calling the method.
  * <p>
  * The psi files seems to be shared between projects, so we need to check if the file is physically
  * in that project before reformating, or else the file is formatted twice and intellij will ask to
- * confirm unlocking of non-project file in the other project, see {@link #isPsiFileEligible(Project, PsiFile)}.
+ * confirm unlocking of non-project file in the other project,
+ * see {@link com.dubreuia.utils.PsiFiles#isPsiFileEligible(Project, PsiFile, Set, Set, boolean)}.
  *
  * @see ShortcutAction
  */
