@@ -15,6 +15,7 @@
 <ul>
   <li>Optimize imports</li>
   <li>Run on file save or shortcut (or both)</li>
+  <li>Run on multiple files by choosing a scope</li>
   <li>Reformat code (whole file or only changed text)</li>
   <li>Rearrange code (reorder methods, fields, etc.)</li>
   <li>Include / exclude files with regex support</li>
@@ -48,7 +49,9 @@
     ]]></description>
 
     <change-notes><![CDATA[
-        Release notes: <a href="https://github.com/dubreuia/intellij-plugin-save-actions/releases">https://github.com/dubreuia/intellij-plugin-save-actions/releases</a>
+<ul>
+  <li>Release notes: <a href="https://github.com/dubreuia/intellij-plugin-save-actions/releases">https://github.com/dubreuia/intellij-plugin-save-actions/releases/tag/v1.1.0</a></li>
+</ul>
     ]]>
     </change-notes>
 

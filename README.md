@@ -43,6 +43,7 @@ The code style applied by the save actions plugin is the one configured your set
 
 - Optimize imports
 - Run on file save or shortcut (or both)
+- Run on multiple files by choosing a scope
 - Reformat code (whole file or only changed text)
 - Rearrange code (reorder methods, fields, etc.)
 - Include / exclude files with regex support
