@@ -1,0 +1,5 @@
+extraction:
+  java:
+    exclude:
+    - "src/main/java/com/intellij/"
+    - "src/main/java/com/siyeh/"

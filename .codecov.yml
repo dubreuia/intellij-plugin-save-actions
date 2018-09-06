@@ -9,4 +9,3 @@ ignore:
 - "src/main/java/com/intellij/"
 # intellij inspections that we copy in code
 - "src/main/java/com/siyeh/"
-
