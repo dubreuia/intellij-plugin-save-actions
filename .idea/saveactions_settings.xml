@@ -20,7 +20,8 @@
     <option name="configurationPath" value="" />
     <option name="exclusions">
       <set>
-        <option value="src/main/java/com/dubreuia/processors/java/inspections/.*" />
+        <option value="src/main/java/com/intellij/.*" />
+        <option value="src/main/java/com/siyeh/.*" />
         <option value="src/test/resources/com/dubreuia/integration/.*" />
       </set>
     </option>

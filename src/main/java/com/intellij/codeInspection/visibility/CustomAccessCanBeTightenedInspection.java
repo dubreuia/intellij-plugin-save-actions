@@ -17,7 +17,6 @@ package com.intellij.codeInspection.visibility;
 
 import com.intellij.codeInsight.daemon.GroupNames;
 import com.intellij.codeInsight.daemon.impl.UnusedSymbolUtil;
-import com.intellij.codeInspection.BaseJavaBatchLocalInspectionTool;
 import com.intellij.codeInspection.InspectionProfile;
 import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.codeInspection.deadCode.UnusedDeclarationInspectionBase;
@@ -68,10 +67,12 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Copy pasting because cannot extend, see {@link CustomAccessCanBeTightenedInspection}
- * Do not reformat (useful for diffs)!
+ * Copy pasting because: cannot extend. Do not reformat (useful for diffs)
+ *
+ * @see com.intellij.codeInspection.visibility.AccessCanBeTightenedInspection
  */
-public class CustomAccessCanBeTightenedInspection extends BaseJavaBatchLocalInspectionTool {
+@SuppressWarnings("deprecation")
+public class CustomAccessCanBeTightenedInspection extends com.intellij.codeInspection.BaseJavaBatchLocalInspectionTool {
   private final VisibilityInspection myVisibilityInspection;
 
   public CustomAccessCanBeTightenedInspection(@NotNull VisibilityInspection visibilityInspection) {

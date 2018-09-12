@@ -2,6 +2,7 @@ package com.dubreuia.processors.java;
 
 import com.dubreuia.model.Action;
 import com.dubreuia.model.Storage;
+import com.dubreuia.processors.java.inspection.SerializableHasSerialVersionUIDFieldInspectionWrapper;
 import com.intellij.codeInspection.ExplicitTypeCanBeDiamondInspection;
 import com.intellij.codeInspection.LocalInspectionTool;
 import com.intellij.codeInspection.localCanBeFinal.LocalCanBeFinal;
@@ -13,7 +14,6 @@ import com.siyeh.ig.classlayout.FinalPrivateMethodInspection;
 import com.siyeh.ig.inheritance.MissingOverrideAnnotationInspection;
 import com.siyeh.ig.maturity.SuppressionAnnotationInspection;
 import com.siyeh.ig.performance.MethodMayBeStaticInspection;
-import com.siyeh.ig.serialization.SerializableHasSerialVersionUIDFieldInspectionBase;
 import com.siyeh.ig.style.ControlFlowStatementWithoutBracesInspection;
 import com.siyeh.ig.style.CustomUnqualifiedStaticUsageInspection;
 import com.siyeh.ig.style.FieldMayBeFinalInspection;
@@ -69,7 +69,7 @@ public enum JavaProcessor {
             ControlFlowStatementWithoutBracesInspection::new),
 
     generateSerialVersionUID(Action.generateSerialVersionUID,
-            SerializableHasSerialVersionUIDFieldInspectionBase::new),
+            SerializableHasSerialVersionUIDFieldInspectionWrapper::get),
 
     unnecessaryThis(Action.unnecessaryThis,
             UnnecessaryThisInspection::new),
