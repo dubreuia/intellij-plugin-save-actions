@@ -24,12 +24,10 @@ class RearrangeCodeProcessor extends com.intellij.codeInsight.actions.RearrangeC
     private static final String NAME = "RearrangeCode";
 
     private final Storage storage;
-    private final PsiFile psiFile;
 
     RearrangeCodeProcessor(Project project, PsiFile psiFile, Storage storage) {
         super(project, new PsiFile[]{psiFile}, COMMAND_NAME, null);
         this.storage = storage;
-        this.psiFile = psiFile;
     }
 
     @NotNull

@@ -12,12 +12,10 @@ class OptimizeImportsProcessor extends com.intellij.codeInsight.actions.Optimize
     private static final String NAME = "OptimizeImports";
 
     private final Storage storage;
-    private final PsiFile psiFile;
 
     OptimizeImportsProcessor(Project project, PsiFile psiFile, Storage storage) {
         super(project, psiFile);
         this.storage = storage;
-        this.psiFile = psiFile;
     }
 
     @Override

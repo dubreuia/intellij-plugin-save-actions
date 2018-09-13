@@ -6,6 +6,7 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
+import org.jetbrains.annotations.NotNull;
 
 import static com.dubreuia.core.ExecutionMode.shortcut;
 import static com.dubreuia.core.component.SaveActionManager.LOGGER;
@@ -21,8 +22,8 @@ import static com.intellij.openapi.actionSystem.CommonDataKeys.PSI_FILE;
 public class ShortcutAction extends AnAction {
 
     @Override
-    public void actionPerformed(AnActionEvent event) {
-        LOGGER.debug("Running SaveActionShortcutManager on " + event);
+    public void actionPerformed(@NotNull AnActionEvent event) {
+        LOGGER.info("Running SaveActionShortcutManager on " + event);
         PsiFile psiFile = event.getData(PSI_FILE);
         Project project = event.getProject();
         SaveActionFactory.streamManagers()

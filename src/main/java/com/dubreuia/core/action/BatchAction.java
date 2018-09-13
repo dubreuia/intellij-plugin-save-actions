@@ -19,7 +19,6 @@ import com.dubreuia.core.SaveActionFactory;
 import com.dubreuia.core.component.SaveActionManager;
 import com.intellij.analysis.AnalysisScope;
 import com.intellij.analysis.BaseAnalysisAction;
-import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.PsiFile;
@@ -29,6 +28,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import static com.dubreuia.core.ExecutionMode.batch;
 import static com.dubreuia.core.component.Component.COMPONENT_NAME;
+import static com.dubreuia.core.component.SaveActionManager.LOGGER;
 import static com.dubreuia.model.Action.activate;
 
 /**
@@ -41,15 +41,13 @@ import static com.dubreuia.model.Action.activate;
  */
 public class BatchAction extends BaseAnalysisAction {
 
-    public static final Logger LOGGER = Logger.getInstance(BatchAction.class);
-
     public BatchAction() {
         super(COMPONENT_NAME, COMPONENT_NAME);
     }
 
     @Override
     protected void analyze(@NotNull Project project, @NotNull AnalysisScope scope) {
-        LOGGER.debug("Running SaveActionBatchAction on " + project + " with scope " + scope);
+        LOGGER.info("Running SaveActionBatchAction on " + project + " with scope " + scope);
         AtomicLong fileCount = new AtomicLong();
         scope.accept(new PsiElementVisitor() {
             @Override
@@ -61,7 +59,7 @@ public class BatchAction extends BaseAnalysisAction {
                         .forEach(manager -> manager.processPsiFileIfNecessary(project, psiFile, batch));
             }
         });
-        LOGGER.debug("Executed SaveActionBatchAction on " + fileCount.get() + " files ");
+        LOGGER.info("Executed SaveActionBatchAction on " + fileCount.get() + " files ");
     }
 
 }

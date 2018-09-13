@@ -42,7 +42,7 @@ public class PsiFiles {
     private static boolean isPsiFileInProject(Project project, PsiFile file) {
         boolean inProject = ProjectRootManager.getInstance(project).getFileIndex().isInContent(file.getVirtualFile());
         if (!inProject) {
-            LOGGER.debug("File " + file.getVirtualFile().getCanonicalPath() + " not in current project " + project);
+            LOGGER.info("File " + file.getVirtualFile().getCanonicalPath() + " not in current project " + project);
         }
         return inProject;
     }
@@ -74,7 +74,7 @@ public class PsiFiles {
     private static boolean isExcluded(Set<String> exclusions, String path) {
         boolean psiFileExcluded = atLeastOneMatch(path, exclusions);
         if (psiFileExcluded) {
-            LOGGER.debug("File " + path + " excluded in " + exclusions);
+            LOGGER.info("File " + path + " excluded in " + exclusions);
         }
         return psiFileExcluded;
     }
@@ -86,7 +86,7 @@ public class PsiFiles {
         }
         boolean psiFileIncluded = atLeastOneMatch(path, inclusions);
         if (psiFileIncluded) {
-            LOGGER.debug("File " + path + " included in " + inclusions);
+            LOGGER.info("File " + path + " included in " + inclusions);
         }
         return psiFileIncluded;
     }

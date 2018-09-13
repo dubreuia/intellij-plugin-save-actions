@@ -31,21 +31,19 @@ public enum EpfStorage {
         try {
             return getStorageOrDefault0(configurationPath, defaultStorage);
         } catch (IOException e) {
-            LOGGER.debug("Error in configuration file " + defaultStorage.getConfigurationPath(), e);
+            LOGGER.info("Error in configuration file " + defaultStorage.getConfigurationPath(), e);
             return defaultStorage;
         }
     }
 
     private Storage getStorageOrDefault0(String configurationPath, Storage defaultStorage) throws IOException {
         if ("".equals(configurationPath) || configurationPath == null) {
-            LOGGER.debug("Using default storage");
             return defaultStorage;
         }
         Storage storage = new Storage(defaultStorage);
         Properties properties = readProperties(configurationPath);
         Action.stream().forEach(action -> storage.setEnabled(action, isEnabledInEpf(properties, action)
                 .orElse(defaultStorage.isEnabled(action))));
-        LOGGER.debug("Using configuration file from " + defaultStorage.getConfigurationPath());
         return storage;
     }
 

@@ -47,13 +47,9 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
 
     private static List<Processor> runningProcessors = synchronizedList(new ArrayList<>());
 
-    static {
-        LOGGER.setLevel(Level.DEBUG);
-    }
-
     @Override
     public void beforeDocumentSaving(@NotNull Document document) {
-        LOGGER.debug("Running SaveActionManager on " + document);
+        LOGGER.info("Running SaveActionManager on " + document);
         for (Project project : ProjectManager.getInstance().getOpenProjects()) {
             PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
             if (getStorage(project).isEnabled(activate)) {
@@ -73,7 +69,7 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
 
     private void processPsiFile(Project project, PsiFile psiFile, ExecutionMode mode) {
         List<Processor> processors = getSaveActionsProcessors(project, psiFile);
-        LOGGER.debug("Running processors " + processors + ", file " + psiFile + ", project " + project);
+        LOGGER.info("Running processors " + processors + ", file " + psiFile + ", project " + project);
         processors.stream()
                 .filter(processor -> processor.canRun(mode))
                 .forEach(this::runProcessor);

@@ -14,12 +14,10 @@ class ReformatCodeProcessor extends com.intellij.codeInsight.actions.ReformatCod
     private static final String NAME_ALL_TEXT = "ReformatAllText";
 
     private final Storage storage;
-    private final PsiFile psiFile;
 
     ReformatCodeProcessor(Project project, PsiFile psiFile, Storage storage) {
         super(project, psiFile, null, storage.isEnabled(reformatChangedCode));
         this.storage = storage;
-        this.psiFile = psiFile;
     }
 
     @Override
