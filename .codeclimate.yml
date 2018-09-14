@@ -10,7 +10,11 @@ plugins:
   sonar-java:
     enabled: true
 
-# remove external code from analysis
+# remove code from analysis
 exclude_patterns:
+  # remove external code
   - "src/main/java/com/intellij/**"
+  # remove external code
   - "src/main/java/com/siyeh/**"
+  # remove test resources (there are java files for tests)
+  - "src/test/resources/**"

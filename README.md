@@ -15,27 +15,14 @@ The code style applied by the save actions plugin is the one configured your set
 ## Content
 
 - [Features](#features)
-    - [All Jetbrains products](#all-jetbrains-products)
-    - [Java IDE products](#java-ide-products)
 - [Compatibility](#compatibility)
 - [Installation](#installation)
-    - [IDE (recommended)](#ide-recommended)
-    - [Jetbrains plugin repository](#jetbrains-plugin-repository)
 - [Configuration](#configuration)
-    - [Activation](#activation)
-    - [Global](#global)
-    - [Build](#build)
-    - [File](#file)
-    - [Java fixes](#java-fixes)
 - [Actions](#actions)
 - [Eclipse support](#eclipse-support)
 - [Files location](#files-location)
 - [Contributing](#contributing)
-    - [Development environment](#development-environment)
-    - [Code style](#code-style)
-    - [Sending a pull request](#sending-a-pull-request)
 - [Jetbrains plugin page](#jetbrains-plugin-page)
-- [Rate this plugin](#rate-this-plugin)
 - [Issues](#issues)
 - [Licence](#licence)
 
@@ -227,11 +214,7 @@ To contribute, submit a PR without modifying the plugin version. Before sending,
 
 ## Jetbrains plugin page
 
-The plugin is in the [JetBrains plugin repository](https://plugins.jetbrains.com/plugin/7642-save-actions).
-
-## Rate this plugin
-
-Please take the time to [rate the plugin](https://plugins.jetbrains.com/plugin/7642-save-actions)!
+The plugin is in the [JetBrains plugin repository](https://plugins.jetbrains.com/plugin/7642-save-actions), please take the time to [rate it](https://plugins.jetbrains.com/plugin/7642-save-actions)! 
 
 ## Issues
 

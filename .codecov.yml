@@ -5,9 +5,9 @@ comment: off
 
 # remove code from analysis
 ignore:
-  # ui code that cannot be tested in intellij
+  # remove ui code that cannot be tested in intellij
   - "src/main/java/com/dubreuia/ui/"
-  # intellij inspections that we copy in code
+  # remove external code
   - "src/main/java/com/intellij/"
-  # intellij inspections that we copy in code
+  # remove external code
   - "src/main/java/com/siyeh/"
