@@ -15,7 +15,6 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
 import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
-import org.apache.log4j.Level;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
