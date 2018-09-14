@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.3//EN"
+        "http://checkstyle.sourceforge.net/dtds/configuration_1_3.dtd">
+<module name="Checker">
+    <!-- Encoding -->
+    <property name="charset" value="UTF-8"/>
+
+    <!-- Use space only -->
+    <module name="FileTabCharacter"/>
+
+    <module name="TreeWalker">
+        <!-- Indentation increment of 4 -->
+        <property name="tabWidth" value="4"/>
+
+        <module name="Indentation">
+            <!-- First indentation of 4 -->
+            <property name="basicOffset" value="4"/>
+
+            <!-- Continuation indentation of 8 -->
+            <property name="lineWrappingIndentation" value="8"/>
+        </module>
+    </module>
+</module>

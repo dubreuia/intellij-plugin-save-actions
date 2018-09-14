@@ -1,5 +1,9 @@
+# lgtm (https://lgtm.com/projects/g/dubreuia/intellij-plugin-save-actions/)
+
+# Remove external code from analysis (this doesn't work for now)
 extraction:
   java:
-    exclude:
-    - "src/main/java/com/intellij/"
-    - "src/main/java/com/siyeh/"
+    before_index:
+      exclude:
+        - "src/main/java/com/intellij/**"
+        - "src/main/java/com/siyeh/**"

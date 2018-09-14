@@ -1,22 +1,20 @@
+# AppVeyor (https://ci.appveyor.com/project/dubreuia/intellij-plugin-save-actions)
 version: "{branch} {build}"
 
 build:
   verbosity: detailed
 
+# excludes tests (they are using java.nio.Path and are broken on windows)
 build_script:
-- gradlew.bat --info test
+  - gradlew.bat build -x test
 
-test_script:
-- gradlew.bat --info test
-
+# build only master
 branches:
   only:
-  - master
+    - master
 
+# build on 32 and 64 bit jdk (create two separate build)
 environment:
   matrix:
-  - JAVA_HOME: C:\Program Files\Java\jdk1.8.0
-  - JAVA_HOME: C:\Program Files (x86)\Java\jdk1.8.0
-
-cache:
-- C:\Users\appveyor\.gradle
+    - JAVA_HOME: C:\Program Files\Java\jdk1.8.0
+    - JAVA_HOME: C:\Program Files (x86)\Java\jdk1.8.0

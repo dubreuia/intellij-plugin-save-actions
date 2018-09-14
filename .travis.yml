@@ -1,18 +1,22 @@
+# Travis CI (https://travis-ci.org/dubreuia/intellij-plugin-save-actions)
+
 language: java
 
 jdk:
   - oraclejdk8
 
+# instrument code with jacoco for codecov
 script:
   - ./gradlew test
   - ./gradlew jacocoTestReport
 
+# call codecov analysis
 after_success:
   - bash <(curl -s https://codecov.io/bash)
 
 branches:
   only:
-  - /.*/
+    - /.*/
 
 notifications:
   email: true

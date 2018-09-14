@@ -1,0 +1,16 @@
+# Code Climate (https://codeclimate.com/github/dubreuia/intellij-plugin-save-actions)
+version: "2"
+
+# add checkstyle and sonar
+plugins:
+  checkstyle:
+    enabled: true
+    config:
+      file: "config/checkstyle/save-actions.xml"
+  sonar-java:
+    enabled: true
+
+# remove external code from analysis
+exclude_patterns:
+  - "src/main/java/com/intellij/**"
+  - "src/main/java/com/siyeh/**"
