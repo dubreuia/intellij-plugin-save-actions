@@ -8,6 +8,7 @@
         <option value="organizeImports" />
         <option value="reformat" />
         <option value="reformatChangedCode" />
+        <option value="fieldCanBeFinal" />
         <option value="missingOverrideAnnotation" />
         <option value="useBlocks" />
         <option value="unnecessaryThis" />

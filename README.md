@@ -1,6 +1,7 @@
 # Save Actions Plugin
 
-[![Jetbrains Plugin](./docs/badge-jetbrains-website.svg)](https://plugins.jetbrains.com/plugin/7642-save-actions)
+[![JetBrains Plugin](./docs/badge-jetbrains-website.svg)](https://plugins.jetbrains.com/plugin/7642-save-actions)
+[![JetBrains Supported](./docs/badge-jetbrains-supported.svg)](https://www.jetbrains.com/?from=intellij-save-actions-plugin)
 [![Travis CI Build Status](https://travis-ci.org/dubreuia/intellij-plugin-save-actions.svg?branch=master)](https://travis-ci.org/dubreuia/intellij-plugin-save-actions)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/dubreuia/intellij-plugin-save-actions?branch=master&svg=true)](https://ci.appveyor.com/project/dubreuia/intellij-plugin-save-actions)
 [![Codecov Code Coverage](https://codecov.io/gh/dubreuia/intellij-plugin-save-actions/branch/master/graph/badge.svg)](https://codecov.io/gh/dubreuia/intellij-plugin-save-actions)
@@ -12,6 +13,8 @@ Using the save actions plugin makes your code cleaner and more uniform across yo
 
 The code style applied by the save actions plugin is the one configured your settings at "File > Settings > Editor > Code Style". For some languages, custom formatter may also be triggered by the save actions plugin. For example for Dart developers, enable "Use the dartfmt tool when formatting the whole file" option in "File > Settings > Editor > Code Style > Dart > Dartfmt".
 
+Thank you to JetBrains that supports our plugin: they provide an open-source license to us, necessary to build, test and deploy this plugin. Check out their products at [https://www.jetbrains.com](https://www.jetbrains.com/?from=intellij-save-actions-plugin).
+
 ## Content
 
 - [Features](#features)
@@ -22,13 +25,13 @@ The code style applied by the save actions plugin is the one configured your set
 - [Eclipse support](#eclipse-support)
 - [Files location](#files-location)
 - [Contributing](#contributing)
-- [Jetbrains plugin page](#jetbrains-plugin-page)
+- [JetBrains plugin page](#jetbrains-plugin-page)
 - [Issues](#issues)
 - [Licence](#licence)
 
 ## Features
 
-### All Jetbrains products
+### All JetBrains products
 
 - Optimize imports
 - Run on file save or shortcut (or both)
@@ -73,9 +76,9 @@ Install it from your IDE (Intellij IDEA, PyCharm, etc.):
 
 - "File > Settings > Plugins > Browse repositories... > Search 'Save Actions' > Category 'Code tools'"
 
-### Jetbrains plugin repository
+### JetBrains plugin repository
 
-All versions of the plugin are available from the [Jetbrains plugin repository](https://plugins.jetbrains.com/plugin/7642). You can download the jar and add it to your IDE (you won't get updates thought):
+All versions of the plugin are available from the [JetBrains plugin repository](https://plugins.jetbrains.com/plugin/7642). You can download the jar and add it to your IDE (you won't get updates thought):
 
 - "File > Settings > Plugins > Install plugin from disk..."
 
@@ -212,7 +215,7 @@ The code style is located in `config/code-style.xml`, you can import it by doing
 
 To contribute, submit a PR without modifying the plugin version. Before sending, think about documenting your feature, code style, unit tests (if possible), integration tests (see `com.dubreuia.integration.IntegrationTest`) and proper manual testing.
 
-## Jetbrains plugin page
+## JetBrains plugin page
 
 The plugin is in the [JetBrains plugin repository](https://plugins.jetbrains.com/plugin/7642-save-actions), please take the time to [rate it](https://plugins.jetbrains.com/plugin/7642-save-actions)! 
 
