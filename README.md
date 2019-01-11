@@ -109,7 +109,7 @@ You can quickly toggle the plugin activation by using the "Enable Save Action" a
 
 | Name                               | Description
 | ---                                | ---
-| Compile file                       | Enable / disable compiling of the modified file. The compiler might compile other files as well
+| Compile file                       | Enable / disable compiling of the modified file. The compiler might compile other files as well. **Warning: this option triggers one build action for each file, use sparingly (see [#128](https://github.com/dubreuia/intellij-plugin-save-actions/issues/128))**
 
 ### File
 
