@@ -10,6 +10,7 @@ import com.dubreuia.processors.ProcessorFactory;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Document;
+import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.fileEditor.FileDocumentManagerAdapter;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
@@ -28,7 +29,7 @@ import static java.util.Collections.synchronizedList;
 
 /**
  * Event handler class, instanciated by {@link Component}. The {@link #getSaveActionsProcessors(Project, PsiFile)}
- * returns the global processors (not java specific). The list {@link #runningProcessors} is shared between instances.
+ * returns the global processors (not java specific). The list {@link #RUNNING_PROCESSORS} is shared between instances.
  * <p>
  * The main method is {@link #processPsiFileIfNecessary(Project, PsiFile, ExecutionMode)}. Make sure the action is
  * activated before calling the method.
@@ -44,10 +45,18 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
 
     public static final Logger LOGGER = Logger.getInstance(SaveActionManager.class);
 
-    private static List<Processor> runningProcessors = synchronizedList(new ArrayList<>());
+    private static final List<Processor> RUNNING_PROCESSORS = synchronizedList(new ArrayList<>());
 
     @Override
-    public void beforeDocumentSaving(@NotNull Document document) {
+    public void beforeAllDocumentsSaving() {
+        LOGGER.info("Save actions triggered");
+        Document[] unsavedDocuments = FileDocumentManager.getInstance().getUnsavedDocuments();
+        for (Document unsavedDocument : unsavedDocuments) {
+            processDocument(unsavedDocument);
+        }
+    }
+
+    private void processDocument(@NotNull Document document) {
         LOGGER.info("Running SaveActionManager on " + document);
         for (Project project : ProjectManager.getInstance().getOpenProjects()) {
             PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
@@ -75,14 +84,14 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
     }
 
     private void runProcessor(Processor processor) {
-        if (runningProcessors.contains(processor)) {
+        if (RUNNING_PROCESSORS.contains(processor)) {
             return;
         }
         try {
-            runningProcessors.add(processor);
+            RUNNING_PROCESSORS.add(processor);
             processor.run();
         } finally {
-            runningProcessors.remove(processor);
+            RUNNING_PROCESSORS.remove(processor);
         }
     }
 
