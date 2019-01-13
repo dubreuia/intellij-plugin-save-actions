@@ -6,61 +6,8 @@ import org.junit.BeforeClass;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import static com.dubreuia.integration.ActionTestFile.AccessCanBeTightened_KO;
-import static com.dubreuia.integration.ActionTestFile.AccessCanBeTightened_OK;
-import static com.dubreuia.integration.ActionTestFile.CustomUnqualifiedStaticMemberAccess_KO;
-import static com.dubreuia.integration.ActionTestFile.CustomUnqualifiedStaticMemberAccess_OK;
-import static com.dubreuia.integration.ActionTestFile.ExplicitTypeCanBeDiamond_KO;
-import static com.dubreuia.integration.ActionTestFile.ExplicitTypeCanBeDiamond_OK;
-import static com.dubreuia.integration.ActionTestFile.FieldCanBeFinal_KO;
-import static com.dubreuia.integration.ActionTestFile.FieldCanBeFinal_OK;
-import static com.dubreuia.integration.ActionTestFile.FinalPrivateMethod_KO;
-import static com.dubreuia.integration.ActionTestFile.FinalPrivateMethod_OK;
-import static com.dubreuia.integration.ActionTestFile.GenerateSerialVersionUID_KO;
-import static com.dubreuia.integration.ActionTestFile.GenerateSerialVersionUID_OK;
-import static com.dubreuia.integration.ActionTestFile.InspectionsAll_KO;
-import static com.dubreuia.integration.ActionTestFile.InspectionsAll_OK;
-import static com.dubreuia.integration.ActionTestFile.LocalCanBeFinal_KO;
-import static com.dubreuia.integration.ActionTestFile.LocalCanBeFinal_OK;
-import static com.dubreuia.integration.ActionTestFile.MethodMayBeStatic_KO;
-import static com.dubreuia.integration.ActionTestFile.MethodMayBeStatic_OK;
-import static com.dubreuia.integration.ActionTestFile.MissingOverrideAnnotation_KO;
-import static com.dubreuia.integration.ActionTestFile.MissingOverrideAnnotation_OK;
-import static com.dubreuia.integration.ActionTestFile.SuppressAnnotation_KO;
-import static com.dubreuia.integration.ActionTestFile.SuppressAnnotation_OK;
-import static com.dubreuia.integration.ActionTestFile.UnnecessaryFinalOnLocalVariableOrParameter_KO;
-import static com.dubreuia.integration.ActionTestFile.UnnecessaryFinalOnLocalVariableOrParameter_OK;
-import static com.dubreuia.integration.ActionTestFile.UnnecessarySemicolon_KO;
-import static com.dubreuia.integration.ActionTestFile.UnnecessarySemicolon_OK;
-import static com.dubreuia.integration.ActionTestFile.UnnecessaryThis_KO;
-import static com.dubreuia.integration.ActionTestFile.UnnecessaryThis_OK;
-import static com.dubreuia.integration.ActionTestFile.UnqualifiedFieldAccess_KO;
-import static com.dubreuia.integration.ActionTestFile.UnqualifiedFieldAccess_OK;
-import static com.dubreuia.integration.ActionTestFile.UnqualifiedMethodAccess_KO;
-import static com.dubreuia.integration.ActionTestFile.UnqualifiedMethodAccess_OK;
-import static com.dubreuia.integration.ActionTestFile.UnqualifiedStaticMemberAccess_KO;
-import static com.dubreuia.integration.ActionTestFile.UnqualifiedStaticMemberAccess_OK;
-import static com.dubreuia.integration.ActionTestFile.UseBlocks_KO;
-import static com.dubreuia.integration.ActionTestFile.UseBlocks_OK;
-import static com.dubreuia.model.Action.accessCanBeTightened;
-import static com.dubreuia.model.Action.activate;
-import static com.dubreuia.model.Action.activateOnShortcut;
-import static com.dubreuia.model.Action.customUnqualifiedStaticMemberAccess;
-import static com.dubreuia.model.Action.explicitTypeCanBeDiamond;
-import static com.dubreuia.model.Action.fieldCanBeFinal;
-import static com.dubreuia.model.Action.finalPrivateMethod;
-import static com.dubreuia.model.Action.generateSerialVersionUID;
-import static com.dubreuia.model.Action.localCanBeFinal;
-import static com.dubreuia.model.Action.methodMayBeStatic;
-import static com.dubreuia.model.Action.missingOverrideAnnotation;
-import static com.dubreuia.model.Action.suppressAnnotation;
-import static com.dubreuia.model.Action.unnecessaryFinalOnLocalVariableOrParameter;
-import static com.dubreuia.model.Action.unnecessarySemicolon;
-import static com.dubreuia.model.Action.unnecessaryThis;
-import static com.dubreuia.model.Action.unqualifiedFieldAccess;
-import static com.dubreuia.model.Action.unqualifiedMethodAccess;
-import static com.dubreuia.model.Action.unqualifiedStaticMemberAccess;
-import static com.dubreuia.model.Action.useBlocks;
+import static com.dubreuia.integration.ActionTestFile.*;
+import static com.dubreuia.model.Action.*;
 
 public class JavaIntegrationTest extends IntegrationTest {
 
@@ -211,7 +158,7 @@ public class JavaIntegrationTest extends IntegrationTest {
     }
 
     @Test
-    @Disabled("do not work with multiple elements (only first works)")
+    // TODO add move tests
     public void should_inspectionsAll_boogaloo() {
         storage.setEnabled(activate, true);
         storage.setEnabled(useBlocks, true);

@@ -5,8 +5,8 @@ import com.dubreuia.core.action.ShortcutAction;
 import com.dubreuia.model.Action;
 import com.dubreuia.model.Storage;
 import com.dubreuia.processors.Processor;
-import com.dubreuia.processors.Processor.ProcessorComparator;
-import com.dubreuia.processors.ProcessorFactory;
+import com.dubreuia.processors.WriteCommandAction;
+import com.intellij.openapi.application.RunResult;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Document;
@@ -16,18 +16,23 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
 import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
-import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import static com.dubreuia.core.ExecutionMode.normal;
 import static com.dubreuia.model.Action.activate;
 import static com.dubreuia.utils.PsiFiles.isPsiFileEligible;
-import static java.util.Collections.synchronizedList;
+import static java.util.stream.Collectors.toList;
 
 /**
+ * TODO doc
+ * <p>
  * Event handler class, instanciated by {@link Component}. The {@link #getSaveActionsProcessors(Project, PsiFile)}
  * returns the global processors (not java specific). The list {@link #RUNNING_PROCESSORS} is shared between instances.
  * <p>
@@ -45,65 +50,70 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
 
     public static final Logger LOGGER = Logger.getInstance(SaveActionManager.class);
 
-    private static final List<Processor> RUNNING_PROCESSORS = synchronizedList(new ArrayList<>());
-
     @Override
     public void beforeAllDocumentsSaving() {
-        LOGGER.info("Save actions triggered");
-        Document[] unsavedDocuments = FileDocumentManager.getInstance().getUnsavedDocuments();
-        for (Document unsavedDocument : unsavedDocuments) {
-            processDocument(unsavedDocument);
-        }
-    }
+        LOGGER.info("[ENTRY POINT] " + getClass().getName());
 
-    private void processDocument(@NotNull Document document) {
-        LOGGER.info("Running SaveActionManager on " + document);
-        for (Project project : ProjectManager.getInstance().getOpenProjects()) {
-            PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
-            if (getStorage(project).isEnabled(activate)) {
-                processPsiFileIfNecessary(project, psiFile, normal);
+        Document[] unsavedDocuments = FileDocumentManager.getInstance().getUnsavedDocuments();
+        LOGGER.info("Unsaved documents (" + unsavedDocuments.length + "): " + Arrays.asList(unsavedDocuments));
+
+        Map<Project, Set<PsiFile>> projectPsiFiles = new HashMap<>();
+        for (Document unsavedDocument : unsavedDocuments) {
+            for (Project openProject : ProjectManager.getInstance().getOpenProjects()) {
+                PsiFile psiFile = PsiDocumentManager.getInstance(openProject).getPsiFile(unsavedDocument);
+                if (psiFile != null) {
+                    Set<PsiFile> psiFiles = projectPsiFiles.getOrDefault(openProject, new HashSet<>());
+                    projectPsiFiles.put(openProject, psiFiles);
+                    psiFiles.add(psiFile);
+                }
             }
         }
+        projectPsiFiles.forEach(((project, psiFiles) -> {
+            PsiFile[] psiFilesArray = psiFiles.toArray(new PsiFile[0]);
+            processPsiFileIfNecessary(project, psiFilesArray, activate, normal);
+        }));
+
+        LOGGER.info("[EXIT POINT] " + getClass().getName() + " processed " + unsavedDocuments.length);
     }
 
-    public void processPsiFileIfNecessary(Project project, PsiFile psiFile, ExecutionMode mode) {
+    // TODO array
+    public void processPsiFileIfNecessary(Project project, PsiFile[] psiFiles, Action activation, ExecutionMode mode) {
+        if (!getStorage(project).isEnabled(activation)) {
+            LOGGER.info("Plugin not activated on " + project);
+            return;
+        }
+        LOGGER.info("Processing " + project + " files " + Arrays.toString(psiFiles) + " mode " + mode);
+        // TODO convert to class
         Set<String> inclusions = getStorage(project).getInclusions();
         Set<String> exclusions = getStorage(project).getExclusions();
         boolean noActionIfCompileErrors = getStorage(project).isEnabled(Action.noActionIfCompileErrors);
-        if (isPsiFileEligible(project, psiFile, inclusions, exclusions, noActionIfCompileErrors)) {
-            processPsiFile(project, psiFile, mode);
-        }
+        Arrays.stream(psiFiles)
+                .filter(psiFile -> isPsiFileEligible(project, psiFile, inclusions, exclusions, noActionIfCompileErrors))
+                .forEach(psiFile -> processPsiFile(project, psiFiles, mode));
     }
 
-    private void processPsiFile(Project project, PsiFile psiFile, ExecutionMode mode) {
-        List<Processor> processors = getSaveActionsProcessors(project, psiFile);
-        LOGGER.info("Running processors " + processors + ", file " + psiFile + ", project " + project);
-        processors.stream()
-                .filter(processor -> processor.canRun(mode))
-                .forEach(this::runProcessor);
+    // TODO array
+    private void processPsiFile(Project project, PsiFile[] psiFiles, ExecutionMode mode) {
+        List<WriteCommandAction> processors = getSaveActionsProcessors(project, psiFiles);
+        List<RunResult> results = processors.stream()
+                .filter(processor -> getStorage(project).isEnabled(processor.getAction()))
+                .peek(processor -> LOGGER.info("Running processor " + processor))
+                .filter(processor -> processor.getModes().contains(mode))
+                .map(processor -> new SimpleEntry<>(processor, processor.execute()))
+                .peek(entry -> LOGGER.info("Exit processor " + entry.getKey()))
+                .map(SimpleEntry::getValue)
+                .collect(toList());
+        // TODO test results
+        LOGGER.info("Exit processors with result " + results);
     }
 
-    private void runProcessor(Processor processor) {
-        if (RUNNING_PROCESSORS.contains(processor)) {
-            return;
-        }
-        try {
-            RUNNING_PROCESSORS.add(processor);
-            processor.run();
-        } finally {
-            RUNNING_PROCESSORS.remove(processor);
-        }
-    }
-
-    public Storage getStorage(Project project) {
+    protected Storage getStorage(Project project) {
         return ServiceManager.getService(project, Storage.class);
     }
 
-    protected List<Processor> getSaveActionsProcessors(Project project, PsiFile psiFile) {
-        List<Processor> processors = ProcessorFactory.INSTANCE
-                .getSaveActionsProcessors(project, psiFile, getStorage(project));
-        processors.sort(new ProcessorComparator());
-        return processors;
+    // TODO array
+    protected List<WriteCommandAction> getSaveActionsProcessors(Project project, PsiFile[] psiFiles) {
+        return Processor.stream().map(p -> p.getWriteCommandAction(project, psiFiles)).collect(toList());
     }
 
 }

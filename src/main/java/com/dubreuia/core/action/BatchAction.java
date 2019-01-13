@@ -24,12 +24,14 @@ import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.dubreuia.core.ExecutionMode.batch;
 import static com.dubreuia.core.component.Component.COMPONENT_NAME;
 import static com.dubreuia.core.component.SaveActionManager.LOGGER;
 import static com.dubreuia.model.Action.activate;
+import static java.util.Collections.synchronizedList;
 
 /**
  * This action runs the save actions on the given scope of files. The user is asked for the scope using a
@@ -47,19 +49,20 @@ public class BatchAction extends BaseAnalysisAction {
 
     @Override
     protected void analyze(@NotNull Project project, @NotNull AnalysisScope scope) {
-        LOGGER.info("Running SaveActionBatchAction on " + project + " with scope " + scope);
-        AtomicLong fileCount = new AtomicLong();
+        LOGGER.info("[ENTRY POINT] " + getClass().getName() + " with project " + project + " and scope " + scope);
+        List<PsiFile> psiFiles = synchronizedList(new ArrayList<>());
         scope.accept(new PsiElementVisitor() {
             @Override
             public void visitFile(PsiFile psiFile) {
                 super.visitFile(psiFile);
-                fileCount.incrementAndGet();
-                SaveActionFactory.streamManagers()
-                        .filter(manager -> manager.getStorage(project).isEnabled(activate))
-                        .forEach(manager -> manager.processPsiFileIfNecessary(project, psiFile, batch));
+                psiFiles.add(psiFile);
             }
         });
-        LOGGER.info("Executed SaveActionBatchAction on " + fileCount.get() + " files ");
+        // TODO array
+        PsiFile[] psiFilesArray = psiFiles.toArray(new PsiFile[0]);
+        SaveActionFactory.streamManagers()
+                .forEach(manager -> manager.processPsiFileIfNecessary(project, psiFilesArray, activate, batch));
+        LOGGER.info("[EXIT POINT] " + getClass().getName() + " processed " + psiFiles.size());
     }
 
 }

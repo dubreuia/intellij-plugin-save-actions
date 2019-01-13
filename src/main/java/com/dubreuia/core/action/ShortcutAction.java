@@ -23,12 +23,12 @@ public class ShortcutAction extends AnAction {
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent event) {
-        LOGGER.info("Running SaveActionShortcutManager on " + event);
+        LOGGER.info("[ENTRY POINT] " + getClass().getName() + " with event " + event);
         PsiFile psiFile = event.getData(PSI_FILE);
         Project project = event.getProject();
+        PsiFile[] psiFiles = new PsiFile[]{psiFile};
         SaveActionFactory.streamManagers()
-                .filter(manager -> manager.getStorage(project).isEnabled(activateOnShortcut))
-                .forEach(manager -> manager.processPsiFileIfNecessary(project, psiFile, shortcut));
+                .forEach(manager -> manager.processPsiFileIfNecessary(project, psiFiles, activateOnShortcut, shortcut));
     }
 
 }

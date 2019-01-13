@@ -1,7 +1,7 @@
 package com.dubreuia.processors.java;
 
+import com.dubreuia.core.ExecutionMode;
 import com.dubreuia.model.Action;
-import com.dubreuia.model.Storage;
 import com.dubreuia.processors.java.inspection.SerializableHasSerialVersionUIDFieldInspectionWrapper;
 import com.intellij.codeInspection.ExplicitTypeCanBeDiamondInspection;
 import com.intellij.codeInspection.LocalInspectionTool;
@@ -25,11 +25,12 @@ import com.siyeh.ig.style.UnqualifiedMethodAccessInspection;
 import com.siyeh.ig.style.UnqualifiedStaticUsageInspection;
 
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-public enum JavaProcessor {
+public enum Processor {
 
     fieldCanBeFinal(Action.fieldCanBeFinal,
             FieldMayBeFinalInspection::new),
@@ -97,7 +98,7 @@ public enum JavaProcessor {
     private final Action action;
     private final LocalInspectionTool inspection;
 
-    JavaProcessor(Action action, Supplier<LocalInspectionTool> inspection) {
+    Processor(Action action, Supplier<LocalInspectionTool> inspection) {
         this.action = action;
         this.inspection = inspection.get();
     }
@@ -110,15 +111,15 @@ public enum JavaProcessor {
         return inspection;
     }
 
-    public InspectionProcessor getInspectionProcessor(Project project, PsiFile psiFile, Storage storage) {
-        return new InspectionProcessor(project, psiFile, storage, action, inspection);
+    public com.dubreuia.processors.WriteCommandAction getWriteCommandAction(Project project, PsiFile[] psiFiles) {
+        return new WriteCommandAction(project, action, inspection, EnumSet.allOf(ExecutionMode.class), psiFiles);
     }
 
-    public static Optional<JavaProcessor> getJavaProcessorForAction(Action action) {
+    public static Optional<Processor> getProcessorForAction(Action action) {
         return stream().filter(processor -> processor.action.equals(action)).findFirst();
     }
 
-    public static Stream<JavaProcessor> stream() {
+    public static Stream<Processor> stream() {
         return Arrays.stream(values());
     }
 

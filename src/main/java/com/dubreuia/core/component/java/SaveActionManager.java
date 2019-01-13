@@ -2,13 +2,14 @@ package com.dubreuia.core.component.java;
 
 import com.dubreuia.model.Storage;
 import com.dubreuia.model.epf.EpfStorage;
-import com.dubreuia.processors.Processor;
-import com.dubreuia.processors.Processor.ProcessorComparator;
-import com.dubreuia.processors.java.ProcessorFactory;
+import com.dubreuia.processors.WriteCommandAction;
+import com.dubreuia.processors.java.Processor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 
 import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Event handler class, instanciated by {@link com.dubreuia.core.component.java.Component}. The
@@ -23,11 +24,16 @@ public class SaveActionManager extends com.dubreuia.core.component.SaveActionMan
     }
 
     @Override
-    protected List<Processor> getSaveActionsProcessors(Project project, PsiFile psiFile) {
-        Storage storage = getStorage(project);
-        List<Processor> processors = ProcessorFactory.INSTANCE.getSaveActionsProcessors(project, psiFile, storage);
-        processors.sort(new ProcessorComparator());
-        return processors;
+    protected List<WriteCommandAction> getSaveActionsProcessors(Project project, PsiFile[] psiFiles) {
+        return Processor.stream().map(p -> p.getWriteCommandAction(project, psiFiles)).collect(toList());
     }
+
+//    @Override
+//    protected List<WriteCommandAction> getSaveActionsProcessors(Project project, PsiFile psiFile) {
+//        Storage storage = getStorage(project);
+//        List<Processor> processors = ProcessorFactory.INSTANCE.getSaveActionsProcessors(project, psiFile, storage);
+//        processors.sort(new ProcessorComparator());
+//        return processors;
+//    }
 
 }
