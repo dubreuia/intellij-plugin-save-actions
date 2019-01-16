@@ -23,7 +23,7 @@ public enum Action {
     activateOnBatch("Activate save actions on batch (\"Code > Save Actions > Execute on multiple files\")",
             activation, false),
 
-    noActionIfCompileErrors("No action if compile errors",
+    noActionIfCompileErrors("No action if compile errors (applied per file)",
             activation, false),
 
     // Global
@@ -43,6 +43,9 @@ public enum Action {
     // Build
 
     compile("Compile files (using \"Build > Build Project\")",
+            build, false),
+
+    reload("Reload files in running debugger (using \"Run > Reload Changed Classes\")",
             build, false),
 
     // Java fixes

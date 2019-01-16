@@ -9,6 +9,7 @@ import java.awt.*;
 import java.util.Map;
 
 import static com.dubreuia.model.Action.compile;
+import static com.dubreuia.model.Action.reload;
 
 class BuildPanel {
 
@@ -28,6 +29,7 @@ class BuildPanel {
         panel.setBorder(IdeBorderFactory.createTitledBorder(TEXT_TITLE_ACTIONS));
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
         panel.add(checkboxes.get(compile));
+        panel.add(checkboxes.get(reload));
         panel.add(Box.createHorizontalGlue());
         panel.setMinimumSize(new Dimension(Short.MAX_VALUE, 0));
         return panel;

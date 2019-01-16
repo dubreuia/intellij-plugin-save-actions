@@ -3,6 +3,10 @@ package com.dubreuia.processors;
 import com.dubreuia.core.ExecutionMode;
 import com.dubreuia.core.component.SaveActionManager;
 import com.dubreuia.model.Action;
+import com.intellij.debugger.DebuggerManagerEx;
+import com.intellij.debugger.impl.DebuggerSession;
+import com.intellij.debugger.settings.DebuggerSettings;
+import com.intellij.debugger.ui.HotSwapUI;
 import com.intellij.openapi.compiler.CompilerManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
@@ -25,6 +29,21 @@ public enum BuildProcessor implements Processor {
             (project, psiFiles) -> () -> {
                 if (SaveActionManager.getInstance().isCompilingAvailable()) {
                     CompilerManager.getInstance(project).compile(toVirtualFiles(psiFiles), null);
+                }
+            }),
+
+    reload(Action.reload,
+            (project, psiFiles) -> () -> {
+                if (SaveActionManager.getInstance().isCompilingAvailable()) {
+                    DebuggerManagerEx debuggerManager = DebuggerManagerEx.getInstanceEx(project);
+                    DebuggerSession session = debuggerManager.getContext().getDebuggerSession();
+                    if (session != null && session.isAttached()) {
+                        boolean compileEnabled = SaveActionManager.getInstance()
+                                .getStorage(project).isEnabled(Action.compile);
+                        boolean compileHotswapSetting = DebuggerSettings.getInstance().COMPILE_BEFORE_HOTSWAP;
+                        boolean compileBeforeHotswap = compileEnabled ? false : compileHotswapSetting;
+                        HotSwapUI.getInstance(project).reloadChangedClasses(session, compileBeforeHotswap);
+                    }
                 }
             }),
 

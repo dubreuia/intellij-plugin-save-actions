@@ -96,6 +96,10 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
         return javaAvailable;
     }
 
+    public Storage getStorage(Project project) {
+        return storageFactory.getStorage(project);
+    }
+
     @Override
     public void beforeAllDocumentsSaving() {
         if (isRunning) {
@@ -136,8 +140,7 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
                                            Set<PsiFile> psiFiles,
                                            Action activation,
                                            ExecutionMode mode) {
-        Storage storage = storageFactory.getStorage(project);
-        Engine engine = new Engine(storage, processors, project, psiFiles, activation, mode);
+        Engine engine = new Engine(getStorage(project), processors, project, psiFiles, activation, mode);
         engine.processPsiFilesIfNecessary();
     }
 
