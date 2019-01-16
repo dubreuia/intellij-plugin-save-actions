@@ -32,6 +32,9 @@ import java.util.Set;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
+/**
+ * Available processors for java.
+ */
 public enum JavaProcessor implements Processor {
 
     fieldCanBeFinal(Action.fieldCanBeFinal,
@@ -115,17 +118,22 @@ public enum JavaProcessor implements Processor {
         return EnumSet.allOf(ExecutionMode.class);
     }
 
+    @Override
+    public int getOrder() {
+        return 1;
+    }
+
+    @Override
+    public InspectionCommand getSaveCommand(Project project, Set<PsiFile> psiFiles) {
+        return new InspectionCommand(project, psiFiles, getModes(), getAction(), getInspection());
+    }
+
     public LocalInspectionTool getInspection() {
         return inspection;
     }
 
-    @Override
-    public WriteCommandAction getWriteCommandAction(Project project, PsiFile[] psiFiles) {
-        return new WriteCommandAction(project, action, inspection, EnumSet.allOf(ExecutionMode.class), psiFiles);
-    }
-
     public static Optional<Processor> getProcessorForAction(Action action) {
-        return stream().filter(javaProcessor -> javaProcessor.getAction().equals(action)).findFirst();
+        return stream().filter(processor -> processor.getAction().equals(action)).findFirst();
     }
 
     public static Stream<Processor> stream() {

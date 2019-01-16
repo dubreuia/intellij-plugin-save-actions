@@ -5,10 +5,13 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.impl.source.PsiFileImpl;
 import com.intellij.testFramework.fixtures.CodeInsightTestFixture;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.BiConsumer;
 
 import static com.dubreuia.core.ExecutionMode.normal;
 import static com.dubreuia.model.Action.activate;
+import static java.util.Collections.singleton;
 
 public interface SaveActionManagerConstants {
 
@@ -20,8 +23,8 @@ public interface SaveActionManagerConstants {
                     ((PsiFileImpl) fixture.getFile()).clearCaches();
 
                     // call plugin on document
-                    PsiFile[] psiFiles = new PsiFile[]{fixture.getFile()};
-                    saveActionManager.processPsiFileIfNecessary(fixture.getProject(), psiFiles, activate, normal);
+                    Set<PsiFile> psiFiles = new HashSet<>(singleton(fixture.getFile()));
+                    saveActionManager.processPsiFilesIfNecessary(fixture.getProject(), psiFiles, activate, normal);
                 }
             }.execute();
 

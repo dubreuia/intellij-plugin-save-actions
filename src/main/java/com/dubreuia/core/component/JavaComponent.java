@@ -8,7 +8,10 @@ import static com.dubreuia.core.component.SaveActionManager.LOGGER;
 import static com.dubreuia.model.StorageFactory.JAVA;
 
 /**
- * The plugin entry class for java based ide. This is not a singleton, the parent is also instanciated.
+ * The plugin entry class for java based ide. This is not a singleton, the main component {@link Component} is also
+ * instanciated before, this one is instanciated after.
+ *
+ * @see SaveActionManager
  */
 public class JavaComponent implements ApplicationComponent {
 
@@ -16,19 +19,17 @@ public class JavaComponent implements ApplicationComponent {
 
     @Override
     public void initComponent() {
-        // TODO log
-        LOGGER.info("STARTING " + COMPONENT_NAME);
+        LOGGER.info("Starting component: " + COMPONENT_NAME);
 
         SaveActionManager manager = SaveActionManager.getInstance();
-        manager.setJavaAvailable(true);
-        manager.addProcessors(JavaProcessor.stream());
         manager.setStorageFactory(JAVA);
+        manager.enableJava();
+        manager.addProcessors(JavaProcessor.stream());
     }
 
     @Override
     public void disposeComponent() {
-        // TODO log
-        LOGGER.info("STOPPING " + COMPONENT_NAME);
+        LOGGER.info("Stopping component: " + COMPONENT_NAME);
     }
 
     @NotNull

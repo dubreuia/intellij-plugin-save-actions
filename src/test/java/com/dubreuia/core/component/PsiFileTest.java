@@ -1,6 +1,7 @@
-package com.dubreuia.utils;
+package com.dubreuia.core.component;
 
 
+import com.dubreuia.model.Storage;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -8,7 +9,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import static com.dubreuia.utils.PsiFiles.isIncludedAndNotExcluded;
 import static java.util.Collections.emptySet;
 import static java.util.Collections.singleton;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -18,7 +18,13 @@ class PsiFileTest {
     @ParameterizedTest(name = "[{index}] included={0}, psiFile={1}, inclusion={2}, exclusion={3}")
     @MethodSource("parameters")
     void test(boolean included, String psiFile, String inclusion, String exclusion) {
-        assertThat(isIncludedAndNotExcluded(psiFile, toSet(inclusion), toSet(exclusion)))
+        Storage storage = new Storage();
+        storage.setInclusions(toSet(inclusion));
+        storage.setExclusions(toSet(exclusion));
+
+        Engine engine = new Engine(storage, null, null, null, null, null);
+
+        assertThat(engine.isIncludedAndNotExcluded(psiFile))
                 .isEqualTo(included);
     }
 

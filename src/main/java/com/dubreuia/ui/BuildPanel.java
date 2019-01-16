@@ -22,7 +22,7 @@ class BuildPanel {
 
     JPanel getPanel() {
         JPanel panel = new JPanel();
-        if (!SaveActionManager.getInstance().isJavaAvailable()) {
+        if (!SaveActionManager.getInstance().isCompilingAvailable()) {
             return panel;
         }
         panel.setBorder(IdeBorderFactory.createTitledBorder(TEXT_TITLE_ACTIONS));

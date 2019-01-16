@@ -9,11 +9,14 @@ import com.intellij.util.messages.MessageBusConnection;
 import org.jetbrains.annotations.NotNull;
 
 import static com.dubreuia.core.component.SaveActionManager.LOGGER;
+import static com.dubreuia.model.StorageFactory.DEFAULT;
 import static com.intellij.AppTopics.FILE_DOCUMENT_SYNC;
 
 /**
- * The plugin entry class. This is not a singleton, for java based ide the corresponding component will also get
- * instanciated (check {@link JavaComponent}).
+ * The plugin entry class that instanciates (or reuse) and delegates to {@link SaveActionManager}. This is not a
+ * singleton, for java based ide the corresponding component will also get instanciated (check {@link JavaComponent}).
+ *
+ * @see SaveActionManager
  */
 public class Component implements ApplicationComponent {
 
@@ -21,10 +24,10 @@ public class Component implements ApplicationComponent {
 
     @Override
     public void initComponent() {
-        // TODO log
-        LOGGER.info("STARTING " + COMPONENT_NAME);
+        LOGGER.info("Starting component: " + COMPONENT_NAME);
 
         SaveActionManager manager = SaveActionManager.getInstance();
+        manager.setStorageFactory(DEFAULT);
         manager.addProcessors(BuildProcessor.stream());
         manager.addProcessors(GlobalProcessor.stream());
 
@@ -35,8 +38,7 @@ public class Component implements ApplicationComponent {
 
     @Override
     public void disposeComponent() {
-        // TODO log
-        LOGGER.info("STOPPING " + COMPONENT_NAME);
+        LOGGER.info("Stopping component: " + COMPONENT_NAME);
     }
 
     @NotNull

@@ -23,14 +23,14 @@ import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import static com.dubreuia.core.ExecutionMode.batch;
 import static com.dubreuia.core.component.Component.COMPONENT_NAME;
 import static com.dubreuia.core.component.SaveActionManager.LOGGER;
 import static com.dubreuia.model.Action.activate;
-import static java.util.Collections.synchronizedList;
+import static java.util.Collections.synchronizedSet;
 
 /**
  * This action runs the save actions on the given scope of files. The user is asked for the scope using a
@@ -48,8 +48,8 @@ public class BatchAction extends BaseAnalysisAction {
 
     @Override
     protected void analyze(@NotNull Project project, @NotNull AnalysisScope scope) {
-        LOGGER.info("[ENTRY POINT] " + getClass().getName() + " with project " + project + " and scope " + scope);
-        List<PsiFile> psiFiles = synchronizedList(new ArrayList<>());
+        LOGGER.info("[+] Start BatchAction#analyze with project " + project + " and scope " + scope);
+        Set<PsiFile> psiFiles = synchronizedSet(new HashSet<>());
         scope.accept(new PsiElementVisitor() {
             @Override
             public void visitFile(PsiFile psiFile) {
@@ -57,10 +57,8 @@ public class BatchAction extends BaseAnalysisAction {
                 psiFiles.add(psiFile);
             }
         });
-        // TODO array
-        PsiFile[] psiFilesArray = psiFiles.toArray(new PsiFile[0]);
-        SaveActionManager.getInstance().processPsiFileIfNecessary(project, psiFilesArray, activate, batch);
-        LOGGER.info("[EXIT POINT] " + getClass().getName() + " processed " + psiFiles.size());
+        SaveActionManager.getInstance().processPsiFilesIfNecessary(project, psiFiles, activate, batch);
+        LOGGER.info("End BatchAction#analyze processed " + psiFiles.size() + " files");
     }
 
 }

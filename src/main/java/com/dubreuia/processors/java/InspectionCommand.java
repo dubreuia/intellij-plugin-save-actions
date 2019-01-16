@@ -2,6 +2,8 @@ package com.dubreuia.processors.java;
 
 import com.dubreuia.core.ExecutionMode;
 import com.dubreuia.model.Action;
+import com.dubreuia.processors.ResultCode;
+import com.dubreuia.processors.SaveCommand;
 import com.intellij.codeInspection.GlobalInspectionContext;
 import com.intellij.codeInspection.InspectionEngine;
 import com.intellij.codeInspection.InspectionManager;
@@ -21,27 +23,27 @@ import java.util.List;
 import java.util.Set;
 
 import static com.dubreuia.core.component.SaveActionManager.LOGGER;
+import static com.dubreuia.processors.ResultCode.OK;
 
-class WriteCommandAction extends com.dubreuia.processors.WriteCommandAction {
+/**
+ * Implements a {@link SaveCommand} for inspections commands.
+ */
+class InspectionCommand extends SaveCommand {
 
     private final LocalInspectionTool inspectionTool;
-    private final PsiFile[] psiFiles;
 
-    WriteCommandAction(Project project, Action action, LocalInspectionTool inspectionTool,
-                       Set<ExecutionMode> modes, PsiFile... psiFiles) {
-        super(project, action, modes, psiFiles);
+    InspectionCommand(Project project, Set<PsiFile> psiFiles, Set<ExecutionMode> modes, Action action,
+                      LocalInspectionTool inspectionTool) {
+        super(project, psiFiles, modes, action);
         this.inspectionTool = inspectionTool;
-        this.psiFiles = psiFiles;
     }
 
     @Override
-    protected void run(@NotNull Result result) {
-        // TODO result
+    protected void run(@NotNull Result<ResultCode> result) {
         InspectionManager inspectionManager = InspectionManager.getInstance(getProject());
         GlobalInspectionContext context = inspectionManager.createNewGlobalContext(false);
         InspectionToolWrapper toolWrapper = new LocalInspectionToolWrapper(inspectionTool);
-        // TODO stream
-        for (PsiFile psiFile : psiFiles) {
+        for (PsiFile psiFile : getPsiFiles()) {
             List<ProblemDescriptor> problemDescriptors = getProblemDescriptors(context, toolWrapper, psiFile);
             for (ProblemDescriptor problemDescriptor : problemDescriptors) {
                 QuickFix[] fixes = problemDescriptor.getFixes();
@@ -50,6 +52,7 @@ class WriteCommandAction extends com.dubreuia.processors.WriteCommandAction {
                 }
             }
         }
+        result.setResult(OK);
     }
 
     private List<ProblemDescriptor> getProblemDescriptors(GlobalInspectionContext context,
@@ -59,7 +62,7 @@ class WriteCommandAction extends com.dubreuia.processors.WriteCommandAction {
         try {
             problemDescriptors = InspectionEngine.runInspectionOnFile(psiFile, toolWrapper, context);
         } catch (IndexNotReadyException exception) {
-            // TODO log
+            LOGGER.info("Cannot inspect files: index not ready (" + exception.getMessage() + ")");
             return Collections.emptyList();
         }
         return problemDescriptors;

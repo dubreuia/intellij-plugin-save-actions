@@ -198,7 +198,6 @@ class JavaIntegrationTest extends IntegrationTest {
     }
 
     @Test
-        // TODO add more tests
     void should_inspectionsAll_boogaloo() {
         storage.setEnabled(activate, true);
         storage.setEnabled(useBlocks, true);

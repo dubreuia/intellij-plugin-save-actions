@@ -5,10 +5,8 @@ import com.dubreuia.model.Action;
 import com.intellij.codeInsight.actions.OptimizeImportsProcessor;
 import com.intellij.codeInsight.actions.RearrangeCodeProcessor;
 import com.intellij.codeInsight.actions.ReformatCodeProcessor;
-import com.intellij.openapi.application.Result;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.EnumSet;
@@ -19,6 +17,9 @@ import java.util.stream.Stream;
 
 import static com.intellij.codeInsight.actions.RearrangeCodeProcessor.COMMAND_NAME;
 
+/**
+ * Available processors for global.
+ */
 public enum GlobalProcessor implements Processor {
 
     organizeImports(Action.organizeImports,
@@ -31,7 +32,9 @@ public enum GlobalProcessor implements Processor {
             (project, psiFiles) -> new ReformatCodeProcessor(project, psiFiles, null, true)::run),
 
     rearrange(Action.rearrange,
-            (project, psiFiles) -> new RearrangeCodeProcessor(project, psiFiles, COMMAND_NAME, null)::run);
+            (project, psiFiles) -> new RearrangeCodeProcessor(project, psiFiles, COMMAND_NAME, null)::run),
+
+    ;
 
     private final Action action;
     private final BiFunction<Project, PsiFile[], Runnable> command;
@@ -51,20 +54,18 @@ public enum GlobalProcessor implements Processor {
         return EnumSet.allOf(ExecutionMode.class);
     }
 
-    public BiFunction<Project, PsiFile[], Runnable> getCommand() {
-        return command;
+    @Override
+    public int getOrder() {
+        return 0;
     }
 
     @Override
-    public WriteCommandAction getWriteCommandAction(Project project, PsiFile[] psiFiles) {
-        return new WriteCommandAction(project, action, getModes(), psiFiles) {
-            @Override
-            protected void run(@NotNull Result result) {
-                // TODO result
-                // TODO move to class
-                command.apply(project, psiFiles).run();
-            }
-        };
+    public SaveCommand getSaveCommand(Project project, Set<PsiFile> psiFiles) {
+        return new GenericCommand(project, psiFiles, getModes(), getAction(), command);
+    }
+
+    public BiFunction<Project, PsiFile[], Runnable> getCommand() {
+        return command;
     }
 
     public static Optional<Processor> getProcessorForAction(Action action) {
