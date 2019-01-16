@@ -34,12 +34,12 @@ Thank you to JetBrains that supports our plugin: they provide an open-source lic
 ### All JetBrains products
 
 - Optimize imports
-- Run on file save or shortcut (or both)
+- Run on file save, shortcut, batch (or a combination)
 - Run on multiple files by choosing a scope
 - Reformat code (whole file or only changed text)
 - Rearrange code (reorder methods, fields, etc.)
 - Include / exclude files with regex support
-- Works any file type (Java, Python, XML, etc.)
+- Works on any file type (Java, Python, XML, etc.)
 - Uses a settings file per project you can commit (see [Files location](#files-location))
 - Available keymaps and actions for activation (see [Keymap and actions](#keymap-and-actions))
 
@@ -94,6 +94,7 @@ You can quickly toggle the plugin activation by using the "Enable Save Action" a
 | ---                                | ---
 | Activate save actions on file save | Enable / disable the plugin on file save. Before saving each file, it will perform the configured actions below
 | Activate save actions on shortcut  | Enable / disable the plugin on shortcut, by default "CTRL + SHIFT + S" (configured in "File > Keymaps > Main menu > Code > Save Actions")
+| Activate save actions on batch     | Enable / disable the plugin on batch, by using "Code > Save Actions > Execute on multiple files"
 | No action if compile errors        | Enable / disable no action if there are compile errors. Applied to each file individually
 
 ### Global

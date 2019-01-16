@@ -20,6 +20,9 @@ public enum Action {
     activateOnShortcut("Activate save actions on shortcut (default \"CTRL + SHIFT + S\")",
             activation, false),
 
+    activateOnBatch("Activate save actions on batch (\"Code > Save Actions > Execute on multiple files\")",
+            activation, false),
+
     noActionIfCompileErrors("No action if compile errors",
             activation, false),
 
@@ -39,7 +42,7 @@ public enum Action {
 
     // Build
 
-    compile("Compile file",
+    compile("Compile files (using \"Build > Build Project\")",
             build, false),
 
     // Java fixes

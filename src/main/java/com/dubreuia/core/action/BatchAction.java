@@ -29,12 +29,13 @@ import java.util.Set;
 import static com.dubreuia.core.ExecutionMode.batch;
 import static com.dubreuia.core.component.Component.COMPONENT_NAME;
 import static com.dubreuia.core.component.SaveActionManager.LOGGER;
-import static com.dubreuia.model.Action.activate;
+import static com.dubreuia.model.Action.activateOnBatch;
 import static java.util.Collections.synchronizedSet;
 
 /**
- * This action runs the save actions on the given scope of files. The user is asked for the scope using a
- * standard IDEA dialog. It delegates to {@link SaveActionManager}. Originally based on
+ * This action runs the save actions on the given scope of files, only if property
+ * {@link com.dubreuia.model.Action#activateOnShortcut} is enabled. The user is asked for the scope using a standard
+ * IDEA dialog. It delegates to {@link SaveActionManager}. Originally based on
  * {@link com.intellij.codeInspection.inferNullity.InferNullityAnnotationsAction}.
  *
  * @author markiewb
@@ -57,7 +58,7 @@ public class BatchAction extends BaseAnalysisAction {
                 psiFiles.add(psiFile);
             }
         });
-        SaveActionManager.getInstance().processPsiFilesIfNecessary(project, psiFiles, activate, batch);
+        SaveActionManager.getInstance().processPsiFilesIfNecessary(project, psiFiles, activateOnBatch, batch);
         LOGGER.info("End BatchAction#analyze processed " + psiFiles.size() + " files");
     }
 

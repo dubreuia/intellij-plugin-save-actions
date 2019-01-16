@@ -14,12 +14,12 @@
 
 <ul>
   <li>Optimize imports</li>
-  <li>Run on file save or shortcut (or both)</li>
+  <li>Run on file save, shortcut, batch (or a combination)</li>
   <li>Run on multiple files by choosing a scope</li>
   <li>Reformat code (whole file or only changed text)</li>
   <li>Rearrange code (reorder methods, fields, etc.)</li>
   <li>Include / exclude files with regex support</li>
-  <li>Works any file type (Java, Python, XML, etc.)</li>
+  <li>Works on any file type (Java, Python, XML, etc.)</li>
   <li>Uses a settings file per project you can commit</li>
   <li>Available keymaps and actions for activation</li>
   <li>Eclipse configuration file `.epf` support (Java IDE only)</li>

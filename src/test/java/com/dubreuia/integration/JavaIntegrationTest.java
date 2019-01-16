@@ -41,6 +41,7 @@ import static com.dubreuia.integration.ActionTestFile.UseBlocks_KO;
 import static com.dubreuia.integration.ActionTestFile.UseBlocks_OK;
 import static com.dubreuia.model.Action.accessCanBeTightened;
 import static com.dubreuia.model.Action.activate;
+import static com.dubreuia.model.Action.activateOnBatch;
 import static com.dubreuia.model.Action.activateOnShortcut;
 import static com.dubreuia.model.Action.customUnqualifiedStaticMemberAccess;
 import static com.dubreuia.model.Action.explicitTypeCanBeDiamond;
@@ -77,7 +78,7 @@ class JavaIntegrationTest extends IntegrationTest {
 
     @Test
     void should_fieldCanBeFinal_add_final_to_field_on_batch() {
-        storage.setEnabled(activate, true);
+        storage.setEnabled(activateOnBatch, true);
         storage.setEnabled(fieldCanBeFinal, true);
         assertSaveActionBatch(FieldCanBeFinal_KO, FieldCanBeFinal_OK);
     }
@@ -92,9 +93,9 @@ class JavaIntegrationTest extends IntegrationTest {
     @Test
     @Disabled("do not work")
     void should_methodMayBeStatic_add_static_keyword_to_method() {
-        storage.setEnabled(activateOnShortcut, true);
+        storage.setEnabled(activate, true);
         storage.setEnabled(methodMayBeStatic, true);
-        assertSaveActionShortcut(MethodMayBeStatic_KO, MethodMayBeStatic_OK);
+        assertSaveAction(MethodMayBeStatic_KO, MethodMayBeStatic_OK);
     }
 
     @Test

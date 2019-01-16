@@ -10,6 +10,7 @@ import static com.dubreuia.integration.ActionTestFile.Reformat_OK_Import_KO;
 import static com.dubreuia.integration.ActionTestFile.Reformat_OK_Import_OK;
 import static com.dubreuia.integration.ActionTestFile.Reformat_OK_Rearrange_OK;
 import static com.dubreuia.model.Action.activate;
+import static com.dubreuia.model.Action.activateOnBatch;
 import static com.dubreuia.model.Action.activateOnShortcut;
 import static com.dubreuia.model.Action.organizeImports;
 import static com.dubreuia.model.Action.rearrange;
@@ -46,7 +47,7 @@ class GlobalIntegrationTest extends IntegrationTest {
 
     @Test
     void should_reformat_as_batch_produces_indented_file() {
-        storage.setEnabled(activate, true);
+        storage.setEnabled(activateOnBatch, true);
         storage.setEnabled(reformat, true);
         assertSaveActionBatch(Reformat_KO_Import_KO, Reformat_OK_Import_KO);
     }

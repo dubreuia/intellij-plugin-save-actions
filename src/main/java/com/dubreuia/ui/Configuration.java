@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.Set;
 
 import static com.dubreuia.model.Action.activate;
+import static com.dubreuia.model.Action.activateOnBatch;
 import static com.dubreuia.model.Action.activateOnShortcut;
 import static com.dubreuia.model.Action.customUnqualifiedStaticMemberAccess;
 import static com.dubreuia.model.Action.reformat;
@@ -227,7 +228,9 @@ public class Configuration implements Configurable {
     private void updateCheckboxEnabledIfActiveSelected() {
         for (Map.Entry<Action, JCheckBox> checkbox : checkboxes.entrySet()) {
             Action currentCheckBoxKey = checkbox.getKey();
-            if (!activate.equals(currentCheckBoxKey) && !activateOnShortcut.equals(currentCheckBoxKey)) {
+            if (!activate.equals(currentCheckBoxKey)
+                    && !activateOnShortcut.equals(currentCheckBoxKey)
+                    && !activateOnBatch.equals(currentCheckBoxKey)) {
                 checkbox.getValue().setEnabled(isActiveSelected());
             }
         }
@@ -255,7 +258,8 @@ public class Configuration implements Configurable {
     private boolean isActiveSelected() {
         boolean activateIsSelected = checkboxes.get(activate).isSelected();
         boolean activateShortcutIsSelected = checkboxes.get(activateOnShortcut).isSelected();
-        return activateIsSelected || activateShortcutIsSelected;
+        boolean activateBatchIsSelected = checkboxes.get(activateOnBatch).isSelected();
+        return activateIsSelected || activateShortcutIsSelected || activateBatchIsSelected;
     }
 
 }

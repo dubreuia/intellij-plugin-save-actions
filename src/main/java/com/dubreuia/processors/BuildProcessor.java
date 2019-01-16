@@ -14,8 +14,6 @@ import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.stream.Stream;
 
-import static com.dubreuia.core.ExecutionMode.normal;
-import static com.dubreuia.core.ExecutionMode.shortcut;
 import static com.dubreuia.utils.Helper.toVirtualFiles;
 
 /**
@@ -24,10 +22,8 @@ import static com.dubreuia.utils.Helper.toVirtualFiles;
 public enum BuildProcessor implements Processor {
 
     compile(Action.compile,
-            EnumSet.of(normal, shortcut),
             (project, psiFiles) -> () -> {
                 if (SaveActionManager.getInstance().isCompilingAvailable()) {
-                    // TODO this doesn't work in webstorm
                     CompilerManager.getInstance(project).compile(toVirtualFiles(psiFiles), null);
                 }
             }),
@@ -36,12 +32,10 @@ public enum BuildProcessor implements Processor {
 
     private final Action action;
     private final BiFunction<Project, PsiFile[], Runnable> command;
-    private final Set<ExecutionMode> modes;
 
-    BuildProcessor(Action action, Set<ExecutionMode> modes, BiFunction<Project, PsiFile[], Runnable> command) {
+    BuildProcessor(Action action, BiFunction<Project, PsiFile[], Runnable> command) {
         this.action = action;
         this.command = command;
-        this.modes = modes;
     }
 
     @Override
@@ -51,7 +45,7 @@ public enum BuildProcessor implements Processor {
 
     @Override
     public Set<ExecutionMode> getModes() {
-        return modes;
+        return EnumSet.allOf(ExecutionMode.class);
     }
 
     @Override
