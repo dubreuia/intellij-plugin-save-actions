@@ -1,4 +1,4 @@
-package com.dubreuia.model.epf;
+package com.dubreuia.model.java;
 
 import org.junit.jupiter.api.Test;
 
@@ -8,34 +8,34 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import static com.dubreuia.model.epf.EpfTestConstants.EXAMPLE_EPF_0;
-import static com.dubreuia.model.epf.EpfTestConstants.EXAMPLE_EPF_1;
-import static com.dubreuia.model.epf.EpfTestConstants.EXAMPLE_EPF_2;
+import static com.dubreuia.model.java.EpfTestConstants.EXAMPLE_EPF_0;
+import static com.dubreuia.model.java.EpfTestConstants.EXAMPLE_EPF_1;
+import static com.dubreuia.model.java.EpfTestConstants.EXAMPLE_EPF_2;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class EpfKeyTest {
+class EpfKeyTest {
 
     @Test
-    public void should_all_example_file_0_keys_be_present_in_epf_key() throws IOException {
+    void should_all_example_file_0_keys_be_present_in_epf_key() throws IOException {
         Properties properties = readProperties(EXAMPLE_EPF_0.toString());
         assertPropertyPresenceInEpf(properties);
     }
 
     @Test
-    public void should_all_example_file_1_keys_be_present_in_epf_key() throws IOException {
+    void should_all_example_file_1_keys_be_present_in_epf_key() throws IOException {
         Properties properties = readProperties(EXAMPLE_EPF_1.toString());
         assertPropertyPresenceInEpf(properties);
     }
 
     @Test
-    public void should_all_example_file_2_keys_be_present_in_epf_key() throws IOException {
+    void should_all_example_file_2_keys_be_present_in_epf_key() throws IOException {
         Properties properties = readProperties(EXAMPLE_EPF_2.toString());
         assertPropertyPresenceInEpf(properties);
     }
 
     @Test
-    public void should_all_epf_key_be_present_in_example_files_2_to_remove_unused_keys() throws IOException {
+    void should_all_epf_key_be_present_in_example_files_2_to_remove_unused_keys() throws IOException {
         Properties properties = readProperties(EXAMPLE_EPF_2.toString());
         List<String> epfKeyNames = getEpfKeyNames();
         List<String> propertiesKeyNames = getPropertiesKeyNames(properties);

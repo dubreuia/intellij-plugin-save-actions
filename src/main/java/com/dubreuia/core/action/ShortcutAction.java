@@ -1,6 +1,5 @@
 package com.dubreuia.core.action;
 
-import com.dubreuia.core.SaveActionFactory;
 import com.dubreuia.core.component.SaveActionManager;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -27,8 +26,8 @@ public class ShortcutAction extends AnAction {
         PsiFile psiFile = event.getData(PSI_FILE);
         Project project = event.getProject();
         PsiFile[] psiFiles = new PsiFile[]{psiFile};
-        SaveActionFactory.streamManagers()
-                .forEach(manager -> manager.processPsiFileIfNecessary(project, psiFiles, activateOnShortcut, shortcut));
+        // TODO array
+        SaveActionManager.getInstance().processPsiFileIfNecessary(project, psiFiles, activateOnShortcut, shortcut);
     }
 
 }

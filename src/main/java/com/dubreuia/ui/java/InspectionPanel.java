@@ -1,14 +1,14 @@
 package com.dubreuia.ui.java;
 
-import static com.dubreuia.core.SaveActionFactory.JAVA_AVAILABLE;
-import static com.dubreuia.model.ActionType.java;
-
-import java.awt.*;
-import java.util.Map;
-import javax.swing.*;
-
+import com.dubreuia.core.component.SaveActionManager;
 import com.dubreuia.model.Action;
 import com.intellij.ui.IdeBorderFactory;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.Map;
+
+import static com.dubreuia.model.ActionType.java;
 
 public class InspectionPanel {
 
@@ -22,7 +22,7 @@ public class InspectionPanel {
 
     public JPanel getPanel() {
         JPanel panel = new JPanel();
-        if (!JAVA_AVAILABLE) {
+        if (!SaveActionManager.getInstance().isJavaAvailable()) {
             return panel;
         }
         panel.setBorder(IdeBorderFactory.createTitledBorder(TEXT_TITLE_INSPECTIONS));

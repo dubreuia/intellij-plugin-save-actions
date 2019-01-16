@@ -2,6 +2,7 @@ package com.dubreuia.processors.java;
 
 import com.dubreuia.core.ExecutionMode;
 import com.dubreuia.model.Action;
+import com.dubreuia.processors.Processor;
 import com.dubreuia.processors.java.inspection.SerializableHasSerialVersionUIDFieldInspectionWrapper;
 import com.intellij.codeInspection.ExplicitTypeCanBeDiamondInspection;
 import com.intellij.codeInspection.LocalInspectionTool;
@@ -27,10 +28,11 @@ import com.siyeh.ig.style.UnqualifiedStaticUsageInspection;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-public enum Processor {
+public enum JavaProcessor implements Processor {
 
     fieldCanBeFinal(Action.fieldCanBeFinal,
             FieldMayBeFinalInspection::new),
@@ -98,25 +100,32 @@ public enum Processor {
     private final Action action;
     private final LocalInspectionTool inspection;
 
-    Processor(Action action, Supplier<LocalInspectionTool> inspection) {
+    JavaProcessor(Action action, Supplier<LocalInspectionTool> inspection) {
         this.action = action;
         this.inspection = inspection.get();
     }
 
+    @Override
     public Action getAction() {
         return action;
+    }
+
+    @Override
+    public Set<ExecutionMode> getModes() {
+        return EnumSet.allOf(ExecutionMode.class);
     }
 
     public LocalInspectionTool getInspection() {
         return inspection;
     }
 
-    public com.dubreuia.processors.WriteCommandAction getWriteCommandAction(Project project, PsiFile[] psiFiles) {
+    @Override
+    public WriteCommandAction getWriteCommandAction(Project project, PsiFile[] psiFiles) {
         return new WriteCommandAction(project, action, inspection, EnumSet.allOf(ExecutionMode.class), psiFiles);
     }
 
     public static Optional<Processor> getProcessorForAction(Action action) {
-        return stream().filter(processor -> processor.action.equals(action)).findFirst();
+        return stream().filter(javaProcessor -> javaProcessor.getAction().equals(action)).findFirst();
     }
 
     public static Stream<Processor> stream() {

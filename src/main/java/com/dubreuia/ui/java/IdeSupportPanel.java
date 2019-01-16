@@ -1,5 +1,6 @@
 package com.dubreuia.ui.java;
 
+import com.dubreuia.core.component.SaveActionManager;
 import com.intellij.openapi.fileChooser.FileChooserDescriptor;
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
 import com.intellij.openapi.fileChooser.FileChooserFactory;
@@ -9,12 +10,9 @@ import com.intellij.ui.IdeBorderFactory;
 import com.intellij.ui.components.JBLabel;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
+import javax.swing.*;
+import java.awt.*;
 
-import static com.dubreuia.core.SaveActionFactory.JAVA_AVAILABLE;
 import static com.intellij.openapi.ui.TextComponentAccessor.TEXT_FIELD_WHOLE_TEXT;
 
 /**
@@ -23,14 +21,14 @@ import static com.intellij.openapi.ui.TextComponentAccessor.TEXT_FIELD_WHOLE_TEX
 public class IdeSupportPanel {
 
     private static final String TITLE = "Eclipse support";
-    private static final String LABEL = "Use external Eclipse configuration file (.epf)";
+    private static final String LABEL = "Use external Eclipse configuration file (.java)";
     private static final String BUTTON = "Reset";
 
     private TextFieldWithBrowseButton path;
 
     public JPanel getPanel(String configurationPath) {
         JPanel panel = new JPanel();
-        if (!JAVA_AVAILABLE) {
+        if (!SaveActionManager.getInstance().isJavaAvailable()) {
             return panel;
         }
 
@@ -60,7 +58,7 @@ public class IdeSupportPanel {
 
     @NotNull
     private TextFieldWithBrowseButton getPath(String configurationPath) {
-        FileChooserDescriptor descriptor = FileChooserDescriptorFactory.createSingleFileDescriptor("epf");
+        FileChooserDescriptor descriptor = FileChooserDescriptorFactory.createSingleFileDescriptor("java");
         FileTextField field = FileChooserFactory.getInstance().createFileTextField(descriptor, null);
         field.getField().setEnabled(false);
         field.getField().setText(configurationPath);

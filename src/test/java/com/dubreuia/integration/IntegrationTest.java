@@ -15,7 +15,7 @@ import java.nio.file.Paths;
 
 import static com.dubreuia.core.action.BatchActionConstants.SAVE_ACTION_BATCH_MANAGER;
 import static com.dubreuia.core.action.ShortcutActionConstants.SAVE_ACTION_SHORTCUT_MANAGER;
-import static com.dubreuia.core.component.SaveActionsManagerConstants.SAVE_ACTION_MANAGER;
+import static com.dubreuia.core.component.SaveActionManagerConstants.SAVE_ACTION_MANAGER;
 import static com.dubreuia.junit.JUnit5Utils.rethrowAsJunit5Error;
 import static com.intellij.testFramework.LightProjectDescriptor.EMPTY_PROJECT_DESCRIPTOR;
 
@@ -43,7 +43,7 @@ public abstract class IntegrationTest {
 
     void assertSaveAction(ActionTestFile before, ActionTestFile after) {
         fixture.configureByFile(before.getFilename());
-        SAVE_ACTION_MANAGER.accept(fixture, getSaveActionManager());
+        SAVE_ACTION_MANAGER.accept(fixture, SaveActionManager.getInstance());
         rethrowAsJunit5Error(() -> fixture.checkResultByFile(after.getFilename()));
     }
 
@@ -65,7 +65,5 @@ public abstract class IntegrationTest {
         Path root = Paths.get(resources.toString(), getClass().getPackage().getName().split("[.]"));
         return root.toString();
     }
-
-    abstract SaveActionManager getSaveActionManager();
 
 }

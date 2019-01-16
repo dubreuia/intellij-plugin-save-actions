@@ -1,4 +1,4 @@
-package com.dubreuia.model.epf;
+package com.dubreuia.model.java;
 
 import java.util.Arrays;
 import java.util.Collections;

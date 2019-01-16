@@ -1,4 +1,4 @@
-package com.dubreuia.model.epf;
+package com.dubreuia.model.java;
 
 import com.dubreuia.model.Action;
 import com.dubreuia.model.Storage;
@@ -21,17 +21,17 @@ import static com.dubreuia.model.Action.unnecessarySemicolon;
 import static com.dubreuia.model.Action.unqualifiedFieldAccess;
 import static com.dubreuia.model.Action.unqualifiedStaticMemberAccess;
 import static com.dubreuia.model.Action.useBlocks;
-import static com.dubreuia.model.epf.EpfTestConstants.EXAMPLE_EPF_0;
-import static com.dubreuia.model.epf.EpfTestConstants.EXAMPLE_EPF_1;
-import static com.dubreuia.model.epf.EpfTestConstants.EXAMPLE_EPF_2;
+import static com.dubreuia.model.java.EpfTestConstants.EXAMPLE_EPF_0;
+import static com.dubreuia.model.java.EpfTestConstants.EXAMPLE_EPF_1;
+import static com.dubreuia.model.java.EpfTestConstants.EXAMPLE_EPF_2;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class EpfStorageTest {
+class EpfStorageTest {
 
     private Storage storage;
 
     @BeforeEach
-    public void before() {
+    void before() {
         storage = new Storage();
 
         storage.setActions(new HashSet<>());
@@ -53,7 +53,7 @@ public class EpfStorageTest {
     }
 
     @Test
-    public void should_storage_with_bad_configuration_path_returns_default_storage() {
+    void should_storage_with_bad_configuration_path_returns_default_storage() {
         Storage epfStorage;
 
         epfStorage = EpfStorage.INSTANCE.getStorageOrDefault(storage.getConfigurationPath(), storage);
@@ -65,7 +65,7 @@ public class EpfStorageTest {
     }
 
     @Test
-    public void should_default_storage_values_are_copied_to_epf_storage_if_empty_file() {
+    void should_default_storage_values_are_copied_to_epf_storage_if_empty_file() {
         Storage epfStorage = EpfStorage.INSTANCE.getStorageOrDefault(EXAMPLE_EPF_0.toString(), storage);
         assertThat(epfStorage).isNotSameAs(storage);
 
@@ -79,33 +79,33 @@ public class EpfStorageTest {
     }
 
     @Test
-    public void should_storage_values_are_correct_for_file_format_1() {
+    void should_storage_values_are_correct_for_file_format_1() {
         Storage epfStorage = EpfStorage.INSTANCE.getStorageOrDefault(EXAMPLE_EPF_1.toString(), storage);
         assertThat(epfStorage).isNotSameAs(storage);
 
         EnumSet<Action> expected = EnumSet.of(
-                // from default store (not in epf)
+                // from default store (not in java)
                 activate,
                 // in both store
                 reformat,
-                // added by epf
+                // added by java
                 useBlocks,
-                // added by epf
+                // added by java
                 unqualifiedFieldAccess,
-                // added by epf
+                // added by java
                 localCanBeFinal,
-                // added by epf
+                // added by java
                 rearrange,
-                // added by epf
+                // added by java
                 organizeImports,
-                // added by epf
+                // added by java
                 explicitTypeCanBeDiamond,
-                // added by epf
+                // added by java
                 missingOverrideAnnotation,
-                // from default store (not in epf)
+                // from default store (not in java)
                 unnecessarySemicolon
-                // removed by epf : fieldCanBeFinal
-                // removed by epf : reformatChangedCode
+                // removed by java : fieldCanBeFinal
+                // removed by java : reformatChangedCode
         );
 
         assertThat(epfStorage.getActions()).isEqualTo(expected);
@@ -114,7 +114,7 @@ public class EpfStorageTest {
     }
 
     @Test
-    public void should_storage_values_are_correct_for_file_format_2() {
+    void should_storage_values_are_correct_for_file_format_2() {
         Storage epfStorage = EpfStorage.INSTANCE.getStorageOrDefault(EXAMPLE_EPF_2.toString(), storage);
         assertThat(epfStorage).isNotSameAs(storage);
 

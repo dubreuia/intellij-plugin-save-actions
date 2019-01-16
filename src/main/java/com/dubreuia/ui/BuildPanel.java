@@ -1,5 +1,6 @@
 package com.dubreuia.ui;
 
+import com.dubreuia.core.component.SaveActionManager;
 import com.dubreuia.model.Action;
 import com.intellij.ui.IdeBorderFactory;
 
@@ -7,7 +8,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Map;
 
-import static com.dubreuia.core.SaveActionFactory.COMPILING_AVAILABLE;
 import static com.dubreuia.model.Action.compile;
 
 class BuildPanel {
@@ -22,7 +22,7 @@ class BuildPanel {
 
     JPanel getPanel() {
         JPanel panel = new JPanel();
-        if (!COMPILING_AVAILABLE) {
+        if (!SaveActionManager.getInstance().isJavaAvailable()) {
             return panel;
         }
         panel.setBorder(IdeBorderFactory.createTitledBorder(TEXT_TITLE_ACTIONS));

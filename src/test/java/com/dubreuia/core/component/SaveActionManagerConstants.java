@@ -10,7 +10,7 @@ import java.util.function.BiConsumer;
 import static com.dubreuia.core.ExecutionMode.normal;
 import static com.dubreuia.model.Action.activate;
 
-public interface SaveActionsManagerConstants {
+public interface SaveActionManagerConstants {
 
     BiConsumer<CodeInsightTestFixture, SaveActionManager> SAVE_ACTION_MANAGER = (fixture, saveActionManager) ->
             new WriteCommandAction.Simple(fixture.getProject()) {

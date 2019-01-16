@@ -2,7 +2,7 @@ package com.dubreuia.ui;
 
 import com.dubreuia.model.Action;
 import com.dubreuia.model.Storage;
-import com.dubreuia.model.epf.EpfStorage;
+import com.dubreuia.model.java.EpfStorage;
 import com.dubreuia.ui.java.IdeSupportPanel;
 import com.dubreuia.ui.java.InspectionPanel;
 import com.intellij.openapi.components.ServiceManager;
@@ -11,14 +11,8 @@ import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JCheckBox;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;

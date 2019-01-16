@@ -1,4 +1,4 @@
-package com.dubreuia.model.epf;
+package com.dubreuia.model.java;
 
 import com.dubreuia.model.Action;
 import com.dubreuia.model.Storage;

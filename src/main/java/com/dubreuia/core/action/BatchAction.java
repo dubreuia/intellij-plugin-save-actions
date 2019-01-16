@@ -15,7 +15,6 @@
  */
 package com.dubreuia.core.action;
 
-import com.dubreuia.core.SaveActionFactory;
 import com.dubreuia.core.component.SaveActionManager;
 import com.intellij.analysis.AnalysisScope;
 import com.intellij.analysis.BaseAnalysisAction;
@@ -60,8 +59,7 @@ public class BatchAction extends BaseAnalysisAction {
         });
         // TODO array
         PsiFile[] psiFilesArray = psiFiles.toArray(new PsiFile[0]);
-        SaveActionFactory.streamManagers()
-                .forEach(manager -> manager.processPsiFileIfNecessary(project, psiFilesArray, activate, batch));
+        SaveActionManager.getInstance().processPsiFileIfNecessary(project, psiFilesArray, activate, batch);
         LOGGER.info("[EXIT POINT] " + getClass().getName() + " processed " + psiFiles.size());
     }
 

@@ -13,16 +13,16 @@ import static java.util.Collections.emptySet;
 import static java.util.Collections.singleton;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class PsiFileTest {
+class PsiFileTest {
 
     @ParameterizedTest(name = "[{index}] included={0}, psiFile={1}, inclusion={2}, exclusion={3}")
     @MethodSource("parameters")
-    public void test(boolean included, String psiFile, String inclusion, String exclusion) {
+    void test(boolean included, String psiFile, String inclusion, String exclusion) {
         assertThat(isIncludedAndNotExcluded(psiFile, toSet(inclusion), toSet(exclusion)))
                 .isEqualTo(included);
     }
 
-    public static Stream<Arguments> parameters() {
+    static Stream<Arguments> parameters() {
         return Stream.of(
                 // Only excludes - taken from PsiFilesIsUrlIncludedTest
                 // Default cases and invalid regex

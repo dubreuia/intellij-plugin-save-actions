@@ -1,4 +1,4 @@
-package com.dubreuia.model.epf;
+package com.dubreuia.model.java;
 
 import java.io.File;
 import java.nio.file.Path;
