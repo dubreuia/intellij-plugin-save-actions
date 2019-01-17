@@ -11,7 +11,7 @@ Supports configurable, Eclipse like, save actions, including "optimize imports",
 
 Using the save actions plugin makes your code cleaner and more uniform across your code base by enforcing your code style and code rules every time you save. The settings file (see [files location](#files-location)) can be shared in your development team so that every developer has the same configuration.
 
-The code style applied by the save actions plugin is the one configured your settings at "File > Settings > Editor > Code Style". For some languages, custom formatter may also be triggered by the save actions plugin. For example for Dart developers, enable "Use the dartfmt tool when formatting the whole file" option in "File > Settings > Editor > Code Style > Dart > Dartfmt".
+The code style applied by the save actions plugin is the one configured your settings at "File > Settings > Editor > Code Style". For some languages, custom formatter (Dartfmt, Prettier, etc.) may also be triggered by the save actions plugin. See the [Editor Actions](#editor-actions) configuration for more information.
 
 Thank you to JetBrains that supports our plugin: they provide an open-source license to us, necessary to build, test and deploy this plugin. Check out their products at [https://www.jetbrains.com](https://www.jetbrains.com/?from=intellij-save-actions-plugin).
 
@@ -46,6 +46,7 @@ Thank you to JetBrains that supports our plugin: they provide an open-source lic
 - Rearrange code (reorder methods, fields, etc.)
 - Include / exclude files with regex support
 - Works on any file type (Java, Python, XML, etc.)
+- Launch any editor action using "quick lists"
 - Uses a settings file per project you can commit (see [Files location](#files-location))
 - Available keymaps and actions for activation (see [Keymap and actions](#keymap-and-actions))
 
@@ -116,7 +117,20 @@ You can quickly toggle the plugin activation by using the "Enable Save Action" a
 
 | Name                               | Description
 | ---                                | ---
-| Compile file                       | Enable / disable compiling of the modified file. The compiler might compile other files as well. **Warning: this option triggers one build action for each file, use sparingly (see [#128](https://github.com/dubreuia/intellij-plugin-save-actions/issues/128))**
+| *\[experimental\]* Compile file    | Enable / disable compiling of the modified file. The compiler might compile other files as well. **Warning: this feature is experimental, please post feedback in the github issues**
+| *\[experimental\]* Reload file     | Enable / disable reloading of the files in the running debugger, meaning the files will get compiled first. The compiler might compile other files as well. **Warning: this feature is experimental, please post feedback in the github issues**
+| *\[experimental\]* Execute action  | Enable / disable executing of an action using quick lists (using quick lists at "File > Settings > Appearance & Behavior > Quick Lists"). See [Editor Actions](#editor-actions) for more information **Warning: this feature is experimental, please post feedback in the github issues**
+
+#### Editor Actions
+
+Some languages requires specific actions, such as Dartfmt or Prettier:
+
+- For Dart developers, enable "Use the dartfmt tool when formatting the whole file" option in "File > Settings > Editor > Code Style > Dart > Dartfmt".
+- For Prettier (https://prettier.io/) users, read below.
+
+Using the "Execute action" configuration, the plugin can launch arbitrary editor actions. While not all actions will work, it can be used to launch external tools, specific runs, etc. This feature is experimental, you can post your feedback on issue [#118](https://github.com/dubreuia/intellij-plugin-save-actions/issues/118).
+
+The actions are implemented in the form of "quick lists", an IDE function that is used to define a list of actions that can be then executed. Quick lists can be configured at "File > Settings > Appearance & Behavior > Quick Lists", and once configured, one can be selected and used in the plugin, using the "Execution action" configuration drop down list.
 
 ### File
 
