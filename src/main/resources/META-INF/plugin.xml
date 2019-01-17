@@ -4,7 +4,7 @@
 
     <id>com.dubreuia</id>
     <name>Save Actions</name>
-    <version>1.2.0</version>
+    <version>1.3.0</version>
     <vendor email="dubreuil.alex@gmail.com" url="https://www.github.com/dubreuia">Alexandre DuBreuil</vendor>
 
     <description><![CDATA[
@@ -50,7 +50,7 @@
 
     <change-notes><![CDATA[
 <ul>
-  <li>Release notes: <a href="https://github.com/dubreuia/intellij-plugin-save-actions/releases">https://github.com/dubreuia/intellij-plugin-save-actions/releases/tag/v1.2.0</a></li>
+  <li>Release notes: <a href="https://github.com/dubreuia/intellij-plugin-save-actions/releases">https://github.com/dubreuia/intellij-plugin-save-actions/releases/tag/v1.3.0</a></li>
 </ul>
     ]]>
     </change-notes>
