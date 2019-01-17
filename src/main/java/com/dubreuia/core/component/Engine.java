@@ -4,9 +4,9 @@ import com.dubreuia.core.ExecutionMode;
 import com.dubreuia.model.Action;
 import com.dubreuia.model.Storage;
 import com.dubreuia.processors.Processor;
+import com.dubreuia.processors.Result;
 import com.dubreuia.processors.ResultCode;
 import com.dubreuia.processors.SaveCommand;
-import com.intellij.openapi.application.RunResult;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.psi.PsiFile;
@@ -75,13 +75,13 @@ class Engine {
                 .filter(command -> command.getModes().contains(mode))
                 .collect(toList());
         LOGGER.info("Filtered processors " + processorsEligible);
-        List<SimpleEntry<Action, RunResult<ResultCode>>> results = processorsEligible.stream()
+        List<SimpleEntry<Action, Result<ResultCode>>> results = processorsEligible.stream()
                 .peek(command -> LOGGER.info("Execute command " + command + " on " + psiFiles.size() + " files"))
                 .map(command -> new SimpleEntry<>(command.getAction(), command.execute()))
                 .collect(toList());
         LOGGER.info("Exit processors with results "
                 + results.stream()
-                .map(entry -> entry.getKey() + ":" + entry.getValue().getResultObject())
+                .map(entry -> entry.getKey() + ":" + entry.getValue())
                 .collect(toList()));
     }
 

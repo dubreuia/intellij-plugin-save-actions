@@ -60,8 +60,8 @@ public enum GlobalProcessor implements Processor {
     }
 
     @Override
-    public SaveCommand getSaveCommand(Project project, Set<PsiFile> psiFiles) {
-        return new GenericCommand(project, psiFiles, getModes(), getAction(), command);
+    public SaveWriteCommand getSaveCommand(Project project, Set<PsiFile> psiFiles) {
+        return new SaveWriteCommand(project, psiFiles, getModes(), getAction(), getCommand());
     }
 
     public BiFunction<Project, PsiFile[], Runnable> getCommand() {

@@ -15,8 +15,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -28,7 +30,6 @@ import static com.dubreuia.model.Action.reformat;
 import static com.dubreuia.model.Action.reformatChangedCode;
 import static com.dubreuia.model.Action.unqualifiedStaticMemberAccess;
 
-
 public class Configuration implements Configurable {
 
     private static final String TEXT_DISPLAY_NAME = "Save Actions";
@@ -37,6 +38,7 @@ public class Configuration implements Configurable {
 
     private final Set<String> exclusions = new HashSet<>();
     private final Set<String> inclusions = new HashSet<>();
+    private final List<String> quickLists = new ArrayList<>();
     private final Map<Action, JCheckBox> checkboxes = new HashMap<>();
     private final ActionListener checkboxActionListener = this::updateCheckboxEnabled;
 
@@ -86,7 +88,8 @@ public class Configuration implements Configurable {
             return true;
         }
         return !storage.getExclusions().equals(exclusions)
-                || !storage.getInclusions().equals(inclusions);
+                || !storage.getInclusions().equals(inclusions)
+                || !storage.getQuickLists().equals(quickLists);
     }
 
     @Override
@@ -96,6 +99,7 @@ public class Configuration implements Configurable {
         }
         storage.setExclusions(new HashSet<>(exclusions));
         storage.setInclusions(new HashSet<>(inclusions));
+        storage.setQuickLists(new ArrayList<>(quickLists));
         storage.setConfigurationPath(ideSupport.getPath());
         Storage efpStorage = EpfStorage.INSTANCE.getStorageOrDefault(ideSupport.getPath(), storage);
         updateSelectedStateOfCheckboxes(efpStorage.getActions());
@@ -108,6 +112,7 @@ public class Configuration implements Configurable {
         updateCheckboxEnabled(null);
         updateExclusions();
         updateInclusions();
+        updateQuickLists();
         ideSupport.setPath(storage.getConfigurationPath());
     }
 
@@ -123,6 +128,7 @@ public class Configuration implements Configurable {
         checkboxes.clear();
         exclusions.clear();
         inclusions.clear();
+        quickLists.clear();
         generalPanel = null;
         formattingPanel = null;
         buildPanel = null;
@@ -150,7 +156,7 @@ public class Configuration implements Configurable {
         }
         generalPanel = new GeneralPanel(checkboxes);
         formattingPanel = new FormattingPanel(checkboxes);
-        buildPanel = new BuildPanel(checkboxes);
+        buildPanel = new BuildPanel(checkboxes, quickLists);
         inspectionPanel = new InspectionPanel(checkboxes);
         fileMasksInclusionPanel = new FileMaskInclusionPanel(inclusions);
         fileMasksExclusionPanel = new FileMaskExclusionPanel(exclusions);
@@ -217,6 +223,12 @@ public class Configuration implements Configurable {
         exclusions.clear();
         exclusions.addAll(storage.getExclusions());
         fileMasksExclusionPanel.update(exclusions);
+    }
+
+    private void updateQuickLists() {
+        quickLists.clear();
+        quickLists.addAll(storage.getQuickLists());
+        buildPanel.update(quickLists);
     }
 
     private void updateCheckboxEnabled(ActionEvent event) {

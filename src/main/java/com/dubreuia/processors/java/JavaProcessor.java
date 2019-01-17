@@ -3,6 +3,7 @@ package com.dubreuia.processors.java;
 import com.dubreuia.core.ExecutionMode;
 import com.dubreuia.model.Action;
 import com.dubreuia.processors.Processor;
+import com.dubreuia.processors.SaveWriteCommand;
 import com.dubreuia.processors.java.inspection.SerializableHasSerialVersionUIDFieldInspectionWrapper;
 import com.intellij.codeInspection.ExplicitTypeCanBeDiamondInspection;
 import com.intellij.codeInspection.LocalInspectionTool;
@@ -29,6 +30,7 @@ import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.BiFunction;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -124,8 +126,10 @@ public enum JavaProcessor implements Processor {
     }
 
     @Override
-    public InspectionCommand getSaveCommand(Project project, Set<PsiFile> psiFiles) {
-        return new InspectionCommand(project, psiFiles, getModes(), getAction(), getInspection());
+    public SaveWriteCommand getSaveCommand(Project project, Set<PsiFile> psiFiles) {
+        BiFunction<Project, PsiFile[], Runnable> command =
+                (p, f) -> new InspectionRunnable(project, psiFiles, getInspection());
+        return new SaveWriteCommand(project, psiFiles, getModes(), getAction(), command);
     }
 
     public LocalInspectionTool getInspection() {

@@ -5,7 +5,9 @@ import com.intellij.openapi.components.State;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @State(name = "SaveActionSettings",
@@ -17,6 +19,7 @@ public class Storage implements PersistentStateComponent<Storage> {
     private Set<String> exclusions;
     private Set<String> inclusions;
     private String configurationPath;
+    private List<String> quickLists;
 
     public Storage() {
         firstLaunch = true;
@@ -24,6 +27,7 @@ public class Storage implements PersistentStateComponent<Storage> {
         exclusions = new HashSet<>();
         inclusions = new HashSet<>();
         configurationPath = null;
+        quickLists = new ArrayList<>();
     }
 
     public Storage(Storage storage) {
@@ -32,14 +36,7 @@ public class Storage implements PersistentStateComponent<Storage> {
         exclusions = new HashSet<>(storage.exclusions);
         inclusions = new HashSet<>(storage.inclusions);
         configurationPath = storage.configurationPath;
-    }
-
-    public String getConfigurationPath() {
-        return configurationPath;
-    }
-
-    public void setConfigurationPath(String configurationPath) {
-        this.configurationPath = configurationPath;
+        quickLists = new ArrayList<>(storage.quickLists);
     }
 
     @Override
@@ -97,12 +94,29 @@ public class Storage implements PersistentStateComponent<Storage> {
         firstLaunch = false;
     }
 
+    public String getConfigurationPath() {
+        return configurationPath;
+    }
+
+    public void setConfigurationPath(String configurationPath) {
+        this.configurationPath = configurationPath;
+    }
+
+    public List<String> getQuickLists() {
+        return quickLists;
+    }
+
+    public void setQuickLists(List<String> quickLists) {
+        this.quickLists = quickLists;
+    }
+
     public void clear() {
         firstLaunch = true;
         actions.clear();
         exclusions.clear();
         inclusions.clear();
         configurationPath = null;
+        quickLists.clear();
     }
 
 }
