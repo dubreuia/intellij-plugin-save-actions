@@ -43,13 +43,14 @@ public enum Action {
 
     // Build
 
-    compile("Compile files (using \"Build > Build Project\")",
+    compile("[experimental] Compile files (using \"Build > Build Project\")",
             build, false),
 
-    reload("Reload files in running debugger (using \"Run > Reload Changed Classes\")",
+    reload("[experimental] Reload files in running debugger (using \"Run > Reload Changed Classes\")",
             build, false),
 
-    executeAction("Execute an action (using quick lists at \"File > Settings > Appearance & Behavior > Quick Lists\"",
+    executeAction("[experimental] Execute an action (using quick lists at " +
+            "\"File > Settings > Appearance & Behavior > Quick Lists\")",
             build, false),
 
     // Java fixes
