@@ -5,10 +5,13 @@
       <set>
         <option value="activate" />
         <option value="activateOnShortcut" />
+        <option value="activateOnBatch" />
         <option value="noActionIfCompileErrors" />
         <option value="organizeImports" />
         <option value="reformat" />
         <option value="reformatChangedCode" />
+        <option value="compile" />
+        <option value="reload" />
         <option value="fieldCanBeFinal" />
         <option value="missingOverrideAnnotation" />
         <option value="useBlocks" />
