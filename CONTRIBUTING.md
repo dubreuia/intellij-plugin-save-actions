@@ -32,7 +32,7 @@ Gradle wrapper needs the environment variable JAVA_HOME to work, or the -D flag,
 export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 
 # Or use the -D flag
-gradle build -D org.gradle.java.home=/usr/lib/jvm/java-11-openjdk-amd64 
+gradle build -D org.gradle.java.home=/usr/lib/jvm/java-11-openjdk-amd64
 ```
 
 During the Intellij setup, you will need to manually set the Java version in "Gradle Settings", since it doesn't honor

@@ -231,7 +231,7 @@ public class Configuration implements Configurable {
     private void updateQuickLists() {
         quickLists.clear();
         quickLists.addAll(storage.getQuickLists());
-        buildPanel.update(quickLists);
+        buildPanel.update();
     }
 
     private void updateCheckboxEnabled(ActionEvent event) {

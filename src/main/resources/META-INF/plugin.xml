@@ -22,8 +22,11 @@
   <li>Works on any file type (Java, Python, XML, etc.)</li>
   <li>Uses a settings file per project you can commit</li>
   <li>Available keymaps and actions for activation</li>
-  <li>Eclipse configuration file `.epf` support (Java IDE only)</li>
-  <li>Automatically fix Java inspections (Java IDEA only)</li>
+  <li>Launch any editor action using "quick lists"</li>
+  <li>[Java IDE] Eclipse configuration file `.epf` support</li>
+  <li>[Java IDE] Automatically fix Java inspections</li>
+  <li>[Java IDE] Compile project after save</li>
+  <li>[Java IDE] Reload debugger after save</li>
 </ul>
 
 <p><strong>Compatibility</strong></p>
