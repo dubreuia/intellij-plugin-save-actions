@@ -4,7 +4,6 @@ import com.dubreuia.core.component.SaveActionManager;
 import com.dubreuia.model.Action;
 import com.intellij.openapi.actionSystem.ex.QuickList;
 import com.intellij.openapi.actionSystem.ex.QuickListsManager;
-import com.intellij.openapi.ui.ComboBox;
 import com.intellij.ui.IdeBorderFactory;
 import org.jdesktop.swingx.combobox.ListComboBoxModel;
 
@@ -18,8 +17,12 @@ import java.util.List;
 import java.util.Map;
 
 import static com.dubreuia.model.Action.compile;
-import static com.dubreuia.model.Action.executeAction;
 import static com.dubreuia.model.Action.reload;
+import static com.dubreuia.ui.Configuration.BOX_LAYOUT_MAX_HEIGHT;
+import static com.dubreuia.ui.Configuration.BOX_LAYOUT_MAX_WIDTH;
+import static java.awt.BorderLayout.CENTER;
+import static java.awt.BorderLayout.WEST;
+import static java.lang.Short.MAX_VALUE;
 import static java.util.stream.Collectors.toList;
 
 class BuildPanel {
@@ -41,11 +44,11 @@ class BuildPanel {
             panel.add(wrap(checkboxes.get(compile), null));
             panel.add(wrap(checkboxes.get(reload), null));
         }
-        @SuppressWarnings("unchecked")
-        JComboBox<QuickListWrapper> comboBox = new ComboBox<QuickListWrapper>(quickListModel);
-        panel.add(wrap(checkboxes.get(executeAction), comboBox));
+//        @SuppressWarnings("unchecked")
+//        JComboBox<QuickListWrapper> comboBox = new ComboBox<QuickListWrapper>(quickListModel);
+//        panel.add(wrap(checkboxes.get(executeAction), comboBox));
         panel.add(Box.createHorizontalGlue());
-        panel.setMinimumSize(new Dimension(Short.MAX_VALUE, 0));
+        panel.setMinimumSize(new Dimension(MAX_VALUE, 0));
     }
 
     JPanel getPanel() {
@@ -71,13 +74,13 @@ class BuildPanel {
     private JComponent wrap(JCheckBox checkBox, JComboBox comboBox) {
         JPanel wrapper = new JPanel();
         wrapper.setLayout(new BorderLayout());
-        wrapper.add(checkBox, BorderLayout.WEST);
+        wrapper.add(checkBox, WEST);
         if (comboBox != null) {
             checkBox.addChangeListener(e -> comboBox.setEnabled(checkBox.isSelected()));
             comboBox.setEnabled(checkBox.isSelected());
-            wrapper.add(comboBox, BorderLayout.CENTER);
+            wrapper.add(comboBox, CENTER);
         }
-        wrapper.setMaximumSize(new Dimension(3000, 100));
+        wrapper.setMaximumSize(new Dimension(BOX_LAYOUT_MAX_WIDTH, BOX_LAYOUT_MAX_HEIGHT));
         return wrapper;
     }
 

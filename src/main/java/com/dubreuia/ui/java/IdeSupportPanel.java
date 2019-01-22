@@ -13,7 +13,12 @@ import org.jetbrains.annotations.NotNull;
 import javax.swing.*;
 import java.awt.*;
 
+import static com.dubreuia.ui.Configuration.BOX_LAYOUT_MAX_HEIGHT;
+import static com.dubreuia.ui.Configuration.BOX_LAYOUT_MAX_WIDTH;
 import static com.intellij.openapi.ui.TextComponentAccessor.TEXT_FIELD_WHOLE_TEXT;
+import static java.awt.BorderLayout.CENTER;
+import static java.awt.BorderLayout.EAST;
+import static java.awt.BorderLayout.WEST;
 
 /**
  * @author markiewb
@@ -39,11 +44,11 @@ public class IdeSupportPanel {
         path = getPath(configurationPath);
         JButton reset = getResetButton(path);
 
-        panel.add(label, BorderLayout.WEST);
-        panel.add(path, BorderLayout.CENTER);
-        panel.add(reset, BorderLayout.EAST);
+        panel.add(label, WEST);
+        panel.add(path, CENTER);
+        panel.add(reset, EAST);
 
-        panel.setMaximumSize(new Dimension(3000, 100));
+        panel.setMaximumSize(new Dimension(BOX_LAYOUT_MAX_WIDTH, BOX_LAYOUT_MAX_HEIGHT));
 
         return panel;
     }

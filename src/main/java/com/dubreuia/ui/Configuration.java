@@ -32,6 +32,9 @@ import static com.dubreuia.model.Action.unqualifiedStaticMemberAccess;
 
 public class Configuration implements Configurable {
 
+    public static final int BOX_LAYOUT_MAX_WIDTH = 3000;
+    public static final int BOX_LAYOUT_MAX_HEIGHT = 100;
+
     private static final String TEXT_DISPLAY_NAME = "Save Actions";
 
     private final Storage storage;
