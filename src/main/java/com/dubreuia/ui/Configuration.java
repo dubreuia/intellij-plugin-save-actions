@@ -28,7 +28,6 @@ import static com.dubreuia.model.Action.reformat;
 import static com.dubreuia.model.Action.reformatChangedCode;
 import static com.dubreuia.model.Action.unqualifiedStaticMemberAccess;
 
-
 public class Configuration implements Configurable {
 
     private static final String TEXT_DISPLAY_NAME = "Save Actions";
@@ -238,7 +237,11 @@ public class Configuration implements Configurable {
 
     private void updateCheckboxEnabledGroupReformat() {
         boolean reformatSelected = checkboxes.get(reformat).isSelected();
-        checkboxes.get(reformatChangedCode).setEnabled(isActiveSelected() && reformatSelected);
+        boolean reformatChangedCodeEnabled = isActiveSelected() && reformatSelected;
+        checkboxes.get(reformatChangedCode).setEnabled(reformatChangedCodeEnabled);
+        if (!reformatChangedCodeEnabled) {
+            checkboxes.get(reformatChangedCode).setSelected(false);
+        }
     }
 
     private void updateCheckboxEnabledGroupStaticExclusive(ActionEvent event) {

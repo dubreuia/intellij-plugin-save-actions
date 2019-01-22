@@ -131,8 +131,8 @@ If a quick fix adds something that is removed by another quick fix, the removal 
 | Add static modifier to methods                                           | The method `private void method()` becomes `private static void method()` if the content does not references instance fields
 | Add this to field access                                                 | The access to instance field `field = 0` becomes `this.field = 0`
 | Add this to method access                                                | The access to instance method `method()` becomes `this.method()`
-| Add class qualifier to static member access                              | The access to class field `FIELD = 0` becomes `Class.FIELD` for a class named Class
-| Add class qualifier to static member access outside declaring class only | The access to class field `FIELD = 0` becomes `Class.FIELD` for a class named class, but only if the static member is outside declaring class
+| Add class qualifier to static member access                              | The access to class field `FIELD = 0` becomes `Class.FIELD` for a class named Class. Exclusive with "Add class qualifier to static member access outside declaring class only".
+| Add class qualifier to static member access outside declaring class only | The access to class field `FIELD = 0` becomes `Class.FIELD` for a class named class, but only if the static member is outside declaring class. Exclusive with "Add class qualifier to static member access".
 | Add missing @Override annotations                                        | The method `void method()` becomes `@Override void method()` if it overrides a method from the parent class
 | Add blocks to if/while/for statements                                    | The statement `if (true) return false` becomes `if (true) { return false; }` (a block), also working for `for` and `while` statements
 | Add missing serialVersionUID field for Serializable classes              | The class `class Class implements Serializable` will get a new field `private static final long serialVersionUID` with generated serial version uid
