@@ -37,7 +37,8 @@ public enum Action {
     reformatChangedCode("Reformat only changed code (only if VCS configured)",
             global, false),
 
-    rearrange("Rearrange fields and methods (configured in \"Editor > Code Style > (...) > Arrangement\")",
+    rearrange("Rearrange fields and methods " +
+            "(configured in \"File > Settings > Editor > Code Style > (...) > Arrangement\")",
             global, false),
 
     // Build
@@ -46,6 +47,9 @@ public enum Action {
             build, false),
 
     reload("Reload files in running debugger (using \"Run > Reload Changed Classes\")",
+            build, false),
+
+    executeAction("Execute an action (using quick lists at \"File > Settings > Appearance & Behavior > Quick Lists\"",
             build, false),
 
     // Java fixes
