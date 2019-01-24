@@ -236,7 +236,7 @@ public class Configuration implements Configurable {
 
     private void updateCheckboxEnabled(ActionEvent event) {
         updateCheckboxEnabledIfActiveSelected();
-        updateCheckboxEnabledGroupReformat();
+        updateCheckboxEnabledGroupReformatExclusive(event);
         updateCheckboxEnabledGroupStaticExclusive(event);
     }
 
@@ -251,25 +251,24 @@ public class Configuration implements Configurable {
         }
     }
 
-    private void updateCheckboxEnabledGroupReformat() {
-        boolean reformatSelected = checkboxes.get(reformat).isSelected();
-        boolean reformatChangedCodeEnabled = isActiveSelected() && reformatSelected;
-        checkboxes.get(reformatChangedCode).setEnabled(reformatChangedCodeEnabled);
-        if (!reformatChangedCodeEnabled) {
-            checkboxes.get(reformatChangedCode).setSelected(false);
-        }
+    private void updateCheckboxEnabledGroupReformatExclusive(ActionEvent event) {
+        updateCheckboxGroupExclusive(event, reformat, reformatChangedCode);
     }
 
     private void updateCheckboxEnabledGroupStaticExclusive(ActionEvent event) {
+        updateCheckboxGroupExclusive(event, unqualifiedStaticMemberAccess, customUnqualifiedStaticMemberAccess);
+    }
+
+    private void updateCheckboxGroupExclusive(ActionEvent event, Action checkbox1, Action checkbox2) {
         if (event == null || !(event.getSource() instanceof JCheckBox)) {
             return;
         }
         JCheckBox thisCheckbox = (JCheckBox) event.getSource();
         if (thisCheckbox.isSelected()) {
-            if (thisCheckbox == checkboxes.get(unqualifiedStaticMemberAccess)) {
-                checkboxes.get(customUnqualifiedStaticMemberAccess).setSelected(false);
-            } else if (thisCheckbox == checkboxes.get(customUnqualifiedStaticMemberAccess)) {
-                checkboxes.get(unqualifiedStaticMemberAccess).setSelected(false);
+            if (thisCheckbox == checkboxes.get(checkbox1)) {
+                checkboxes.get(checkbox2).setSelected(false);
+            } else if (thisCheckbox == checkboxes.get(checkbox2)) {
+                checkboxes.get(checkbox1).setSelected(false);
             }
         }
     }
