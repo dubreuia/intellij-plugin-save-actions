@@ -25,9 +25,10 @@ import static java.awt.BorderLayout.WEST;
  */
 public class IdeSupportPanel {
 
-    private static final String TITLE = "Eclipse support";
-    private static final String LABEL = "Use external Eclipse configuration file (.java)";
     private static final String BUTTON = "Reset";
+    private static final String EXTENSION = "epf";
+    private static final String LABEL = "Use external Eclipse configuration file (.epf)";
+    private static final String TITLE = "Eclipse support";
 
     private TextFieldWithBrowseButton path;
 
@@ -63,7 +64,7 @@ public class IdeSupportPanel {
 
     @NotNull
     private TextFieldWithBrowseButton getPath(String configurationPath) {
-        FileChooserDescriptor descriptor = FileChooserDescriptorFactory.createSingleFileDescriptor("java");
+        FileChooserDescriptor descriptor = FileChooserDescriptorFactory.createSingleFileDescriptor(EXTENSION);
         FileTextField field = FileChooserFactory.getInstance().createFileTextField(descriptor, null);
         field.getField().setEnabled(false);
         field.getField().setText(configurationPath);
