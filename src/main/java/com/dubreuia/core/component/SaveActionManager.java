@@ -6,6 +6,7 @@ import com.dubreuia.model.Storage;
 import com.dubreuia.model.StorageFactory;
 import com.dubreuia.processors.Processor;
 import com.dubreuia.processors.Processor.OrderComparator;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
@@ -16,25 +17,25 @@ import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import static com.dubreuia.core.ExecutionMode.normal;
+import static com.dubreuia.core.ExecutionMode.saveAll;
 import static com.dubreuia.model.Action.activate;
 import static com.dubreuia.model.StorageFactory.DEFAULT;
+import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
+import static java.util.Optional.ofNullable;
 
 /**
  * <p>
  * Singleton event handler class, instanciated by {@link Component}. All actions are routed here.
  * <p>
- * The main method is {@link #processPsiFilesIfNecessary(Project, Set, Action, ExecutionMode)} and will delegate to
+ * The main method is {@link #guardedProcessPsiFiles(Project, Set, Action, ExecutionMode)} and will delegate to
  * {@link Engine#processPsiFilesIfNecessary()}. The method will check if the file needs to be processed and use the
  * processors to apply the modifications.
  * <p>
@@ -57,14 +58,18 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
         return instance;
     }
 
-    private final List<Processor> processors = new ArrayList<>();
-    private final boolean compilingAvailable = initCompilingAvailable();
-    private StorageFactory storageFactory = DEFAULT;
-    private boolean javaAvailable = false;
-    private boolean isRunning = false;
+    private final List<Processor> processors;
+    private boolean running;
+    private boolean javaAvailable;
+    private final boolean compilingAvailable;
+    private StorageFactory storageFactory;
 
     private SaveActionManager() {
-        // singleton
+        processors = new ArrayList<>();
+        running = false;
+        javaAvailable = false;
+        compilingAvailable = initCompilingAvailable();
+        storageFactory = DEFAULT;
     }
 
     private boolean initCompilingAvailable() {
@@ -102,46 +107,44 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
 
     @Override
     public void beforeAllDocumentsSaving() {
-        if (isRunning) {
-            LOGGER.info("Plugin already running, stopping invocation");
-            return;
-        }
-        isRunning = true;
-        try {
-            beforeDocumentsSaving();
-        } finally {
-            isRunning = false;
-        }
+        LOGGER.info("[+] Start SaveActionManager#beforeAllDocumentsSaving");
+        Document[] unsavedDocuments = FileDocumentManager.getInstance().getUnsavedDocuments();
+        beforeDocumentsSaving(asList(unsavedDocuments));
+        LOGGER.info("End SaveActionManager#beforeAllDocumentsSaving");
     }
 
-    private void beforeDocumentsSaving() {
-        Document[] unsavedDocuments = FileDocumentManager.getInstance().getUnsavedDocuments();
-        LOGGER.info("[+] Start SaveActionManager#beforeAllDocumentsSaving");
-        LOGGER.info("Unsaved documents (" + unsavedDocuments.length + "): " + Arrays.asList(unsavedDocuments));
+    private void beforeDocumentsSaving(List<Document> documents) {
+        LOGGER.info("Locating psi files for " + documents.size() + " documents: " + documents);
 
         Map<Project, Set<PsiFile>> projectPsiFiles = new HashMap<>();
-        stream(unsavedDocuments)
-                .forEach(document -> stream(ProjectManager.getInstance().getOpenProjects())
-                        .forEach(project -> Optional
-                                .ofNullable(PsiDocumentManager.getInstance(project).getPsiFile(document))
-                                .map(psiFile -> {
-                                    Set<PsiFile> psiFiles = projectPsiFiles.getOrDefault(project, new HashSet<>());
-                                    projectPsiFiles.put(project, psiFiles);
-                                    return psiFiles.add(psiFile);
-                                })));
+        documents.forEach(document -> stream(ProjectManager.getInstance().getOpenProjects())
+                .forEach(project -> ofNullable(PsiDocumentManager.getInstance(project).getPsiFile(document))
+                        .map(psiFile -> {
+                            Set<PsiFile> psiFiles = projectPsiFiles.getOrDefault(project, new HashSet<>());
+                            projectPsiFiles.put(project, psiFiles);
+                            return psiFiles.add(psiFile);
+                        })));
         projectPsiFiles.forEach(((project, psiFiles) -> {
-            processPsiFilesIfNecessary(project, psiFiles, activate, normal);
+            guardedProcessPsiFiles(project, psiFiles, activate, saveAll);
         }));
-
-        LOGGER.info("End SaveActionManager#beforeAllDocumentsSaving processed " + unsavedDocuments.length + " documents");
     }
 
-    public void processPsiFilesIfNecessary(Project project,
-                                           Set<PsiFile> psiFiles,
-                                           Action activation,
-                                           ExecutionMode mode) {
-        Engine engine = new Engine(getStorage(project), processors, project, psiFiles, activation, mode);
-        engine.processPsiFilesIfNecessary();
+    public void guardedProcessPsiFiles(Project project, Set<PsiFile> psiFiles, Action activation, ExecutionMode mode) {
+        if (ApplicationManager.getApplication().isDisposed()) {
+            LOGGER.info("Application is closing, stopping invocation");
+            return;
+        }
+        try {
+            if (running) {
+                LOGGER.info("Plugin already running, stopping invocation");
+                return;
+            }
+            running = true;
+            Engine engine = new Engine(getStorage(project), processors, project, psiFiles, activation, mode);
+            engine.processPsiFilesIfNecessary();
+        } finally {
+            running = false;
+        }
     }
 
 }

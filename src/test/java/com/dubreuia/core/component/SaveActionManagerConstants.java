@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.function.BiConsumer;
 
-import static com.dubreuia.core.ExecutionMode.normal;
+import static com.dubreuia.core.ExecutionMode.saveAll;
 import static com.dubreuia.model.Action.activate;
 import static java.util.Collections.singleton;
 
@@ -24,7 +24,7 @@ public interface SaveActionManagerConstants {
 
                     // call plugin on document
                     Set<PsiFile> psiFiles = new HashSet<>(singleton(fixture.getFile()));
-                    saveActionManager.processPsiFilesIfNecessary(fixture.getProject(), psiFiles, activate, normal);
+                    saveActionManager.guardedProcessPsiFiles(fixture.getProject(), psiFiles, activate, saveAll);
                 }
             }.execute();
 

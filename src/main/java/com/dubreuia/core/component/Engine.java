@@ -60,7 +60,7 @@ class Engine {
         Set<PsiFile> psiFilesEligible = psiFiles.stream()
                 .filter(psiFile -> isPsiFileEligible(project, psiFile))
                 .collect(toSet());
-        LOGGER.info("Filtered files " + psiFilesEligible);
+        LOGGER.info("Valid files " + psiFilesEligible);
         processPsiFiles(project, psiFilesEligible, mode);
     }
 
@@ -79,7 +79,7 @@ class Engine {
                 .peek(command -> LOGGER.info("Execute command " + command + " on " + psiFiles.size() + " files"))
                 .map(command -> new SimpleEntry<>(command.getAction(), command.execute()))
                 .collect(toList());
-        LOGGER.info("Exit processors with results "
+        LOGGER.info("Exit engine with results "
                 + results.stream()
                 .map(entry -> entry.getKey() + ":" + entry.getValue())
                 .collect(toList()));
