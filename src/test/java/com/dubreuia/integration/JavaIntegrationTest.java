@@ -25,6 +25,8 @@ import static com.dubreuia.integration.ActionTestFile.MissingOverrideAnnotation_
 import static com.dubreuia.integration.ActionTestFile.MissingOverrideAnnotation_OK;
 import static com.dubreuia.integration.ActionTestFile.SuppressAnnotation_KO;
 import static com.dubreuia.integration.ActionTestFile.SuppressAnnotation_OK;
+import static com.dubreuia.integration.ActionTestFile.TryWithResourcesWithoutFinal_KO;
+import static com.dubreuia.integration.ActionTestFile.TryWithResourcesWithoutFinal_OK;
 import static com.dubreuia.integration.ActionTestFile.UnnecessaryFinalOnLocalVariableOrParameter_KO;
 import static com.dubreuia.integration.ActionTestFile.UnnecessaryFinalOnLocalVariableOrParameter_OK;
 import static com.dubreuia.integration.ActionTestFile.UnnecessarySemicolon_KO;
@@ -61,6 +63,13 @@ import static com.dubreuia.model.Action.unqualifiedStaticMemberAccess;
 import static com.dubreuia.model.Action.useBlocks;
 
 class JavaIntegrationTest extends IntegrationTest {
+
+    @Test
+    void shouldnt_tryWithResourcesWithoutFinal_add_final_to_resource() {
+        storage.setEnabled(activate, true);
+        storage.setEnabled(localCanBeFinal, true);
+        assertSaveAction(TryWithResourcesWithoutFinal_KO, TryWithResourcesWithoutFinal_OK);
+    }
 
     @Test
     void should_fieldCanBeFinal_add_final_to_field() {
