@@ -18,7 +18,7 @@ apply plugin: 'org.jetbrains.intellij'
 
 // Add intellij task configuration for base intellij version (minimum compatibility)
 intellij {
-    version '2016.3'
+    version '2018.1'
     plugins 'coverage'
     pluginName 'Save Actions'
     // Do not touch the plugin.xml file

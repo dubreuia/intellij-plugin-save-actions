@@ -65,6 +65,8 @@ public enum ActionTestFile {
     InspectionsAll_KO,
     InspectionsAll_OK,
 
+    TryWithResourcesWithoutFinal_KO,
+    TryWithResourcesWithoutFinal_OK,
     //
     ;
 
