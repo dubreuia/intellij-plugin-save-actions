@@ -55,7 +55,7 @@
     ]]>
     </change-notes>
 
-    <idea-version since-build="163"/>
+    <idea-version since-build="181"/>
 
     <!-- Other product support activated in plugin page during upload at https://plugins.jetbrains.com -->
     <depends optional="true" config-file="plugin-java.xml">com.intellij.modules.java</depends>
