@@ -43,8 +43,11 @@ public enum JavaProcessor implements Processor {
             FieldMayBeFinalInspection::new),
 
     localCanBeFinal(Action.localCanBeFinal,
+            LocalCanBeFinal::new),
+
+    localCanBeFinalExceptImplicit(Action.localCanBeFinalExceptImplicit,
             () -> {
-                final LocalCanBeFinal inspection = new LocalCanBeFinal();
+                LocalCanBeFinal inspection = new LocalCanBeFinal();
                 inspection.REPORT_IMPLICIT_FINALS = false;
                 return inspection;
             }),

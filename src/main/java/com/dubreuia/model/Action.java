@@ -60,6 +60,9 @@ public enum Action {
     localCanBeFinal("Add final modifier to local variable or parameter",
             java, false),
 
+    localCanBeFinalExceptImplicit("Add final modifier to local variable or parameter except if it is implicit",
+            java, false),
+
     methodMayBeStatic("Add static modifier to methods",
             java, false),
 
