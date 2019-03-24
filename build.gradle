@@ -17,8 +17,9 @@ apply plugin: 'jacoco'
 apply plugin: 'org.jetbrains.intellij'
 
 // Add intellij task configuration for base intellij version (minimum compatibility)
+// This needs to fit the tag <idea-version since-build="181"> in plugin.xml
 intellij {
-    version '2016.3'
+    version '2018.1'
     plugins 'coverage'
     pluginName 'Save Actions'
     // Do not touch the plugin.xml file

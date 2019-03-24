@@ -128,6 +128,7 @@ If a quick fix adds something that is removed by another quick fix, the removal 
 | ---                                                                      | ---
 | Add final modifier to field                                              | The field `private int field = 0` becomes `private final int field = 0`
 | Add final modifier to local variable or parameter                        | The local variable `int variable = 0` becomes `final int variable = 0`
+| Add final modifier to local variable or parameter except if implicit     | The local variable `int variable = 0` becomes `final int variable = 0`, but not if it is implicit like in try with resources `try (Resource r = new Resource())`
 | Add static modifier to methods                                           | The method `private void method()` becomes `private static void method()` if the content does not references instance fields
 | Add this to field access                                                 | The access to instance field `field = 0` becomes `this.field = 0`
 | Add this to method access                                                | The access to instance method `method()` becomes `this.method()`

@@ -17,6 +17,9 @@ public enum ActionTestFile {
     LocalCanBeFinal_KO,
     LocalCanBeFinal_OK,
 
+    LocalCanBeFinalExceptImplicit_KO,
+    LocalCanBeFinalExceptImplicit_OK,
+
     MethodMayBeStatic_KO,
     MethodMayBeStatic_OK,
 

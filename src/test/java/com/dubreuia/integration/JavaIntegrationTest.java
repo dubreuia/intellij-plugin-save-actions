@@ -17,6 +17,8 @@ import static com.dubreuia.integration.ActionTestFile.GenerateSerialVersionUID_K
 import static com.dubreuia.integration.ActionTestFile.GenerateSerialVersionUID_OK;
 import static com.dubreuia.integration.ActionTestFile.InspectionsAll_KO;
 import static com.dubreuia.integration.ActionTestFile.InspectionsAll_OK;
+import static com.dubreuia.integration.ActionTestFile.LocalCanBeFinalExceptImplicit_KO;
+import static com.dubreuia.integration.ActionTestFile.LocalCanBeFinalExceptImplicit_OK;
 import static com.dubreuia.integration.ActionTestFile.LocalCanBeFinal_KO;
 import static com.dubreuia.integration.ActionTestFile.LocalCanBeFinal_OK;
 import static com.dubreuia.integration.ActionTestFile.MethodMayBeStatic_KO;
@@ -49,6 +51,7 @@ import static com.dubreuia.model.Action.fieldCanBeFinal;
 import static com.dubreuia.model.Action.finalPrivateMethod;
 import static com.dubreuia.model.Action.generateSerialVersionUID;
 import static com.dubreuia.model.Action.localCanBeFinal;
+import static com.dubreuia.model.Action.localCanBeFinalExceptImplicit;
 import static com.dubreuia.model.Action.methodMayBeStatic;
 import static com.dubreuia.model.Action.missingOverrideAnnotation;
 import static com.dubreuia.model.Action.suppressAnnotation;
@@ -88,6 +91,13 @@ class JavaIntegrationTest extends IntegrationTest {
         storage.setEnabled(activate, true);
         storage.setEnabled(localCanBeFinal, true);
         assertSaveAction(LocalCanBeFinal_KO, LocalCanBeFinal_OK);
+    }
+
+    @Test
+    void should_localCanBeFinalExceptImplicit_add_final_to_variable_but_not_resources() {
+        storage.setEnabled(activate, true);
+        storage.setEnabled(localCanBeFinalExceptImplicit, true);
+        assertSaveAction(LocalCanBeFinalExceptImplicit_KO, LocalCanBeFinalExceptImplicit_OK);
     }
 
     @Test
