@@ -191,7 +191,11 @@ See [contributors graph](https://github.com/dubreuia/intellij-plugin-save-action
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md).
+See [CONTRIBUTING](CONTRIBUTING.md).
+
+## Releasing
+
+See [RELEASING](RELEASING.md).
 
 ## JetBrains plugin page
 
