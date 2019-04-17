@@ -9,11 +9,11 @@ The code branches are
 - Branch `idea-version-2016-3` : tags as **1.5.0+2016.3** for version **1.5.0** and idea version **2016.3**
     - github milestone / release: **1.5.0+2016.3**
     - build.gradle: `version: '2016.3'`
-    - plugin.xml: `<idea-version since-build="163.0" until-build="191.0"/>`
+    - plugin.xml: `<idea-version since-build="163" until-build="183"/>`
 - Branch `idea-version-2018-3` : tags as **1.5.0+2018.3** for version **1.5.0** and idea version **2018.3**
     - github milestone / release: **1.5.0+2018.3**
     - build.gradle: `version: '2018.3'`
-    - plugin.xml: `<idea-version since-build="191.0"/>`
+    - plugin.xml: `<idea-version since-build="183"/>`
 
 ## Reporting
 
