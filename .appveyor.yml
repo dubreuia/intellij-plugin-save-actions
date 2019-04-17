@@ -6,7 +6,7 @@ build:
 
 # excludes tests (they are using java.nio.Path and are broken on windows)
 build_script:
-  - gradlew.bat build -x test
+  - gradlew.bat build
 
 # build only master
 branches:
