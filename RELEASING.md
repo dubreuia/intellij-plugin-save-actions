@@ -26,6 +26,11 @@ The code branches are
 To release a new version, for example **1.5.0**, run
 
 ```bash
+# For the master branch
+git checkout master
+./script/release.sh 1.5.0
+git commit -a -m "Promote to version 1.5.0"
+
 # For branch 2016-3, change versions, commit
 git checkout idea-version-2016-3
 ./script/release_version.sh 1.5.0
