@@ -26,7 +26,7 @@
   <li>Automatically fix Java inspections (Java IDEA only)</li>
 </ul>
 
-<p><strong>Compatibility (build 2016.3, JDK 1.8)</strong></p>
+<p><strong>Compatibility (build 2019.1, JDK 1.8)</strong></p>
 
 <ul>
   <li>Intellij IDEA</li>
@@ -55,7 +55,7 @@
     ]]>
     </change-notes>
 
-    <idea-version since-build="183"/>
+    <idea-version since-build="191"/>
 
     <!-- Other product support activated in plugin page during upload at https://plugins.jetbrains.com -->
     <depends optional="true" config-file="plugin-java.xml">com.intellij.modules.java</depends>
