@@ -1,6 +1,7 @@
 package com.dubreuia.model.java;
 
 import com.dubreuia.model.Action;
+import com.dubreuia.model.ProjectStorage;
 import com.dubreuia.model.Storage;
 
 import java.io.FileInputStream;
@@ -40,7 +41,7 @@ public enum EpfStorage {
         if ("".equals(configurationPath) || configurationPath == null) {
             return defaultStorage;
         }
-        Storage storage = new Storage(defaultStorage);
+        Storage storage = new ProjectStorage(defaultStorage);
         Properties properties = readProperties(configurationPath);
         Action.stream().forEach(action -> storage.setEnabled(action, isEnabledInEpf(properties, action)
                 .orElse(defaultStorage.isEnabled(action))));

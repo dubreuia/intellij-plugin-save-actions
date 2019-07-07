@@ -5,10 +5,7 @@ import com.dubreuia.model.Storage;
 import com.dubreuia.model.java.EpfStorage;
 import com.dubreuia.ui.java.IdeSupportPanel;
 import com.dubreuia.ui.java.InspectionPanel;
-import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.options.Configurable;
-import com.intellij.openapi.project.Project;
-import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
@@ -16,11 +13,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import static com.dubreuia.model.Action.activate;
 import static com.dubreuia.model.Action.activateOnBatch;
@@ -29,20 +27,20 @@ import static com.dubreuia.model.Action.customUnqualifiedStaticMemberAccess;
 import static com.dubreuia.model.Action.reformat;
 import static com.dubreuia.model.Action.reformatChangedCode;
 import static com.dubreuia.model.Action.unqualifiedStaticMemberAccess;
+import static com.dubreuia.model.Action.useGlobalConfiguration;
 
-public class Configuration implements Configurable {
+public abstract class Configuration implements Configurable {
 
     public static final int BOX_LAYOUT_MAX_WIDTH = 3000;
     public static final int BOX_LAYOUT_MAX_HEIGHT = 100;
 
-    private static final String TEXT_DISPLAY_NAME = "Save Actions";
-
     private final Storage storage;
+    private final ConfigurationType configurationType;
 
     private final Set<String> exclusions = new HashSet<>();
     private final Set<String> inclusions = new HashSet<>();
     private final List<String> quickLists = new ArrayList<>();
-    private final Map<Action, JCheckBox> checkboxes = new HashMap<>();
+    private final Map<Action, JCheckBox> checkboxes = new EnumMap<>(Action.class);
     private final ActionListener checkboxActionListener = this::updateCheckboxEnabled;
 
     private GeneralPanel generalPanel;
@@ -53,8 +51,9 @@ public class Configuration implements Configurable {
     private FileMaskPanel fileMasksInclusionPanel;
     private IdeSupportPanel ideSupport;
 
-    public Configuration(Project project) {
-        storage = ServiceManager.getService(project, Storage.class);
+    Configuration(ConfigurationType configurationType, Supplier<Storage> storageSupplier) {
+        this.configurationType = configurationType;
+        storage = storageSupplier.get();
     }
 
     @Nullable
@@ -141,12 +140,6 @@ public class Configuration implements Configurable {
         ideSupport = null;
     }
 
-    @Nls
-    @Override
-    public String getDisplayName() {
-        return TEXT_DISPLAY_NAME;
-    }
-
     @Nullable
     @Override
     public String getHelpTopic() {
@@ -155,7 +148,10 @@ public class Configuration implements Configurable {
 
     private JPanel initComponent() {
         for (Action action : Action.values()) {
-            checkboxes.put(action, new JCheckBox(action.getText()));
+            if (configurationType == ConfigurationType.PROJECT
+                    || action != useGlobalConfiguration) {
+                checkboxes.put(action, new JCheckBox(action.getText()));
+            }
         }
         generalPanel = new GeneralPanel(checkboxes);
         formattingPanel = new FormattingPanel(checkboxes);
@@ -243,10 +239,15 @@ public class Configuration implements Configurable {
     private void updateCheckboxEnabledIfActiveSelected() {
         for (Map.Entry<Action, JCheckBox> checkbox : checkboxes.entrySet()) {
             Action currentCheckBoxKey = checkbox.getKey();
-            if (!activate.equals(currentCheckBoxKey)
-                    && !activateOnShortcut.equals(currentCheckBoxKey)
-                    && !activateOnBatch.equals(currentCheckBoxKey)) {
-                checkbox.getValue().setEnabled(isActiveSelected());
+            if (useGlobalConfiguration.equals(currentCheckBoxKey)) {
+                continue;
+            }
+            if (activate.equals(currentCheckBoxKey)
+                    || activateOnShortcut.equals(currentCheckBoxKey)
+                    || activateOnBatch.equals(currentCheckBoxKey)) {
+                checkbox.getValue().setEnabled(isEnabled());
+            } else {
+                checkbox.getValue().setEnabled(isEnabled() && isActiveSelected());
             }
         }
     }
@@ -273,6 +274,10 @@ public class Configuration implements Configurable {
         }
     }
 
+    private boolean isEnabled() {
+        return configurationType == ConfigurationType.GLOBAL || !checkboxes.get(useGlobalConfiguration).isSelected();
+    }
+
     private boolean isActiveSelected() {
         boolean activateIsSelected = checkboxes.get(activate).isSelected();
         boolean activateShortcutIsSelected = checkboxes.get(activateOnShortcut).isSelected();
@@ -280,4 +285,8 @@ public class Configuration implements Configurable {
         return activateIsSelected || activateShortcutIsSelected || activateBatchIsSelected;
     }
 
+    enum ConfigurationType {
+        GLOBAL,
+        PROJECT
+    }
 }

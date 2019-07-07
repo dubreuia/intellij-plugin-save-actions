@@ -1,6 +1,7 @@
 package com.dubreuia.model.java;
 
 import com.dubreuia.model.Action;
+import com.dubreuia.model.ProjectStorage;
 import com.dubreuia.model.Storage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,7 +33,7 @@ class EpfStorageTest {
 
     @BeforeEach
     void before() {
-        storage = new Storage();
+        storage = new ProjectStorage();
 
         storage.setActions(new HashSet<>());
         storage.setInclusions(new HashSet<>());

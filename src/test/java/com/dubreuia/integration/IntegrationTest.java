@@ -1,7 +1,8 @@
 package com.dubreuia.integration;
 
 import com.dubreuia.core.component.SaveActionManager;
-import com.dubreuia.model.Storage;
+import com.dubreuia.model.GlobalStorage;
+import com.dubreuia.model.ProjectStorage;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.testFramework.fixtures.CodeInsightTestFixture;
 import com.intellij.testFramework.fixtures.IdeaProjectTestFixture;
@@ -24,7 +25,9 @@ public abstract class IntegrationTest {
 
     private CodeInsightTestFixture fixture;
 
-    Storage storage;
+    ProjectStorage projectStorage;
+
+    GlobalStorage globalStorage;
 
     @BeforeEach
     public void before() throws Exception {
@@ -33,13 +36,17 @@ public abstract class IntegrationTest {
         fixture = factory.createCodeInsightFixture(testFixture, new LightTempDirTestFixtureImpl(true));
         fixture.setUp();
         fixture.setTestDataPath(getTestDataPath());
-        storage = ServiceManager.getService(testFixture.getProject(), Storage.class);
+        projectStorage = ServiceManager.getService(testFixture.getProject(), ProjectStorage.class);
+        globalStorage = ServiceManager.getService(GlobalStorage.class);
+        globalStorage.clear();
+        projectStorage.clear();
     }
 
     @AfterEach
     public void after() throws Exception {
         fixture.tearDown();
-        storage.clear();
+        globalStorage.clear();
+        projectStorage.clear();
     }
 
     void assertSaveAction(ActionTestFile before, ActionTestFile after) {
