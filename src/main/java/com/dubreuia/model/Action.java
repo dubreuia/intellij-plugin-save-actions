@@ -14,7 +14,7 @@ public enum Action {
 
     // Activation
 
-    useGlobalConfiguration("Use Global Save Actions configuration for this project",
+    useGlobalConfiguration("Use global save actions configuration for this project",
             activation, true),
 
     activate("Activate save actions on save (before saving each file, performs the configured actions below)",

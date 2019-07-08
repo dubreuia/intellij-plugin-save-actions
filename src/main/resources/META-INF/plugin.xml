@@ -21,6 +21,7 @@
   <li>Include / exclude files with regex support</li>
   <li>Works on any file type (Java, Python, XML, etc.)</li>
   <li>Uses a settings file per project you can commit</li>
+  <li>Uses a default global settings file you can commit</li>
   <li>Available keymaps and actions for activation</li>
   <li>Eclipse configuration file `.epf` support (Java IDE only)</li>
   <li>Automatically fix Java inspections (Java IDEA only)</li>
