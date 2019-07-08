@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Nls;
 
 public class ProjectConfiguration extends Configuration implements Configurable {
 
-    private static final String TEXT_DISPLAY_NAME = "Save Actions";
+    private static final String TEXT_DISPLAY_NAME = "Save Actions Project Settings";
 
     public ProjectConfiguration(Project project) {
         super(ConfigurationType.PROJECT, () -> ServiceManager.getService(project, ProjectStorage.class));
