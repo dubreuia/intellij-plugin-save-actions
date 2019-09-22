@@ -22,7 +22,7 @@ apply plugin: 'org.jetbrains.intellij'
 // See https://www.jetbrains.com/intellij-repository/releases
 intellij {
     version '2018.3'
-    plugins = ['java', 'coverage']
+    plugins = ['coverage']
     pluginName 'Save Actions'
     // Do not touch the plugin.xml file
     updateSinceUntilBuild false
