@@ -6,6 +6,7 @@ import com.dubreuia.model.Storage;
 import com.dubreuia.model.StorageFactory;
 import com.dubreuia.processors.Processor;
 import com.dubreuia.processors.Processor.OrderComparator;
+import com.intellij.notification.EventLog;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Document;
@@ -15,8 +16,10 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
 import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -111,6 +114,15 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
         Document[] unsavedDocuments = FileDocumentManager.getInstance().getUnsavedDocuments();
         beforeDocumentsSaving(asList(unsavedDocuments));
         LOGGER.info("End SaveActionManager#beforeAllDocumentsSaving");
+    }
+
+    @Override
+    public void beforeDocumentSaving(@NotNull Document document) {
+        LOGGER.info("todo");
+        EventLog.showNotification(ProjectManager.getInstance().getDefaultProject(),
+                "com.dubreuia.core.action.SaveActionsGroup",
+                Arrays.asList("com.dubreuia.core.action.ToggleAction"));
+//        EventLog.getEventLog(ProjectManager.getInstance().getDefaultProject()).
     }
 
     private void beforeDocumentsSaving(List<Document> documents) {

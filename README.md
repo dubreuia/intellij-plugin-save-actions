@@ -22,9 +22,11 @@ Thank you to JetBrains that supports our plugin: they provide an open-source lic
 - [Installation](#installation)
 - [Configuration](#configuration)
 - [Actions](#actions)
+- [Limitations](#limitations)
 - [Eclipse support](#eclipse-support)
 - [Files location](#files-location)
 - [Contributing](#contributing)
+- [Releasing](#releasing)
 - [JetBrains plugin page](#jetbrains-plugin-page)
 - [Issues](#issues)
 - [Licence](#licence)
@@ -156,6 +158,25 @@ Save actions are grouped under the menu "Code > Save Actions". Remember that any
 <p align="center">
   <img src="./docs/intellij-save-actions-plugin-action-menu.png" width="371" height="77">
 </p>
+
+## Limitations
+
+### IDE Actions
+
+The plugin is limited by the IDE in what operations it can do during the save document life-cycle. There are two different actions coming directly from the IDE (other custom actions can also be triggered):
+
+- **"Save Document":** Saves only the currently opened document in the editor. This is unbind in most IDE, except web related IDEs (TODO).
+- **"Save All":** Saves all documents that are modified. This is the default action in most IDE (default binding "CTRL + S").
+
+We cannot use "Save Document" for reasons described in issue ["Save Document" do not work anymore #222](https://github.com/dubreuia/intellij-plugin-save-actions/issues/222). Basically, during single document saving, the plugin cannot change the file content. Users wanting to use the plugin will have to remap keybindings to "Save All".
+
+A message will appear in the Event Log if that happens. (TODO)
+
+### Interoperability
+
+Unfortunately, other plugins might call directly "Save Document". This is the case of [Jetbrains IdeaVim](https://github.com/JetBrains/ideavim/blob/38a4fd5fbcf4b37990391d68c67e16d84f427c33/src/com/maddyhome/idea/vim/group/FileGroup.java#L167). A workaround for that specific plugin is to call `:wa` (which calls "Save All") instead of `:w` (which calls "Save Document"). This workaround might not be available or sufficient for all plugins.
+
+A message will appear in the Event Log if that happens. (TODO)
 
 ## Eclipse support
 
