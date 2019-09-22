@@ -18,8 +18,10 @@ apply plugin: 'org.jetbrains.intellij'
 
 // Add intellij task configuration for base intellij version (minimum compatibility)
 // This needs to fit the tag <idea-version since-build="181"> in plugin.xml
+// See https://www.jetbrains.com/intellij-repository/snapshots
+// See https://www.jetbrains.com/intellij-repository/releases
 intellij {
-    version '193.3519.25-EAP-SNAPSHOT'
+    version 'LATEST-EAP-SNAPSHOT'
     plugins = ['java', 'coverage']
     pluginName 'Save Actions'
     // Do not touch the plugin.xml file
