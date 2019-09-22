@@ -7,7 +7,7 @@ buildscript {
 
 // Add idea plugin version
 plugins {
-    id "org.jetbrains.intellij" version "0.3.3"
+    id "org.jetbrains.intellij" version "0.4.10"
 }
 
 // Add idea and java plugins
@@ -19,8 +19,8 @@ apply plugin: 'org.jetbrains.intellij'
 // Add intellij task configuration for base intellij version (minimum compatibility)
 // This needs to fit the tag <idea-version since-build="181"> in plugin.xml
 intellij {
-    version '2019.1'
-    plugins 'coverage'
+    version '193.3519.25-EAP-SNAPSHOT'
+    plugins = ['java', 'coverage']
     pluginName 'Save Actions'
     // Do not touch the plugin.xml file
     updateSinceUntilBuild false

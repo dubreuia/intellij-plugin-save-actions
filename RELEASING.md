@@ -12,9 +12,9 @@ The code branches are based on "since-build" properties (except master).
     - tag and github release: **1.5.0+2018.3**
     - build.gradle: `version: '2018.3'`
     - plugin.xml: `<idea-version since-build="183"/>` (no until)
-- Branch `master` with no version or tags, idea version **2019.1** (LATEST), no release of this branch
-    - build.gradle: `version: '2019.1'`
-    - plugin.xml: `<idea-version since-build="191"/>`
+- Branch `master` with no version or tags, idea version **2019.3** (LATEST), no release of this branch
+    - build.gradle: `version: '2019.3'`
+    - plugin.xml: `<idea-version since-build="193"/>`
 
 ## Reporting
 
