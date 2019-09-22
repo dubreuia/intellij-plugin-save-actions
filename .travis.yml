@@ -1,5 +1,7 @@
 # Travis CI (https://travis-ci.org/dubreuia/intellij-plugin-save-actions)
 
+dist: trusty
+
 language: java
 
 jdk:
