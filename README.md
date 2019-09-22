@@ -17,6 +17,7 @@ Thank you to JetBrains that supports our plugin: they provide an open-source lic
 
 ## Content
 
+- [Logos](#logos)
 - [Features](#features)
 - [Compatibility](#compatibility)
 - [Installation](#installation)
@@ -28,6 +29,11 @@ Thank you to JetBrains that supports our plugin: they provide an open-source lic
 - [JetBrains plugin page](#jetbrains-plugin-page)
 - [Issues](#issues)
 - [Licence](#licence)
+
+## Logos
+
+ ![Save Actions Plugin icon light](./docs/icon-save-actions.svg)
+ ![Save Actions Plugin icon dark](./docs/icon-save-actions-dark.svg)
 
 ## Features
 

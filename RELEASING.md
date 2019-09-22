@@ -22,8 +22,13 @@ The code branches are based on "since-build" properties (except master).
 
 ## Backporting
 
+To diff the content of the master and one backport branch, use `git diff master branch`, the diff content should be only
+the versions, plus any feature that is not in the branch.
+
+To know which commit to cherry-pick, use the last release tag in each branch (including master).
+
 - Commit (or merge PR) on master
-- Cherry-pick on:
+- Cherry-pick on those branches:
     - `idea-version-2016-3`
     - `idea-version-2018-3`
     - `idea-version-2019-3`
