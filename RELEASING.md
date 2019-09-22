@@ -16,10 +16,10 @@ The code branches are based on "since-build" properties (except master).
     - build.gradle: `version: '2019.3'`
     - plugin.xml: `<idea-version since-build="193"/>`
 
-## Reporting
+## Backporting
 
-- Commit on master
-- Commits are then cherry-picked on `idea-version-2016-3` and `idea-version-2018-3`
+- Commit (or merge PR) on master
+- Cherry-pick on `idea-version-2016-3` and `idea-version-2018-3`
 
 ## Releasing
 

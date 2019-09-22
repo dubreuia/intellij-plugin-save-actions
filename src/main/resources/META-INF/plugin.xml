@@ -26,7 +26,7 @@
   <li>Automatically fix Java inspections (Java IDEA only)</li>
 </ul>
 
-<p><strong>Compatibility (build 2019.1, JDK 1.8)</strong></p>
+<p><strong>Compatibility (build 2019.3, JDK 1.8)</strong></p>
 
 <ul>
   <li>Intellij IDEA</li>
