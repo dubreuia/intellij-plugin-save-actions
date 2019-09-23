@@ -21,7 +21,7 @@ apply plugin: 'org.jetbrains.intellij'
 // See https://www.jetbrains.com/intellij-repository/snapshots
 // See https://www.jetbrains.com/intellij-repository/releases
 intellij {
-    version 'LATEST-EAP-SNAPSHOT'
+    version '193.3519.25-EAP-SNAPSHOT'
     plugins = ['java', 'coverage']
     pluginName 'Save Actions'
     // Do not touch the plugin.xml file
@@ -30,7 +30,7 @@ intellij {
 
 // Add plugin group and version
 group 'com.dubreuia'
-version '1.5.0'
+version '1.6.0+2019.3'
 
 // Add only maven central as repository
 repositories {
