@@ -30,7 +30,7 @@ intellij {
 
 // Add plugin group and version
 group 'com.dubreuia'
-version '1.5.0+2016.3'
+version '1.6.0+2016.3+2016.3'
 
 // Add only maven central as repository
 repositories {
