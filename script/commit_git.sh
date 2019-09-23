@@ -14,7 +14,7 @@ else
 fi
 
 echo "-----------------------------------------------------------"
-echo "Build plugin"
+echo "Commit git"
 echo "-----------------------------------------------------------"
 
 echo "VERSION_CURRENT: ${VERSION_CURRENT}"
@@ -24,18 +24,18 @@ echo "VERSION_CURRENT_FULL: ${VERSION_CURRENT_FULL}"
 echo "VERSION_NEXT_FULL: ${VERSION_NEXT_FULL}"
 
 #
-# Builds the plugin and creates the jar, then copies it with proper naming in root folder.
+# Commit to git and push
 #
 # Params:
 # 	- 0: version
-function build_plugin {
+function commit_git {
 	local version="$1"
 
-	echo "Building plugin version ${version}"
+	echo "Commit to git and push version ${version}"
 
-	./gradlew clean
-	./gradlew buildPlugin
-	cp build/libs/intellij-plugin-save-actions-*.jar "intellij-plugin-save-actions-${version}.jar"
+    git commit -a -m "Promote to version ${version}"
+    git push
 }
 
-build_plugin "${VERSION_NEXT_FULL}"
+commit_git "${VERSION_NEXT_FULL}"
+
