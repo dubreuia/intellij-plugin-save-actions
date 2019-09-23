@@ -33,7 +33,7 @@ To know which commit to cherry-pick, use the last release tag in each branch (in
     - `idea-version-2018-3`
     - `idea-version-2019-3`
 
-## Releasing
+## Releasing & Packaging
 
 To release a new version, for example **x.y.z**, run
 
@@ -42,41 +42,32 @@ To release a new version, for example **x.y.z**, run
 git checkout idea-version-2016-3
 ./script/release_version.sh x.y.z
 git commit -a -m "Promote to version x.y.z+2016.3"
+git push
+# Package
+./script/build_plugin.sh
 
 # For branch 2018-3, change versions, commit
 git checkout idea-version-2018-3
 ./script/release_version.sh x.y.z
 git commit -a -m "Promote to version x.y.z+2018.3"
+git push
+# Package
+./script/build_plugin.sh
 
 # For branch 2019-3, change versions, commit
 git checkout idea-version-2019-3
 ./script/release_version.sh x.y.z
 git commit -a -m "Promote to version x.y.z+2019.3"
+git push
+# Package
+./script/build_plugin.sh
 
 # For the master branch
 git checkout master
 ./script/release.sh x.y.z
 git commit -a -m "Promote to version x.y.z"
-
-```
-
-Then manually create a new version in [github](https://github.com/dubreuia/intellij-plugin-save-actions/releases/new).
-
-## Packaging
-
-To package a new version, for example **x.y.z**, run
-
-```bash
-# For branch 2016-3, change versions, commit
-git checkout idea-version-2016-3
-./script/build_plugin.sh
-
-# For branch 2018-3, change versions, commit
-git checkout idea-version-2018-3
-./script/build_plugin.sh
-
-# For branch 2019-3, change versions, commit
-git checkout idea-version-2019-3
+git push
+# Package
 ./script/build_plugin.sh
 
 # You'll have the files locally
@@ -84,6 +75,8 @@ ls *.jar
 # intellij-plugin-save-actions-x.y.z+2016.3.jar
 # intellij-plugin-save-actions-x.y.z+2018.3.jar
 # intellij-plugin-save-actions-x.y.z+2019.3.jar
+# intellij-plugin-save-actions-x.y.z+LATEST.jar
 ```
 
+Then manually create a new version for each branch in [github](https://github.com/dubreuia/intellij-plugin-save-actions/releases/new).
 
