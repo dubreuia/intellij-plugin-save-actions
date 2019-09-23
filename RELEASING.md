@@ -2,8 +2,6 @@
 
 ## Branches and versions
 
-The code branches are based on "since-build" properties (except master).
-
 - Branch `idea-version-2016-3`: tags as **x.y.z+2016.3** for version **x.y.z** and idea version **2016.3**
     - tag and github release: **x.y.z+2016.3**
     - build.gradle: `version: '2016.3'`
@@ -22,7 +20,7 @@ The code branches are based on "since-build" properties (except master).
 
 ## Backporting
 
-To diff the content of the master and one backport branch, use `git diff master branch`, the diff content should be only
+To diff the content of the master and one backport branch, use `git diff master HEAD`, the diff content should be only
 the versions, plus any feature that is not in the branch.
 
 To know which commit to cherry-pick, use the last release tag in each branch (including master).
@@ -35,48 +33,10 @@ To know which commit to cherry-pick, use the last release tag in each branch (in
 
 ## Releasing & Packaging
 
-To release a new version, for example **x.y.z**, run
+To release a new version, for example **x.y.z**, from previous version **a.b.c**, on branch **branch**, with idea version **idea-version**:
 
 ```bash
-# For branch 2016-3, change versions, commit
-git checkout idea-version-2016-3
-./script/release_version.sh x.y.z
-git commit -a -m "Promote to version x.y.z+2016.3"
-git push
-# Package
-./script/build_plugin.sh
-
-# For branch 2018-3, change versions, commit
-git checkout idea-version-2018-3
-./script/release_version.sh x.y.z
-git commit -a -m "Promote to version x.y.z+2018.3"
-git push
-# Package
-./script/build_plugin.sh
-
-# For branch 2019-3, change versions, commit
-git checkout idea-version-2019-3
-./script/release_version.sh x.y.z
-git commit -a -m "Promote to version x.y.z+2019.3"
-git push
-# Package
-./script/build_plugin.sh
-
-# For the master branch
-git checkout master
-./script/release.sh x.y.z
-git commit -a -m "Promote to version x.y.z"
-git push
-# Package
-./script/build_plugin.sh
-
-# You'll have the files locally
-ls *.jar
-# intellij-plugin-save-actions-x.y.z+2016.3.jar
-# intellij-plugin-save-actions-x.y.z+2018.3.jar
-# intellij-plugin-save-actions-x.y.z+2019.3.jar
-# intellij-plugin-save-actions-x.y.z+LATEST.jar
+git checkout branch
+./script/release.sh a.b.c x.y.z idea-version
 ```
-
-Then manually create a new version for each branch in [github](https://github.com/dubreuia/intellij-plugin-save-actions/releases/new).
 
