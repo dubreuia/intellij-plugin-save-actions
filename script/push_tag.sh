@@ -14,7 +14,7 @@ else
 fi
 
 echo "-----------------------------------------------------------"
-echo "Build plugin"
+echo "Push tag"
 echo "-----------------------------------------------------------"
 
 echo "VERSION_CURRENT: ${VERSION_CURRENT}"
@@ -24,18 +24,22 @@ echo "VERSION_CURRENT_FULL: ${VERSION_CURRENT_FULL}"
 echo "VERSION_NEXT_FULL: ${VERSION_NEXT_FULL}"
 
 #
-# Builds the plugin and creates the jar, then copies it with proper naming in root folder.
+# Push tag and diff
 #
 # Params:
 # 	- 0: version
-function build_plugin {
+function push_tag {
 	local version="$1"
 
-	echo "Building plugin version ${version}"
+    # Push tag and manual finish (in github)
+    git push origin HEAD:"refs/tags/${version}"
+    echo "Version URL (github): https://github.com/dubreuia/intellij-plugin-save-actions/releases/new?tag=${version}"
+    echo "Release title: Release ${version}"
+    echo "File jar: $( ls "intellij-plugin-save-actions-${version}.jar" )"
 
-	./gradlew clean
-	./gradlew buildPlugin
-	cp build/libs/intellij-plugin-save-actions-*.jar "intellij-plugin-save-actions-${version}.jar"
+    # Output diff for verification
+    git diff master HEAD > "master_${version}.diff"
 }
 
-build_plugin "${VERSION_NEXT_FULL}"
+push_tag "${VERSION_NEXT_FULL}"
+
