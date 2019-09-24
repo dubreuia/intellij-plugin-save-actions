@@ -1,6 +1,7 @@
 package com.dubreuia.core.component;
 
 
+import com.dubreuia.model.ProjectStorage;
 import com.dubreuia.model.Storage;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -18,7 +19,7 @@ class PsiFileTest {
     @ParameterizedTest(name = "[{index}] included={0}, psiFile={1}, inclusion={2}, exclusion={3}")
     @MethodSource("parameters")
     void test(boolean included, String psiFile, String inclusion, String exclusion) {
-        Storage storage = new Storage();
+        Storage storage = new ProjectStorage();
         storage.setInclusions(toSet(inclusion));
         storage.setExclusions(toSet(exclusion));
 

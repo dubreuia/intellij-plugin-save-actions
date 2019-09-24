@@ -1,7 +1,7 @@
 package com.dubreuia.integration;
 
+import com.dubreuia.model.Storage;
 import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
 
 import static com.dubreuia.integration.ActionTestFile.AccessCanBeTightened_KO;
 import static com.dubreuia.integration.ActionTestFile.AccessCanBeTightened_OK;
@@ -63,153 +63,175 @@ import static com.dubreuia.model.Action.unqualifiedMethodAccess;
 import static com.dubreuia.model.Action.unqualifiedStaticMemberAccess;
 import static com.dubreuia.model.Action.useBlocks;
 
+
 class JavaIntegrationTest extends IntegrationTest {
 
-    @Test
-    void should_fieldCanBeFinal_add_final_to_field() {
+    @StoragesTest
+    void should_fieldCanBeFinal_add_final_to_field(StorageToTest storageToTest) {
+        Storage storage = usingStorage(storageToTest);
         storage.setEnabled(activate, true);
         storage.setEnabled(fieldCanBeFinal, true);
         assertSaveAction(FieldCanBeFinal_KO, FieldCanBeFinal_OK);
     }
 
-    @Test
-    void should_fieldCanBeFinal_add_final_to_field_on_shortcut() {
+    @StoragesTest
+    void should_fieldCanBeFinal_add_final_to_field_on_shortcut(StorageToTest storageToTest) {
+        Storage storage = usingStorage(storageToTest);
         storage.setEnabled(activateOnShortcut, true);
         storage.setEnabled(fieldCanBeFinal, true);
         assertSaveActionShortcut(FieldCanBeFinal_KO, FieldCanBeFinal_OK);
     }
 
-    @Test
-    void should_fieldCanBeFinal_add_final_to_field_on_batch() {
+    @StoragesTest
+    void should_fieldCanBeFinal_add_final_to_field_on_batch(StorageToTest storageToTest) {
+        Storage storage = usingStorage(storageToTest);
         storage.setEnabled(activateOnBatch, true);
         storage.setEnabled(fieldCanBeFinal, true);
         assertSaveActionBatch(FieldCanBeFinal_KO, FieldCanBeFinal_OK);
     }
 
-    @Test
-    void should_localCanBeFinal_add_final_to_local_variable_and_parameters() {
+    @StoragesTest
+    void should_localCanBeFinal_add_final_to_local_variable_and_parameters(StorageToTest storageToTest) {
+        Storage storage = usingStorage(storageToTest);
         storage.setEnabled(activate, true);
         storage.setEnabled(localCanBeFinal, true);
         assertSaveAction(LocalCanBeFinal_KO, LocalCanBeFinal_OK);
     }
 
-    @Test
-    void should_localCanBeFinalExceptImplicit_add_final_to_variable_but_not_resources() {
+    @StoragesTest
+    void should_localCanBeFinalExceptImplicit_add_final_to_variable_but_not_resources(StorageToTest storageToTest) {
+        Storage storage = usingStorage(storageToTest);
         storage.setEnabled(activate, true);
         storage.setEnabled(localCanBeFinalExceptImplicit, true);
         assertSaveAction(LocalCanBeFinalExceptImplicit_KO, LocalCanBeFinalExceptImplicit_OK);
     }
 
-    @Test
+    @StoragesTest
     @Disabled("do not work")
-    void should_methodMayBeStatic_add_static_keyword_to_method() {
+    void should_methodMayBeStatic_add_static_keyword_to_method(StorageToTest storageToTest) {
+        Storage storage = usingStorage(storageToTest);
         storage.setEnabled(activate, true);
         storage.setEnabled(methodMayBeStatic, true);
         assertSaveAction(MethodMayBeStatic_KO, MethodMayBeStatic_OK);
     }
 
-    @Test
-    void should_unqualifiedFieldAccess_add_this_to_field_access() {
+    @StoragesTest
+    void should_unqualifiedFieldAccess_add_this_to_field_access(StorageToTest storageToTest) {
+        Storage storage = usingStorage(storageToTest);
         storage.setEnabled(activate, true);
         storage.setEnabled(unqualifiedFieldAccess, true);
         assertSaveAction(UnqualifiedFieldAccess_KO, UnqualifiedFieldAccess_OK);
     }
 
-    @Test
-    void should_unqualifiedMethodAccess_add_this_to_method_access() {
+    @StoragesTest
+    void should_unqualifiedMethodAccess_add_this_to_method_access(StorageToTest storageToTest) {
+        Storage storage = usingStorage(storageToTest);
         storage.setEnabled(activate, true);
         storage.setEnabled(unqualifiedMethodAccess, true);
         assertSaveAction(UnqualifiedMethodAccess_KO, UnqualifiedMethodAccess_OK);
     }
 
-    @Test
-    void should_unqualifiedStaticMemberAccess_add_this_to_method_access() {
+    @StoragesTest
+    void should_unqualifiedStaticMemberAccess_add_this_to_method_access(StorageToTest storageToTest) {
+        Storage storage = usingStorage(storageToTest);
         storage.setEnabled(activate, true);
         storage.setEnabled(unqualifiedStaticMemberAccess, true);
         assertSaveAction(UnqualifiedStaticMemberAccess_KO, UnqualifiedStaticMemberAccess_OK);
     }
 
-    @Test
-    void should_customUnqualifiedStaticMemberAccess_add_this_to_method_access() {
+    @StoragesTest
+    void should_customUnqualifiedStaticMemberAccess_add_this_to_method_access(StorageToTest storageToTest) {
+        Storage storage = usingStorage(storageToTest);
         storage.setEnabled(activate, true);
         storage.setEnabled(customUnqualifiedStaticMemberAccess, true);
         assertSaveAction(CustomUnqualifiedStaticMemberAccess_KO, CustomUnqualifiedStaticMemberAccess_OK);
     }
 
-    @Test
-    void should_missingOverrideAnnotation_add_override_annotation() {
+    @StoragesTest
+    void should_missingOverrideAnnotation_add_override_annotation(StorageToTest storageToTest) {
+        Storage storage = usingStorage(storageToTest);
         storage.setEnabled(activate, true);
         storage.setEnabled(missingOverrideAnnotation, true);
         assertSaveAction(MissingOverrideAnnotation_KO, MissingOverrideAnnotation_OK);
     }
 
-    @Test
-    void should_useBlocks_add_blocks_to_if_else_while_for() {
+    @StoragesTest
+    void should_useBlocks_add_blocks_to_if_else_while_for(StorageToTest storageToTest) {
+        Storage storage = usingStorage(storageToTest);
         storage.setEnabled(activate, true);
         storage.setEnabled(useBlocks, true);
         assertSaveAction(UseBlocks_KO, UseBlocks_OK);
     }
 
-    @Test
+    @StoragesTest
     @Disabled("do not work")
-    void should_generateSerialVersionUID_generates_serial_version_uid_for_serializable_class() {
+    void should_generateSerialVersionUID_generates_serial_version_uid_for_serializable_class(StorageToTest storageToTest) {
+        Storage storage = usingStorage(storageToTest);
         storage.setEnabled(activate, true);
         storage.setEnabled(generateSerialVersionUID, true);
         assertSaveAction(GenerateSerialVersionUID_KO, GenerateSerialVersionUID_OK);
     }
 
-    @Test
-    void should_unnecessaryThis_removes_this_on_method_and_field() {
+    @StoragesTest
+    void should_unnecessaryThis_removes_this_on_method_and_field(StorageToTest storageToTest) {
+        Storage storage = usingStorage(storageToTest);
         storage.setEnabled(activate, true);
         storage.setEnabled(unnecessaryThis, true);
         assertSaveAction(UnnecessaryThis_KO, UnnecessaryThis_OK);
     }
 
-    @Test
-    void should_finalPrivateMethod_removes_final_on_private_methods() {
+    @StoragesTest
+    void should_finalPrivateMethod_removes_final_on_private_methods(StorageToTest storageToTest) {
+        Storage storage = usingStorage(storageToTest);
         storage.setEnabled(activate, true);
         storage.setEnabled(finalPrivateMethod, true);
         assertSaveAction(FinalPrivateMethod_KO, FinalPrivateMethod_OK);
     }
 
-    @Test
-    void should_unnecessaryFinalOnLocalVariableOrParameter_removes_final_on_local_varible_and_parameters() {
+    @StoragesTest
+    void should_unnecessaryFinalOnLocalVariableOrParameter_removes_final_on_local_varible_and_parameters(StorageToTest storageToTest) {
+        Storage storage = usingStorage(storageToTest);
         storage.setEnabled(activate, true);
         storage.setEnabled(unnecessaryFinalOnLocalVariableOrParameter, true);
         assertSaveAction(UnnecessaryFinalOnLocalVariableOrParameter_KO, UnnecessaryFinalOnLocalVariableOrParameter_OK);
     }
 
-    @Test
+    @StoragesTest
     @Disabled("do not work")
-    void should_explicitTypeCanBeDiamond_removes_explicit_diamond() {
+    void should_explicitTypeCanBeDiamond_removes_explicit_diamond(StorageToTest storageToTest) {
+        Storage storage = usingStorage(storageToTest);
         storage.setEnabled(activate, true);
         storage.setEnabled(explicitTypeCanBeDiamond, true);
         assertSaveAction(ExplicitTypeCanBeDiamond_KO, ExplicitTypeCanBeDiamond_OK);
     }
 
-    @Test
-    void should_suppressAnnotation_remove_unnecessary_suppress_warning_annotation() {
+    @StoragesTest
+    void should_suppressAnnotation_remove_unnecessary_suppress_warning_annotation(StorageToTest storageToTest) {
+        Storage storage = usingStorage(storageToTest);
         storage.setEnabled(activate, true);
         storage.setEnabled(suppressAnnotation, true);
         assertSaveAction(SuppressAnnotation_KO, SuppressAnnotation_OK);
     }
 
-    @Test
-    void should_unnecessarySemicolon_remove_unnecessary_semicolon() {
+    @StoragesTest
+    void should_unnecessarySemicolon_remove_unnecessary_semicolon(StorageToTest storageToTest) {
+        Storage storage = usingStorage(storageToTest);
         storage.setEnabled(activate, true);
         storage.setEnabled(unnecessarySemicolon, true);
         assertSaveAction(UnnecessarySemicolon_KO, UnnecessarySemicolon_OK);
     }
 
-    @Test
-    void should_accessCanBeTightened_remove_unnecessary_semicolon() {
+    @StoragesTest
+    void should_accessCanBeTightened_remove_unnecessary_semicolon(StorageToTest storageToTest) {
+        Storage storage = usingStorage(storageToTest);
         storage.setEnabled(activate, true);
         storage.setEnabled(accessCanBeTightened, true);
         assertSaveAction(AccessCanBeTightened_KO, AccessCanBeTightened_OK);
     }
 
-    @Test
-    void should_inspectionsAll_boogaloo() {
+    @StoragesTest
+    void should_inspectionsAll_boogaloo(StorageToTest storageToTest) {
+        Storage storage = usingStorage(storageToTest);
         storage.setEnabled(activate, true);
         storage.setEnabled(useBlocks, true);
         storage.setEnabled(accessCanBeTightened, true);

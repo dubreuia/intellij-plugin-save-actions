@@ -47,6 +47,7 @@ Thank you to JetBrains that supports our plugin: they provide an open-source lic
 - Include / exclude files with regex support
 - Works on any file type (Java, Python, XML, etc.)
 - Uses a settings file per project you can commit (see [Files location](#files-location))
+- Uses a default global settings file you can commit (see [Files location](#files-location))
 - Available keymaps and actions for activation (see [Keymap and actions](#keymap-and-actions))
 
 ![Save actions plugin settings page](https://github.com/dubreuia/intellij-plugin-save-actions/blob/master/docs/intellij-save-actions-plugin-settings-page.png)
@@ -98,6 +99,7 @@ You can quickly toggle the plugin activation by using the "Enable Save Action" a
 
 | Name                               | Description
 | ---                                | ---
+| Use global save actions configuration for this project | In project configuration only, tells the Save Actions plugin to use the global configuration for this project (checked by default). 
 | Activate save actions on file save | Enable / disable the plugin on file save. Before saving each file, it will perform the configured actions below
 | Activate save actions on shortcut  | Enable / disable the plugin on shortcut, by default "CTRL + SHIFT + S" (configured in "File > Keymaps > Main menu > Code > Save Actions")
 | Activate save actions on batch     | Enable / disable the plugin on batch, by using "Code > Save Actions > Execute on multiple files"
@@ -188,6 +190,7 @@ file_export_version=3.0
 
 - **idea.log**: The log file the save actions plugin writes in. It contains debug information, prefixed with `com.dubreuia.SaveActionManager`. If you are using default locations, it would be in `~/.IntelliJIdeaVERSION/system/log/idea.log`.
 - **saveactions_settings.xml**: The settings file is saved by project in the `.idea` folder. That file can be committed in git thus shared in your development team. If you are using the default locations, it would be in `~/IdeaProjects/PROJECT_NAME/.idea/saveactions_settings.xml`
+- **saveactions_global_settings.xml**: The global settings file is saved in the `~/.IntelliJIdeaVERSION/config/options` folder. That file can be committed in git thus shared in your development team.
 
 ## Contributors
 

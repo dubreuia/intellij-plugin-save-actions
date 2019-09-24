@@ -1,6 +1,8 @@
 package com.dubreuia.integration;
 
 import com.dubreuia.core.component.SaveActionManager;
+import com.dubreuia.model.GlobalStorage;
+import com.dubreuia.model.ProjectStorage;
 import com.dubreuia.model.Storage;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.testFramework.fixtures.CodeInsightTestFixture;
@@ -9,8 +11,12 @@ import com.intellij.testFramework.fixtures.IdeaTestFixtureFactory;
 import com.intellij.testFramework.fixtures.impl.LightTempDirTestFixtureImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 import java.io.File;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -18,13 +24,16 @@ import static com.dubreuia.core.action.BatchActionConstants.SAVE_ACTION_BATCH_MA
 import static com.dubreuia.core.action.ShortcutActionConstants.SAVE_ACTION_SHORTCUT_MANAGER;
 import static com.dubreuia.core.component.SaveActionManagerConstants.SAVE_ACTION_MANAGER;
 import static com.dubreuia.junit.JUnit5Utils.rethrowAsJunit5Error;
+import static com.dubreuia.model.Action.useGlobalConfiguration;
 import static com.intellij.testFramework.LightProjectDescriptor.EMPTY_PROJECT_DESCRIPTOR;
 
 public abstract class IntegrationTest {
 
     private CodeInsightTestFixture fixture;
 
-    Storage storage;
+    ProjectStorage projectStorage;
+
+    GlobalStorage globalStorage;
 
     @BeforeEach
     public void before() throws Exception {
@@ -33,13 +42,30 @@ public abstract class IntegrationTest {
         fixture = factory.createCodeInsightFixture(testFixture, new LightTempDirTestFixtureImpl(true));
         fixture.setUp();
         fixture.setTestDataPath(getTestDataPath());
-        storage = ServiceManager.getService(testFixture.getProject(), Storage.class);
+        projectStorage = ServiceManager.getService(testFixture.getProject(), ProjectStorage.class);
+        globalStorage = ServiceManager.getService(GlobalStorage.class);
+        globalStorage.clear();
+        projectStorage.clear();
     }
 
     @AfterEach
     public void after() throws Exception {
         fixture.tearDown();
-        storage.clear();
+        globalStorage.clear();
+        projectStorage.clear();
+    }
+
+    Storage usingStorage(StorageToTest storageToTest) {
+        switch (storageToTest) {
+            case GLOBAL:
+                projectStorage.setEnabled(useGlobalConfiguration, true);
+                return globalStorage;
+            case PROJECT:
+                projectStorage.setEnabled(useGlobalConfiguration, false);
+                return projectStorage;
+            default:
+                throw new UnsupportedOperationException("unsupported storage " + storageToTest);
+        }
     }
 
     void assertSaveAction(ActionTestFile before, ActionTestFile after) {
@@ -66,6 +92,16 @@ public abstract class IntegrationTest {
         Path resources = Paths.get(classes.getParent().toString(), "resources");
         Path root = Paths.get(resources.toString(), getClass().getPackage().getName().split("[.]"));
         return root.toString();
+    }
+
+    enum StorageToTest {
+        GLOBAL, PROJECT
+    }
+
+    @Retention(RetentionPolicy.RUNTIME)
+    @ParameterizedTest
+    @EnumSource(StorageToTest.class)
+    @interface StoragesTest {
     }
 
 }

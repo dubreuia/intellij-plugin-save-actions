@@ -1,16 +1,13 @@
 package com.dubreuia.ui;
 
 import com.dubreuia.model.Action;
+import com.dubreuia.model.ActionType;
 import com.intellij.ui.IdeBorderFactory;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Map;
-
-import static com.dubreuia.model.Action.activate;
-import static com.dubreuia.model.Action.activateOnBatch;
-import static com.dubreuia.model.Action.activateOnShortcut;
-import static com.dubreuia.model.Action.noActionIfCompileErrors;
+import java.util.Objects;
 
 class GeneralPanel {
 
@@ -26,10 +23,10 @@ class GeneralPanel {
         JPanel panel = new JPanel();
         panel.setBorder(IdeBorderFactory.createTitledBorder(TEXT_TITLE_ACTIONS));
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
-        panel.add(checkboxes.get(activate));
-        panel.add(checkboxes.get(activateOnShortcut));
-        panel.add(checkboxes.get(activateOnBatch));
-        panel.add(checkboxes.get(noActionIfCompileErrors));
+        Action.stream(ActionType.activation)
+                .map(checkboxes::get)
+                .filter(Objects::nonNull)
+                .forEach(panel::add);
         panel.add(Box.createHorizontalGlue());
         panel.setMinimumSize(new Dimension(Short.MAX_VALUE, 0));
         return panel;

@@ -1,18 +1,15 @@
 package com.dubreuia.model;
 
-import com.intellij.openapi.components.PersistentStateComponent;
-import com.intellij.openapi.components.State;
 import com.intellij.serviceContainer.NonInjectable;
-import com.intellij.util.xmlb.XmlSerializerUtil;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@State(name = "SaveActionSettings", storages = {@com.intellij.openapi.components.Storage("./saveactions_settings.xml")})
-public class Storage implements PersistentStateComponent<Storage> {
+import static com.dubreuia.model.Action.useGlobalConfiguration;
+
+public abstract class Storage {
 
     private boolean firstLaunch;
     private Set<Action> actions;
@@ -24,6 +21,7 @@ public class Storage implements PersistentStateComponent<Storage> {
     public Storage() {
         firstLaunch = true;
         actions = new HashSet<>();
+        actions.add(useGlobalConfiguration);
         exclusions = new HashSet<>();
         inclusions = new HashSet<>();
         configurationPath = null;
@@ -38,17 +36,6 @@ public class Storage implements PersistentStateComponent<Storage> {
         inclusions = new HashSet<>(storage.inclusions);
         configurationPath = storage.configurationPath;
         quickLists = new ArrayList<>(storage.quickLists);
-    }
-
-    @Override
-    public Storage getState() {
-        return this;
-    }
-
-    @Override
-    public void loadState(@NotNull Storage state) {
-        firstLaunch = false;
-        XmlSerializerUtil.copyBean(state, this);
     }
 
     public Set<Action> getActions() {
