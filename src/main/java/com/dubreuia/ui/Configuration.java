@@ -12,22 +12,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Supplier;
 
-import static com.dubreuia.model.Action.activate;
-import static com.dubreuia.model.Action.activateOnBatch;
-import static com.dubreuia.model.Action.activateOnShortcut;
-import static com.dubreuia.model.Action.customUnqualifiedStaticMemberAccess;
-import static com.dubreuia.model.Action.reformat;
-import static com.dubreuia.model.Action.reformatChangedCode;
-import static com.dubreuia.model.Action.unqualifiedStaticMemberAccess;
-import static com.dubreuia.model.Action.useGlobalConfiguration;
+import static com.dubreuia.model.Action.*;
 
 public abstract class Configuration implements Configurable {
 
@@ -201,6 +190,7 @@ public abstract class Configuration implements Configurable {
 
         c.gridy = 5;
         panel.add(ideSupport, c);
+        ideSupport.setVisible(configurationType == ConfigurationType.PROJECT);
 
         c.gridy = 6;
         c.weighty = 1;
