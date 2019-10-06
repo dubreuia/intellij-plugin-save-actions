@@ -7,8 +7,6 @@ import org.jetbrains.annotations.Nls;
 
 public class GlobalConfiguration extends Configuration implements Configurable {
 
-    private static final String TEXT_DISPLAY_NAME = "Save Actions Global Settings";
-
     public GlobalConfiguration() {
         super(ConfigurationType.GLOBAL, () -> ServiceManager.getService(GlobalStorage.class));
     }
@@ -16,7 +14,7 @@ public class GlobalConfiguration extends Configuration implements Configurable {
     @Nls
     @Override
     public String getDisplayName() {
-        return TEXT_DISPLAY_NAME;
+        return ParentConfiguration.GLOBAL_SETTINGS;
     }
 
 }

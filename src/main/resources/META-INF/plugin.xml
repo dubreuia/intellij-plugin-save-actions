@@ -64,8 +64,21 @@
     <extensions defaultExtensionNs="com.intellij">
         <applicationService serviceImplementation="com.dubreuia.model.GlobalStorage"/>
         <projectService serviceImplementation="com.dubreuia.model.ProjectStorage"/>
-        <applicationConfigurable id="settings.saveactions_global" instance="com.dubreuia.ui.GlobalConfiguration"/>
-        <projectConfigurable id="settings.saveactions" instance="com.dubreuia.ui.ProjectConfiguration"/>
+
+        <applicationConfigurable groupId="other" instance="com.dubreuia.ui.ParentConfiguration"
+                                 id="settings.saveactions" displayName="Save Actions" order="last"/>
+
+
+        <applicationConfigurable instance="com.dubreuia.ui.GlobalConfiguration"
+                                 id="settings.saveactions.global" parentId="settings.saveactions"
+                                 displayName="Global settings"/>
+
+        <projectConfigurable instance="com.dubreuia.ui.ProjectConfiguration"
+                             id="settings.saveactions.project" parentId="settings.saveactions"
+                             displayName="Project settings"/>
+
+        <!--        <applicationConfigurable id="settings.saveactions_global" instance="com.dubreuia.ui.GlobalConfiguration"/>-->
+        <!--        <projectConfigurable id="settings.saveactions" instance="com.dubreuia.ui.ProjectConfiguration"/>-->
     </extensions>
 
     <application-components>
