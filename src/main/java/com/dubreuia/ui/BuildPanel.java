@@ -16,8 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import static com.dubreuia.model.Action.compile;
-import static com.dubreuia.model.Action.reload;
+import static com.dubreuia.model.Action.*;
 import static com.dubreuia.ui.Configuration.BOX_LAYOUT_MAX_HEIGHT;
 import static com.dubreuia.ui.Configuration.BOX_LAYOUT_MAX_WIDTH;
 import static java.awt.BorderLayout.CENTER;
@@ -42,6 +41,7 @@ class BuildPanel {
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
         if (SaveActionManager.getInstance().isCompilingAvailable()) {
             panel.add(wrap(checkboxes.get(compile), null));
+            panel.add(wrap(checkboxes.get(forceCompile), null));
             panel.add(wrap(checkboxes.get(reload), null));
         }
 //        @SuppressWarnings("unchecked")

@@ -4,146 +4,145 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import static com.dubreuia.model.ActionType.activation;
-import static com.dubreuia.model.ActionType.build;
-import static com.dubreuia.model.ActionType.global;
-import static com.dubreuia.model.ActionType.java;
+import static com.dubreuia.model.ActionType.*;
 import static java.util.stream.Collectors.toSet;
 
 public enum Action {
 
-    // Activation
+	// Activation
 
-    activate("Activate save actions on save (before saving each file, performs the configured actions below)",
-            activation, true),
+	activate("Activate save actions on save (before saving each file, performs the configured actions below)",
+			activation, true),
 
-    activateOnShortcut("Activate save actions on shortcut (default \"CTRL + SHIFT + S\")",
-            activation, false),
+	activateOnShortcut("Activate save actions on shortcut (default \"CTRL + SHIFT + S\")",
+			activation, false),
 
-    activateOnBatch("Activate save actions on batch (\"Code > Save Actions > Execute on multiple files\")",
-            activation, false),
+	activateOnBatch("Activate save actions on batch (\"Code > Save Actions > Execute on multiple files\")",
+			activation, false),
 
-    noActionIfCompileErrors("No action if compile errors (applied per file)",
-            activation, false),
+	noActionIfCompileErrors("No action if compile errors (applied per file)",
+			activation, false),
 
-    // Global
+	// Global
 
-    organizeImports("Optimize imports",
-            global, true),
+	organizeImports("Optimize imports",
+			global, true),
 
-    reformat("Reformat file",
-            global, true),
+	reformat("Reformat file",
+			global, true),
 
-    reformatChangedCode("Reformat only changed code (only if VCS configured)",
-            global, false),
+	reformatChangedCode("Reformat only changed code (only if VCS configured)",
+			global, false),
 
-    rearrange("Rearrange fields and methods " +
-            "(configured in \"File > Settings > Editor > Code Style > (...) > Arrangement\")",
-            global, false),
+	rearrange("Rearrange fields and methods " +
+			"(configured in \"File > Settings > Editor > Code Style > (...) > Arrangement\")",
+			global, false),
 
-    // Build
+	// Build
 
-    compile("Compile files (using \"Build > Build Project\")",
-            build, false),
+	compile("Compile files (using \"Build > Build Project\")",
+			build, false),
 
-    reload("Reload files in running debugger (using \"Run > Reload Changed Classes\")",
-            build, false),
+	forceCompile("Force compile (Overrides \"compile\")", build, false),
 
-    executeAction("Execute an action (using quick lists at \"File > Settings > Appearance & Behavior > Quick Lists\"",
-            build, false),
 
-    // Java fixes
+	reload("Reload files in running debugger (using \"Run > Reload Changed Classes\")",
+			build, false),
 
-    fieldCanBeFinal("Add final modifier to field",
-            java, false),
+	executeAction("Execute an action (using quick lists at \"File > Settings > Appearance & Behavior > Quick Lists\"",
+			build, false),
 
-    localCanBeFinal("Add final modifier to local variable or parameter",
-            java, false),
+	// Java fixes
 
-    localCanBeFinalExceptImplicit("Add final modifier to local variable or parameter except if it is implicit",
-            java, false),
+	fieldCanBeFinal("Add final modifier to field",
+			java, false),
 
-    methodMayBeStatic("Add static modifier to methods",
-            java, false),
+	localCanBeFinal("Add final modifier to local variable or parameter",
+			java, false),
 
-    unqualifiedFieldAccess("Add this to field access",
-            java, false),
+	localCanBeFinalExceptImplicit("Add final modifier to local variable or parameter except if it is implicit",
+			java, false),
 
-    unqualifiedMethodAccess("Add this to method access",
-            java, false),
+	methodMayBeStatic("Add static modifier to methods",
+			java, false),
 
-    unqualifiedStaticMemberAccess("Add class qualifier to static member access",
-            java, false),
+	unqualifiedFieldAccess("Add this to field access",
+			java, false),
 
-    customUnqualifiedStaticMemberAccess("Add class qualifier to static member access outside declaring class",
-            java, false),
+	unqualifiedMethodAccess("Add this to method access",
+			java, false),
 
-    missingOverrideAnnotation("Add missing @Override annotations",
-            java, false),
+	unqualifiedStaticMemberAccess("Add class qualifier to static member access",
+			java, false),
 
-    useBlocks("Add blocks to if/while/for statements",
-            java, false),
+	customUnqualifiedStaticMemberAccess("Add class qualifier to static member access outside declaring class",
+			java, false),
 
-    generateSerialVersionUID("Add a serialVersionUID field for Serializable classes",
-            java, false),
+	missingOverrideAnnotation("Add missing @Override annotations",
+			java, false),
 
-    unnecessaryThis("Remove unnecessary this to field and method",
-            java, false),
+	useBlocks("Add blocks to if/while/for statements",
+			java, false),
 
-    finalPrivateMethod("Remove final from private method",
-            java, false),
+	generateSerialVersionUID("Add a serialVersionUID field for Serializable classes",
+			java, false),
 
-    unnecessaryFinalOnLocalVariableOrParameter("Remove unnecessary final to local variable or parameter",
-            java, false),
+	unnecessaryThis("Remove unnecessary this to field and method",
+			java, false),
 
-    explicitTypeCanBeDiamond("Remove explicit generic type for diamond",
-            java, false),
+	finalPrivateMethod("Remove final from private method",
+			java, false),
 
-    suppressAnnotation("Remove unused suppress warning annotation",
-            java, false),
+	unnecessaryFinalOnLocalVariableOrParameter("Remove unnecessary final to local variable or parameter",
+			java, false),
 
-    unnecessarySemicolon("Remove unnecessary semicolon",
-            java, false),
+	explicitTypeCanBeDiamond("Remove explicit generic type for diamond",
+			java, false),
 
-    accessCanBeTightened("Change visibility of field or method to lower access",
-            java, false),
+	suppressAnnotation("Remove unused suppress warning annotation",
+			java, false),
 
-    ;
+	unnecessarySemicolon("Remove unnecessary semicolon",
+			java, false),
 
-    private final String text;
-    private final ActionType type;
-    private final boolean defaultValue;
+	accessCanBeTightened("Change visibility of field or method to lower access",
+			java, false);
 
-    Action(String text, ActionType type, boolean defaultValue) {
-        this.text = text;
-        this.type = type;
-        this.defaultValue = defaultValue;
-    }
 
-    public String getText() {
-        return text;
-    }
+	private final String text;
+	private final ActionType type;
+	private final boolean defaultValue;
 
-    public ActionType getType() {
-        return type;
-    }
+	Action(String text, ActionType type, boolean defaultValue) {
+		this.text = text;
+		this.type = type;
+		this.defaultValue = defaultValue;
+	}
 
-    public boolean isDefaultValue() {
-        return defaultValue;
-    }
+	public String getText() {
+		return text;
+	}
 
-    public static Set<Action> getDefaults() {
-        return Arrays.stream(Action.values())
-                .filter(Action::isDefaultValue)
-                .collect(toSet());
-    }
+	public ActionType getType() {
+		return type;
+	}
 
-    public static Stream<Action> stream() {
-        return Arrays.stream(values());
-    }
+	public boolean isDefaultValue() {
+		return defaultValue;
+	}
 
-    public static Stream<Action> stream(ActionType type) {
-        return Arrays.stream(values()).filter(action -> action.type.equals(type));
-    }
+	public static Set<Action> getDefaults() {
+		return Arrays.stream(Action.values())
+				.filter(Action::isDefaultValue)
+				.collect(toSet());
+	}
+
+	public static Stream<Action> stream() {
+		return Arrays.stream(values());
+	}
+
+	public static Stream<Action> stream(ActionType type) {
+		return Arrays.stream(values()).filter(action -> action.type.equals(type));
+	}
 
 }

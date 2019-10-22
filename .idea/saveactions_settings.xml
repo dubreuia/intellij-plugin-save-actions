@@ -10,8 +10,8 @@
         <option value="organizeImports" />
         <option value="reformat" />
         <option value="reformatChangedCode" />
-        <option value="compile" />
         <option value="reload" />
+        <option value="forceCompile" />
         <option value="fieldCanBeFinal" />
         <option value="missingOverrideAnnotation" />
         <option value="useBlocks" />
