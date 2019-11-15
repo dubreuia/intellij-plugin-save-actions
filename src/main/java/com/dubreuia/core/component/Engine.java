@@ -126,6 +126,9 @@ class Engine {
     }
 
     private boolean isPsiFileFresh(PsiFile psiFile) {
+        if (mode == ExecutionMode.batch) {
+            return true;
+        }
         return psiFile.getModificationStamp() != 0;
     }
 
