@@ -59,6 +59,9 @@ public enum ActionTestFile {
     UnnecessarySemicolon_KO,
     UnnecessarySemicolon_OK,
 
+    SingleStatementInBlock_KO,
+    SingleStatementInBlock_OK,
+
     AccessCanBeTightened_KO,
     AccessCanBeTightened_OK,
 
