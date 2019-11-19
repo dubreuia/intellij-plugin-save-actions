@@ -105,6 +105,9 @@ public enum Action {
     unnecessarySemicolon("Remove unnecessary semicolon",
             java, false),
 
+    singleStatementInBlock("Remove braces from if/while/for statements",
+            java, false),
+
     accessCanBeTightened("Change visibility of field or method to lower access",
             java, false),
 
