@@ -19,6 +19,7 @@ import com.siyeh.ig.performance.MethodMayBeStaticInspection;
 import com.siyeh.ig.style.ControlFlowStatementWithoutBracesInspection;
 import com.siyeh.ig.style.CustomUnqualifiedStaticUsageInspection;
 import com.siyeh.ig.style.FieldMayBeFinalInspection;
+import com.siyeh.ig.style.SingleStatementInBlockInspection;
 import com.siyeh.ig.style.UnnecessaryFinalOnLocalVariableOrParameterInspection;
 import com.siyeh.ig.style.UnnecessarySemicolonInspection;
 import com.siyeh.ig.style.UnnecessaryThisInspection;
@@ -103,6 +104,9 @@ public enum JavaProcessor implements Processor {
 
     unnecessarySemicolon(Action.unnecessarySemicolon,
             UnnecessarySemicolonInspection::new),
+
+    singleStatementInBlock(Action.singleStatementInBlock,
+            SingleStatementInBlockInspection::new),
 
     accessCanBeTightened(Action.accessCanBeTightened,
             () -> new CustomAccessCanBeTightenedInspection(new VisibilityInspection())),

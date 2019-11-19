@@ -25,6 +25,8 @@ import static com.dubreuia.integration.ActionTestFile.MethodMayBeStatic_KO;
 import static com.dubreuia.integration.ActionTestFile.MethodMayBeStatic_OK;
 import static com.dubreuia.integration.ActionTestFile.MissingOverrideAnnotation_KO;
 import static com.dubreuia.integration.ActionTestFile.MissingOverrideAnnotation_OK;
+import static com.dubreuia.integration.ActionTestFile.SingleStatementInBlock_KO;
+import static com.dubreuia.integration.ActionTestFile.SingleStatementInBlock_OK;
 import static com.dubreuia.integration.ActionTestFile.SuppressAnnotation_KO;
 import static com.dubreuia.integration.ActionTestFile.SuppressAnnotation_OK;
 import static com.dubreuia.integration.ActionTestFile.UnnecessaryFinalOnLocalVariableOrParameter_KO;
@@ -54,6 +56,7 @@ import static com.dubreuia.model.Action.localCanBeFinal;
 import static com.dubreuia.model.Action.localCanBeFinalExceptImplicit;
 import static com.dubreuia.model.Action.methodMayBeStatic;
 import static com.dubreuia.model.Action.missingOverrideAnnotation;
+import static com.dubreuia.model.Action.singleStatementInBlock;
 import static com.dubreuia.model.Action.suppressAnnotation;
 import static com.dubreuia.model.Action.unnecessaryFinalOnLocalVariableOrParameter;
 import static com.dubreuia.model.Action.unnecessarySemicolon;
@@ -206,6 +209,13 @@ class JavaIntegrationTest extends IntegrationTest {
         storage.setEnabled(activate, true);
         storage.setEnabled(accessCanBeTightened, true);
         assertSaveAction(AccessCanBeTightened_KO, AccessCanBeTightened_OK);
+    }
+
+    @Test
+    void should_singleStatementInBlock_remove_braces() {
+        storage.setEnabled(activate, true);
+        storage.setEnabled(singleStatementInBlock, true);
+        assertSaveAction(SingleStatementInBlock_KO, SingleStatementInBlock_OK);
     }
 
     @Test
