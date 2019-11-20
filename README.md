@@ -149,6 +149,7 @@ If a quick fix adds something that is removed by another quick fix, the removal 
 | Remove explicit generic type for diamond                                 | The list creation `List<String> list = new ArrayList<String>()` becomes `List<String> list = new ArrayList<>()`
 | Remove unused suppress warning annotation                                | The annotation `@SuppressWarning` will be removed if it is unused (warning: "unchecked" doesn't work properly see [#87](https://github.com/dubreuia/intellij-plugin-save-actions/issues/87))
 | Remove unnecessary semicolon                                             | The statement `int variable = 0;;` becomes `int variable = 0;`
+| Remove blocks from if/while/for statements                               | The statement `if (true) { return false; }` becomes `if (true) return false;`, also working for `for` and `while` statements
 | Change visibility of field or method to lower access                     | The field `public int field = 0` becomes `private int field = 0` if it is not used outside class, also working for methods
 
 ## Actions
