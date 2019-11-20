@@ -19,6 +19,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import static com.dubreuia.core.ExecutionMode.batch;
 import static com.dubreuia.core.component.SaveActionManager.LOGGER;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
@@ -126,7 +127,7 @@ class Engine {
     }
 
     private boolean isPsiFileFresh(PsiFile psiFile) {
-        if (mode == ExecutionMode.batch) {
+        if (mode == batch) {
             return true;
         }
         return psiFile.getModificationStamp() != 0;
