@@ -42,11 +42,28 @@ To find which commit to cherry-pick, use the last release tag in each branch
 
 ## Releasing & Packaging
 
-To release a new version, for example **x.y.z**, from previous version
-**a.b.c**, on branch **branch**, with idea version **idea-version**:
+To release and package a new version, for example **x.y.z**, from previous
+version **a.b.c**:
 
 ```bash
-git checkout branch
-./script/release.sh a.b.c x.y.z idea-version
+git checkout master
+./script/release.sh a.b.c x.y.z
+
+git checkout idea-version-2019-3
+./script/release.sh a.b.c x.y.z 2019.3
+
+git checkout idea-version-2018-3
+./script/release.sh a.b.c x.y.z 2018.3
+
+git checkout idea-version-2016-3
+./script/release.sh a.b.c x.y.z 2016.3
 ```
+
+Then follow the link for the github release page to create manually.
+
+## Uploading to jetbrains
+
+Only idea versions get released (not master). Go to
+https://plugins.jetbrains.com/plugin/edit?pluginId=7642 and upload
+each build individually.
 

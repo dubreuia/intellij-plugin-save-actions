@@ -29,16 +29,18 @@ echo "VERSION_NEXT_FULL: ${VERSION_NEXT_FULL}"
 # Params:
 # 	- 0: version
 function push_tag {
-	local version="$1"
+    local version="$1"
+    local git_tag="v$1"
+    local git_tag_escape="${git_tag/+/%2B}"
 
     # Push tag and manual finish (in github)
-    git push origin HEAD:"refs/tags/${version}"
-    echo "Version URL (github): https://github.com/dubreuia/intellij-plugin-save-actions/releases/new?tag=${version}"
+    git push origin HEAD:"refs/tags/${git_tag}"
+    echo "Version URL (github): https://github.com/dubreuia/intellij-plugin-save-actions/releases/new?tag=${git_tab_escape}"
     echo "Release title: Release ${version}"
     echo "File jar: $( ls "intellij-plugin-save-actions-${version}.jar" )"
 
     # Output diff for verification
-    git diff master HEAD > "master_${version}.diff"
+    git diff master HEAD > "master_${git_tag}.diff"
 }
 
 push_tag "${VERSION_NEXT_FULL}"
