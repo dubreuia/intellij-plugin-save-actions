@@ -9,7 +9,11 @@ import java.util.function.Function;
 public enum StorageFactory {
 
     DEFAULT(project -> {
-        return ServiceManager.getService(project, Storage.class);
+        Storage storage = ServiceManager.getService(project, ProjectStorage.class);
+        if (storage.isEnabled(Action.useGlobalConfiguration)) {
+            storage = ServiceManager.getService(GlobalStorage.class);
+        }
+        return storage;
     }),
 
     JAVA(project -> {
