@@ -24,16 +24,16 @@ import static com.dubreuia.core.action.BatchActionConstants.SAVE_ACTION_BATCH_MA
 import static com.dubreuia.core.action.ShortcutActionConstants.SAVE_ACTION_SHORTCUT_MANAGER;
 import static com.dubreuia.core.component.SaveActionManagerConstants.SAVE_ACTION_MANAGER;
 import static com.dubreuia.junit.JUnit5Utils.rethrowAsJunit5Error;
-import static com.dubreuia.model.Action.useGlobalConfiguration;
+import static com.dubreuia.model.Action.activateProjectConfiguration;
 import static com.intellij.testFramework.LightProjectDescriptor.EMPTY_PROJECT_DESCRIPTOR;
 
 public abstract class IntegrationTest {
 
     private CodeInsightTestFixture fixture;
 
-    ProjectStorage projectStorage;
+    private ProjectStorage projectStorage;
 
-    GlobalStorage globalStorage;
+    private GlobalStorage globalStorage;
 
     @BeforeEach
     public void before() throws Exception {
@@ -58,10 +58,10 @@ public abstract class IntegrationTest {
     Storage usingStorage(StorageToTest storageToTest) {
         switch (storageToTest) {
             case GLOBAL:
-                projectStorage.setEnabled(useGlobalConfiguration, true);
+                projectStorage.setEnabled(activateProjectConfiguration, false);
                 return globalStorage;
             case PROJECT:
-                projectStorage.setEnabled(useGlobalConfiguration, false);
+                projectStorage.setEnabled(activateProjectConfiguration, true);
                 return projectStorage;
             default:
                 throw new UnsupportedOperationException("unsupported storage " + storageToTest);

@@ -6,16 +6,18 @@ import java.util.stream.Stream;
 
 import static com.dubreuia.model.ActionType.activation;
 import static com.dubreuia.model.ActionType.build;
+import static com.dubreuia.model.ActionType.configuration;
 import static com.dubreuia.model.ActionType.global;
 import static com.dubreuia.model.ActionType.java;
+import static com.dubreuia.model.ConfigurationType.GLOBAL;
 import static java.util.stream.Collectors.toSet;
 
 public enum Action {
 
     // Activation
 
-    useGlobalConfiguration("Use global save actions configuration for this project",
-            activation, true),
+    activateProjectConfiguration("Activate Project Settings (this overrides the global configuration, if any)",
+            configuration, true, GLOBAL),
 
     activate("Activate save actions on save (before saving each file, performs the configured actions below)",
             activation, true),
@@ -119,11 +121,17 @@ public enum Action {
     private final String text;
     private final ActionType type;
     private final boolean defaultValue;
+    private final ConfigurationType configurationType;
 
     Action(String text, ActionType type, boolean defaultValue) {
+        this(text, type, defaultValue, ConfigurationType.ALL);
+    }
+
+    Action(String text, ActionType type, boolean defaultValue, ConfigurationType configurationType) {
         this.text = text;
         this.type = type;
         this.defaultValue = defaultValue;
+        this.configurationType = configurationType;
     }
 
     public String getText() {
@@ -136,6 +144,10 @@ public enum Action {
 
     public boolean isDefaultValue() {
         return defaultValue;
+    }
+
+    public ConfigurationType getConfigurationType() {
+        return configurationType;
     }
 
     public static Set<Action> getDefaults() {

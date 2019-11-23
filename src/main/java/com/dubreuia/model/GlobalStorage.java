@@ -9,14 +9,6 @@ import org.jetbrains.annotations.NotNull;
         storages = {@com.intellij.openapi.components.Storage("saveactions_global_settings.xml")})
 public class GlobalStorage extends Storage implements PersistentStateComponent<GlobalStorage> {
 
-    public GlobalStorage() {
-        super();
-    }
-
-    public GlobalStorage(Storage storage) {
-        super(storage);
-    }
-
     @Override
     public GlobalStorage getState() {
         return this;

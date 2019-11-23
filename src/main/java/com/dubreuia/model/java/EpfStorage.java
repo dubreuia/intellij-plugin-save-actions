@@ -43,13 +43,17 @@ public enum EpfStorage {
         }
         Storage storage = new ProjectStorage(defaultStorage);
         Properties properties = readProperties(configurationPath);
-        Action.stream().forEach(action -> storage.setEnabled(action, isEnabledInEpf(properties, action)
-                .orElse(defaultStorage.isEnabled(action))));
+        Action.stream()
+                .forEach(action -> storage.setEnabled(action, isEnabledInEpf(properties, action)
+                        .orElse(defaultStorage.isEnabled(action))));
         return storage;
     }
 
     private Optional<Boolean> isEnabledInEpf(Properties properties, Action action) {
-        List<EpfKey> epfKeys = EpfAction.getEpfActionForAction(action).map(EpfAction::getEpfKeys).orElse(emptyList());
+        List<EpfKey> epfKeys = EpfAction
+                .getEpfActionForAction(action)
+                .map(EpfAction::getEpfKeys)
+                .orElse(emptyList());
         for (EpfKey epfKey : epfKeys) {
             if (isEnabledInEpf(properties, epfKey, true)) {
                 return Optional.of(true);

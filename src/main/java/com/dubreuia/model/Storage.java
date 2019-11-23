@@ -1,17 +1,11 @@
 package com.dubreuia.model;
 
-import com.intellij.openapi.components.PersistentStateComponent;
-import com.intellij.openapi.components.State;
 import com.intellij.serviceContainer.NonInjectable;
-import com.intellij.util.xmlb.XmlSerializerUtil;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import static com.dubreuia.model.Action.useGlobalConfiguration;
 
 public abstract class Storage {
 
@@ -22,10 +16,10 @@ public abstract class Storage {
     private String configurationPath;
     private List<String> quickLists;
 
+    @NonInjectable
     public Storage() {
         firstLaunch = true;
         actions = new HashSet<>();
-        actions.add(useGlobalConfiguration);
         exclusions = new HashSet<>();
         inclusions = new HashSet<>();
         configurationPath = null;

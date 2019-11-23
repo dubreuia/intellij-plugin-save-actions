@@ -4,18 +4,21 @@ import com.dubreuia.model.Action;
 import com.dubreuia.model.ActionType;
 import com.intellij.ui.IdeBorderFactory;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JCheckBox;
+import javax.swing.JPanel;
+import java.awt.Dimension;
 import java.util.Map;
 import java.util.Objects;
 
-class GeneralPanel {
+class ActivationPanel {
 
-    private static final String TEXT_TITLE_ACTIONS = "General";
+    private static final String TEXT_TITLE_ACTIONS = "Activation";
 
     private final Map<Action, JCheckBox> checkboxes;
 
-    GeneralPanel(Map<Action, JCheckBox> checkboxes) {
+    ActivationPanel(Map<Action, JCheckBox> checkboxes) {
         this.checkboxes = checkboxes;
     }
 

@@ -1,7 +1,9 @@
 package com.dubreuia.model;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
+import com.intellij.serviceContainer.NonInjectable;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import org.jetbrains.annotations.NotNull;
 
@@ -9,10 +11,12 @@ import org.jetbrains.annotations.NotNull;
         storages = {@com.intellij.openapi.components.Storage("./saveactions_settings.xml")})
 public class ProjectStorage extends Storage implements PersistentStateComponent<ProjectStorage> {
 
+    @VisibleForTesting
     public ProjectStorage() {
-
+        super();
     }
 
+    @NonInjectable
     public ProjectStorage(Storage storage) {
         super(storage);
     }

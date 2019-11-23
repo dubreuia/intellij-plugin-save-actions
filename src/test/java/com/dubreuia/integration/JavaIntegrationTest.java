@@ -232,8 +232,9 @@ class JavaIntegrationTest extends IntegrationTest {
         assertSaveAction(AccessCanBeTightened_KO, AccessCanBeTightened_OK);
     }
 
-    @Test
-    void should_singleStatementInBlock_remove_braces() {
+    @StoragesTest
+    void should_singleStatementInBlock_remove_braces(StorageToTest storageToTest) {
+        Storage storage = usingStorage(storageToTest);
         storage.setEnabled(activate, true);
         storage.setEnabled(singleStatementInBlock, true);
         assertSaveAction(SingleStatementInBlock_KO, SingleStatementInBlock_OK);

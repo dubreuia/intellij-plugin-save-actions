@@ -1,5 +1,6 @@
 package com.dubreuia.ui;
 
+import com.dubreuia.model.ConfigurationType;
 import com.dubreuia.model.ProjectStorage;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.options.Configurable;

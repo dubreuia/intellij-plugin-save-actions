@@ -1,6 +1,7 @@
 package com.dubreuia.ui;
 
 import com.dubreuia.model.Action;
+import com.dubreuia.model.ConfigurationType;
 import com.dubreuia.model.Storage;
 import com.dubreuia.model.java.EpfStorage;
 import com.dubreuia.ui.java.IdeSupportPanel;
@@ -8,15 +9,33 @@ import com.dubreuia.ui.java.InspectionPanel;
 import com.intellij.openapi.options.Configurable;
 import org.jetbrains.annotations.Nullable;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JCheckBox;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.*;
+import java.util.Map;
+import java.util.Set;
 import java.util.function.Supplier;
 
-import static com.dubreuia.model.Action.*;
+import static com.dubreuia.model.Action.activate;
+import static com.dubreuia.model.Action.activateOnBatch;
+import static com.dubreuia.model.Action.activateOnShortcut;
+import static com.dubreuia.model.Action.customUnqualifiedStaticMemberAccess;
+import static com.dubreuia.model.Action.reformat;
+import static com.dubreuia.model.Action.reformatChangedCode;
+import static com.dubreuia.model.Action.unqualifiedStaticMemberAccess;
+import static com.dubreuia.model.ActionType.activation;
+import static com.dubreuia.model.ActionType.configuration;
 
 public abstract class Configuration implements Configurable {
 
@@ -32,7 +51,8 @@ public abstract class Configuration implements Configurable {
     private final Map<Action, JCheckBox> checkboxes = new EnumMap<>(Action.class);
     private final ActionListener checkboxActionListener = this::updateCheckboxEnabled;
 
-    private GeneralPanel generalPanel;
+    private ConfigurationPanel configurationPanel;
+    private ActivationPanel activationPanel;
     private FormattingPanel formattingPanel;
     private BuildPanel buildPanel;
     private InspectionPanel inspectionPanel;
@@ -120,7 +140,8 @@ public abstract class Configuration implements Configurable {
         exclusions.clear();
         inclusions.clear();
         quickLists.clear();
-        generalPanel = null;
+        configurationPanel = null;
+        activationPanel = null;
         formattingPanel = null;
         buildPanel = null;
         inspectionPanel = null;
@@ -137,12 +158,13 @@ public abstract class Configuration implements Configurable {
 
     private JPanel initComponent() {
         for (Action action : Action.values()) {
-            if (configurationType == ConfigurationType.PROJECT
-                    || action != useGlobalConfiguration) {
-                checkboxes.put(action, new JCheckBox(action.getText()));
+            if (!action.getConfigurationType().isIncluded(configurationType)) {
+                continue;
             }
+            checkboxes.put(action, new JCheckBox(action.getText()));
         }
-        generalPanel = new GeneralPanel(checkboxes);
+        configurationPanel = new ConfigurationPanel(checkboxes);
+        activationPanel = new ActivationPanel(checkboxes);
         formattingPanel = new FormattingPanel(checkboxes);
         buildPanel = new BuildPanel(checkboxes, quickLists);
         inspectionPanel = new InspectionPanel(checkboxes);
@@ -150,7 +172,8 @@ public abstract class Configuration implements Configurable {
         fileMasksExclusionPanel = new FileMaskExclusionPanel(exclusions);
         ideSupport = new IdeSupportPanel();
         return initRootPanel(
-                generalPanel.getPanel(),
+                configurationPanel.getPanel(),
+                activationPanel.getPanel(),
                 formattingPanel.getPanel(),
                 buildPanel.getPanel(),
                 inspectionPanel.getPanel(),
@@ -160,8 +183,13 @@ public abstract class Configuration implements Configurable {
         );
     }
 
-    private JPanel initRootPanel(JPanel general, JPanel actions, JPanel build, JPanel inspections,
-                                 JPanel fileMasksInclusions, JPanel fileMasksExclusions,
+    private JPanel initRootPanel(JPanel configuration,
+                                 JPanel activation,
+                                 JPanel actions,
+                                 JPanel build,
+                                 JPanel inspections,
+                                 JPanel fileMasksInclusions,
+                                 JPanel fileMasksExclusions,
                                  JPanel ideSupport) {
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
@@ -169,15 +197,19 @@ public abstract class Configuration implements Configurable {
         c.anchor = GridBagConstraints.NORTH;
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 1;
+        c.weighty = 1;
         c.gridx = 0;
-
         c.gridy = 0;
-        panel.add(general, c);
-        c.gridy = 1;
+
+        panel.add(configuration, c);
+        configuration.setVisible(configurationType == ConfigurationType.GLOBAL);
+        c.gridy++;
+        panel.add(activation, c);
+        c.gridy++;
         panel.add(actions, c);
-        c.gridy = 2;
+        c.gridy++;
         panel.add(build, c);
-        c.gridy = 3;
+        c.gridy++;
         panel.add(inspections, c);
 
         JPanel fileMaskPanel = new JPanel();
@@ -185,15 +217,14 @@ public abstract class Configuration implements Configurable {
         fileMaskPanel.add(fileMasksInclusions);
         fileMaskPanel.add(Box.createRigidArea(new Dimension(10, 0)));
         fileMaskPanel.add(fileMasksExclusions);
-        c.gridy = 4;
+        c.gridy++;
         panel.add(fileMaskPanel, c);
 
-        c.gridy = 5;
+        c.gridy++;
         panel.add(ideSupport, c);
         ideSupport.setVisible(configurationType == ConfigurationType.PROJECT);
 
-        c.gridy = 6;
-        c.weighty = 1;
+        c.gridy++;
         c.fill = GridBagConstraints.BOTH;
         JPanel filler = new JPanel();
         filler.setOpaque(false);
@@ -229,16 +260,13 @@ public abstract class Configuration implements Configurable {
     private void updateCheckboxEnabledIfActiveSelected() {
         for (Map.Entry<Action, JCheckBox> checkbox : checkboxes.entrySet()) {
             Action currentCheckBoxKey = checkbox.getKey();
-            if (useGlobalConfiguration.equals(currentCheckBoxKey)) {
-                continue;
-            }
-            if (activate.equals(currentCheckBoxKey)
-                    || activateOnShortcut.equals(currentCheckBoxKey)
-                    || activateOnBatch.equals(currentCheckBoxKey)) {
-                checkbox.getValue().setEnabled(isEnabled());
+            boolean enabled;
+            if (currentCheckBoxKey.getType() == configuration || currentCheckBoxKey.getType() == activation) {
+                enabled = true;
             } else {
-                checkbox.getValue().setEnabled(isEnabled() && isActiveSelected());
+                enabled = isActiveSelected();
             }
+            checkbox.getValue().setEnabled(enabled);
         }
     }
 
@@ -264,19 +292,19 @@ public abstract class Configuration implements Configurable {
         }
     }
 
-    private boolean isEnabled() {
-        return configurationType == ConfigurationType.GLOBAL || !checkboxes.get(useGlobalConfiguration).isSelected();
-    }
+//    private boolean isConfigurationSelected() {
+//        Action configurationAction = configurationType == ConfigurationType.PROJECT ?
+//                activateProjectConfiguration : activateGlobalConfiguration;
+//        return checkboxes.get(configurationAction).isSelected();
+//    }
 
     private boolean isActiveSelected() {
         boolean activateIsSelected = checkboxes.get(activate).isSelected();
         boolean activateShortcutIsSelected = checkboxes.get(activateOnShortcut).isSelected();
         boolean activateBatchIsSelected = checkboxes.get(activateOnBatch).isSelected();
-        return activateIsSelected || activateShortcutIsSelected || activateBatchIsSelected;
+        boolean activateAnySelected = activateIsSelected || activateShortcutIsSelected || activateBatchIsSelected;
+        return activateAnySelected;
+//        return isConfigurationSelected() && (activateAnySelected);
     }
 
-    enum ConfigurationType {
-        GLOBAL,
-        PROJECT
-    }
 }

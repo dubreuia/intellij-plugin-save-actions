@@ -8,12 +8,15 @@ import org.jdesktop.swingx.JXHyperlink;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import java.awt.Dimension;
 import java.awt.event.ActionListener;
 
 public class ParentConfiguration implements Configurable {
-
 
     static final String GLOBAL_SETTINGS = "Global settings";
 
@@ -62,7 +65,6 @@ public class ParentConfiguration implements Configurable {
 
     @Override
     public void apply() {
-
     }
 
 }
