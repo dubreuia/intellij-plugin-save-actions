@@ -4,10 +4,10 @@ import com.dubreuia.core.ExecutionMode;
 import com.dubreuia.model.Action;
 import com.dubreuia.processors.Processor;
 import com.dubreuia.processors.SaveWriteCommand;
+import com.dubreuia.processors.java.inspection.CustomLocalCanBeFinal;
 import com.dubreuia.processors.java.inspection.SerializableHasSerialVersionUIDFieldInspectionWrapper;
 import com.intellij.codeInspection.ExplicitTypeCanBeDiamondInspection;
 import com.intellij.codeInspection.LocalInspectionTool;
-import com.intellij.codeInspection.localCanBeFinal.LocalCanBeFinal;
 import com.intellij.codeInspection.visibility.CustomAccessCanBeTightenedInspection;
 import com.intellij.codeInspection.visibility.VisibilityInspection;
 import com.intellij.openapi.project.Project;
@@ -44,11 +44,11 @@ public enum JavaProcessor implements Processor {
             FieldMayBeFinalInspection::new),
 
     localCanBeFinal(Action.localCanBeFinal,
-            LocalCanBeFinal::new),
+            CustomLocalCanBeFinal::new),
 
     localCanBeFinalExceptImplicit(Action.localCanBeFinalExceptImplicit,
             () -> {
-                LocalCanBeFinal inspection = new LocalCanBeFinal();
+                CustomLocalCanBeFinal inspection = new CustomLocalCanBeFinal();
                 inspection.REPORT_IMPLICIT_FINALS = false;
                 return inspection;
             }),
