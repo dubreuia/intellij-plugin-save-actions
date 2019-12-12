@@ -62,7 +62,7 @@ Works in JetBrains IDE with Java support, like Intellij IDEA and AndroidStudio.
 
 ## Compatibility
 
-Built with IntelliJ IDEA IC-2016.3, JDK 1.8, those are the currently supported products, and is not expected to work in other products:
+Built for SDK version 2016.3, 2018.3, 2019.3, with JDK 1.11, those are the currently supported products, and is not expected to work in other products:
 
 - <img src="./docs/icon-intellij-idea.svg" width="30"> Intellij IDEA (ultimate and community)
 - <img src="./docs/icon-pycharm.svg" width="30"> PyCharm (professional and community)
