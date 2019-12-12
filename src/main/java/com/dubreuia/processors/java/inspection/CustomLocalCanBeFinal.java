@@ -15,6 +15,7 @@ import java.util.Optional;
 
 @SuppressWarnings("InspectionDescriptionNotFoundInspection")
 public class CustomLocalCanBeFinal extends LocalCanBeFinal {
+
     @Override
     public ProblemDescriptor[] checkMethod(@NotNull PsiMethod method,
                                            @NotNull InspectionManager manager,
@@ -30,13 +31,16 @@ public class CustomLocalCanBeFinal extends LocalCanBeFinal {
     }
 
     private ProblemDescriptor[] checkProblemDescriptors(@Nullable ProblemDescriptor[] descriptors) {
-        return Arrays.stream(Optional.ofNullable(descriptors).orElse(new ProblemDescriptor[0]))
+        return Arrays
+                .stream(Optional.ofNullable(descriptors).orElse(new ProblemDescriptor[0]))
                 .filter(descriptor -> isNotLombokVal(descriptor.getPsiElement()))
                 .toArray(ProblemDescriptor[]::new);
     }
 
     private boolean isNotLombokVal(PsiElement element) {
-        return Arrays.stream(element.getParent().getChildren())
+        return Arrays
+                .stream(element.getParent().getChildren())
                 .noneMatch(child -> child instanceof PsiTypeElement && child.getText().equals("val"));
     }
+
 }
