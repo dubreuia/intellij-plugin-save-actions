@@ -11,8 +11,14 @@ import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JCheckBox;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -25,9 +31,11 @@ import java.util.Set;
 import static com.dubreuia.model.Action.activate;
 import static com.dubreuia.model.Action.activateOnBatch;
 import static com.dubreuia.model.Action.activateOnShortcut;
+import static com.dubreuia.model.Action.compile;
 import static com.dubreuia.model.Action.customUnqualifiedStaticMemberAccess;
 import static com.dubreuia.model.Action.reformat;
 import static com.dubreuia.model.Action.reformatChangedCode;
+import static com.dubreuia.model.Action.reload;
 import static com.dubreuia.model.Action.unqualifiedStaticMemberAccess;
 
 public class Configuration implements Configurable {
@@ -236,8 +244,9 @@ public class Configuration implements Configurable {
 
     private void updateCheckboxEnabled(ActionEvent event) {
         updateCheckboxEnabledIfActiveSelected();
-        updateCheckboxEnabledGroupReformatExclusive(event);
-        updateCheckboxEnabledGroupStaticExclusive(event);
+        updateCheckboxGroupExclusive(event, reformat, reformatChangedCode);
+        updateCheckboxGroupExclusive(event, compile, reload);
+        updateCheckboxGroupExclusive(event, unqualifiedStaticMemberAccess, customUnqualifiedStaticMemberAccess);
     }
 
     private void updateCheckboxEnabledIfActiveSelected() {
@@ -249,14 +258,6 @@ public class Configuration implements Configurable {
                 checkbox.getValue().setEnabled(isActiveSelected());
             }
         }
-    }
-
-    private void updateCheckboxEnabledGroupReformatExclusive(ActionEvent event) {
-        updateCheckboxGroupExclusive(event, reformat, reformatChangedCode);
-    }
-
-    private void updateCheckboxEnabledGroupStaticExclusive(ActionEvent event) {
-        updateCheckboxGroupExclusive(event, unqualifiedStaticMemberAccess, customUnqualifiedStaticMemberAccess);
     }
 
     private void updateCheckboxGroupExclusive(ActionEvent event, Action checkbox1, Action checkbox2) {

@@ -56,6 +56,8 @@ Thank you to JetBrains that supports our plugin: they provide an open-source lic
 
 Works in JetBrains IDE with Java support, like Intellij IDEA and AndroidStudio.
 
+- Compile project after save (if compiling is available)
+- Reload debugger after save (if compiling is available)
 - Eclipse configuration file `.epf` support (see [Eclipse support](#eclipse-support))
 - Automatically fix Java inspections (see [Java quick fixes](#java-fixes))
 
