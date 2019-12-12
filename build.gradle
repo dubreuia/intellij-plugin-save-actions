@@ -16,6 +16,9 @@ apply plugin: 'idea'
 apply plugin: 'jacoco'
 apply plugin: 'org.jetbrains.intellij'
 
+sourceCompatibility = 1.11
+targetCompatibility = 1.11
+
 // Add intellij task configuration for base intellij version (minimum compatibility)
 // This needs to fit the tag <idea-version since-build="xxx"> in plugin.xml
 // See https://www.jetbrains.com/intellij-repository/snapshots
