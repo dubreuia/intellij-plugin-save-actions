@@ -5,7 +5,6 @@ import com.dubreuia.core.component.SaveActionManager;
 import com.dubreuia.model.Action;
 import com.intellij.debugger.DebuggerManagerEx;
 import com.intellij.debugger.impl.DebuggerSession;
-import com.intellij.debugger.settings.DebuggerSettings;
 import com.intellij.debugger.ui.HotSwapUI;
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.AnAction;
@@ -59,11 +58,7 @@ public enum BuildProcessor implements Processor {
                 DebuggerManagerEx debuggerManager = DebuggerManagerEx.getInstanceEx(project);
                 DebuggerSession session = debuggerManager.getContext().getDebuggerSession();
                 if (session != null && session.isAttached()) {
-                    boolean compileEnabled = SaveActionManager.getInstance()
-                            .getStorage(project).isEnabled(Action.compile);
-                    boolean compileHotswapSetting = DebuggerSettings.getInstance().COMPILE_BEFORE_HOTSWAP;
-                    boolean compileBeforeHotswap = compileEnabled ? false : compileHotswapSetting;
-                    HotSwapUI.getInstance(project).reloadChangedClasses(session, compileBeforeHotswap);
+                    HotSwapUI.getInstance(project).reloadChangedClasses(session, true);
                 }
             }),
 
