@@ -32,7 +32,7 @@ Gradle wrapper needs the environment variable JAVA_HOME to work, or the -D flag,
 export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 
 # Or use the -D flag
-gradle build -Dorg.gradle.java.home=/usr/lib/jvm/java-11-openjdk-amd64 
+gradle build -D org.gradle.java.home=/usr/lib/jvm/java-11-openjdk-amd64 
 ```
 
 During the Intellij setup, you will need to manually set the Java version in "Gradle Settings", since it doesn't honor
@@ -43,6 +43,8 @@ the `JAVA_HOME` property.
 The code style is located in `config/code-style.xml`, you can import it by doing
 "File > Settings > Editor > Code Style > Scheme > (wheel) > Import scheme > Intellij IDEA code style XML".
 General style should resemble existing code.
+
+As for local variable type inference (the `var` keyword in Java), no var is permitted except in the "core" package.
 
 ## Sending a pull request
 

@@ -108,7 +108,7 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
     @Override
     public void beforeAllDocumentsSaving() {
         LOGGER.info("[+] Start SaveActionManager#beforeAllDocumentsSaving");
-        Document[] unsavedDocuments = FileDocumentManager.getInstance().getUnsavedDocuments();
+        var unsavedDocuments = FileDocumentManager.getInstance().getUnsavedDocuments();
         beforeDocumentsSaving(asList(unsavedDocuments));
         LOGGER.info("End SaveActionManager#beforeAllDocumentsSaving");
     }
@@ -120,7 +120,7 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
         documents.forEach(document -> stream(ProjectManager.getInstance().getOpenProjects())
                 .forEach(project -> ofNullable(PsiDocumentManager.getInstance(project).getPsiFile(document))
                         .map(psiFile -> {
-                            Set<PsiFile> psiFiles = projectPsiFiles.getOrDefault(project, new HashSet<>());
+                            var psiFiles = projectPsiFiles.getOrDefault(project, new HashSet<>());
                             projectPsiFiles.put(project, psiFiles);
                             return psiFiles.add(psiFile);
                         })));
@@ -140,7 +140,7 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
                 return;
             }
             running = true;
-            Engine engine = new Engine(getStorage(project), processors, project, psiFiles, activation, mode);
+            var engine = new Engine(getStorage(project), processors, project, psiFiles, activation, mode);
             engine.processPsiFilesIfNecessary();
         } finally {
             running = false;
