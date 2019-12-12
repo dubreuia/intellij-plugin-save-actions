@@ -23,14 +23,16 @@ Intellij should refresh and the project is now configured as a gradle project. Y
 ./gradlew runIde
 ```
 
-### Java version
+### Java version (11)
 
-For now, we require Java 8 for the plugin to build
-(see [issue #275](https://github.com/dubreuia/intellij-plugin-save-actions/issues/275)). The Gradle wrapper needs
-the environment variable JAVA_HOME to work, for example:
+The plugin requires Java 11 to build. On Ubuntu, you can install OpenJDK using `sudo apt install openjdk-11-jdk`. The
+Gradle wrapper needs the environment variable JAVA_HOME to work, or the -D flag, for example:
 
 ```bash
-export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
+export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+
+# Or use the -D flag
+gradle build -Dorg.gradle.java.home=/usr/lib/jvm/java-11-openjdk-amd64 
 ```
 
 During the Intellij setup, you will need to manually set the Java version in "Gradle Settings", since it doesn't honor
