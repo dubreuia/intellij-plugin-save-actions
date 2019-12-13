@@ -2,25 +2,27 @@
 
 ## Branches and versions
 
-- Branch `idea-version-2016-3`: tags as **x.y.z+2016.3** for version **x.y.z**
-  and idea version **2016.3**
-    - tag and github release: **x.y.z+2016.3**
-    - build.gradle: `version: '2016.3'`
-    - plugin.xml: `<idea-version since-build="163" until-build="183"/>`
-- Branch `idea-version-2018-3`: tags as **x.y.z+2018.3** for version **x.y.z**
-  and idea version **2018.3**
+Maintained:
+
+- Branch `idea-version-2018-3`: tags as **x.y.z+2018.3** for version **x.y.z** and idea version **2018.3**
     - tag and github release: **x.y.z+2018.3**
     - build.gradle: `version: '2018.3'`
     - plugin.xml: `<idea-version since-build="183" until-build="193"/>`
-- Branch `idea-version-2019-3`: tags as **x.y.z+2019.3** for version **x.y.z**
-  and idea version **2019.3**
+- Branch `idea-version-2019-3`: tags as **x.y.z+2019.3** for version **x.y.z** and idea version **2019.3**
     - tag and github release: **x.y.z+2019.3**
     - build.gradle: `version: '2019.3'`
     - plugin.xml: `<idea-version since-build="193"/>` (no until)
-- Branch `master` with no version or tags, idea version **2019.3** (LATEST), no
-  release of this branch
+- Branch `master` with no version or tags, idea version **2019.3** (LATEST), no release of this branch
     - build.gradle: `version: '193-EAP-SNAPSHOT'`
     - plugin.xml: `<idea-version since-build="193"/>`
+
+Not maintained:
+
+- Branch `idea-version-2016-3`: tags as **x.y.z+2016.3** for version **x.y.z** and idea version **2016.3**
+    - tag and github release: **x.y.z+2016.3**
+    - build.gradle: `version: '2016.3'`
+    - plugin.xml: `<idea-version since-build="163" until-build="183"/>`
+    - last version: 1.6.0+2016.3
 
 ## Backporting
 
@@ -32,7 +34,6 @@ To find which commit to cherry-pick, use the last release tag in each branch (in
 
 - Commit (or merge PR) on master
 - Cherry-pick on those branches:
-    - `idea-version-2016-3`
     - `idea-version-2018-3`
     - `idea-version-2019-3`
 
@@ -51,9 +52,6 @@ git checkout idea-version-2019-3
 
 git checkout idea-version-2018-3
 ./script/release.sh a.b.c x.y.z 2018.3
-
-git checkout idea-version-2016-3
-./script/release.sh a.b.c x.y.z 2016.3
 ```
 
 Then follow the link for the github release page to create manually.

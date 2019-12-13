@@ -176,7 +176,7 @@ If a quick fix adds something that is removed by another quick fix, the removal 
 
 ## Compatibility
 
-Built for SDK version 2016.3, 2018.3, 2019.3, with JDK 1.11, those are the currently supported products, and is not expected to work in other products:
+Built for SDK version 2016.3, 2018.3, 2019.3, using JDK 8, those are the currently supported products, and is not expected to work in other products:
 
 - <img src="./docs/icon-intellij-idea.svg" width="30"> Intellij IDEA (ultimate and community)
 - <img src="./docs/icon-pycharm.svg" width="30"> PyCharm (professional and community)
@@ -187,6 +187,11 @@ Built for SDK version 2016.3, 2018.3, 2019.3, with JDK 1.11, those are the curre
 - <img src="./docs/icon-clion.svg" width="30"> CLion
 
 See issue [#18](https://github.com/dubreuia/intellij-plugin-save-actions/issues/18) for a beta packaging that you can try in other products.
+
+### Backward compatibility
+
+- For SDK 2016.3, the latest version is [Release 1.6.0+2016.3](https://github.com/dubreuia/intellij-plugin-save-actions/releases/tag/v1.6.0%2B2016.3) (not maintained anymore).
+- For SDK 2018.3, 2019.3 and EAP (not released on plugin repository) the latest version is in the [releases](https://github.com/dubreuia/intellij-plugin-save-actions/releases).
 
 ### Eclipse configuration support
 
