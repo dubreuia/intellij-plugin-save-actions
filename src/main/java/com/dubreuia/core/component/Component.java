@@ -4,6 +4,8 @@ import com.dubreuia.processors.BuildProcessor;
 import com.dubreuia.processors.GlobalProcessor;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ApplicationComponent;
+import com.intellij.util.messages.MessageBus;
+import com.intellij.util.messages.MessageBusConnection;
 import org.jetbrains.annotations.NotNull;
 
 import static com.dubreuia.core.component.SaveActionManager.LOGGER;
@@ -24,13 +26,13 @@ public class Component implements ApplicationComponent {
     public void initComponent() {
         LOGGER.info("Starting component: " + COMPONENT_NAME);
 
-        var manager = SaveActionManager.getInstance();
+        SaveActionManager manager = SaveActionManager.getInstance();
         manager.setStorageFactory(DEFAULT);
         manager.addProcessors(BuildProcessor.stream());
         manager.addProcessors(GlobalProcessor.stream());
 
-        var bus = ApplicationManager.getApplication().getMessageBus();
-        var connection = bus.connect();
+        MessageBus bus = ApplicationManager.getApplication().getMessageBus();
+        MessageBusConnection connection = bus.connect();
         connection.subscribe(FILE_DOCUMENT_SYNC, manager);
     }
 

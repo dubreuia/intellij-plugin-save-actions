@@ -21,7 +21,7 @@ public class JavaComponent implements ApplicationComponent {
     public void initComponent() {
         LOGGER.info("Starting component: " + COMPONENT_NAME);
 
-        var manager = SaveActionManager.getInstance();
+        SaveActionManager manager = SaveActionManager.getInstance();
         manager.setStorageFactory(JAVA);
         manager.enableJava();
         manager.addProcessors(JavaProcessor.stream());
