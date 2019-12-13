@@ -35,8 +35,6 @@ During the Intellij setup, you will need to manually set the Java version in "Gr
 
 The code style is located in `config/code-style.xml`, you can import it by doing "File > Settings > Editor > Code Style > Scheme > (wheel) > Import scheme > Intellij IDEA code style XML".  General style should resemble existing code.
 
-As for local variable type inference (the `var` keyword in Java), no var is permitted except in the "core" package.
-
 ## Sending a pull request
 
 To contribute, submit a PR without modifying the plugin version. Before sending, think about documenting your feature, code style, unit tests (if possible), integration tests (see `com.dubreuia.integration.IntegrationTest`) and proper manual testing.
