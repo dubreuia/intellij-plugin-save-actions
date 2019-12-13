@@ -10,8 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@State(name = "SaveActionSettings",
-        storages = {@com.intellij.openapi.components.Storage(file = "./saveactions_settings.xml")})
+@State(name = "SaveActionSettings", storages = {@com.intellij.openapi.components.Storage(file = "./saveactions_settings.xml")})
 public class Storage implements PersistentStateComponent<Storage> {
 
     private boolean firstLaunch;
