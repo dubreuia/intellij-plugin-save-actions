@@ -24,15 +24,11 @@
 
 ## Backporting
 
-Diffing the content of the master and one backport branch using `git diff
-master HEAD` from the backport branch.  The diff content should be only the
-versions, plus any feature that is not in the branch.
+Diffing the content of the master and one backport branch using `git diff master HEAD` from the backport branch.  The diff content should be only the versions, plus any feature that is not in the branch.
 
-Easiest way of backporting is listing the commit ids, and then using 
-`git cherry-pick sha1 sha1 ...`.
+Easiest way of backporting is listing the commit ids, and then using `git cherry-pick sha1 sha1 ...`.
 
-To find which commit to cherry-pick, use the last release tag in each branch
-(including master).
+To find which commit to cherry-pick, use the last release tag in each branch (including master).
 
 - Commit (or merge PR) on master
 - Cherry-pick on those branches:
@@ -42,10 +38,11 @@ To find which commit to cherry-pick, use the last release tag in each branch
 
 ## Releasing & Packaging
 
-To release and package a new version, for example **x.y.z**, from previous
-version **a.b.c**:
+To release and package a new version, for example **x.y.z**, from previous version **a.b.c**:
 
 ```bash
+export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+
 git checkout master
 ./script/release.sh a.b.c x.y.z
 
@@ -63,7 +60,5 @@ Then follow the link for the github release page to create manually.
 
 ## Uploading to jetbrains
 
-Only idea versions get released (not master). Go to
-https://plugins.jetbrains.com/plugin/edit?pluginId=7642 and upload
-each build individually.
+Only idea versions get released (not master). Go to https://plugins.jetbrains.com/plugin/edit?pluginId=7642 and upload each build individually.
 
