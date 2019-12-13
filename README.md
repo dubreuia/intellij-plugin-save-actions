@@ -13,11 +13,14 @@ Using the save actions plugin makes your code cleaner and more uniform across yo
 
 The code style applied by the save actions plugin is the one configured your settings at "File > Settings > Editor > Code Style". For some languages, custom formatter (Dartfmt, Prettier, etc.) may also be triggered by the save actions plugin. See the [Editor Actions](#editor-actions) configuration for more information.
 
-Thank you to JetBrains that supports our plugin: they provide an open-source license to us, necessary to build, test and deploy this plugin. Check out their products at [https://www.jetbrains.com](https://www.jetbrains.com/?from=intellij-save-actions-plugin).
+Thank you to JetBrains for supporting the Save Actions plugin: they provide an open-source license, which is necessary to build, test and deploy this plugin. Check out their products at [https://www.jetbrains.com](https://www.jetbrains.com/?from=intellij-save-actions-plugin).
+
+<p align="center">
+  <img alt="Save Actions Plugin icon light" title="Save Actions Plugin icon light" src="./docs/icon-save-actions.svg" width="200" height="200">
+</p>
 
 ## Content
 
-- [Logos](#logos)
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
@@ -27,11 +30,6 @@ Thank you to JetBrains that supports our plugin: they provide an open-source lic
 - [Contributions](#contributions)
 - [Links](#links)
 - [Licence](#licence)
-
-## Logos
-
- ![Save Actions Plugin icon light](./docs/icon-save-actions.svg)
- ![Save Actions Plugin icon dark](./docs/icon-save-actions-dark.svg)
 
 ## Features
 
@@ -96,7 +94,7 @@ The plugin actions are grouped under the menu "Code > Save Actions". You can ass
 - **Execute Save Actions on multiple files (default: not binded)** will show a popup to select the files (or a scope) on which to trigger the plugin (needs to be activated with "Activate save actions on batch" in [activation](#activation)).
 
 <p align="center">
-  <img src="./docs/intellij-save-actions-plugin-action-menu.png" width="371" height="77">
+  <img alt="Save Actions Plugin Action menu" title="Save Actions Plugin Action menu" src="./docs/intellij-save-actions-plugin-action-menu.png" width="371" height="77">
 </p>
 
 ## Configuration
