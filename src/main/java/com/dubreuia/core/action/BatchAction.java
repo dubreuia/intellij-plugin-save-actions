@@ -23,13 +23,14 @@ import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collections;
 import java.util.HashSet;
+import java.util.Set;
 
 import static com.dubreuia.core.ExecutionMode.batch;
 import static com.dubreuia.core.component.Component.COMPONENT_NAME;
 import static com.dubreuia.core.component.SaveActionManager.LOGGER;
 import static com.dubreuia.model.Action.activateOnBatch;
+import static java.util.Collections.synchronizedSet;
 
 /**
  * This action runs the save actions on the given scope of files, only if property
@@ -49,7 +50,7 @@ public class BatchAction extends BaseAnalysisAction {
     @Override
     protected void analyze(@NotNull Project project, @NotNull AnalysisScope scope) {
         LOGGER.info("[+] Start BatchAction#analyze with project " + project + " and scope " + scope);
-        var psiFiles = Collections.<PsiFile>synchronizedSet(new HashSet<>());
+        Set<PsiFile> psiFiles = synchronizedSet(new HashSet<>());
         scope.accept(new PsiElementVisitor() {
             @Override
             public void visitFile(PsiFile psiFile) {

@@ -4,6 +4,9 @@ import com.dubreuia.core.ExecutionMode;
 import com.dubreuia.model.Action;
 import com.dubreuia.model.Storage;
 import com.dubreuia.processors.Processor;
+import com.dubreuia.processors.Result;
+import com.dubreuia.processors.ResultCode;
+import com.dubreuia.processors.SaveCommand;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.psi.PsiFile;
@@ -12,6 +15,7 @@ import com.intellij.util.PsiErrorElementUtil;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
@@ -54,7 +58,7 @@ class Engine {
             return;
         }
         LOGGER.info("Processing " + project + " files " + psiFiles + " mode " + mode);
-        var psiFilesEligible = psiFiles.stream()
+        Set<PsiFile> psiFilesEligible = psiFiles.stream()
                 .filter(psiFile -> isPsiFileEligible(project, psiFile))
                 .collect(toSet());
         LOGGER.info("Valid files " + psiFilesEligible);
@@ -66,13 +70,13 @@ class Engine {
             return;
         }
         LOGGER.info("Start processors (" + processors.size() + ")");
-        var processorsEligible = processors.stream()
+        List<SaveCommand> processorsEligible = processors.stream()
                 .map(processor -> processor.getSaveCommand(project, psiFiles))
                 .filter(command -> storage.isEnabled(command.getAction()))
                 .filter(command -> command.getModes().contains(mode))
                 .collect(toList());
         LOGGER.info("Filtered processors " + processorsEligible);
-        var results = processorsEligible.stream()
+        List<SimpleEntry<Action, Result<ResultCode>>> results = processorsEligible.stream()
                 .peek(command -> LOGGER.info("Execute command " + command + " on " + psiFiles.size() + " files"))
                 .map(command -> new SimpleEntry<>(command.getAction(), command.execute()))
                 .collect(toList());
@@ -98,7 +102,7 @@ class Engine {
     }
 
     private boolean isPsiFileInProject(Project project, PsiFile psiFile) {
-        var inProject = ProjectRootManager.getInstance(project)
+        boolean inProject = ProjectRootManager.getInstance(project)
                 .getFileIndex().isInContent(psiFile.getVirtualFile());
         if (!inProject) {
             LOGGER.info("File " + psiFile + " not in current project " + project);
@@ -108,7 +112,7 @@ class Engine {
 
     private boolean isPsiFileNoError(Project project, PsiFile psiFile) {
         if (storage.isEnabled(Action.noActionIfCompileErrors)) {
-            var hasErrors = PsiErrorElementUtil.hasErrors(project, psiFile.getVirtualFile());
+            boolean hasErrors = PsiErrorElementUtil.hasErrors(project, psiFile.getVirtualFile());
             if (hasErrors) {
                 LOGGER.info("File " + psiFile + " has errors");
             }
@@ -118,7 +122,7 @@ class Engine {
     }
 
     private boolean isPsiFileIncluded(PsiFile psiFile) {
-        var canonicalPath = psiFile.getVirtualFile().getCanonicalPath();
+        String canonicalPath = psiFile.getVirtualFile().getCanonicalPath();
         return isIncludedAndNotExcluded(canonicalPath);
     }
 
@@ -138,8 +142,8 @@ class Engine {
     }
 
     private boolean isExcluded(String path) {
-        var exclusions = storage.getExclusions();
-        var psiFileExcluded = atLeastOneMatch(path, exclusions);
+        Set<String> exclusions = storage.getExclusions();
+        boolean psiFileExcluded = atLeastOneMatch(path, exclusions);
         if (psiFileExcluded) {
             LOGGER.info("File " + path + " excluded in " + exclusions);
         }
@@ -147,12 +151,12 @@ class Engine {
     }
 
     private boolean isIncluded(String path) {
-        var inclusions = storage.getInclusions();
+        Set<String> inclusions = storage.getInclusions();
         if (inclusions.isEmpty()) {
             // If no inclusion are defined, all files are allowed
             return true;
         }
-        var psiFileIncluded = atLeastOneMatch(path, inclusions);
+        boolean psiFileIncluded = atLeastOneMatch(path, inclusions);
         if (psiFileIncluded) {
             LOGGER.info("File " + path + " included in " + inclusions);
         }
@@ -160,9 +164,9 @@ class Engine {
     }
 
     private boolean atLeastOneMatch(String psiFileUrl, Set<String> patterns) {
-        for (var pattern : patterns) {
+        for (String pattern : patterns) {
             try {
-                var matcher = Pattern.compile(REGEX_STARTS_WITH_ANY_STRING + pattern).matcher(psiFileUrl);
+                Matcher matcher = Pattern.compile(REGEX_STARTS_WITH_ANY_STRING + pattern).matcher(psiFileUrl);
                 if (matcher.matches()) {
                     return true;
                 }
