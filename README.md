@@ -19,15 +19,13 @@ Thank you to JetBrains that supports our plugin: they provide an open-source lic
 
 - [Logos](#logos)
 - [Features](#features)
-- [Compatibility](#compatibility)
 - [Installation](#installation)
+- [Usage](#usage)
 - [Configuration](#configuration)
-- [Actions](#actions)
-- [Eclipse support](#eclipse-support)
+- [Compatibility](#compatibility)
 - [Files location](#files-location)
-- [Contributing](#contributing)
-- [JetBrains plugin page](#jetbrains-plugin-page)
-- [Issues](#issues)
+- [Contributions](#contributions)
+- [Links](#links)
 - [Licence](#licence)
 
 ## Logos
@@ -63,20 +61,6 @@ Works in JetBrains IDE with Java support, like Intellij IDEA and AndroidStudio.
 
 ![Save actions plugin settings page for Java](https://github.com/dubreuia/intellij-plugin-save-actions/blob/master/docs/intellij-save-actions-plugin-settings-page-java.png)
 
-## Compatibility
-
-Built for SDK version 2016.3, 2018.3, 2019.3, with JDK 1.11, those are the currently supported products, and is not expected to work in other products:
-
-- <img src="./docs/icon-intellij-idea.svg" width="30"> Intellij IDEA (ultimate and community)
-- <img src="./docs/icon-pycharm.svg" width="30"> PyCharm (professional and community)
-- <img src="./docs/icon-phpstorm.svg" width="30"> PHPStorm
-- <img src="./docs/icon-android-studio.svg" width="30"> AndroidStudio
-- <img src="./docs/icon-webstorm.svg" width="30"> WebStorm
-- <img src="./docs/icon-rubymine.svg" width="30"> RubyMine
-- <img src="./docs/icon-clion.svg" width="30"> CLion
-
-See issue [#18](https://github.com/dubreuia/intellij-plugin-save-actions/issues/18) for a beta packaging that you can try in other products.
-
 ## Installation
 
 ### IDE (recommended)
@@ -90,6 +74,30 @@ Install it from your IDE (Intellij IDEA, PyCharm, etc.):
 All versions of the plugin are available from the [JetBrains plugin repository](https://plugins.jetbrains.com/plugin/7642). You can download the jar and add it to your IDE (you won't get updates thought):
 
 - "File > Settings > Plugins > Install plugin from disk..."
+
+## Usage
+
+The plugin can trigger automatically or manually on IDE actions (standard actions) or plugin actions. Most actions needs to be enabled individually (see [activation](#activation)).
+
+### IDE actions
+
+The plugin will trigger automatically on any of these IDE actions (needs to be activated with "Activate save actions on file save" in [activation](#activation))):
+
+- **Frame deactivation**, which is when the editor loses focus, configured in "File > Settings > Appearance & Behavior > System Settings > Save files on frame deactivation" .
+- **Application idle**, which is when the IDE isn't used for a period of time, configured in "File > Settings > Appearance & Behavior > System Settings > Save files automatically if application is idle for x sec".
+- **Save All**, which is bound by default to "CTRL + S". Some IDE might use "CTRL + S" for the single **Save Document** action, on which the plugin will NOT trigger. This is by design, see issue [#222](https://github.com/dubreuia/intellij-plugin-save-actions/issues/222).
+
+### Plugin actions
+
+The plugin actions are grouped under the menu "Code > Save Actions". You can associate a keymap to any action in "Settings > Keymap > Search 'save actions'".
+
+- **Enable Save Actions (default: not binded)** will activate or deactivate the plugin by changing the configuration.
+- **Execute Save Actions on shortcut (default: "CTRL + SHIFT + S")** will trigger the plugin manually (needs to be activated with "Activate save actions on shortcut" in [activation](#activation)).
+- **Execute Save Actions on multiple files (default: not binded)** will show a popup to select the files (or a scope) on which to trigger the plugin (needs to be activated with "Activate save actions on batch" in [activation](#activation)).
+
+<p align="center">
+  <img src="./docs/intellij-save-actions-plugin-action-menu.png" width="371" height="77">
+</p>
 
 ## Configuration
 
@@ -168,19 +176,21 @@ If a quick fix adds something that is removed by another quick fix, the removal 
 | Remove blocks from if/while/for statements                               | The statement `if (true) { return false; }` becomes `if (true) return false;`, also working for `for` and `while` statements
 | Change visibility of field or method to lower access                     | The field `public int field = 0` becomes `private int field = 0` if it is not used outside class, also working for methods
 
-## Actions
+## Compatibility
 
-Save actions are grouped under the menu "Code > Save Actions". Remember that any action is available in the action menu "CTRL + SHIFT + A". You can associate a keymap to any action in "Settings > Keymap > Search 'save actions'".
+Built for SDK version 2016.3, 2018.3, 2019.3, with JDK 1.11, those are the currently supported products, and is not expected to work in other products:
 
-- **Enable Save Actions (default: not binded)** will activate or deactivate the plugin by changing the configuration
-- **Execute Save Actions on shortcut (default: "CTRL + SHIFT + S")** will trigger the plugin manually, only if the configuration allows shortcuts (see [activation](#activation) section, the "Activate save actions on shortcut" needs to be enabled)
-- **Execute Save Actions on multiple files (default: not binded)** will show a popup to select the files (or a scope) on which to trigger the plugin
+- <img src="./docs/icon-intellij-idea.svg" width="30"> Intellij IDEA (ultimate and community)
+- <img src="./docs/icon-pycharm.svg" width="30"> PyCharm (professional and community)
+- <img src="./docs/icon-phpstorm.svg" width="30"> PHPStorm
+- <img src="./docs/icon-android-studio.svg" width="30"> AndroidStudio
+- <img src="./docs/icon-webstorm.svg" width="30"> WebStorm
+- <img src="./docs/icon-rubymine.svg" width="30"> RubyMine
+- <img src="./docs/icon-clion.svg" width="30"> CLion
 
-<p align="center">
-  <img src="./docs/intellij-save-actions-plugin-action-menu.png" width="371" height="77">
-</p>
+See issue [#18](https://github.com/dubreuia/intellij-plugin-save-actions/issues/18) for a beta packaging that you can try in other products.
 
-## Eclipse support
+### Eclipse configuration support
 
 The save-actions plugin supports Eclipse configuration `.epf` files by the [Workspace Mechanic](https://marketplace.eclipse.org/content/workspace-mechanic) Eclipse plugin (Java IDE only). You can specify a path to an Eclipse configuration file in the "Eclipse support" settings section to import it. The plugin will load the content of the file in the plugin configuration, and disable the plugin configuration options (the checkbox will be grayed out). Use the "reset" button to remove the import.
 
@@ -201,30 +211,39 @@ file_export_version=3.0
 ...
 ```
 
+### Other plugin compatibility
+
+Some things to note when using other plugins with the Save Actions plugin:
+
+- [IdeaVim](https://plugins.jetbrains.com/plugin/164-ideavim): Since the Save Actions plugin do not trigger on the "Save Document" action (see [usage](#usage)), using `:w` to save in IdeaVim won't trigger the plugin, but using `:wa` will, since it calls the "Save All" action. See issue [#222](https://github.com/dubreuia/intellij-plugin-save-actions/issues/222)).
+- [detekt](https://plugins.jetbrains.com/plugin/10761-detekt): Using the detekt plugin breaks the Save Actions plugin, see issue [#270](https://github.com/dubreuia/intellij-plugin-save-actions/issues/270).
+
 ## Files location
 
 - **idea.log**: The log file the save actions plugin writes in. It contains debug information, prefixed with `com.dubreuia.SaveActionManager`. If you are using default locations, it would be in `~/.IntelliJIdeaVERSION/system/log/idea.log`.
 - **saveactions_settings.xml**: The settings file is saved by project in the `.idea` folder. That file can be committed in git thus shared in your development team. If you are using the default locations, it would be in `~/IdeaProjects/PROJECT_NAME/.idea/saveactions_settings.xml`
 
-## Contributors
+## Contributions
 
-Big thanks to all the contributors submitting issues, testing, and especially submitting pull requests.
+### Contributors
 
-See [contributors graph](https://github.com/dubreuia/intellij-plugin-save-actions/graphs/contributors) :hearts:
+Big thanks to all the contributors submitting issues, testing, and especially submitting pull requests. See [contributors graph](https://github.com/dubreuia/intellij-plugin-save-actions/graphs/contributors) :hearts:
 
-## Contributing
+### Contributing
 
 See [CONTRIBUTING](CONTRIBUTING.md).
 
-## Releasing
+### Releasing
 
 See [RELEASING](RELEASING.md).
 
-## JetBrains plugin page
+## Links
+
+### JetBrains plugin page
 
 The plugin is in the [JetBrains plugin repository](https://plugins.jetbrains.com/plugin/7642-save-actions), please take the time to [rate it](https://plugins.jetbrains.com/plugin/7642-save-actions)! 
 
-## Issues
+### Issues
 
 The plugin does not work? You want more features? You can [ask me on twitter](https://twitter.com/dubreuia) or [create an issue on github](https://github.com/dubreuia/intellij-plugin-save-actions/issues).
 
