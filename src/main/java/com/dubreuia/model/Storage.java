@@ -21,6 +21,7 @@ public class Storage implements PersistentStateComponent<Storage> {
     private String configurationPath;
     private List<String> quickLists;
 
+    @NonInjectable
     public Storage() {
         firstLaunch = true;
         actions = new HashSet<>();
