@@ -36,12 +36,9 @@ function push_tag() {
 
   # Push tag and manual finish (in github)
   git push origin HEAD:"refs/tags/${git_tag}"
-  echo "Version URL (github): https://github.com/dubreuia/intellij-plugin-save-actions/releases/new?tag=${git_tab_escape}"
+  echo "Version URL (github): https://github.com/dubreuia/intellij-plugin-save-actions/releases/new?tag=${git_tag_escape}"
   echo "Release title: Release ${version}"
   echo "File jar: $(ls "intellij-plugin-save-actions-${version}.jar")"
-
-  # Output diff for verification
-  git diff master HEAD >"master_${git_tag}.diff"
 }
 
 push_tag "${VERSION_NEXT_FULL}"
