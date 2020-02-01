@@ -77,6 +77,9 @@ public enum BuildProcessor implements Processor {
                     String[] actionIds = quickList.getActionIds();
                     for (String actionId : actionIds) {
                         AnAction action = ActionManager.getInstance().getAction(actionId);
+                        if (action == null) {
+                            continue;
+                        }
                         Map<String, Object> data = new HashMap<>();
                         data.put(PROJECT.getName(), project);
                         data.put(EDITOR.getName(), FileEditorManager.getInstance(project).getSelectedTextEditor());
