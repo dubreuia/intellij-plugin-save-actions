@@ -1,3 +1,5 @@
+**WARNING:** This branch supports Intellij IDEA 2016, but isn't maintained anymore. Last version for SDK 2016 is [1.7.0+2016.3](https://plugins.jetbrains.com/plugin/7642-save-actions/update/72929). This branch is kept for archive purpose.
+
 # Save Actions Plugin
 
 [![JetBrains Plugin](./docs/badge-jetbrains-website.svg)](https://plugins.jetbrains.com/plugin/7642-save-actions)
