@@ -28,6 +28,10 @@ compileJava {
 // See https://www.jetbrains.com/intellij-repository/snapshots
 // See https://www.jetbrains.com/intellij-repository/releases
 intellij {
+    // From branch 2018.3
+    // version '2018.3'
+    // From branch 2019.3
+    // version '193.3519.25-EAP-SNAPSHOT'
     version 'LATEST-EAP-SNAPSHOT'
     plugins = ['java', 'coverage']
     pluginName 'Save Actions'
