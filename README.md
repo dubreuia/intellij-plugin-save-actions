@@ -1,3 +1,6 @@
+**WARNING:** This branch supports Intellij IDEA 2018, but isn't maintained anymore. Intellij 2018 is STILL maintained but in the "master" branch. Last version for SDK 2018 is [1.9.0+2018.3](https://plugins.jetbrains.com/plugin/7642-save-actions/update/74402). This branch is kept for archive purpose.
+
+
 # Save Actions Plugin
 
 [![JetBrains Plugin](./docs/badge-jetbrains-website.svg)](https://plugins.jetbrains.com/plugin/7642-save-actions)
