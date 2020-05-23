@@ -9,4 +9,8 @@ public class Class {
         List<String> list = new ArrayList<>();
     }
 
+    @SuppressWarnings("unchecked")
+    public List<String> issue87(final List stringList) {
+        return (List<String>)stringList;
+    }
 }

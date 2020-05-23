@@ -5,9 +5,13 @@ import java.util.ArrayList;
 
 public class Class {
 
-    @SuppressWarnings("unsafe")
+    @SuppressWarnings("unchecked")
     private void method() {
         List<String> list = new ArrayList<>();
     }
 
+    @SuppressWarnings("unchecked")
+    public List<String> issue87(final List stringList) {
+        return (List<String>)stringList;
+    }
 }
