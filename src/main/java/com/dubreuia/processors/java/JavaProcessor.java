@@ -5,6 +5,7 @@ import com.dubreuia.model.Action;
 import com.dubreuia.processors.Processor;
 import com.dubreuia.processors.SaveWriteCommand;
 import com.dubreuia.processors.java.inspection.CustomLocalCanBeFinal;
+import com.dubreuia.processors.java.inspection.RedundantSuppressionSupplier;
 import com.dubreuia.processors.java.inspection.SerializableHasSerialVersionUIDFieldInspectionWrapper;
 import com.intellij.codeInspection.ExplicitTypeCanBeDiamondInspection;
 import com.intellij.codeInspection.LocalInspectionTool;
@@ -14,7 +15,6 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 import com.siyeh.ig.classlayout.FinalPrivateMethodInspection;
 import com.siyeh.ig.inheritance.MissingOverrideAnnotationInspection;
-import com.siyeh.ig.maturity.SuppressionAnnotationInspection;
 import com.siyeh.ig.performance.MethodMayBeStaticInspection;
 import com.siyeh.ig.style.ControlFlowStatementWithoutBracesInspection;
 import com.siyeh.ig.style.CustomUnqualifiedStaticUsageInspection;
@@ -100,7 +100,7 @@ public enum JavaProcessor implements Processor {
             ExplicitTypeCanBeDiamondInspection::new),
 
     suppressAnnotation(Action.suppressAnnotation,
-            SuppressionAnnotationInspection::new),
+            new RedundantSuppressionSupplier()),
 
     unnecessarySemicolon(Action.unnecessarySemicolon,
             UnnecessarySemicolonInspection::new),
