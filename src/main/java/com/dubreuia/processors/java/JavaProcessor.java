@@ -5,12 +5,15 @@ import com.dubreuia.model.Action;
 import com.dubreuia.processors.Processor;
 import com.dubreuia.processors.SaveWriteCommand;
 import com.dubreuia.processors.java.inspection.CustomLocalCanBeFinal;
-import com.dubreuia.processors.java.inspection.RedundantSuppressionSupplier;
 import com.dubreuia.processors.java.inspection.SerializableHasSerialVersionUIDFieldInspectionWrapper;
 import com.intellij.codeInspection.ExplicitTypeCanBeDiamondInspection;
+import com.intellij.codeInspection.LanguageInspectionSuppressors;
 import com.intellij.codeInspection.LocalInspectionTool;
+import com.intellij.codeInspection.RedundantSuppressInspection;
+import com.intellij.codeInspection.RedundantSuppressionDetector;
 import com.intellij.codeInspection.visibility.CustomAccessCanBeTightenedInspection;
 import com.intellij.codeInspection.visibility.VisibilityInspection;
+import com.intellij.lang.java.JavaLanguage;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 import com.siyeh.ig.classlayout.FinalPrivateMethodInspection;
@@ -100,7 +103,13 @@ public enum JavaProcessor implements Processor {
             ExplicitTypeCanBeDiamondInspection::new),
 
     suppressAnnotation(Action.suppressAnnotation,
-            new RedundantSuppressionSupplier()),
+            () -> (new RedundantSuppressInspection())
+                    .createLocalTool(
+                            (RedundantSuppressionDetector)
+                                    LanguageInspectionSuppressors.INSTANCE
+                                            .forLanguage(JavaLanguage.INSTANCE)
+                            , null
+                            , null)),
 
     unnecessarySemicolon(Action.unnecessarySemicolon,
             UnnecessarySemicolonInspection::new),
