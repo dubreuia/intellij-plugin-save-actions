@@ -13,8 +13,11 @@ import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.actionSystem.ex.QuickList;
 import com.intellij.openapi.actionSystem.ex.QuickListsManager;
 import com.intellij.openapi.compiler.CompilerManager;
+import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
 
 import java.util.Arrays;
@@ -32,6 +35,7 @@ import static com.dubreuia.utils.Helper.toVirtualFiles;
 import static com.intellij.openapi.actionSystem.ActionPlaces.UNKNOWN;
 import static com.intellij.openapi.actionSystem.CommonDataKeys.EDITOR;
 import static com.intellij.openapi.actionSystem.CommonDataKeys.PROJECT;
+import static com.intellij.openapi.actionSystem.CommonDataKeys.VIRTUAL_FILE_ARRAY;
 import static com.intellij.openapi.actionSystem.impl.SimpleDataContext.getSimpleContext;
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toList;
@@ -80,9 +84,17 @@ public enum BuildProcessor implements Processor {
                         if (action == null) {
                             continue;
                         }
+                        PsiDocumentManager psiDocumentManager = PsiDocumentManager.getInstance(project);
+                        Document[] uncommittedDocuments = psiDocumentManager.getUncommittedDocuments();
+                        VirtualFile[] uncommitedVirtualFiles = Arrays.stream(uncommittedDocuments)
+                                .map(psiDocumentManager::getPsiFile)
+                                .filter(Objects::nonNull)
+                                .map(PsiFile::getVirtualFile)
+                                .toArray(VirtualFile[]::new);
                         Map<String, Object> data = new HashMap<>();
                         data.put(PROJECT.getName(), project);
                         data.put(EDITOR.getName(), FileEditorManager.getInstance(project).getSelectedTextEditor());
+                        data.put(VIRTUAL_FILE_ARRAY.getName(), uncommitedVirtualFiles);
                         DataContext dataContext = getSimpleContext(data, null);
                         AnActionEvent event = AnActionEvent.createFromAnAction(action, null, UNKNOWN, dataContext);
                         action.actionPerformed(event);

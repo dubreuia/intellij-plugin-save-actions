@@ -2,11 +2,13 @@ package com.dubreuia.core.component;
 
 import com.dubreuia.core.ExecutionMode;
 import com.dubreuia.model.Action;
+import com.dubreuia.model.IDE;
 import com.dubreuia.model.Storage;
 import com.dubreuia.model.StorageFactory;
 import com.dubreuia.processors.Processor;
 import com.dubreuia.processors.Processor.OrderComparator;
 import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.application.ApplicationNamesInfo;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
@@ -63,6 +65,7 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
     private boolean javaAvailable;
     private final boolean compilingAvailable;
     private StorageFactory storageFactory;
+    private final IDE ide;
 
     private SaveActionManager() {
         processors = new ArrayList<>();
@@ -70,6 +73,7 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
         javaAvailable = false;
         compilingAvailable = initCompilingAvailable();
         storageFactory = DEFAULT;
+        ide = initIde();
     }
 
     private boolean initCompilingAvailable() {
@@ -78,6 +82,11 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    private IDE initIde() {
+        String productName = ApplicationNamesInfo.getInstance().getProductName();
+        return IDE.valueOfOrDefault(productName);
     }
 
     void addProcessors(Stream<Processor> processors) {
@@ -105,6 +114,10 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
         return storageFactory.getStorage(project);
     }
 
+    public IDE getIde() {
+        return ide;
+    }
+
     @Override
     public void beforeAllDocumentsSaving() {
         LOGGER.info("[+] Start SaveActionManager#beforeAllDocumentsSaving");
@@ -115,7 +128,6 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
 
     private void beforeDocumentsSaving(List<Document> documents) {
         LOGGER.info("Locating psi files for " + documents.size() + " documents: " + documents);
-
         Map<Project, Set<PsiFile>> projectPsiFiles = new HashMap<>();
         documents.forEach(document -> stream(ProjectManager.getInstance().getOpenProjects())
                 .forEach(project -> ofNullable(PsiDocumentManager.getInstance(project).getPsiFile(document))

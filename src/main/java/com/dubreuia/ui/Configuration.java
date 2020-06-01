@@ -1,5 +1,6 @@
 package com.dubreuia.ui;
 
+import com.dubreuia.core.component.SaveActionManager;
 import com.dubreuia.model.Action;
 import com.dubreuia.model.Storage;
 import com.dubreuia.model.java.EpfStorage;
@@ -26,6 +27,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import static com.dubreuia.model.Action.activate;
@@ -37,6 +39,7 @@ import static com.dubreuia.model.Action.reformat;
 import static com.dubreuia.model.Action.reformatChangedCode;
 import static com.dubreuia.model.Action.reload;
 import static com.dubreuia.model.Action.unqualifiedStaticMemberAccess;
+import static com.dubreuia.model.IDE.Rider;
 
 public class Configuration implements Configurable {
 
@@ -82,14 +85,14 @@ public class Configuration implements Configurable {
     }
 
     private void initActionListeners() {
-        for (Map.Entry<Action, JCheckBox> checkbox : checkboxes.entrySet()) {
+        for (Entry<Action, JCheckBox> checkbox : checkboxes.entrySet()) {
             checkbox.getValue().addActionListener(checkboxActionListener);
         }
     }
 
     @Override
     public boolean isModified() {
-        for (Map.Entry<Action, JCheckBox> checkbox : checkboxes.entrySet()) {
+        for (Entry<Action, JCheckBox> checkbox : checkboxes.entrySet()) {
             if (storage.isEnabled(checkbox.getKey()) != checkbox.getValue().isSelected()) {
                 return true;
             }
@@ -105,7 +108,7 @@ public class Configuration implements Configurable {
 
     @Override
     public void apply() {
-        for (Map.Entry<Action, JCheckBox> checkbox : checkboxes.entrySet()) {
+        for (Entry<Action, JCheckBox> checkbox : checkboxes.entrySet()) {
             storage.setEnabled(checkbox.getKey(), checkbox.getValue().isSelected());
         }
         storage.setExclusions(new HashSet<>(exclusions));
@@ -128,7 +131,7 @@ public class Configuration implements Configurable {
     }
 
     private void updateSelectedStateOfCheckboxes(Set<Action> selectedActions) {
-        for (Map.Entry<Action, JCheckBox> checkbox : checkboxes.entrySet()) {
+        for (Entry<Action, JCheckBox> checkbox : checkboxes.entrySet()) {
             boolean isSelected = selectedActions.contains(checkbox.getKey());
             checkbox.getValue().setSelected(isSelected);
         }
@@ -163,7 +166,7 @@ public class Configuration implements Configurable {
 
     private JPanel initComponent() {
         for (Action action : Action.values()) {
-            checkboxes.put(action, new JCheckBox(action.getText()));
+            checkboxes.put(action, initCheckBox(action));
         }
         generalPanel = new GeneralPanel(checkboxes);
         formattingPanel = new FormattingPanel(checkboxes);
@@ -224,6 +227,17 @@ public class Configuration implements Configurable {
         return panel;
     }
 
+    private JCheckBox initCheckBox(Action action) {
+        String text;
+        if ((SaveActionManager.getInstance().getIde().equals(Rider)) &&
+                action.equals(reformat) || action.equals(reformatChangedCode)) {
+            text = action.getText() + " (disabled on Rider, use 'Build Actions' below)";
+        } else {
+            text = action.getText();
+        }
+        return new JCheckBox(text);
+    }
+
     private void updateInclusions() {
         inclusions.clear();
         inclusions.addAll(storage.getInclusions());
@@ -247,10 +261,11 @@ public class Configuration implements Configurable {
         updateCheckboxGroupExclusive(event, reformat, reformatChangedCode);
         updateCheckboxGroupExclusive(event, compile, reload);
         updateCheckboxGroupExclusive(event, unqualifiedStaticMemberAccess, customUnqualifiedStaticMemberAccess);
+        updateCheckboxEnabledRider();
     }
 
     private void updateCheckboxEnabledIfActiveSelected() {
-        for (Map.Entry<Action, JCheckBox> checkbox : checkboxes.entrySet()) {
+        for (Entry<Action, JCheckBox> checkbox : checkboxes.entrySet()) {
             Action currentCheckBoxKey = checkbox.getKey();
             if (!activate.equals(currentCheckBoxKey)
                     && !activateOnShortcut.equals(currentCheckBoxKey)
@@ -271,6 +286,15 @@ public class Configuration implements Configurable {
             } else if (thisCheckbox == checkboxes.get(checkbox2)) {
                 checkboxes.get(checkbox1).setSelected(false);
             }
+        }
+    }
+
+    private void updateCheckboxEnabledRider() {
+        if (SaveActionManager.getInstance().getIde().equals(Rider)) {
+            checkboxes.get(reformat).setSelected(false);
+            checkboxes.get(reformat).setEnabled(false);
+            checkboxes.get(reformatChangedCode).setSelected(false);
+            checkboxes.get(reformatChangedCode).setEnabled(false);
         }
     }
 

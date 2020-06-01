@@ -4,8 +4,11 @@ import com.dubreuia.core.component.SaveActionManager;
 import com.dubreuia.model.Action;
 import com.intellij.ui.IdeBorderFactory;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JCheckBox;
+import javax.swing.JPanel;
+import java.awt.Dimension;
 import java.util.Map;
 
 import static com.dubreuia.model.ActionType.java;

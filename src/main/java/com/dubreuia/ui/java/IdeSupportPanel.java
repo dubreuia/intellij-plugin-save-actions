@@ -10,8 +10,10 @@ import com.intellij.ui.IdeBorderFactory;
 import com.intellij.ui.components.JBLabel;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 
 import static com.dubreuia.ui.Configuration.BOX_LAYOUT_MAX_HEIGHT;
 import static com.dubreuia.ui.Configuration.BOX_LAYOUT_MAX_WIDTH;
