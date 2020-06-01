@@ -4,7 +4,7 @@ import java.util.Set;
 
 class FileMaskExclusionPanel extends FileMaskPanel {
 
-    private static final String TEXT_TITLE = "File path exclusions (exclusions override inclusions)";
+    private static final String TEXT_TITLE = "File Path Exclusions (exclusions override inclusions)";
 
     private static final String TEXT_ADD_OR_EDIT_MESSAGE = "" +
             "<html><body>" +

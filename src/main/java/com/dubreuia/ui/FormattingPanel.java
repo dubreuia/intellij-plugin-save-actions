@@ -14,7 +14,7 @@ import static com.dubreuia.model.Action.reformatChangedCode;
 
 class FormattingPanel {
 
-    private static final String TEXT_TITLE_ACTIONS = "Formatting actions";
+    private static final String TEXT_TITLE_ACTIONS = "Formatting Actions";
 
     private final Map<Action, JCheckBox> checkboxes;
 

@@ -28,7 +28,7 @@ public class IdeSupportPanel {
     private static final String BUTTON = "Reset";
     private static final String EXTENSION = "epf";
     private static final String LABEL = "Use external Eclipse configuration file (.epf)";
-    private static final String TITLE = "Eclipse support";
+    private static final String TITLE = "Eclipse Support";
 
     private TextFieldWithBrowseButton path;
 

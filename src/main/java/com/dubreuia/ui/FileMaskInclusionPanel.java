@@ -4,7 +4,7 @@ import java.util.Set;
 
 class FileMaskInclusionPanel extends FileMaskPanel {
 
-    private static final String TEXT_TITLE = "File path inclusions (if empty all included)";
+    private static final String TEXT_TITLE = "File Path Inclusions (if empty all included)";
 
     private static final String TEXT_ADD_OR_EDIT_MESSAGE = "" +
             "<html><body>" +

@@ -32,7 +32,7 @@ import static java.util.stream.Collectors.toList;
 
 class BuildPanel {
 
-    private static final String TEXT_TITLE_ACTIONS = "Build actions";
+    private static final String TEXT_TITLE_ACTIONS = "Build Actions";
     private static final int QUICK_LIST_MAX_DESCRIPTION_LENGTH = 100;
 
     private final List<String> quickLists;

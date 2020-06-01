@@ -12,7 +12,7 @@ import static com.dubreuia.model.ActionType.java;
 
 public class InspectionPanel {
 
-    private static final String TEXT_TITLE_INSPECTIONS = "Java inspection and quick fix";
+    private static final String TEXT_TITLE_INSPECTIONS = "Java Inspection and Quick Fix";
 
     private final Map<Action, JCheckBox> checkboxes;
 
