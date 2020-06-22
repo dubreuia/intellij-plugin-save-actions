@@ -2,9 +2,9 @@
 
 [![JetBrains Plugin](./docs/badge-jetbrains-website.svg)](https://plugins.jetbrains.com/plugin/7642-save-actions)
 [![JetBrains Supported](./docs/badge-jetbrains-supported.svg)](https://www.jetbrains.com/?from=intellij-save-actions-plugin)
-[![Travis CI Build Status](https://travis-ci.org/dubreuia/intellij-plugin-save-actions.svg?branch=master)](https://travis-ci.org/dubreuia/intellij-plugin-save-actions)
-[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/dubreuia/intellij-plugin-save-actions?branch=master&svg=true)](https://ci.appveyor.com/project/dubreuia/intellij-plugin-save-actions)
-[![Codecov Code Coverage](https://codecov.io/gh/dubreuia/intellij-plugin-save-actions/branch/master/graph/badge.svg)](https://codecov.io/gh/dubreuia/intellij-plugin-save-actions)
+[![Travis CI Build Status](https://travis-ci.org/dubreuia/intellij-plugin-save-actions.svg?branch=main)](https://travis-ci.org/dubreuia/intellij-plugin-save-actions)
+[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/dubreuia/intellij-plugin-save-actions?branch=main&svg=true)](https://ci.appveyor.com/project/dubreuia/intellij-plugin-save-actions)
+[![Codecov Code Coverage](https://codecov.io/gh/dubreuia/intellij-plugin-save-actions/branch/main/graph/badge.svg)](https://codecov.io/gh/dubreuia/intellij-plugin-save-actions)
 [![Maintainability](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability)](https://codeclimate.com/github/dubreuia/intellij-plugin-save-actions)
 
 Supports configurable, Eclipse like, save actions, including "optimize imports", "reformat code", "rearrange code", "compile file" and some quick fixes like "add / remove 'this' qualifier", etc. The plugin executes the configured actions when the file is synchronised (or saved) on disk.
@@ -46,7 +46,7 @@ Thank you to JetBrains for supporting the Save Actions plugin: they provide an o
 - Uses a settings file per project you can commit (see [Files location](#files-location))
 - Available keymaps and actions for activation (see [Keymap and actions](#keymap-and-actions))
 
-![Save actions plugin settings page](https://github.com/dubreuia/intellij-plugin-save-actions/blob/master/docs/intellij-save-actions-plugin-settings-page.png)
+![Save actions plugin settings page](https://github.com/dubreuia/intellij-plugin-save-actions/blob/main/docs/intellij-save-actions-plugin-settings-page.png)
 
 ### Java IDE products
 
@@ -57,7 +57,7 @@ Works in JetBrains IDE with Java support, like Intellij IDEA and AndroidStudio.
 - Eclipse configuration file `.epf` support (see [Eclipse support](#eclipse-support))
 - Automatically fix Java inspections (see [Java quick fixes](#java-fixes))
 
-![Save actions plugin settings page for Java](https://github.com/dubreuia/intellij-plugin-save-actions/blob/master/docs/intellij-save-actions-plugin-settings-page-java.png)
+![Save actions plugin settings page for Java](https://github.com/dubreuia/intellij-plugin-save-actions/blob/main/docs/intellij-save-actions-plugin-settings-page-java.png)
 
 ## Installation
 

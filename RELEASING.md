@@ -4,7 +4,7 @@
 
 Maintained:
 
-- Branch `master` with no version or tags, idea version **2019.3** (LATEST), no release of this branch
+- Branch `main` with no version or tags, idea version **2019.3** (LATEST), no release of this branch
     - tag and github release: **x.y.z**
     - build.gradle: `version: 'LATEST-EAP-SNAPSHOT`
     - plugin.xml: `<idea-version since-build="183"/>` (since 2018.3)
@@ -38,7 +38,7 @@ To release and package a new version, for example **x.y.z**, from previous versi
 ```bash
 export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 
-git checkout master
+git checkout main
 ./script/release.sh a.b.c x.y.z
 ```
 
@@ -46,4 +46,4 @@ Then follow the link for the github release page to create manually.
 
 ## Uploading to jetbrains
 
-Only idea versions get released (not master). Go to https://plugins.jetbrains.com/plugin/edit?pluginId=7642 and upload each build individually.
+Only idea versions get released (not main). Go to https://plugins.jetbrains.com/plugin/edit?pluginId=7642 and upload each build individually.

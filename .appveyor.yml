@@ -8,10 +8,10 @@ build:
 build_script:
   - gradlew.bat build
 
-# build only master
+# build only main
 branches:
   only:
-    - master
+    - main
 
 # build on 64 bit jdk 11
 environment:
