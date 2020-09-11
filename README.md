@@ -5,7 +5,6 @@
 [![Travis CI Build Status](https://travis-ci.org/dubreuia/intellij-plugin-save-actions.svg?branch=main)](https://travis-ci.org/dubreuia/intellij-plugin-save-actions)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/dubreuia/intellij-plugin-save-actions?branch=main&svg=true)](https://ci.appveyor.com/project/dubreuia/intellij-plugin-save-actions)
 [![Codecov Code Coverage](https://codecov.io/gh/dubreuia/intellij-plugin-save-actions/branch/main/graph/badge.svg)](https://codecov.io/gh/dubreuia/intellij-plugin-save-actions)
-[![Maintainability](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability)](https://codeclimate.com/github/dubreuia/intellij-plugin-save-actions)
 
 Supports configurable, Eclipse like, save actions, including "optimize imports", "reformat code", "rearrange code", "compile file" and some quick fixes like "add / remove 'this' qualifier", etc. The plugin executes the configured actions when the file is synchronised (or saved) on disk.
 
