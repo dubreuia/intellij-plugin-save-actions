@@ -13,6 +13,7 @@ import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.actionSystem.ex.QuickList;
 import com.intellij.openapi.actionSystem.ex.QuickListsManager;
 import com.intellij.openapi.compiler.CompilerManager;
+import com.intellij.openapi.fileEditor.FileEditor;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
@@ -32,6 +33,8 @@ import static com.dubreuia.utils.Helper.toVirtualFiles;
 import static com.intellij.openapi.actionSystem.ActionPlaces.UNKNOWN;
 import static com.intellij.openapi.actionSystem.CommonDataKeys.EDITOR;
 import static com.intellij.openapi.actionSystem.CommonDataKeys.PROJECT;
+import static com.intellij.openapi.actionSystem.CommonDataKeys.VIRTUAL_FILE;
+import static com.intellij.openapi.actionSystem.CommonDataKeys.VIRTUAL_FILE_ARRAY;
 import static com.intellij.openapi.actionSystem.impl.SimpleDataContext.getSimpleContext;
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toList;
@@ -80,9 +83,12 @@ public enum BuildProcessor implements Processor {
                         if (action == null) {
                             continue;
                         }
+                        FileEditor editor = FileEditorManager.getInstance(project).getSelectedEditor();
                         Map<String, Object> data = new HashMap<>();
                         data.put(PROJECT.getName(), project);
-                        data.put(EDITOR.getName(), FileEditorManager.getInstance(project).getSelectedTextEditor());
+                        data.put(EDITOR.getName(), editor);
+                        data.put(VIRTUAL_FILE.getName(), editor == null ? null : editor.getFile());
+                        data.put(VIRTUAL_FILE_ARRAY.getName(), toVirtualFiles(psiFiles));
                         DataContext dataContext = getSimpleContext(data, null);
                         AnActionEvent event = AnActionEvent.createFromAnAction(action, null, UNKNOWN, dataContext);
                         action.actionPerformed(event);
