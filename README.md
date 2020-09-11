@@ -227,6 +227,15 @@ Some things to note when using other plugins with the Save Actions plugin:
 
 ## Contributions
 
+### Project management
+
+There are 2 boards to track the issues (bug or features):
+
+- **[Agile Board - Save Actions - Ideas](https://github.com/dubreuia/intellij-plugin-save-actions/projects/2)** - Tracks your and our ideas for new features and the discussions around them. All the issues here are "closed"
+- **[Agile Board - Save Actions - Boards](https://github.com/dubreuia/intellij-plugin-save-actions/projects/3)** - Tracks the issues that are urgent enough and specified enough to be implemented. All the issues here are "open" except those that got implemented and will be release in next version, those are "closed" (and stay closed if they work once released).
+
+When you submit an issue, it will be triaged into either board.
+
 ### Contributors
 
 Big thanks to all the contributors submitting issues, testing, and especially submitting pull requests. See [contributors graph](https://github.com/dubreuia/intellij-plugin-save-actions/graphs/contributors) :hearts:
