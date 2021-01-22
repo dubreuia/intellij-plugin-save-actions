@@ -38,18 +38,14 @@ import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.actionSystem.ex.QuickList;
 import com.intellij.openapi.actionSystem.ex.QuickListsManager;
 import com.intellij.openapi.compiler.CompilerManager;
+import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.editor.impl.EditorImpl;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.function.BiFunction;
 import java.util.stream.Stream;
 
@@ -100,6 +96,11 @@ public enum BuildProcessor implements Processor {
                         .collect(toList());
                 for (QuickList quickList : quickLists) {
                     String[] actionIds = quickList.getActionIds();
+                    FileEditorManager fileEditorManager = FileEditorManager.getInstance(project);
+                    Editor selectedTextEditor = fileEditorManager.getSelectedTextEditor();
+                    if (!quickListIsApplicable(quickList, selectedTextEditor)) {
+                        continue;
+                    }
                     for (String actionId : actionIds) {
                         AnAction action = ActionManager.getInstance().getAction(actionId);
                         if (action == null) {
@@ -107,7 +108,7 @@ public enum BuildProcessor implements Processor {
                         }
                         Map<String, Object> data = new HashMap<>();
                         data.put(PROJECT.getName(), project);
-                        data.put(EDITOR.getName(), FileEditorManager.getInstance(project).getSelectedTextEditor());
+                        data.put(EDITOR.getName(), selectedTextEditor);
                         DataContext dataContext = getSimpleContext(data, null);
                         AnActionEvent event = AnActionEvent.createFromAnAction(action, null, UNKNOWN, dataContext);
                         action.actionPerformed(event);
@@ -121,6 +122,18 @@ public enum BuildProcessor implements Processor {
     },
 
     ;
+
+    private static boolean quickListIsApplicable(QuickList quickList, Editor editor) {
+        String description = quickList.getDescription();
+        if (description == null || !description.endsWith("ONLY")) {
+            return true;
+        }
+        if (editor instanceof EditorImpl) {
+            @NotNull String extension = ((EditorImpl) editor).getVirtualFile().getFileType().getDefaultExtension();
+            return description.endsWith(extension + " ONLY");
+        }
+        return false;
+    }
 
     private final Action action;
     private final BiFunction<Project, PsiFile[], Runnable> command;

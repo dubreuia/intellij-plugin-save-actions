@@ -31,8 +31,7 @@ intellij {
     // From branch 2018.3
     // version '2018.3'
     // From branch 2019.3
-    // version '193.3519.25-EAP-SNAPSHOT'
-    version 'LATEST-EAP-SNAPSHOT'
+    version '202.8194.7'
     plugins = ['java', 'coverage']
     pluginName 'Save Actions'
     // Do not touch the plugin.xml file
