@@ -30,6 +30,7 @@ import com.dubreuia.model.Storage;
 import com.dubreuia.model.java.EpfStorage;
 import com.dubreuia.ui.java.IdeSupportPanel;
 import com.dubreuia.ui.java.InspectionPanel;
+import com.dubreuia.ui.kotlin.KotlinInspectionPanel;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.project.Project;
@@ -82,6 +83,7 @@ public class Configuration implements Configurable {
     private FormattingPanel formattingPanel;
     private BuildPanel buildPanel;
     private InspectionPanel inspectionPanel;
+    private KotlinInspectionPanel kotlinInspectionPanel;
     private FileMaskPanel fileMasksExclusionPanel;
     private FileMaskPanel fileMasksInclusionPanel;
     private IdeSupportPanel ideSupport;
@@ -169,6 +171,7 @@ public class Configuration implements Configurable {
         formattingPanel = null;
         buildPanel = null;
         inspectionPanel = null;
+        kotlinInspectionPanel = null;
         fileMasksInclusionPanel = null;
         fileMasksExclusionPanel = null;
         ideSupport = null;
@@ -194,6 +197,7 @@ public class Configuration implements Configurable {
         formattingPanel = new FormattingPanel(checkboxes);
         buildPanel = new BuildPanel(checkboxes, quickLists);
         inspectionPanel = new InspectionPanel(checkboxes);
+        kotlinInspectionPanel = new KotlinInspectionPanel(checkboxes);
         fileMasksInclusionPanel = new FileMaskInclusionPanel(inclusions);
         fileMasksExclusionPanel = new FileMaskExclusionPanel(exclusions);
         ideSupport = new IdeSupportPanel();
@@ -202,13 +206,14 @@ public class Configuration implements Configurable {
                 formattingPanel.getPanel(),
                 buildPanel.getPanel(),
                 inspectionPanel.getPanel(),
+                kotlinInspectionPanel.getPanel(),
                 fileMasksInclusionPanel.getPanel(),
                 fileMasksExclusionPanel.getPanel(),
                 ideSupport.getPanel(storage.getConfigurationPath())
         );
     }
 
-    private JPanel initRootPanel(JPanel general, JPanel actions, JPanel build, JPanel inspections,
+    private JPanel initRootPanel(JPanel general, JPanel actions, JPanel build, JPanel inspections, JPanel kotlinInspections,
                                  JPanel fileMasksInclusions, JPanel fileMasksExclusions,
                                  JPanel ideSupport) {
         JPanel panel = new JPanel();
@@ -227,19 +232,21 @@ public class Configuration implements Configurable {
         panel.add(build, c);
         c.gridy = 3;
         panel.add(inspections, c);
+        c.gridy = 4;
+        panel.add(kotlinInspections, c);
 
         JPanel fileMaskPanel = new JPanel();
         fileMaskPanel.setLayout(new BoxLayout(fileMaskPanel, BoxLayout.LINE_AXIS));
         fileMaskPanel.add(fileMasksInclusions);
         fileMaskPanel.add(Box.createRigidArea(new Dimension(10, 0)));
         fileMaskPanel.add(fileMasksExclusions);
-        c.gridy = 4;
+        c.gridy = 5;
         panel.add(fileMaskPanel, c);
 
-        c.gridy = 5;
+        c.gridy = 6;
         panel.add(ideSupport, c);
 
-        c.gridy = 6;
+        c.gridy = 7;
         c.weighty = 1;
         c.fill = GridBagConstraints.BOTH;
         JPanel filler = new JPanel();

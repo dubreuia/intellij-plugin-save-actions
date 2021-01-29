@@ -33,6 +33,7 @@ import static com.dubreuia.model.ActionType.activation;
 import static com.dubreuia.model.ActionType.build;
 import static com.dubreuia.model.ActionType.global;
 import static com.dubreuia.model.ActionType.java;
+import static com.dubreuia.model.ActionType.kotlin;
 import static java.util.stream.Collectors.toSet;
 
 public enum Action {
@@ -137,7 +138,8 @@ public enum Action {
     accessCanBeTightened("Change visibility of field or method to lower access",
             java, false),
 
-    ;
+    memberVisibilityCanBePrivate("Class member can have 'private' visibility",
+            kotlin, false);
 
     private final String text;
     private final ActionType type;

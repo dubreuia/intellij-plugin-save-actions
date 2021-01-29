@@ -33,7 +33,7 @@ intellij {
     // From branch 2019.3
     // version '193.3519.25-EAP-SNAPSHOT'
     version 'LATEST-EAP-SNAPSHOT'
-    plugins = ['java', 'coverage']
+    plugins = ['java', 'org.jetbrains.kotlin:1.4.10-release-IJ2019.3-1', 'coverage']
     pluginName 'Save Actions'
     // Do not touch the plugin.xml file
     updateSinceUntilBuild false

@@ -86,6 +86,7 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
     private final List<Processor> processors;
     private boolean running;
     private boolean javaAvailable;
+    private boolean kotlinAvailable;
     private final boolean compilingAvailable;
     private StorageFactory storageFactory;
 
@@ -93,6 +94,7 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
         processors = new ArrayList<>();
         running = false;
         javaAvailable = false;
+        kotlinAvailable = false;
         compilingAvailable = initCompilingAvailable();
         storageFactory = DEFAULT;
     }
@@ -114,6 +116,10 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
         javaAvailable = true;
     }
 
+    void enableKotlin() {
+        kotlinAvailable = true;
+    }
+
     void setStorageFactory(StorageFactory storageFactory) {
         this.storageFactory = storageFactory;
     }
@@ -124,6 +130,10 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
 
     public boolean isJavaAvailable() {
         return javaAvailable;
+    }
+
+    public boolean isKotlinAvailable() {
+        return kotlinAvailable;
     }
 
     public Storage getStorage(Project project) {

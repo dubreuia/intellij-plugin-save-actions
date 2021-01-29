@@ -62,6 +62,7 @@
 
     <!-- Other product support activated in plugin page during upload at https://plugins.jetbrains.com -->
     <depends optional="true" config-file="plugin-java.xml">com.intellij.modules.java</depends>
+    <depends optional="true" config-file="plugin-kotlin.xml">org.jetbrains.kotlin</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <projectService serviceImplementation="com.dubreuia.model.Storage"/>

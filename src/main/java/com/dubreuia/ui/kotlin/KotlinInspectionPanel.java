@@ -23,20 +23,39 @@
  *
  */
 
-package com.dubreuia.model;
+package com.dubreuia.ui.kotlin;
 
-public enum ActionType {
+import com.dubreuia.core.component.SaveActionManager;
+import com.dubreuia.model.Action;
+import com.intellij.ui.IdeBorderFactory;
 
-    activation,
+import javax.swing.*;
+import java.awt.*;
+import java.util.Map;
 
-    global,
+import static com.dubreuia.model.ActionType.kotlin;
 
-    build,
+public class KotlinInspectionPanel {
 
-    java,
+    private static final String TEXT_TITLE_INSPECTIONS = "Kotlin Inspection and Quick Fix";
 
-    kotlin,
+    private final Map<Action, JCheckBox> checkboxes;
 
-    ;
+    public KotlinInspectionPanel(Map<Action, JCheckBox> checkboxes) {
+        this.checkboxes = checkboxes;
+    }
+
+    public JPanel getPanel() {
+        JPanel panel = new JPanel();
+        if (!SaveActionManager.getInstance().isKotlinAvailable()) {
+            return panel;
+        }
+        panel.setBorder(IdeBorderFactory.createTitledBorder(TEXT_TITLE_INSPECTIONS));
+        panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+        Action.stream(kotlin).map(checkboxes::get).forEach(panel::add);
+        panel.add(Box.createHorizontalGlue());
+        panel.setMinimumSize(new Dimension(Short.MAX_VALUE, 0));
+        return panel;
+    }
 
 }
