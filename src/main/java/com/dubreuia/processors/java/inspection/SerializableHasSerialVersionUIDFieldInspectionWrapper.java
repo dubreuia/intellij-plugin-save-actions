@@ -43,9 +43,11 @@ public class SerializableHasSerialVersionUIDFieldInspectionWrapper {
             + "SerializableHasSerialVersionUIDFieldInspectionBase";
     private static final String CLASS_NAME_INTELLIJ_2018_3 = "com.siyeh.ig.serialization."
             + "SerializableHasSerialVersionUIDFieldInspection";
+    private static final String CLASS_NAME_INTELLIJ_2021_3 = "com.intellij.codeInspection."
+        + "SerializableHasSerialVersionUidFieldInspection";
 
     public static LocalInspectionTool get() {
-        return Stream.of(CLASS_NAME_INTELLIJ_2016, CLASS_NAME_INTELLIJ_2018_3)
+        return Stream.of(CLASS_NAME_INTELLIJ_2016, CLASS_NAME_INTELLIJ_2018_3, CLASS_NAME_INTELLIJ_2021_3)
                 .map(SerializableHasSerialVersionUIDFieldInspectionWrapper::getInspectionInstance)
                 .filter(Optional::isPresent)
                 .map(Optional::get)

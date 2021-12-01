@@ -51,14 +51,14 @@ public class SaveWriteCommand extends SaveCommand {
 
     @Override
     public Result<ResultCode> execute() {
-        RunResult<ResultCode> runResult = new WriteCommandAction<ResultCode>(getProject(), getPsiFilesAsArray()) {
+        RunResult<ResultCode> runResult = new WriteCommandAction<ResultCode>(getProject(),
+            getPsiFilesAsArray()) {
             @Override
-            protected void run(@NotNull com.intellij.openapi.application.Result<ResultCode> result) {
+            protected void run(com.intellij.openapi.application.@NotNull Result<? super ResultCode> result) {
                 getCommand().apply(getProject(), getPsiFilesAsArray()).run();
                 result.setResult(OK);
             }
         }.execute();
         return new Result<>(runResult);
     }
-
 }
