@@ -59,6 +59,7 @@ dependencies {
 // Activate junit since gradle 4.7
 test {
     useJUnitPlatform()
+    systemProperty("idea.force.use.core.classloader", "true")
 }
 
 // Add resources directory because intellij test framework checks there for test resources (instead of build/resources)

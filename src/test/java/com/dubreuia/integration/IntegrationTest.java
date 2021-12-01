@@ -58,7 +58,7 @@ public abstract class IntegrationTest {
         fixture = factory.createCodeInsightFixture(testFixture, new LightTempDirTestFixtureImpl(true));
         fixture.setUp();
         fixture.setTestDataPath(getTestDataPath());
-        storage = ServiceManager.getService(testFixture.getProject(), Storage.class);
+        storage = testFixture.getProject().getService(Storage.class);
     }
 
     @AfterEach
