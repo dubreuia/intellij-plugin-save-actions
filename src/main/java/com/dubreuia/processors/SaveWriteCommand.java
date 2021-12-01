@@ -53,7 +53,8 @@ public class SaveWriteCommand extends SaveCommand {
     public Result<ResultCode> execute() {
         RunResult<ResultCode> runResult = new WriteCommandAction<ResultCode>(getProject(), getPsiFilesAsArray()) {
             @Override
-            protected void run(@NotNull com.intellij.openapi.application.Result<ResultCode> result) {
+            @SuppressWarnings("unchecked") // raw types to preserve backcompat
+            protected void run(@NotNull com.intellij.openapi.application.Result result) {
                 getCommand().apply(getProject(), getPsiFilesAsArray()).run();
                 result.setResult(OK);
             }
