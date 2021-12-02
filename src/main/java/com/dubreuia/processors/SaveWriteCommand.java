@@ -27,11 +27,9 @@ package com.dubreuia.processors;
 
 import com.dubreuia.core.ExecutionMode;
 import com.dubreuia.model.Action;
-import com.intellij.openapi.application.RunResult;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
 import java.util.function.BiFunction;
@@ -51,14 +49,10 @@ public class SaveWriteCommand extends SaveCommand {
 
     @Override
     public Result<ResultCode> execute() {
-        RunResult<ResultCode> runResult = new WriteCommandAction<ResultCode>(getProject(),
-            getPsiFilesAsArray()) {
-            @Override
-            protected void run(com.intellij.openapi.application.@NotNull Result<? super ResultCode> result) {
-                getCommand().apply(getProject(), getPsiFilesAsArray()).run();
-                result.setResult(OK);
-            }
-        }.execute();
-        return new Result<>(runResult);
+        WriteCommandAction.writeCommandAction(getProject(), getPsiFilesAsArray())
+                .run(() -> getCommand().apply(getProject(), getPsiFilesAsArray()).run());
+
+        return new Result<>(OK);
     }
+
 }
