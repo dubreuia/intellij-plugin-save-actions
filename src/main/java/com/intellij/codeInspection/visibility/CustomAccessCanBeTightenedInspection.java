@@ -26,6 +26,7 @@ package com.intellij.codeInspection.visibility;
 
 import com.intellij.codeInsight.daemon.impl.UnusedSymbolUtil;
 import com.intellij.codeInspection.InspectionProfile;
+import com.intellij.codeInspection.InspectionsBundle;
 import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.codeInspection.deadCode.UnusedDeclarationInspectionBase;
 import com.intellij.openapi.progress.EmptyProgressIndicator;
@@ -95,7 +96,7 @@ public class CustomAccessCanBeTightenedInspection extends com.intellij.codeInspe
   @Override
   @NotNull
   public String getGroupDisplayName() {
-    return "group.names.visibility.issues";
+    return InspectionsBundle.message("group.names.visibility.issues");
   }
 
   @Override
