@@ -37,6 +37,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.actionSystem.ex.QuickList;
 import com.intellij.openapi.actionSystem.ex.QuickListsManager;
+import com.intellij.openapi.actionSystem.impl.SimpleDataContext;
 import com.intellij.openapi.compiler.CompilerManager;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
@@ -44,7 +45,6 @@ import com.intellij.psi.PsiFile;
 
 import java.util.Arrays;
 import java.util.EnumSet;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -57,7 +57,6 @@ import static com.dubreuia.utils.Helper.toVirtualFiles;
 import static com.intellij.openapi.actionSystem.ActionPlaces.UNKNOWN;
 import static com.intellij.openapi.actionSystem.CommonDataKeys.EDITOR;
 import static com.intellij.openapi.actionSystem.CommonDataKeys.PROJECT;
-import static com.intellij.openapi.actionSystem.impl.SimpleDataContext.getSimpleContext;
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
@@ -105,10 +104,11 @@ public enum BuildProcessor implements Processor {
                         if (action == null) {
                             continue;
                         }
-                        Map<String, Object> data = new HashMap<>();
-                        data.put(PROJECT.getName(), project);
-                        data.put(EDITOR.getName(), FileEditorManager.getInstance(project).getSelectedTextEditor());
-                        DataContext dataContext = getSimpleContext(data, null);
+                        DataContext dataContext = SimpleDataContext.builder()
+                                .add(PROJECT, project)
+                                .add(EDITOR, FileEditorManager.getInstance(project).getSelectedTextEditor())
+                                .setParent(null)
+                                .build();
                         AnActionEvent event = AnActionEvent.createFromAnAction(action, null, UNKNOWN, dataContext);
                         action.actionPerformed(event);
                     }

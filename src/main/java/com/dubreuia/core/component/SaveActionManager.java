@@ -35,7 +35,7 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
-import com.intellij.openapi.fileEditor.FileDocumentManagerAdapter;
+import com.intellij.openapi.fileEditor.FileDocumentManagerListener;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
 import com.intellij.psi.PsiDocumentManager;
@@ -70,7 +70,7 @@ import static java.util.Optional.ofNullable;
  *
  * @see Engine
  */
-public class SaveActionManager extends FileDocumentManagerAdapter {
+public class SaveActionManager implements FileDocumentManagerListener {
 
     public static final Logger LOGGER = Logger.getInstance(SaveActionManager.class);
 
@@ -149,9 +149,9 @@ public class SaveActionManager extends FileDocumentManagerAdapter {
                             projectPsiFiles.put(project, psiFiles);
                             return psiFiles.add(psiFile);
                         })));
-        projectPsiFiles.forEach(((project, psiFiles) -> {
-            guardedProcessPsiFiles(project, psiFiles, activate, saveAll);
-        }));
+        projectPsiFiles.forEach((project, psiFiles) ->
+                guardedProcessPsiFiles(project, psiFiles, activate, saveAll)
+        );
     }
 
     public void guardedProcessPsiFiles(Project project, Set<PsiFile> psiFiles, Action activation, ExecutionMode mode) {

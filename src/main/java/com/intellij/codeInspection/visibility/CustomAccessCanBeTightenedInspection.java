@@ -24,7 +24,6 @@
  */
 package com.intellij.codeInspection.visibility;
 
-import com.intellij.codeInsight.daemon.GroupNames;
 import com.intellij.codeInsight.daemon.impl.UnusedSymbolUtil;
 import com.intellij.codeInspection.InspectionProfile;
 import com.intellij.codeInspection.ProblemsHolder;
@@ -66,7 +65,6 @@ import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.psi.util.PsiUtil;
 import com.intellij.util.VisibilityUtil;
 import com.intellij.util.containers.ContainerUtil;
-import com.siyeh.ig.GroupDisplayNameUtil;
 import com.siyeh.ig.fixes.ChangeModifierFix;
 import com.siyeh.ig.psiutils.MethodUtils;
 import gnu.trove.TObjectIntHashMap;
@@ -82,7 +80,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @see com.intellij.codeInspection.visibility.AccessCanBeTightenedInspection
  */
 @SuppressWarnings("deprecation")
-public class CustomAccessCanBeTightenedInspection extends com.intellij.codeInspection.BaseJavaBatchLocalInspectionTool {
+public class CustomAccessCanBeTightenedInspection extends com.intellij.codeInspection.AbstractBaseJavaLocalInspectionTool {
   private final VisibilityInspection myVisibilityInspection;
 
   public CustomAccessCanBeTightenedInspection(@NotNull VisibilityInspection visibilityInspection) {

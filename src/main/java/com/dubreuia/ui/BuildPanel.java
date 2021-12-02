@@ -33,16 +33,10 @@ import com.intellij.openapi.ui.ComboBox;
 import com.intellij.ui.IdeBorderFactory;
 import org.jdesktop.swingx.combobox.ListComboBoxModel;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -78,7 +72,7 @@ class BuildPanel {
             panel.add(wrap(checkboxes.get(reload), null));
         }
         @SuppressWarnings("unchecked")
-        JComboBox<QuickListWrapper> comboBox = new ComboBox<QuickListWrapper>(quickListModel);
+        JComboBox<QuickListWrapper> comboBox = new ComboBox<>(quickListModel);
         panel.add(wrap(checkboxes.get(executeAction), comboBox));
         panel.add(Box.createHorizontalGlue());
         panel.setMinimumSize(new Dimension(Short.MAX_VALUE, 0));

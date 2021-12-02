@@ -33,9 +33,7 @@ import java.util.function.Function;
 
 public enum StorageFactory {
 
-    DEFAULT(project -> {
-        return ServiceManager.getService(project, Storage.class);
-    }),
+    DEFAULT(project -> ServiceManager.getService(project, Storage.class)),
 
     JAVA(project -> {
         Storage defaultStorage = DEFAULT.getStorage(project);
