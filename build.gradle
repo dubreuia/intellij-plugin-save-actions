@@ -1,16 +1,30 @@
+// Add idea plugin version
 plugins {
-    id 'java'
-    id 'jacoco'
     id "org.jetbrains.intellij" version '1.3.0'
+    id 'java'
 }
+
+// Add idea and java plugins
+apply plugin: 'jacoco'
 
 // Add plugin group and version
 group 'com.dubreuia'
 version '2.2.1-SNAPSHOT'
 
+// Add build script repository to maven central
 repositories {
     mavenCentral()
 }
+
+
+// Add dependencies to test, junit5 api (annotations) and engine (runtime)
+dependencies {
+    testImplementation 'org.assertj:assertj-core:3.21.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
 
 // Add intellij task configuration for base intellij version (minimum compatibility)
 // This needs to fit the tag <idea-version since-build="xxx"> in plugin.xml
@@ -24,15 +38,7 @@ intellij {
     updateSinceUntilBuild = false
 }
 
-// Add dependencies to fest, junit5 api (annotations) and engine (runtime)
-dependencies {
-    testImplementation 'org.assertj:assertj-core:3.21.0'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.1'
-    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
-}
-
-
+// JAVA compatibility
 compileJava {
     sourceCompatibility = '11'
     targetCompatibility = '11'
@@ -45,15 +51,13 @@ test {
 
 // Add resources directory because intellij test framework checks there for test resources (instead of build/resources)
 sourceSets {
-    test {
-        output.resourcesDir = "build/classes/java/resources"
-    }
+    test.output.resourcesDir = "build/classes/java/resources"
 }
 
 // Add jacoco test report for codecov
 jacocoTestReport {
     reports {
-        xml.enabled = true
-        html.enabled = false
+        xml.required = true
+        html.required = false
     }
 }
