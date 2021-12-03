@@ -27,11 +27,13 @@ package com.dubreuia.processors;
 
 import com.dubreuia.core.ExecutionMode;
 import com.dubreuia.model.Action;
-import static com.dubreuia.processors.ResultCode.OK;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
+
 import java.util.Set;
 import java.util.function.BiFunction;
+
+import static com.dubreuia.processors.ResultCode.OK;
 
 /**
  * Implements a read action that returns a {@link Result}.
