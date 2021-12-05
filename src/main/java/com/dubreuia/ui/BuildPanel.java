@@ -78,7 +78,7 @@ class BuildPanel {
             panel.add(wrap(checkboxes.get(reload), null));
         }
         @SuppressWarnings("unchecked")
-        JComboBox<QuickListWrapper> comboBox = new ComboBox<QuickListWrapper>(quickListModel);
+        JComboBox<QuickListWrapper> comboBox = new ComboBox<>(quickListModel);
         panel.add(wrap(checkboxes.get(executeAction), comboBox));
         panel.add(Box.createHorizontalGlue());
         panel.setMinimumSize(new Dimension(Short.MAX_VALUE, 0));

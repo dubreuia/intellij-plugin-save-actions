@@ -95,9 +95,9 @@ public class IdeSupportPanel {
         FileTextField field = FileChooserFactory.getInstance().createFileTextField(descriptor, null);
         field.getField().setEnabled(false);
         field.getField().setText(configurationPath);
-        TextFieldWithBrowseButton path = new TextFieldWithBrowseButton(field.getField());
-        path.addBrowseFolderListener(null, null, null, descriptor, TEXT_FIELD_WHOLE_TEXT);
-        return path;
+        TextFieldWithBrowseButton resultPath = new TextFieldWithBrowseButton(field.getField());
+        resultPath.addBrowseFolderListener(null, null, null, descriptor, TEXT_FIELD_WHOLE_TEXT);
+        return resultPath;
     }
 
     @NotNull

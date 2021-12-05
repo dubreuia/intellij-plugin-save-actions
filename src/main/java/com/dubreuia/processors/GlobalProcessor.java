@@ -27,6 +27,7 @@ package com.dubreuia.processors;
 
 import com.dubreuia.core.ExecutionMode;
 import com.dubreuia.model.Action;
+import com.intellij.codeInsight.CodeInsightBundle;
 import com.intellij.codeInsight.actions.OptimizeImportsProcessor;
 import com.intellij.codeInsight.actions.RearrangeCodeProcessor;
 import com.intellij.codeInsight.actions.ReformatCodeProcessor;
@@ -40,7 +41,6 @@ import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.stream.Stream;
 
-import static com.intellij.codeInsight.actions.RearrangeCodeProcessor.COMMAND_NAME;
 
 /**
  * Available processors for global.
@@ -57,7 +57,7 @@ public enum GlobalProcessor implements Processor {
             (project, psiFiles) -> new ReformatCodeProcessor(project, psiFiles, null, true)::run),
 
     rearrange(Action.rearrange,
-            (project, psiFiles) -> new RearrangeCodeProcessor(project, psiFiles, COMMAND_NAME, null)::run),
+            (project, psiFiles) -> new RearrangeCodeProcessor(project, psiFiles, CodeInsightBundle.message("command.rearrange.code"), null)::run),
 
     ;
 

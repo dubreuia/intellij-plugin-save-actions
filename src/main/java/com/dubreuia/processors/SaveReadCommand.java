@@ -40,15 +40,18 @@ import static com.dubreuia.processors.ResultCode.OK;
  */
 public class SaveReadCommand extends SaveCommand {
 
-    public SaveReadCommand(Project project, Set<PsiFile> psiFiles, Set<ExecutionMode> modes, Action action,
-                           BiFunction<Project, PsiFile[], Runnable> command) {
-        super(project, psiFiles, modes, action, command);
-    }
+  public SaveReadCommand(
+      Project project, Set<PsiFile> psiFiles, Set<ExecutionMode> modes, Action action,
+      BiFunction<Project, PsiFile[], Runnable> command) {
 
-    @Override
-    public Result<ResultCode> execute() {
-        getCommand().apply(getProject(), getPsiFilesAsArray()).run();
-        return new Result<>(OK);
-    }
+    super(project, psiFiles, modes, action, command);
+  }
+
+  @Override
+  public Result<ResultCode> execute() {
+
+    getCommand().apply(getProject(), getPsiFilesAsArray()).run();
+    return new Result<>(OK);
+  }
 
 }

@@ -24,9 +24,9 @@
  */
 package com.intellij.codeInspection.visibility;
 
-import com.intellij.codeInsight.daemon.GroupNames;
 import com.intellij.codeInsight.daemon.impl.UnusedSymbolUtil;
 import com.intellij.codeInspection.InspectionProfile;
+import com.intellij.codeInspection.InspectionsBundle;
 import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.codeInspection.deadCode.UnusedDeclarationInspectionBase;
 import com.intellij.openapi.progress.EmptyProgressIndicator;
@@ -81,7 +81,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @see com.intellij.codeInspection.visibility.AccessCanBeTightenedInspection
  */
 @SuppressWarnings("deprecation")
-public class CustomAccessCanBeTightenedInspection extends com.intellij.codeInspection.BaseJavaBatchLocalInspectionTool {
+public class CustomAccessCanBeTightenedInspection extends com.intellij.codeInspection.AbstractBaseJavaLocalInspectionTool {
   private final VisibilityInspection myVisibilityInspection;
 
   public CustomAccessCanBeTightenedInspection(@NotNull VisibilityInspection visibilityInspection) {
@@ -96,7 +96,7 @@ public class CustomAccessCanBeTightenedInspection extends com.intellij.codeInspe
   @Override
   @NotNull
   public String getGroupDisplayName() {
-    return GroupNames.VISIBILITY_GROUP_NAME;
+    return InspectionsBundle.message("group.names.visibility.issues");
   }
 
   @Override

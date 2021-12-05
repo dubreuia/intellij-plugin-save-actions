@@ -73,9 +73,9 @@ public enum JavaProcessor implements Processor {
 
     localCanBeFinalExceptImplicit(Action.localCanBeFinalExceptImplicit,
             () -> {
-                CustomLocalCanBeFinal inspection = new CustomLocalCanBeFinal();
-                inspection.REPORT_IMPLICIT_FINALS = false;
-                return inspection;
+                CustomLocalCanBeFinal resultInspection = new CustomLocalCanBeFinal();
+                resultInspection.REPORT_IMPLICIT_FINALS = false;
+                return resultInspection;
             }),
 
     methodMayBeStatic(Action.methodMayBeStatic,
