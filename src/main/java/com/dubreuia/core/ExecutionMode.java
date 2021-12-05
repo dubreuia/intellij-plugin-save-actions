@@ -31,8 +31,8 @@ import com.intellij.openapi.fileEditor.FileDocumentManager;
 public enum ExecutionMode {
 
     /**
-     * When the plugin is called normaly (the IDE calls the plugin component on frame deactivation or "save all"). The
-     * {@link #saveSingle} is also called on every documents.
+     * When the plugin is called normally (the IDE calls the plugin component on frame deactivation or "save all"). The
+     * {@link #saveSingle} is also called on every document.
      *
      * @see FileDocumentManager#saveAllDocuments()
      */
@@ -54,7 +54,5 @@ public enum ExecutionMode {
      * When the plugin is called from a user input shortcut.
      */
     shortcut,
-
-    ;
 
 }

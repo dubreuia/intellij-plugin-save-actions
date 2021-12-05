@@ -55,7 +55,7 @@ public class ShortcutAction extends AnAction {
         PsiFile psiFile = event.getData(PSI_FILE);
         Project project = event.getProject();
         Set<PsiFile> psiFiles = new HashSet<>(singletonList(psiFile));
-        SaveActionManager.getInstance().guardedProcessPsiFiles(project, psiFiles, activateOnShortcut, shortcut);
+        SaveActionManager.INSTANCE.guardedProcessPsiFiles(project, psiFiles, activateOnShortcut, shortcut);
         LOGGER.info("End ShortcutAction#actionPerformed processed " + psiFiles.size() + " files");
     }
 

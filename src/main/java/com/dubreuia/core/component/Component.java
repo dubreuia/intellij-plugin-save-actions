@@ -27,8 +27,11 @@ package com.dubreuia.core.component;
 
 import com.dubreuia.processors.BuildProcessor;
 import com.dubreuia.processors.GlobalProcessor;
+import com.intellij.ide.plugins.DynamicPluginListener;
+import com.intellij.ide.plugins.IdeaPluginDescriptor;
 import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.components.ApplicationComponent;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.project.ProjectManagerListener;
 import com.intellij.util.messages.MessageBus;
 import com.intellij.util.messages.MessageBusConnection;
 import org.jetbrains.annotations.NotNull;
@@ -38,38 +41,53 @@ import static com.dubreuia.model.StorageFactory.DEFAULT;
 import static com.intellij.AppTopics.FILE_DOCUMENT_SYNC;
 
 /**
- * The plugin entry class that instanciates (or reuse) and delegates to {@link SaveActionManager}. This is not a
- * singleton, for java based ide the corresponding component will also get instanciated (check {@link JavaComponent}).
+ * The plugin entry class that is instantiated (or reused) and delegated to {@link SaveActionManager}. This is not a
+ * Singleton, for Java based ide the corresponding component is also instantiated (see {@link JavaComponent}).
+ * <p>
+ * To be able to dynamically reload or update the Plugin we have to implement {@link DynamicPluginListener}
+ * which is used on reload the Plugin of an already opened project
+ * and {@link ProjectManagerListener} to instantiate the Plugin while opening projects.
  *
  * @see SaveActionManager
  */
-public class Component implements ApplicationComponent {
+public class Component implements DynamicPluginListener, ProjectManagerListener {
 
     public static final String COMPONENT_NAME = "Save Actions";
 
-    @Override
-    public void initComponent() {
+    protected void init() {
         LOGGER.info("Starting component: " + COMPONENT_NAME);
 
-        SaveActionManager manager = SaveActionManager.getInstance();
-        manager.setStorageFactory(DEFAULT);
-        manager.addProcessors(BuildProcessor.stream());
-        manager.addProcessors(GlobalProcessor.stream());
+        SaveActionManager manager = SaveActionManager.INSTANCE
+                .setStorageFactory(DEFAULT)
+                .addProcessors(BuildProcessor.stream())
+                .addProcessors(GlobalProcessor.stream());
 
         MessageBus bus = ApplicationManager.getApplication().getMessageBus();
         MessageBusConnection connection = bus.connect();
         connection.subscribe(FILE_DOCUMENT_SYNC, manager);
     }
 
-    @Override
-    public void disposeComponent() {
+    protected void disposeComponent() {
         LOGGER.info("Stopping component: " + COMPONENT_NAME);
     }
 
-    @NotNull
     @Override
-    public String getComponentName() {
-        return COMPONENT_NAME;
+    public void pluginLoaded(@NotNull IdeaPluginDescriptor pluginDescriptor) {
+        init();
     }
 
+    @Override
+    public void pluginUnloaded(@NotNull IdeaPluginDescriptor pluginDescriptor, boolean isUpdate) {
+        disposeComponent();
+    }
+
+    @Override
+    public void projectOpened(@NotNull Project project) {
+        init();
+    }
+
+    @Override
+    public void projectClosed(@NotNull Project project) {
+        disposeComponent();
+    }
 }

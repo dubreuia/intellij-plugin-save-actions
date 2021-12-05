@@ -61,7 +61,7 @@ public class IdeSupportPanel {
 
     public JPanel getPanel(String configurationPath) {
         JPanel panel = new JPanel();
-        if (!SaveActionManager.getInstance().isJavaAvailable()) {
+        if (!SaveActionManager.INSTANCE.isJavaAvailable()) {
             return panel;
         }
 

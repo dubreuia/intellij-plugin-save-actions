@@ -27,6 +27,7 @@ package com.dubreuia.processors.java.inspection;
 
 import com.intellij.codeInspection.LocalInspectionTool;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -69,9 +70,9 @@ public class SerializableHasSerialVersionUIDFieldInspectionWrapper {
             Class<? extends LocalInspectionTool> inspectionClass = Class
                     .forName(className).asSubclass(LocalInspectionTool.class);
             LocalInspectionTool localInspectionTool =
-                    inspectionClass.cast(inspectionClass.newInstance());
+                    inspectionClass.cast(inspectionClass.getDeclaredConstructor().newInstance());
             return Optional.of(localInspectionTool);
-        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | NoSuchMethodException | InvocationTargetException e) {
             return Optional.empty();
         }
     }

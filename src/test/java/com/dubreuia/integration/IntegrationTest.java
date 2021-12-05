@@ -27,7 +27,6 @@ package com.dubreuia.integration;
 
 import com.dubreuia.core.component.SaveActionManager;
 import com.dubreuia.model.Storage;
-import com.intellij.openapi.components.ServiceManager;
 import com.intellij.testFramework.fixtures.CodeInsightTestFixture;
 import com.intellij.testFramework.fixtures.IdeaProjectTestFixture;
 import com.intellij.testFramework.fixtures.IdeaTestFixtureFactory;
@@ -58,7 +57,7 @@ public abstract class IntegrationTest {
         fixture = factory.createCodeInsightFixture(testFixture, new LightTempDirTestFixtureImpl(true));
         fixture.setUp();
         fixture.setTestDataPath(getTestDataPath());
-        storage = ServiceManager.getService(testFixture.getProject(), Storage.class);
+        storage = testFixture.getProject().getService(Storage.class);
     }
 
     @AfterEach
@@ -69,7 +68,7 @@ public abstract class IntegrationTest {
 
     void assertSaveAction(ActionTestFile before, ActionTestFile after) {
         fixture.configureByFile(before.getFilename());
-        SAVE_ACTION_MANAGER.accept(fixture, SaveActionManager.getInstance());
+        SAVE_ACTION_MANAGER.accept(fixture, SaveActionManager.INSTANCE);
         rethrowAsJunit5Error(() -> fixture.checkResultByFile(after.getFilename()));
     }
 

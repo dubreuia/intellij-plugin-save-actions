@@ -9,7 +9,7 @@ apply plugin: 'jacoco'
 
 // Add plugin group and version
 group 'com.dubreuia'
-version '2.3.0'
+version '2.3.1'
 
 // Add build script repository to maven central
 repositories {
