@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<idea-plugin>
+<idea-plugin require-restart="false">
 
     <id>com.dubreuia</id>
     <name>Save Actions</name>
-    <version>2.3.0</version>
+    <version>2.3.1</version>
     <vendor email="dubreuil.alex@gmail.com" url="https://www.github.com/dubreuia">Alexandre DuBreuil</vendor>
 
     <description><![CDATA[
@@ -53,7 +53,7 @@
 
     <change-notes><![CDATA[
 <ul>
-  <li>Release notes: <a href="https://github.com/dubreuia/intellij-plugin-save-actions/releases">https://github.com/dubreuia/intellij-plugin-save-actions/releases/tag/v2.3.0</a></li>
+  <li>Release notes: <a href="https://github.com/dubreuia/intellij-plugin-save-actions/releases">https://github.com/dubreuia/intellij-plugin-save-actions/releases/tag/v2.2.0</a></li>
 </ul>
     ]]>
     </change-notes>
@@ -68,14 +68,12 @@
         <projectConfigurable id="settings.saveactions" instance="com.dubreuia.ui.Configuration"/>
     </extensions>
 
-    <application-components>
-        <component>
-            <implementation-class>com.dubreuia.core.component.Component</implementation-class>
-        </component>
-    </application-components>
-
-    <project-components>
-    </project-components>
+    <applicationListeners>
+        <listener class="com.dubreuia.core.component.Component"
+                  topic="com.intellij.ide.plugins.DynamicPluginListener"/>
+        <listener class="com.dubreuia.core.component.Component"
+                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
+    </applicationListeners>
 
     <actions>
         <group id="com.dubreuia.core.action.SaveActionsGroup"

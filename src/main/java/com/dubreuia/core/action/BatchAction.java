@@ -67,7 +67,7 @@ public class BatchAction extends BaseAnalysisAction {
                 psiFiles.add(psiFile);
             }
         });
-        SaveActionManager.getInstance().guardedProcessPsiFiles(project, psiFiles, activateOnBatch, batch);
+        SaveActionManager.INSTANCE.guardedProcessPsiFiles(project, psiFiles, activateOnBatch, batch);
         LOGGER.info("End BatchAction#analyze processed " + psiFiles.size() + " files");
     }
 

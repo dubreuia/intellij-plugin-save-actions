@@ -73,7 +73,7 @@ class BuildPanel {
         panel = new JPanel();
         panel.setBorder(IdeBorderFactory.createTitledBorder(TEXT_TITLE_ACTIONS));
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
-        if (SaveActionManager.getInstance().isCompilingAvailable()) {
+        if (SaveActionManager.INSTANCE.isCompilingAvailable()) {
             panel.add(wrap(checkboxes.get(compile), null));
             panel.add(wrap(checkboxes.get(reload), null));
         }

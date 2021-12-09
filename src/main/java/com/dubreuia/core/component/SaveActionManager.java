@@ -58,44 +58,29 @@ import static java.util.Optional.ofNullable;
 
 /**
  * <p>
- * Singleton event handler class, instanciated by {@link Component}. All actions are routed here.
+ * Singleton event handler class, instantiated by {@link Component} and {@link JavaComponent}. All actions are routed here.
  * <p>
  * The main method is {@link #guardedProcessPsiFiles(Project, Set, Action, ExecutionMode)} and will delegate to
- * {@link Engine#processPsiFilesIfNecessary()}. The method will check if the file needs to be processed and use the
+ * {@link Engine#processPsiFilesIfNecessary()}. The method will check if the file needs to be processed and uses the
  * processors to apply the modifications.
  * <p>
  * The psi files are ide wide, that means they are shared between projects (and editor windows), so we need to check if
- * the file is physically in that project before reformating, or else the file is formatted twice and intellij will ask
+ * the file is physically in that project before reformatting, or else the file is formatted twice and intellij will ask
  * to confirm unlocking of non-project file in the other project, see {@link Engine} for more details.
  *
  * @see Engine
  */
-public class SaveActionManager implements FileDocumentManagerListener {
+public enum SaveActionManager implements FileDocumentManagerListener {
+
+    INSTANCE;
 
     public static final Logger LOGGER = Logger.getInstance(SaveActionManager.class);
 
-    private static SaveActionManager instance;
-
-    public static SaveActionManager getInstance() {
-        if (instance == null) {
-            instance = new SaveActionManager();
-        }
-        return instance;
-    }
-
-    private final List<Processor> processors;
-    private boolean running;
-    private boolean javaAvailable;
-    private final boolean compilingAvailable;
-    private StorageFactory storageFactory;
-
-    private SaveActionManager() {
-        processors = new ArrayList<>();
-        running = false;
-        javaAvailable = false;
-        compilingAvailable = initCompilingAvailable();
-        storageFactory = DEFAULT;
-    }
+    private final List<Processor> processors = new ArrayList<>();
+    private boolean running = false;
+    private boolean javaAvailable = false;
+    private final boolean compilingAvailable = initCompilingAvailable();
+    private StorageFactory storageFactory = DEFAULT;
 
     private boolean initCompilingAvailable() {
         try {
@@ -105,17 +90,20 @@ public class SaveActionManager implements FileDocumentManagerListener {
         }
     }
 
-    void addProcessors(Stream<Processor> processors) {
+    SaveActionManager addProcessors(Stream<Processor> processors) {
         processors.forEach(this.processors::add);
         this.processors.sort(new OrderComparator());
+        return this;
     }
 
-    void enableJava() {
+    SaveActionManager enableJava() {
         javaAvailable = true;
+        return this;
     }
 
-    void setStorageFactory(StorageFactory storageFactory) {
+    SaveActionManager setStorageFactory(StorageFactory storageFactory) {
         this.storageFactory = storageFactory;
+        return this;
     }
 
     public boolean isCompilingAvailable() {

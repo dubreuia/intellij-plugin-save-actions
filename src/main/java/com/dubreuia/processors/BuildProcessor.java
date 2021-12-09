@@ -68,7 +68,7 @@ public enum BuildProcessor implements Processor {
 
     compile(Action.compile,
             (project, psiFiles) -> () -> {
-                if (!SaveActionManager.getInstance().isCompilingAvailable()) {
+                if (!SaveActionManager.INSTANCE.isCompilingAvailable()) {
                     return;
                 }
                 CompilerManager.getInstance(project).compile(toVirtualFiles(psiFiles), null);
@@ -76,7 +76,7 @@ public enum BuildProcessor implements Processor {
 
     reload(Action.reload,
             (project, psiFiles) -> () -> {
-                if (!SaveActionManager.getInstance().isCompilingAvailable()) {
+                if (!SaveActionManager.INSTANCE.isCompilingAvailable()) {
                     return;
                 }
                 DebuggerManagerEx debuggerManager = DebuggerManagerEx.getInstanceEx(project);
@@ -91,7 +91,7 @@ public enum BuildProcessor implements Processor {
                 Map<Integer, QuickList> quickListsIds = Arrays
                         .stream(QuickListsManager.getInstance().getAllQuickLists())
                         .collect(toMap(QuickList::hashCode, identity()));
-                List<QuickList> quickLists = SaveActionManager.getInstance().getStorage(project)
+                List<QuickList> quickLists = SaveActionManager.INSTANCE.getStorage(project)
                         .getQuickLists().stream()
                         .map(Integer::valueOf)
                         .map(quickListsIds::get)

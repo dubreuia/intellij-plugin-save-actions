@@ -26,14 +26,13 @@
 package com.dubreuia.model;
 
 import com.dubreuia.model.java.EpfStorage;
-import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.project.Project;
 
 import java.util.function.Function;
 
 public enum StorageFactory {
 
-    DEFAULT(project -> ServiceManager.getService(project, Storage.class)),
+    DEFAULT(project -> project.getService(Storage.class)),
 
     JAVA(project -> {
         Storage defaultStorage = DEFAULT.getStorage(project);

@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<idea-plugin>
+<idea-plugin require-restart="false">
 
-    <application-components>
-        <component>
-            <implementation-class>com.dubreuia.core.component.JavaComponent</implementation-class>
-        </component>
-    </application-components>
-
-    <project-components>
-    </project-components>
+    <applicationListeners>
+        <listener class="com.dubreuia.core.component.JavaComponent"
+                  topic="com.intellij.ide.plugins.DynamicPluginListener"/>
+        <listener class="com.dubreuia.core.component.JavaComponent"
+                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
+    </applicationListeners>
 
 </idea-plugin>

@@ -30,7 +30,6 @@ import com.dubreuia.model.Storage;
 import com.dubreuia.model.java.EpfStorage;
 import com.dubreuia.ui.java.IdeSupportPanel;
 import com.dubreuia.ui.java.InspectionPanel;
-import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.Nls;
@@ -87,7 +86,7 @@ public class Configuration implements Configurable {
     private IdeSupportPanel ideSupport;
 
     public Configuration(Project project) {
-        storage = ServiceManager.getService(project, Storage.class);
+        storage = project.getService(Storage.class);
     }
 
     @Nullable

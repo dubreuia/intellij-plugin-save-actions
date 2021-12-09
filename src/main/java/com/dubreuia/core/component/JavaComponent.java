@@ -26,41 +26,34 @@
 package com.dubreuia.core.component;
 
 import com.dubreuia.processors.java.JavaProcessor;
-import com.intellij.openapi.components.ApplicationComponent;
-import org.jetbrains.annotations.NotNull;
 
 import static com.dubreuia.core.component.SaveActionManager.LOGGER;
 import static com.dubreuia.model.StorageFactory.JAVA;
 
 /**
- * The plugin entry class for java based ide. This is not a singleton, the main component {@link Component} is also
- * instanciated before, this one is instanciated after.
+ * The plugin entry class for Java based ide. This is not a singleton, the main component {@link Component} will also be
+ * instantiated before. This class is instantiated afterwards.
  *
  * @see SaveActionManager
+ * @see Component
  */
-public class JavaComponent implements ApplicationComponent {
+public class JavaComponent extends Component {
 
     private static final String COMPONENT_NAME = "Save Actions Java";
 
     @Override
-    public void initComponent() {
+    protected void init() {
         LOGGER.info("Starting component: " + COMPONENT_NAME);
 
-        SaveActionManager manager = SaveActionManager.getInstance();
-        manager.setStorageFactory(JAVA);
-        manager.enableJava();
-        manager.addProcessors(JavaProcessor.stream());
+        SaveActionManager.INSTANCE
+                .setStorageFactory(JAVA)
+                .enableJava()
+                .addProcessors(JavaProcessor.stream());
     }
 
     @Override
-    public void disposeComponent() {
+    protected void disposeComponent() {
         LOGGER.info("Stopping component: " + COMPONENT_NAME);
-    }
-
-    @NotNull
-    @Override
-    public String getComponentName() {
-        return COMPONENT_NAME;
     }
 
 }
