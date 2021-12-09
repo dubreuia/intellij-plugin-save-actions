@@ -1,3 +1,5 @@
+> **⚠️ This project has been archived and is looking for a maintainer ⚠️**
+
 # Save Actions Plugin
 
 [![JetBrains Plugin](./docs/badge-jetbrains-website.svg)](https://plugins.jetbrains.com/plugin/7642-save-actions)
