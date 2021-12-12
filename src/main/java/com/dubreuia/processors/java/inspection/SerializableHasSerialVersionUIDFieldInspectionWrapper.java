@@ -28,10 +28,8 @@ package com.dubreuia.processors.java.inspection;
 import com.intellij.codeInspection.LocalInspectionTool;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Optional;
-import java.util.stream.Stream;
-
-import static com.dubreuia.core.component.SaveActionManager.LOGGER;
+import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * This class changes package between intellij versions.
@@ -51,30 +49,34 @@ public class SerializableHasSerialVersionUIDFieldInspectionWrapper {
     }
 
     public static LocalInspectionTool get() {
-
-        return Stream.of(CLASS_NAME_INTELLIJ_2016, CLASS_NAME_INTELLIJ_2018_3,
-                        CLASS_NAME_INTELLIJ_2021_3)
-                .map(SerializableHasSerialVersionUIDFieldInspectionWrapper::getInspectionInstance)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .peek(inspectionTool -> LOGGER.info(
-                        "Found serial version uid class " + inspectionTool.getClass()))
+        return Arrays.stream(SerializableClass.values())
+                .map(SerializableClass::getInspectionInstance)
+                .filter(Objects::nonNull)
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException(
                         "Cannot find inspection tool SerializableHasSerialVersionUIDFieldInspection"));
     }
 
-    private static Optional<LocalInspectionTool> getInspectionInstance(String className) {
+    private enum SerializableClass {
+        CLASS_NAME_INTELLIJ_2021_3("com.intellij.codeInspection.SerializableHasSerialVersionUidFieldInspection"),
+        CLASS_NAME_INTELLIJ_2018_3("com.siyeh.ig.serialization.SerializableHasSerialVersionUIDFieldInspection"),
+        CLASS_NAME_INTELLIJ_2016("com.siyeh.ig.serialization.SerializableHasSerialVersionUIDFieldInspectionBase");
 
-        try {
-            Class<? extends LocalInspectionTool> inspectionClass = Class
-                    .forName(className).asSubclass(LocalInspectionTool.class);
-            LocalInspectionTool localInspectionTool =
-                    inspectionClass.cast(inspectionClass.getDeclaredConstructor().newInstance());
-            return Optional.of(localInspectionTool);
-        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | NoSuchMethodException | InvocationTargetException e) {
-            return Optional.empty();
+        private final String className;
+
+        SerializableClass(String className) {
+            this.className = className;
+        }
+
+        public LocalInspectionTool getInspectionInstance() {
+            try {
+                Class<? extends LocalInspectionTool> inspectionClass =
+                        Class.forName(className).asSubclass(LocalInspectionTool.class);
+                LOGGER.info("Found serial version uid class " + inspectionClass.getName());
+                return inspectionClass.cast(inspectionClass.getDeclaredConstructor().newInstance());
+            } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | NoSuchMethodException | InvocationTargetException e) {
+                return null;
+            }
         }
     }
-
 }
