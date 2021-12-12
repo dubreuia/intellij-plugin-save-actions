@@ -26,34 +26,38 @@
 package com.dubreuia.core.component;
 
 import com.dubreuia.core.ExecutionMode;
+import com.dubreuia.core.service.SaveActionsService;
 import com.dubreuia.model.Action;
 import com.dubreuia.model.Storage;
 import com.dubreuia.processors.Processor;
 import com.dubreuia.processors.Result;
 import com.dubreuia.processors.ResultCode;
 import com.dubreuia.processors.SaveCommand;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.psi.PsiFile;
 import com.intellij.util.PsiErrorElementUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import static com.dubreuia.core.ExecutionMode.batch;
-import static com.dubreuia.core.component.SaveActionManager.LOGGER;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
 /**
  * Implementation of the save action engine. This class will filter, process and log modifications to the files.
  */
-class Engine {
+public class Engine {
 
+    private static final Logger LOGGER = Logger.getInstance(SaveActionsService.class);
     private static final String REGEX_STARTS_WITH_ANY_STRING = ".*?";
 
     private final Storage storage;
@@ -63,12 +67,12 @@ class Engine {
     private final Action activation;
     private final ExecutionMode mode;
 
-    Engine(Storage storage,
-           List<Processor> processors,
-           Project project,
-           Set<PsiFile> psiFiles,
-           Action activation,
-           ExecutionMode mode) {
+    public Engine(Storage storage,
+                  List<Processor> processors,
+                  Project project,
+                  Set<PsiFile> psiFiles,
+                  Action activation,
+                  ExecutionMode mode) {
         this.storage = storage;
         this.processors = processors;
         this.project = project;
@@ -77,9 +81,12 @@ class Engine {
         this.mode = mode;
     }
 
-    void processPsiFilesIfNecessary() {
+    public void processPsiFilesIfNecessary() {
+        if (psiFiles == null) {
+            return;
+        }
         if (!storage.isEnabled(activation)) {
-            LOGGER.info("Plugin not activated on " + project);
+            LOGGER.info("Action \"" + activation.getText() + "\" not enabled on " + project);
             return;
         }
         LOGGER.info("Processing " + project + " files " + psiFiles + " mode " + mode);
@@ -102,7 +109,8 @@ class Engine {
                 .collect(toList());
         LOGGER.info("Filtered processors " + processorsEligible);
         List<SimpleEntry<Action, Result<ResultCode>>> results = processorsEligible.stream()
-                .peek(command -> LOGGER.info("Execute command " + command + " on " + psiFiles.size() + " files"))
+                .filter(Objects::nonNull)
+                .peek(command -> LOGGER.info(String.format("Execute command %s on %d files", command, psiFiles.size())))
                 .map(command -> new SimpleEntry<>(command.getAction(), command.execute()))
                 .collect(toList());
         LOGGER.info("Exit engine with results "
@@ -122,15 +130,21 @@ class Engine {
     }
 
     private boolean isProjectValid(Project project) {
-        return project.isInitialized()
+        boolean valid = project.isInitialized()
                 && !project.isDisposed();
+        if (!valid) {
+            LOGGER.info("Project invalid. Either not initialized or disposed.");
+        }
+        return valid;
     }
 
-    private boolean isPsiFileInProject(Project project, PsiFile psiFile) {
-        boolean inProject = ProjectRootManager.getInstance(project)
-                .getFileIndex().isInContent(psiFile.getVirtualFile());
+    private boolean isPsiFileInProject(Project project, @NotNull PsiFile psiFile) {
+        boolean inProject = ProjectRootManager.getInstance(project).getFileIndex().isInContent(psiFile.getVirtualFile());
         if (!inProject) {
-            LOGGER.info("File " + psiFile + " not in current project " + project);
+            LOGGER.info(String.format("File %s not in current project %s. File belongs to %s",
+                    psiFile,
+                    project,
+                    psiFile.getProject()));
         }
         return inProject;
     }
@@ -139,7 +153,7 @@ class Engine {
         if (storage.isEnabled(Action.noActionIfCompileErrors)) {
             boolean hasErrors = PsiErrorElementUtil.hasErrors(project, psiFile.getVirtualFile());
             if (hasErrors) {
-                LOGGER.info("File " + psiFile + " has errors");
+                LOGGER.info(String.format("File %s has errors", psiFile));
             }
             return !hasErrors;
         }
@@ -170,7 +184,7 @@ class Engine {
         Set<String> exclusions = storage.getExclusions();
         boolean psiFileExcluded = atLeastOneMatch(path, exclusions);
         if (psiFileExcluded) {
-            LOGGER.info("File " + path + " excluded in " + exclusions);
+            LOGGER.info(String.format("File %s excluded in %s", path, exclusions));
         }
         return psiFileExcluded;
     }
@@ -183,7 +197,7 @@ class Engine {
         }
         boolean psiFileIncluded = atLeastOneMatch(path, inclusions);
         if (psiFileIncluded) {
-            LOGGER.info("File " + path + " included in " + inclusions);
+            LOGGER.info(String.format("File %s included in %s", path, inclusions));
         }
         return psiFileIncluded;
     }

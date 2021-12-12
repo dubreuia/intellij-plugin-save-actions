@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<idea-plugin require-restart="false">
+<idea-plugin>
 
-    <applicationListeners>
-        <listener class="com.dubreuia.core.component.JavaComponent"
-                  topic="com.intellij.ide.plugins.DynamicPluginListener"/>
-        <listener class="com.dubreuia.core.component.JavaComponent"
-                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
-    </applicationListeners>
+    <extensions defaultExtensionNs="com.intellij">
+        <applicationService serviceImplementation="com.dubreuia.core.service.impl.SaveActionsJavaService"/>
+    </extensions>
 
 </idea-plugin>

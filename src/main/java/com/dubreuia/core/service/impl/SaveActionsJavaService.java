@@ -23,37 +23,33 @@
  *
  */
 
-package com.dubreuia.core.component;
+package com.dubreuia.core.service.impl;
 
+import com.dubreuia.processors.BuildProcessor;
+import com.dubreuia.processors.GlobalProcessor;
 import com.dubreuia.processors.java.JavaProcessor;
 
-import static com.dubreuia.core.component.SaveActionManager.LOGGER;
 import static com.dubreuia.model.StorageFactory.JAVA;
 
 /**
- * The plugin entry class for Java based ide. This is not a singleton, the main component {@link Component} will also be
- * instantiated before. This class is instantiated afterwards.
+ * This ApplicationService implementation is used for all JAVA based IDE flavors.
+ * <p/>
+ * It is assigned as ExtensionPoint from inside plugin-java.xml and overrides the default implementation
+ * {@link SaveActionsDefaultService} which is not being loaded for Intellij IDEA, Android Studio a.s.o.
+ * Instead this implementation will be assigned. Thus, all processors have to be configured by this class as well.
+ * <p/>
+ * Services must be final classes as per definition. That is the reason to use an abstract class here.
+ * <p/>
  *
- * @see SaveActionManager
- * @see Component
+ * @see AbstractSaveActionsService
+ * @since 2.3.1
  */
-public class JavaComponent extends Component {
+public final class SaveActionsJavaService extends AbstractSaveActionsService {
 
-    private static final String COMPONENT_NAME = "Save Actions Java";
-
-    @Override
-    protected void init() {
-        LOGGER.info("Starting component: " + COMPONENT_NAME);
-
-        SaveActionManager.INSTANCE
-                .setStorageFactory(JAVA)
-                .enableJava()
-                .addProcessors(JavaProcessor.stream());
+    public SaveActionsJavaService() {
+        super(JAVA);
+        addProcessors(BuildProcessor.stream());
+        addProcessors(GlobalProcessor.stream());
+        addProcessors(JavaProcessor.stream());
     }
-
-    @Override
-    protected void disposeComponent() {
-        LOGGER.info("Stopping component: " + COMPONENT_NAME);
-    }
-
 }

@@ -25,7 +25,7 @@
 
 package com.dubreuia.ui.java;
 
-import com.dubreuia.core.component.SaveActionManager;
+import com.dubreuia.core.service.SaveActionsServiceManager;
 import com.intellij.openapi.fileChooser.FileChooserDescriptor;
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
 import com.intellij.openapi.fileChooser.FileChooserFactory;
@@ -61,7 +61,7 @@ public class IdeSupportPanel {
 
     public JPanel getPanel(String configurationPath) {
         JPanel panel = new JPanel();
-        if (!SaveActionManager.INSTANCE.isJavaAvailable()) {
+        if (!SaveActionsServiceManager.getService().isJavaAvailable()) {
             return panel;
         }
 

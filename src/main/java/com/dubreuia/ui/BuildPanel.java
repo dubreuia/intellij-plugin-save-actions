@@ -25,7 +25,7 @@
 
 package com.dubreuia.ui;
 
-import com.dubreuia.core.component.SaveActionManager;
+import com.dubreuia.core.service.SaveActionsServiceManager;
 import com.dubreuia.model.Action;
 import com.intellij.openapi.actionSystem.ex.QuickList;
 import com.intellij.openapi.actionSystem.ex.QuickListsManager;
@@ -73,7 +73,7 @@ class BuildPanel {
         panel = new JPanel();
         panel.setBorder(IdeBorderFactory.createTitledBorder(TEXT_TITLE_ACTIONS));
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
-        if (SaveActionManager.INSTANCE.isCompilingAvailable()) {
+        if (SaveActionsServiceManager.getService().isCompilingAvailable()) {
             panel.add(wrap(checkboxes.get(compile), null));
             panel.add(wrap(checkboxes.get(reload), null));
         }
@@ -157,11 +157,13 @@ class BuildPanel {
         return new ListDataListener() {
 
             @Override
-            public void intervalAdded(ListDataEvent e) {
+            public void intervalAdded(ListDataEvent ignored) {
+                //not used.
             }
 
             @Override
-            public void intervalRemoved(ListDataEvent e) {
+            public void intervalRemoved(ListDataEvent ignored) {
+                //not used.
             }
 
             @Override

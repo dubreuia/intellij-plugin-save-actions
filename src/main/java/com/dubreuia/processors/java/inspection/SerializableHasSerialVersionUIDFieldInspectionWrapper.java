@@ -25,7 +25,9 @@
 
 package com.dubreuia.processors.java.inspection;
 
+import com.dubreuia.core.service.SaveActionsService;
 import com.intellij.codeInspection.LocalInspectionTool;
+import com.intellij.openapi.diagnostic.Logger;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
@@ -38,12 +40,7 @@ import java.util.Objects;
  */
 public class SerializableHasSerialVersionUIDFieldInspectionWrapper {
 
-    private static final String CLASS_NAME_INTELLIJ_2016 =
-            "com.siyeh.ig.serialization.SerializableHasSerialVersionUIDFieldInspectionBase";
-    private static final String CLASS_NAME_INTELLIJ_2018_3 =
-            "com.siyeh.ig.serialization.SerializableHasSerialVersionUIDFieldInspection";
-    private static final String CLASS_NAME_INTELLIJ_2021_3 =
-            "com.intellij.codeInspection.SerializableHasSerialVersionUidFieldInspection";
+    private static final Logger LOGGER = Logger.getInstance(SaveActionsService.class);
 
     private SerializableHasSerialVersionUIDFieldInspectionWrapper() {
     }

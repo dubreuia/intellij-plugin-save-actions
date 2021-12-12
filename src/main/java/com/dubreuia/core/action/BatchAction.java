@@ -24,9 +24,11 @@
  */
 package com.dubreuia.core.action;
 
-import com.dubreuia.core.component.SaveActionManager;
+import com.dubreuia.core.service.SaveActionsService;
+import com.dubreuia.core.service.SaveActionsServiceManager;
 import com.intellij.analysis.AnalysisScope;
 import com.intellij.analysis.BaseAnalysisAction;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.PsiFile;
@@ -36,21 +38,22 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static com.dubreuia.core.ExecutionMode.batch;
-import static com.dubreuia.core.component.Component.COMPONENT_NAME;
-import static com.dubreuia.core.component.SaveActionManager.LOGGER;
 import static com.dubreuia.model.Action.activateOnBatch;
 import static java.util.Collections.synchronizedSet;
 
 /**
  * This action runs the save actions on the given scope of files, only if property
  * {@link com.dubreuia.model.Action#activateOnShortcut} is enabled. The user is asked for the scope using a standard
- * IDEA dialog. It delegates to {@link SaveActionManager}. Originally based on
+ * IDEA dialog. It delegates to {@link SaveActionsService}. Originally based on
  * {@link com.intellij.codeInspection.inferNullity.InferNullityAnnotationsAction}.
  *
  * @author markiewb
- * @see SaveActionManager
+ * @see SaveActionsServiceManager
  */
 public class BatchAction extends BaseAnalysisAction {
+
+    private static final Logger LOGGER = Logger.getInstance(SaveActionsService.class);
+    private static final String COMPONENT_NAME = "Save Actions";
 
     public BatchAction() {
         super(COMPONENT_NAME, COMPONENT_NAME);
@@ -67,7 +70,7 @@ public class BatchAction extends BaseAnalysisAction {
                 psiFiles.add(psiFile);
             }
         });
-        SaveActionManager.INSTANCE.guardedProcessPsiFiles(project, psiFiles, activateOnBatch, batch);
+        SaveActionsServiceManager.getService().guardedProcessPsiFiles(project, psiFiles, activateOnBatch, batch);
         LOGGER.info("End BatchAction#analyze processed " + psiFiles.size() + " files");
     }
 

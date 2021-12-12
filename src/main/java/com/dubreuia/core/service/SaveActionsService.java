@@ -23,42 +23,31 @@
  *
  */
 
-package com.dubreuia.ui.java;
+package com.dubreuia.core.service;
 
-import com.dubreuia.core.service.SaveActionsServiceManager;
+import com.dubreuia.core.ExecutionMode;
 import com.dubreuia.model.Action;
-import com.intellij.ui.IdeBorderFactory;
+import com.intellij.openapi.actionSystem.ex.QuickList;
+import com.intellij.openapi.components.Service;
+import com.intellij.openapi.project.Project;
+import com.intellij.psi.PsiFile;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JCheckBox;
-import javax.swing.JPanel;
-import java.awt.Dimension;
-import java.util.Map;
+import java.util.List;
+import java.util.Set;
 
-import static com.dubreuia.model.ActionType.java;
+/**
+ * This interface is implemented by all SaveAction ApplicationServices. It is used to be able to override
+ * a concrete implementation. Also, it has to be annotated with {@link Service}.
+ */
+@Service
+public interface SaveActionsService {
 
-public class InspectionPanel {
+    void guardedProcessPsiFiles(Project project, Set<PsiFile> psiFiles, Action activation, ExecutionMode mode);
 
-    private static final String TEXT_TITLE_INSPECTIONS = "Java Inspection and Quick Fix";
+    boolean isJavaAvailable();
 
-    private final Map<Action, JCheckBox> checkboxes;
+    boolean isCompilingAvailable();
 
-    public InspectionPanel(Map<Action, JCheckBox> checkboxes) {
-        this.checkboxes = checkboxes;
-    }
-
-    public JPanel getPanel() {
-        JPanel panel = new JPanel();
-        if (!SaveActionsServiceManager.getService().isJavaAvailable()) {
-            return panel;
-        }
-        panel.setBorder(IdeBorderFactory.createTitledBorder(TEXT_TITLE_INSPECTIONS));
-        panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
-        Action.stream(java).map(checkboxes::get).forEach(panel::add);
-        panel.add(Box.createHorizontalGlue());
-        panel.setMinimumSize(new Dimension(Short.MAX_VALUE, 0));
-        return panel;
-    }
+    List<QuickList> getQuickLists(Project project);
 
 }
