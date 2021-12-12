@@ -84,7 +84,7 @@
                           relative-to-action="RearrangeCode"/>
 
             <action id="com.dubreuia.core.action.ToggleAction"
-                    class="com.dubreuia.core.action.ToggleAction"
+                    class="com.dubreuia.core.action.ToggleAnAction"
                     text="Enable Save Actions"
                     description="Toggle the activation of Save Actions"/>
 
