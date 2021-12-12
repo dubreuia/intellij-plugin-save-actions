@@ -332,8 +332,8 @@ public class CustomAccessCanBeTightenedInspection extends com.intellij.codeInspe
     }
   }
 
-  private static boolean isInnerClass(@NotNull PsiClass memberClass) {
-    return memberClass.getContainingClass() != null || memberClass instanceof PsiAnonymousClass;
+  private static boolean isInnerClass(PsiClass memberClass) {
+    return memberClass != null && memberClass.getContainingClass() != null || memberClass instanceof PsiAnonymousClass;
   }
 
   private static boolean isInReferenceList(@Nullable PsiElement list, @NotNull PsiMember member) {
