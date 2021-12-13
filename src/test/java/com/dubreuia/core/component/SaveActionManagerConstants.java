@@ -25,6 +25,7 @@
 
 package com.dubreuia.core.component;
 
+import com.dubreuia.core.service.SaveActionsService;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.psi.PsiFile;
 import com.intellij.testFramework.fixtures.CodeInsightTestFixture;
@@ -39,15 +40,15 @@ import static java.util.Collections.singleton;
 
 public interface SaveActionManagerConstants {
 
-    BiConsumer<CodeInsightTestFixture, SaveActionManager> SAVE_ACTION_MANAGER = (fixture, saveActionManager) ->
-            WriteCommandAction.writeCommandAction(fixture.getProject()).run(() -> runFixture(fixture, saveActionManager));
+    BiConsumer<CodeInsightTestFixture, SaveActionsService> SAVE_ACTION_MANAGER = (fixture, saveActionService) ->
+            WriteCommandAction.writeCommandAction(fixture.getProject()).run(() -> runFixture(fixture, saveActionService));
 
-    static void runFixture(CodeInsightTestFixture fixture, SaveActionManager saveActionManager) {
+    static void runFixture(CodeInsightTestFixture fixture, SaveActionsService saveActionService) {
         // set modification timestamp ++
         fixture.getFile().clearCaches();
 
         // call plugin on document
         Set<PsiFile> psiFiles = new HashSet<>(singleton(fixture.getFile()));
-        saveActionManager.guardedProcessPsiFiles(fixture.getProject(), psiFiles, activate, saveAll);
+        saveActionService.guardedProcessPsiFiles(fixture.getProject(), psiFiles, activate, saveAll);
     }
 }
