@@ -86,14 +86,14 @@ public class Engine {
             return;
         }
         if (!storage.isEnabled(activation)) {
-            LOGGER.info("Action \"" + activation.getText() + "\" not enabled on " + project);
+            LOGGER.info(String.format("Action \"%s\" not enabled on %s", activation.getText(), project));
             return;
         }
-        LOGGER.info("Processing " + project + " files " + psiFiles + " mode " + mode);
+        LOGGER.info(String.format("Processing %s files %s mode %s", project, psiFiles, mode));
         Set<PsiFile> psiFilesEligible = psiFiles.stream()
                 .filter(psiFile -> isPsiFileEligible(project, psiFile))
                 .collect(toSet());
-        LOGGER.info("Valid files " + psiFilesEligible);
+        LOGGER.info(String.format("Valid files %s", psiFilesEligible));
         processPsiFiles(project, psiFilesEligible, mode);
     }
 
@@ -101,37 +101,35 @@ public class Engine {
         if (psiFiles.isEmpty()) {
             return;
         }
-        LOGGER.info("Start processors (" + processors.size() + ")");
+        LOGGER.info(String.format("Start processors (%d)", processors.size()));
         List<SaveCommand> processorsEligible = processors.stream()
                 .map(processor -> processor.getSaveCommand(project, psiFiles))
                 .filter(command -> storage.isEnabled(command.getAction()))
                 .filter(command -> command.getModes().contains(mode))
                 .collect(toList());
-        LOGGER.info("Filtered processors " + processorsEligible);
+        LOGGER.info(String.format("Filtered processors %s", processorsEligible));
         List<SimpleEntry<Action, Result<ResultCode>>> results = processorsEligible.stream()
                 .filter(Objects::nonNull)
                 .peek(command -> LOGGER.info(String.format("Execute command %s on %d files", command, psiFiles.size())))
                 .map(command -> new SimpleEntry<>(command.getAction(), command.execute()))
                 .collect(toList());
-        LOGGER.info("Exit engine with results "
-                + results.stream()
+        LOGGER.info(String.format("Exit engine with results %s", results.stream()
                 .map(entry -> entry.getKey() + ":" + entry.getValue())
-                .collect(toList()));
+                .collect(toList())));
     }
 
     private boolean isPsiFileEligible(Project project, PsiFile psiFile) {
         return psiFile != null
                 && isProjectValid(project)
+                && isPsiFileValid(psiFile)
+                && isPsiFileFresh(psiFile)
                 && isPsiFileInProject(project, psiFile)
                 && isPsiFileNoError(project, psiFile)
-                && isPsiFileIncluded(psiFile)
-                && isPsiFileFresh(psiFile)
-                && isPsiFileValid(psiFile);
+                && isPsiFileIncluded(psiFile);
     }
 
     private boolean isProjectValid(Project project) {
-        boolean valid = project.isInitialized()
-                && !project.isDisposed();
+        boolean valid = project.isInitialized() && !project.isDisposed();
         if (!valid) {
             LOGGER.info("Project invalid. Either not initialized or disposed.");
         }
@@ -169,11 +167,19 @@ public class Engine {
         if (mode == batch) {
             return true;
         }
-        return psiFile.getModificationStamp() != 0;
+        boolean isFresh = psiFile.getModificationStamp() != 0;
+        if (!isFresh) {
+            LOGGER.info(String.format("File %s is not fresh.", psiFile));
+        }
+        return isFresh;
     }
 
     private boolean isPsiFileValid(PsiFile psiFile) {
-        return psiFile.isValid();
+        boolean valid = psiFile.isValid();
+        if (!valid) {
+            LOGGER.info(String.format("File %s is not valid.", psiFile));
+        }
+        return valid;
     }
 
     boolean isIncludedAndNotExcluded(String path) {
