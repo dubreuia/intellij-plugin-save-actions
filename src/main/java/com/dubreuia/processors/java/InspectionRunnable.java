@@ -38,74 +38,72 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.IndexNotReadyException;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
+
+import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Implements a runnable for inspections commands.
  */
-class InspectionRunnable implements Runnable {
+class InspectionRunnable implements Runnable, Serializable {
 
     private static final Logger LOGGER = Logger.getInstance(SaveActionsService.class);
+    private static final long serialVersionUID = -9189508316598162392L;
 
     private final Project project;
     private final Set<PsiFile> psiFiles;
-    private final LocalInspectionTool inspectionTool;
+    private final InspectionToolWrapper toolWrapper;
 
     InspectionRunnable(Project project, Set<PsiFile> psiFiles, LocalInspectionTool inspectionTool) {
-
         this.project = project;
         this.psiFiles = psiFiles;
-        this.inspectionTool = inspectionTool;
+        toolWrapper = new LocalInspectionToolWrapper(inspectionTool);
+        LOGGER.info(String.format("Running inspection for %s", inspectionTool.getShortName()));
     }
 
     @Override
     public void run() {
-
         InspectionManager inspectionManager = InspectionManager.getInstance(project);
         GlobalInspectionContext context = inspectionManager.createNewGlobalContext();
-        InspectionToolWrapper toolWrapper = new LocalInspectionToolWrapper(inspectionTool);
-        for (PsiFile psiFile : psiFiles) {
-            List<ProblemDescriptor> problemDescriptors =
-                getProblemDescriptors(context, toolWrapper, psiFile);
-            for (ProblemDescriptor problemDescriptor : problemDescriptors) {
-                QuickFix[] fixes = problemDescriptor.getFixes();
-                if (fixes != null) {
-                    writeQuickFixes(problemDescriptor, fixes);
-                }
-            }
-        }
+        psiFiles.forEach(pf -> getProblemDescriptors(context, pf).forEach(this::writeQuickFixes));
     }
 
     private List<ProblemDescriptor> getProblemDescriptors(
-        GlobalInspectionContext context,
-        InspectionToolWrapper toolWrapper,
-        PsiFile psiFile) {
-
-        List<ProblemDescriptor> problemDescriptors;
+            GlobalInspectionContext context,
+            PsiFile psiFile) {
         try {
-            problemDescriptors =
-                InspectionEngine.runInspectionOnFile(psiFile, toolWrapper, context);
+            return InspectionEngine.runInspectionOnFile(psiFile, toolWrapper, context);
         } catch (IndexNotReadyException exception) {
-            LOGGER.info("Cannot inspect files: index not ready (" + exception.getMessage() + ")");
+            LOGGER.error(String.format("Cannot inspect file %s: index not ready (%s)",
+                    psiFile.getName(),
+                    exception.getMessage()));
             return Collections.emptyList();
         }
-        return problemDescriptors;
     }
 
-    @SuppressWarnings({"squid:S1905", "squid:S3740"})
-    private void writeQuickFixes(ProblemDescriptor problemDescriptor, QuickFix[] fixes) {
+    @SuppressWarnings({"unchecked", "squid:S1905", "squid:S3740"})
+    private void writeQuickFixes(ProblemDescriptor problemDescriptor) {
+        QuickFix<?>[] fixes = problemDescriptor.getFixes();
+        if (fixes == null) {
+            return;
+        }
 
-        for (QuickFix fix : fixes) {
-            if (fix != null) {
-                @SuppressWarnings("unchecked") QuickFix<ProblemDescriptor> typedFix =
-                    (QuickFix<ProblemDescriptor>) fix;
-                try {
-                    typedFix.applyFix(project, problemDescriptor);
-                } catch (Exception e) {
-                    LOGGER.error(e.getMessage(), e);
-                }
+        Set<QuickFix<ProblemDescriptor>> quickFixes = Arrays.stream(fixes)
+                .filter(Objects::nonNull)
+                .map(qf -> (QuickFix<ProblemDescriptor>) qf)
+                .collect(Collectors.toSet());
+
+        for (QuickFix<ProblemDescriptor> typedFix : quickFixes) {
+            try {
+                LOGGER.info(String.format("Applying fix \"%s\"", typedFix.getName()));
+                typedFix.applyFix(project, problemDescriptor);
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage(), e);
             }
         }
     }

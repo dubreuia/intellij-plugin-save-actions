@@ -55,22 +55,37 @@ public class SerializableHasSerialVersionUIDFieldInspectionWrapper {
     }
 
     private enum SerializableClass {
-        CLASS_NAME_INTELLIJ_2021_3("com.intellij.codeInspection.SerializableHasSerialVersionUidFieldInspection"),
-        CLASS_NAME_INTELLIJ_2018_3("com.siyeh.ig.serialization.SerializableHasSerialVersionUIDFieldInspection"),
-        CLASS_NAME_INTELLIJ_2016("com.siyeh.ig.serialization.SerializableHasSerialVersionUIDFieldInspectionBase");
+        CLASS_NAME_INTELLIJ_2021_3("com.intellij.codeInspection.SerializableHasSerialVersionUidFieldInspection",
+                "com.dubreuia.processors.java.inspection.CustomSerializableHasSerialVersionUidFieldInspection"),
+        CLASS_NAME_INTELLIJ_2018_3("com.siyeh.ig.serialization.SerializableHasSerialVersionUIDFieldInspection",
+                "com.siyeh.ig.serialization.SerializableHasSerialVersionUIDFieldInspection"),
+        CLASS_NAME_INTELLIJ_2016("com.siyeh.ig.serialization.SerializableHasSerialVersionUIDFieldInspectionBase",
+                "com.siyeh.ig.serialization.SerializableHasSerialVersionUIDFieldInspectionBase");
 
+        /**
+         * Field className: Inspection class provided by IDE
+         */
         private final String className;
 
-        SerializableClass(String className) {
+        /**
+         * Field targetClass: Inspection class to run. Needed to apply wrapper class for Idea 2021.3 and up.
+         *
+         * @see CustomSerializableHasSerialVersionUidFieldInspection
+         */
+        private final String targetClass;
+
+        SerializableClass(String className, String targetClass) {
             this.className = className;
+            this.targetClass = targetClass;
         }
 
         public LocalInspectionTool getInspectionInstance() {
             try {
-                Class<? extends LocalInspectionTool> inspectionClass =
-                        Class.forName(className).asSubclass(LocalInspectionTool.class);
-                LOGGER.info("Found serial version uid class " + inspectionClass.getName());
-                return inspectionClass.cast(inspectionClass.getDeclaredConstructor().newInstance());
+                Class.forName(className).asSubclass(LocalInspectionTool.class);
+                Class<? extends LocalInspectionTool> targetInspectionClass =
+                        Class.forName(targetClass).asSubclass(LocalInspectionTool.class);
+                LOGGER.info(String.format("Found serial version uid class %s", targetInspectionClass.getName()));
+                return targetInspectionClass.cast(targetInspectionClass.getDeclaredConstructor().newInstance());
             } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | NoSuchMethodException | InvocationTargetException e) {
                 return null;
             }
