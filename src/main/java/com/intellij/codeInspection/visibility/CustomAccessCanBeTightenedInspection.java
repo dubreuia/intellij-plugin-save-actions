@@ -23,7 +23,7 @@
  *
  */
 package com.intellij.codeInspection.visibility;
-
+//@formatter:off
 import com.intellij.codeInsight.daemon.impl.UnusedSymbolUtil;
 import com.intellij.codeInspection.InspectionProfile;
 import com.intellij.codeInspection.InspectionsBundle;
@@ -80,7 +80,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  * @see com.intellij.codeInspection.visibility.AccessCanBeTightenedInspection
  */
-@SuppressWarnings("deprecation")
+@SuppressWarnings({"deprecation", "squid:S125", "squid:S3776", "squid:S107"})
 public class CustomAccessCanBeTightenedInspection extends com.intellij.codeInspection.AbstractBaseJavaLocalInspectionTool {
   private final VisibilityInspection myVisibilityInspection;
 
@@ -332,8 +332,8 @@ public class CustomAccessCanBeTightenedInspection extends com.intellij.codeInspe
     }
   }
 
-  private static boolean isInnerClass(@NotNull PsiClass memberClass) {
-    return memberClass.getContainingClass() != null || memberClass instanceof PsiAnonymousClass;
+  private static boolean isInnerClass(PsiClass memberClass) {
+    return memberClass != null && memberClass.getContainingClass() != null || memberClass instanceof PsiAnonymousClass;
   }
 
   private static boolean isInReferenceList(@Nullable PsiElement list, @NotNull PsiMember member) {
@@ -367,3 +367,4 @@ public class CustomAccessCanBeTightenedInspection extends com.intellij.codeInspe
     //System.out.println(s);
   }
 }
+//@formatter:on

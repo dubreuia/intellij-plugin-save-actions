@@ -25,8 +25,10 @@
 
 package com.dubreuia.model.java;
 
+import com.dubreuia.core.service.SaveActionsService;
 import com.dubreuia.model.Action;
 import com.dubreuia.model.Storage;
+import com.intellij.openapi.diagnostic.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -34,7 +36,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 
-import static com.dubreuia.core.component.SaveActionManager.LOGGER;
 import static java.util.Collections.emptyList;
 
 /**
@@ -51,6 +52,8 @@ import static java.util.Collections.emptyList;
 public enum EpfStorage {
 
     INSTANCE;
+
+    private static final Logger LOGGER = Logger.getInstance(SaveActionsService.class);
 
     public Storage getStorageOrDefault(String configurationPath, Storage defaultStorage) {
         try {

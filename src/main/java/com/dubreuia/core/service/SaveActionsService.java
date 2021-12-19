@@ -23,32 +23,31 @@
  *
  */
 
-package com.dubreuia.core.component;
+package com.dubreuia.core.service;
 
-import com.dubreuia.core.service.SaveActionsService;
-import com.intellij.openapi.command.WriteCommandAction;
+import com.dubreuia.core.ExecutionMode;
+import com.dubreuia.model.Action;
+import com.intellij.openapi.actionSystem.ex.QuickList;
+import com.intellij.openapi.components.Service;
+import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
-import com.intellij.testFramework.fixtures.CodeInsightTestFixture;
 
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
-import java.util.function.BiConsumer;
 
-import static com.dubreuia.core.ExecutionMode.saveAll;
-import static com.dubreuia.model.Action.activate;
-import static java.util.Collections.singleton;
+/**
+ * This interface is implemented by all SaveAction ApplicationServices. It is used to be able to override
+ * a concrete implementation. Also, it has to be annotated with {@link Service}.
+ */
+@Service
+public interface SaveActionsService {
 
-public interface SaveActionManagerConstants {
+    void guardedProcessPsiFiles(Project project, Set<PsiFile> psiFiles, Action activation, ExecutionMode mode);
 
-    BiConsumer<CodeInsightTestFixture, SaveActionsService> SAVE_ACTION_MANAGER = (fixture, saveActionService) ->
-            WriteCommandAction.writeCommandAction(fixture.getProject()).run(() -> runFixture(fixture, saveActionService));
+    boolean isJavaAvailable();
 
-    static void runFixture(CodeInsightTestFixture fixture, SaveActionsService saveActionService) {
-        // set modification timestamp ++
-        fixture.getFile().clearCaches();
+    boolean isCompilingAvailable();
 
-        // call plugin on document
-        Set<PsiFile> psiFiles = new HashSet<>(singleton(fixture.getFile()));
-        saveActionService.guardedProcessPsiFiles(fixture.getProject(), psiFiles, activate, saveAll);
-    }
+    List<QuickList> getQuickLists(Project project);
+
 }

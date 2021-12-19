@@ -25,7 +25,7 @@
 
 package com.dubreuia.integration;
 
-import com.dubreuia.core.component.SaveActionManager;
+import com.dubreuia.core.service.SaveActionsServiceManager;
 import com.dubreuia.model.Storage;
 import com.intellij.testFramework.fixtures.CodeInsightTestFixture;
 import com.intellij.testFramework.fixtures.IdeaProjectTestFixture;
@@ -68,7 +68,7 @@ public abstract class IntegrationTest {
 
     void assertSaveAction(ActionTestFile before, ActionTestFile after) {
         fixture.configureByFile(before.getFilename());
-        SAVE_ACTION_MANAGER.accept(fixture, SaveActionManager.INSTANCE);
+        SAVE_ACTION_MANAGER.accept(fixture, SaveActionsServiceManager.getService());
         rethrowAsJunit5Error(() -> fixture.checkResultByFile(after.getFilename()));
     }
 

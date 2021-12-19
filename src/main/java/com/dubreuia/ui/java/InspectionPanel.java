@@ -25,7 +25,7 @@
 
 package com.dubreuia.ui.java;
 
-import com.dubreuia.core.component.SaveActionManager;
+import com.dubreuia.core.service.SaveActionsServiceManager;
 import com.dubreuia.model.Action;
 import com.intellij.ui.IdeBorderFactory;
 
@@ -50,7 +50,7 @@ public class InspectionPanel {
 
     public JPanel getPanel() {
         JPanel panel = new JPanel();
-        if (!SaveActionManager.INSTANCE.isJavaAvailable()) {
+        if (!SaveActionsServiceManager.getService().isJavaAvailable()) {
             return panel;
         }
         panel.setBorder(IdeBorderFactory.createTitledBorder(TEXT_TITLE_INSPECTIONS));

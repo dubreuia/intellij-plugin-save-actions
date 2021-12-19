@@ -46,7 +46,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -74,7 +74,7 @@ public class Configuration implements Configurable {
     private final Set<String> exclusions = new HashSet<>();
     private final Set<String> inclusions = new HashSet<>();
     private final List<String> quickLists = new ArrayList<>();
-    private final Map<Action, JCheckBox> checkboxes = new HashMap<>();
+    private final Map<Action, JCheckBox> checkboxes = new EnumMap<>(Action.class);
     private final ActionListener checkboxActionListener = this::updateCheckboxEnabled;
 
     private GeneralPanel generalPanel;
@@ -304,5 +304,4 @@ public class Configuration implements Configurable {
         boolean activateBatchIsSelected = checkboxes.get(activateOnBatch).isSelected();
         return activateIsSelected || activateShortcutIsSelected || activateBatchIsSelected;
     }
-
 }

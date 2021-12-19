@@ -31,7 +31,7 @@ dependencies {
 // See https://www.jetbrains.com/intellij-repository/snapshots
 // See https://www.jetbrains.com/intellij-repository/releases
 intellij {
-    version = '2021.2'
+    version = '2021.3'
     plugins = ['java', 'coverage']
     pluginName = 'Save Actions'
     // Do not touch the plugin.xml file

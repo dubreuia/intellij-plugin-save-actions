@@ -89,11 +89,11 @@ public enum JavaProcessor implements Processor {
 
     unqualifiedStaticMemberAccess(Action.unqualifiedStaticMemberAccess,
             () -> {
-                UnqualifiedStaticUsageInspection inspection = new UnqualifiedStaticUsageInspection();
-                inspection.m_ignoreStaticFieldAccesses = false;
-                inspection.m_ignoreStaticMethodCalls = false;
-                inspection.m_ignoreStaticAccessFromStaticContext = false;
-                return inspection;
+                UnqualifiedStaticUsageInspection unqualifiedStaticUsageInspection = new UnqualifiedStaticUsageInspection();
+                unqualifiedStaticUsageInspection.m_ignoreStaticFieldAccesses = false;
+                unqualifiedStaticUsageInspection.m_ignoreStaticMethodCalls = false;
+                unqualifiedStaticUsageInspection.m_ignoreStaticAccessFromStaticContext = false;
+                return unqualifiedStaticUsageInspection;
             }),
 
     customUnqualifiedStaticMemberAccess(Action.customUnqualifiedStaticMemberAccess,
@@ -101,9 +101,9 @@ public enum JavaProcessor implements Processor {
 
     missingOverrideAnnotation(Action.missingOverrideAnnotation,
             () -> {
-                MissingOverrideAnnotationInspection inspection = new MissingOverrideAnnotationInspection();
-                inspection.ignoreObjectMethods = false;
-                return inspection;
+                MissingOverrideAnnotationInspection missingOverrideAnnotationInspection = new MissingOverrideAnnotationInspection();
+                missingOverrideAnnotationInspection.ignoreObjectMethods = false;
+                return missingOverrideAnnotationInspection;
             }),
 
     useBlocks(Action.useBlocks,
