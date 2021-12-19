@@ -41,7 +41,7 @@ import static com.dubreuia.model.StorageFactory.DEFAULT;
  * <p/>
  *
  * @see AbstractSaveActionsService
- * @since 2.3.0
+ * @since 2.4.0
  */
 public final class SaveActionsDefaultService extends AbstractSaveActionsService {
 

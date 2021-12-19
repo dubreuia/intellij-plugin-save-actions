@@ -42,7 +42,7 @@ import static com.dubreuia.model.StorageFactory.JAVA;
  * <p/>
  *
  * @see AbstractSaveActionsService
- * @since 2.3.0
+ * @since 2.4.0
  */
 public final class SaveActionsJavaService extends AbstractSaveActionsService {
 

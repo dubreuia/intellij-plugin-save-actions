@@ -64,7 +64,7 @@ import static java.util.stream.Collectors.toMap;
  * the file is physically in that project before reformatting, or else the file is formatted twice and intellij will ask
  * to confirm unlocking of non-project file in the other project, see {@link Engine} for more details.
  *
- * @since 2.3.0
+ * @since 2.4.0
  */
 abstract class AbstractSaveActionsService implements SaveActionsService {
 
