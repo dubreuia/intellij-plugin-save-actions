@@ -1,47 +1,45 @@
 // Add idea plugin version
 plugins {
-    id "org.jetbrains.intellij" version '1.3.0'
-    id 'java'
+    id "java"
+    id "org.jetbrains.intellij" version "1.3.0"
 }
 
-// Add idea and java plugins
-apply plugin: 'jacoco'
+// Add coverage plugin
+apply plugin: "jacoco"
 
 // Add plugin group and version
-group 'com.dubreuia'
-version '2.3.1'
+group "com.dubreuia"
+version "2.3.1"
 
 // Add build script repository to maven central
 repositories {
     mavenCentral()
 }
 
-
 // Add dependencies to test, junit5 api (annotations) and engine (runtime)
 dependencies {
-    testImplementation 'org.assertj:assertj-core:3.21.0'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.1'
-    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    testImplementation "org.assertj:assertj-core:3.21.0"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:5.8.2"
+    testImplementation "org.junit.jupiter:junit-jupiter-params:5.8.2"
+    testImplementation "org.junit.jupiter:junit-jupiter-engine:5.8.2"
 }
-
 
 // Add intellij task configuration for base intellij version (minimum compatibility)
 // This needs to fit the tag <idea-version since-build="xxx"> in plugin.xml
 // See https://www.jetbrains.com/intellij-repository/snapshots
 // See https://www.jetbrains.com/intellij-repository/releases
 intellij {
-    version = '2021.3'
-    plugins = ['java', 'coverage']
-    pluginName = 'Save Actions'
+    version = "2021.3"
+    plugins = ["java"]
+    pluginName = "Save Actions"
     // Do not touch the plugin.xml file
     updateSinceUntilBuild = false
 }
 
 // JAVA compatibility
 compileJava {
-    sourceCompatibility = '11'
-    targetCompatibility = '11'
+    sourceCompatibility = "11"
+    targetCompatibility = "11"
 }
 
 // Activate junit since gradle 4.7
