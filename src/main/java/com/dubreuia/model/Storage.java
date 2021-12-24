@@ -46,8 +46,6 @@ public class Storage implements PersistentStateComponent<Storage> {
     private String configurationPath;
     private List<String> quickLists;
 
-    // Tested in 2018.3, seems like it works anyway
-    @SuppressWarnings("MissingRecentApi")
     @NonInjectable
     public Storage() {
         firstLaunch = true;
@@ -57,9 +55,7 @@ public class Storage implements PersistentStateComponent<Storage> {
         configurationPath = null;
         quickLists = new ArrayList<>();
     }
-
-    // Tested in 2018.3, seems like it works anyway
-    @SuppressWarnings("MissingRecentApi")
+    
     @NonInjectable
     public Storage(Storage storage) {
         firstLaunch = storage.firstLaunch;
