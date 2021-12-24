@@ -39,7 +39,6 @@ import com.intellij.openapi.project.IndexNotReadyException;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -50,10 +49,9 @@ import java.util.stream.Collectors;
 /**
  * Implements a runnable for inspections commands.
  */
-class InspectionRunnable implements Runnable, Serializable {
+class InspectionRunnable implements Runnable {
 
     private static final Logger LOGGER = Logger.getInstance(SaveActionsService.class);
-    private static final long serialVersionUID = -9189508316598162392L;
 
     private final Project project;
     private final Set<PsiFile> psiFiles;
