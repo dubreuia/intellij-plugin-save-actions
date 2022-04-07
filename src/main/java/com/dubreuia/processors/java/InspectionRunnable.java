@@ -56,7 +56,7 @@ class InspectionRunnable implements Runnable {
 
     private final Project project;
     private final Set<PsiFile> psiFiles;
-    private final InspectionToolWrapper toolWrapper;
+    private final InspectionToolWrapper<LocalInspectionTool, LocalInspectionEP> toolWrapper;
 
     InspectionRunnable(Project project, Set<PsiFile> psiFiles, LocalInspectionTool inspectionTool) {
         this.project = project;
