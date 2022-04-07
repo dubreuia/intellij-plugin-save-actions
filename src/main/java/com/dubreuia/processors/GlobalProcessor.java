@@ -33,6 +33,7 @@ import com.intellij.codeInsight.actions.RearrangeCodeProcessor;
 import com.intellij.codeInsight.actions.ReformatCodeProcessor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.EnumSet;
@@ -47,19 +48,32 @@ import java.util.stream.Stream;
  */
 public enum GlobalProcessor implements Processor {
 
-    organizeImports(Action.organizeImports,
-            (project, psiFiles) -> new OptimizeImportsProcessor(project, psiFiles, null)::run),
+    organizeImports(Action.organizeImports, GlobalProcessor::optimizeImports),
 
     reformat(Action.reformat,
-            (project, psiFiles) -> new ReformatCodeProcessor(project, psiFiles, null, false)::run),
+            (project, psiFiles) -> reformateCode(project, psiFiles, false)),
 
     reformatChangedCode(Action.reformatChangedCode,
-            (project, psiFiles) -> new ReformatCodeProcessor(project, psiFiles, null, true)::run),
+            (project, psiFiles) -> reformateCode(project, psiFiles, true)),
 
-    rearrange(Action.rearrange,
-            (project, psiFiles) -> new RearrangeCodeProcessor(project, psiFiles, CodeInsightBundle.message("command.rearrange.code"), null)::run),
+    rearrange(Action.rearrange, GlobalProcessor::rearrangeCode),
 
     ;
+
+    @NotNull
+    private static Runnable rearrangeCode(Project project, PsiFile[] psiFiles) {
+        return new RearrangeCodeProcessor(project, psiFiles, CodeInsightBundle.message("command.rearrange.code"), null)::run;
+    }
+
+    @NotNull
+    private static Runnable optimizeImports(Project project, PsiFile[] psiFiles) {
+        return new OptimizeImportsProcessor(project, psiFiles, null)::run;
+    }
+
+    @NotNull
+    private static Runnable reformateCode(Project project, PsiFile[] psiFiles, boolean processChangedTextOnly) {
+        return new ReformatCodeProcessor(project, psiFiles, null, processChangedTextOnly)::run;
+    }
 
     private final Action action;
     private final BiFunction<Project, PsiFile[], Runnable> command;
