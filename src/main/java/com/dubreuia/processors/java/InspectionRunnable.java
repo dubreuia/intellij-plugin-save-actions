@@ -29,6 +29,7 @@ import com.dubreuia.core.service.SaveActionsService;
 import com.intellij.codeInspection.GlobalInspectionContext;
 import com.intellij.codeInspection.InspectionEngine;
 import com.intellij.codeInspection.InspectionManager;
+import com.intellij.codeInspection.LocalInspectionEP;
 import com.intellij.codeInspection.LocalInspectionTool;
 import com.intellij.codeInspection.ProblemDescriptor;
 import com.intellij.codeInspection.QuickFix;
@@ -77,7 +78,7 @@ class InspectionRunnable implements Runnable {
         try {
             return InspectionEngine.runInspectionOnFile(psiFile, toolWrapper, context);
         } catch (IndexNotReadyException exception) {
-            LOGGER.error(String.format("Cannot inspect file %s: index not ready (%s)",
+            LOGGER.info(String.format("Cannot inspect file %s: index not ready (%s)",
                     psiFile.getName(),
                     exception.getMessage()));
             return Collections.emptyList();
