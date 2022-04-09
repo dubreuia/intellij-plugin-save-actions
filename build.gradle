@@ -34,7 +34,7 @@ dependencies {
 intellij {
     //version = "2022.1"
     type = "IC"
-    version = "221.5080.93-EAP-SNAPSHOT"
+    version = "LATEST-EAP-SNAPSHOT"
     plugins = ["java"]
     pluginName = "Save Actions"
     // Do not touch the plugin.xml file

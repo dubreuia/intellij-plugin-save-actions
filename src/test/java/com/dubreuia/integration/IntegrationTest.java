@@ -33,6 +33,7 @@ import com.intellij.testFramework.fixtures.IdeaTestFixtureFactory;
 import com.intellij.testFramework.fixtures.impl.LightTempDirTestFixtureImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestInfo;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -51,9 +52,9 @@ public abstract class IntegrationTest {
     Storage storage;
 
     @BeforeEach
-    public void before() throws Exception {
+    public void before(TestInfo testInfo) throws Exception {
         IdeaTestFixtureFactory factory = IdeaTestFixtureFactory.getFixtureFactory();
-        IdeaProjectTestFixture testFixture = factory.createLightFixtureBuilder(EMPTY_PROJECT_DESCRIPTOR).getFixture();
+        IdeaProjectTestFixture testFixture = factory.createLightFixtureBuilder(EMPTY_PROJECT_DESCRIPTOR, testInfo.getDisplayName()).getFixture();
         fixture = factory.createCodeInsightFixture(testFixture, new LightTempDirTestFixtureImpl(true));
         fixture.setUp();
         fixture.setTestDataPath(getTestDataPath());
