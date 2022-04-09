@@ -49,7 +49,7 @@ public class SaveWriteCommand extends SaveCommand {
     }
 
     @Override
-    public Result<ResultCode> execute() {
+    public synchronized Result<ResultCode> execute() {
         try {
             WriteCommandAction.writeCommandAction(getProject(), getPsiFilesAsArray())
                     .run(() -> getCommand().apply(getProject(), getPsiFilesAsArray()).run());

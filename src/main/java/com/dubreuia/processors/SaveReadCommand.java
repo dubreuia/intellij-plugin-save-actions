@@ -49,7 +49,7 @@ public class SaveReadCommand extends SaveCommand {
   }
 
   @Override
-  public Result<ResultCode> execute() {
+  public synchronized Result<ResultCode> execute() {
     try {
       getCommand().apply(getProject(), getPsiFilesAsArray()).run();
       return new Result<>(OK);
