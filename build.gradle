@@ -23,8 +23,11 @@ repositories {
 dependencies {
     testImplementation platform('org.junit:junit-bom:5.9.0'),
             'org.junit.jupiter:junit-jupiter',
-            'org.junit.jupiter:junit-jupiter-api',
+            'org.junit.jupiter:junit-jupiter-engine',
             'org.assertj:assertj-core:3.23.1'
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher") {
+        because("Only needed to run tests in a version of IntelliJ IDEA that bundles older versions")
+    }
 }
 
 // Add intellij task configuration for base intellij version (minimum compatibility)
