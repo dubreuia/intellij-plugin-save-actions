@@ -2,7 +2,7 @@
 plugins {
     id 'java'
     id 'idea'
-    id 'org.jetbrains.intellij' version '1.5.2'
+    id 'org.jetbrains.intellij' version '1.9.0'
 }
 
 // Add coverage plugin
@@ -21,10 +21,10 @@ repositories {
 
 // Add dependencies to test, junit5 api (annotations) and engine (runtime)
 dependencies {
-    testImplementation platform('org.junit:junit-bom:5.8.2'),
+    testImplementation platform('org.junit:junit-bom:5.9.0'),
             'org.junit.jupiter:junit-jupiter',
             'org.junit.jupiter:junit-jupiter-api',
-            'org.assertj:assertj-core:3.21.0'
+            'org.assertj:assertj-core:3.23.1'
 }
 
 // Add intellij task configuration for base intellij version (minimum compatibility)
@@ -32,13 +32,18 @@ dependencies {
 // See https://www.jetbrains.com/intellij-repository/snapshots
 // See https://www.jetbrains.com/intellij-repository/releases
 intellij {
-    //version = "2022.1"
+    version = "2022.2.1"
+    //version = "LATEST-EAP-SNAPSHOT"
     type = "IC"
-    version = "LATEST-EAP-SNAPSHOT"
     plugins = ["java"]
     pluginName = "Save Actions"
     // Do not touch the plugin.xml file
     updateSinceUntilBuild = false
+}
+
+
+listProductsReleases {
+    sinceBuild = "213.*"
 }
 
 // JAVA compatibility
@@ -70,6 +75,7 @@ jacocoTestReport {
 }
 
 wrapper() {
-    gradleVersion = '7.4.2'
+    gradleVersion = '7.5.1'
     distributionUrl = distributionUrl.replace('bin', 'all')
 }
+
