@@ -14,7 +14,7 @@
     <g fill="#fff" text-anchor="middle" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="110">
         <text x="485" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="850">JetBrains Plugin</text>
         <text x="485" y="140" transform="scale(.1)" textLength="850">JetBrains Plugin</text>
-        <text x="1145" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="310">v2.4.0</text>
-        <text x="1145" y="140" transform="scale(.1)" textLength="310">v2.4.0</text>
+        <text x="1145" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="310">v2.6.0</text>
+        <text x="1145" y="140" transform="scale(.1)" textLength="310">v2.6.0</text>
     </g>
 </svg>
