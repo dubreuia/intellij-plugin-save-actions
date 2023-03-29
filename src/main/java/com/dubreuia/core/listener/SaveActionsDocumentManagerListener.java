@@ -47,16 +47,15 @@ import static com.dubreuia.model.Action.activate;
 /**
  * FileDocumentManagerListener to catch save events. This listener is registered as ExtensionPoint.
  */
-public class SaveActionsDocumentManagerListener implements FileDocumentManagerListener {
+public final class SaveActionsDocumentManagerListener implements FileDocumentManagerListener {
 
     private static final Logger LOGGER = Logger.getInstance(SaveActionsService.class);
 
     private final Project project;
-    private final PsiDocumentManager psiDocumentManager;
+    private PsiDocumentManager psiDocumentManager = null;
 
     public SaveActionsDocumentManagerListener(Project project) {
         this.project = project;
-        psiDocumentManager = PsiDocumentManager.getInstance(project);
     }
 
     @Override
@@ -74,11 +73,18 @@ public class SaveActionsDocumentManagerListener implements FileDocumentManagerLi
         if (project.isDisposed()) {
             return;
         }
+        initPsiDocManager();
         Set<PsiFile> psiFiles = documents.stream()
                 .map(psiDocumentManager::getPsiFile)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toSet());
         SaveActionsServiceManager.getService().guardedProcessPsiFiles(project, psiFiles, activate, saveAll);
+    }
+
+    private synchronized void initPsiDocManager() {
+        if (psiDocumentManager == null) {
+            psiDocumentManager = PsiDocumentManager.getInstance(project);
+        }
     }
 
 }

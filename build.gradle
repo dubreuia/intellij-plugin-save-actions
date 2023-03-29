@@ -2,7 +2,7 @@
 plugins {
     id 'java'
     id 'idea'
-    id 'org.jetbrains.intellij' version '1.12.0'
+    id 'org.jetbrains.intellij' version '1.13.3'
 }
 
 // Add coverage plugin
@@ -12,7 +12,7 @@ apply plugin: 'java'
 
 // Add plugin group and version
 group "com.dubreuia"
-version "2.5.0"
+version "2.6.0"
 
 // Add build script repository to maven central
 repositories {
@@ -35,7 +35,7 @@ dependencies {
 // See https://www.jetbrains.com/intellij-repository/snapshots
 // See https://www.jetbrains.com/intellij-repository/releases
 intellij {
-    version = "2022.2.1"
+    version = "2023.1"
     //version = "LATEST-EAP-SNAPSHOT"
     type = "IC"
     plugins = ["java"]
@@ -46,7 +46,7 @@ intellij {
 
 
 listProductsReleases {
-    sinceBuild = "222.*"
+    sinceBuild = "231.*"
 }
 
 // JAVA compatibility
