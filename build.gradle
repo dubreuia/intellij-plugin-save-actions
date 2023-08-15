@@ -2,7 +2,7 @@
 plugins {
     id 'java'
     id 'idea'
-    id 'org.jetbrains.intellij' version '1.13.3'
+    id 'org.jetbrains.intellij' version '1.15.0'
 }
 
 // Add coverage plugin
@@ -12,7 +12,7 @@ apply plugin: 'java'
 
 // Add plugin group and version
 group "com.dubreuia"
-version "2.6.0"
+version "2.7.0"
 
 // Add build script repository to maven central
 repositories {
@@ -21,10 +21,10 @@ repositories {
 
 // Add dependencies to test, junit5 api (annotations) and engine (runtime)
 dependencies {
-    testImplementation platform('org.junit:junit-bom:5.9.0'),
+    testImplementation platform('org.junit:junit-bom:5.10.0'),
             'org.junit.jupiter:junit-jupiter',
             'org.junit.jupiter:junit-jupiter-engine',
-            'org.assertj:assertj-core:3.23.1'
+            'org.assertj:assertj-core:3.24.2'
     testRuntimeOnly("org.junit.platform:junit-platform-launcher") {
         because("Only needed to run tests in a version of IntelliJ IDEA that bundles older versions")
     }
@@ -35,7 +35,7 @@ dependencies {
 // See https://www.jetbrains.com/intellij-repository/snapshots
 // See https://www.jetbrains.com/intellij-repository/releases
 intellij {
-    version = "2023.1"
+    version = "2023.2"
     //version = "LATEST-EAP-SNAPSHOT"
     type = "IC"
     plugins = ["java"]
@@ -78,7 +78,7 @@ jacocoTestReport {
 }
 
 wrapper() {
-    gradleVersion = '7.5.1'
+    gradleVersion = '8.2.1'
     distributionUrl = distributionUrl.replace('bin', 'all')
 }
 
