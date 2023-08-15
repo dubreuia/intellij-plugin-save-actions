@@ -33,8 +33,8 @@ import com.intellij.testFramework.fixtures.IdeaTestFixtureFactory;
 import com.intellij.testFramework.fixtures.impl.LightTempDirTestFixtureImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestInfo;
 
-import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -51,9 +51,9 @@ public abstract class IntegrationTest {
     Storage storage;
 
     @BeforeEach
-    public void before() throws Exception {
+    public void before(TestInfo testInfo) throws Exception {
         IdeaTestFixtureFactory factory = IdeaTestFixtureFactory.getFixtureFactory();
-        IdeaProjectTestFixture testFixture = factory.createLightFixtureBuilder(EMPTY_PROJECT_DESCRIPTOR).getFixture();
+        IdeaProjectTestFixture testFixture = factory.createLightFixtureBuilder(EMPTY_PROJECT_DESCRIPTOR, testInfo.getDisplayName()).getFixture();
         fixture = factory.createCodeInsightFixture(testFixture, new LightTempDirTestFixtureImpl(true));
         fixture.setUp();
         fixture.setTestDataPath(getTestDataPath());
@@ -85,9 +85,8 @@ public abstract class IntegrationTest {
     }
 
     private String getTestDataPath() {
-        Path classes = Paths.get(new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath())
-                .getAbsolutePath());
-        Path resources = Paths.get(classes.getParent().toString(), "resources");
+        /* See gradle config. Previous implementation not compatible with intellij gradle plugin >= 1.6.0 */
+        Path resources = Paths.get("./build/classes/java/resources");
         Path root = Paths.get(resources.toString(), getClass().getPackage().getName().split("[.]"));
         return root.toString();
     }

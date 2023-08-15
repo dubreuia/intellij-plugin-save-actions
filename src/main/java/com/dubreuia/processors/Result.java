@@ -36,10 +36,6 @@ public class Result<T> {
         this.result = result;
     }
 
-    Result(com.intellij.openapi.application.RunResult<T> result) {
-        this.result = result.getResultObject();
-    }
-
     public T getResult() {
         return result;
     }

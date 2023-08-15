@@ -34,8 +34,11 @@ import com.dubreuia.processors.Result;
 import com.dubreuia.processors.ResultCode;
 import com.dubreuia.processors.SaveCommand;
 import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.openapi.editor.Document;
+import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ProjectRootManager;
+import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
 import com.intellij.util.PsiErrorElementUtil;
 import org.jetbrains.annotations.NotNull;
@@ -108,6 +111,10 @@ public class Engine {
                 .filter(command -> command.getModes().contains(mode))
                 .collect(toList());
         LOGGER.info(String.format("Filtered processors %s", processorsEligible));
+        if (!processorsEligible.isEmpty()) {
+            PsiDocumentManager psiDocumentManager = PsiDocumentManager.getInstance(project);
+            psiFiles.forEach(psiFile -> commitDocumentAndSave(psiFile, psiDocumentManager));
+        }
         List<SimpleEntry<Action, Result<ResultCode>>> results = processorsEligible.stream()
                 .filter(Objects::nonNull)
                 .peek(command -> LOGGER.info(String.format("Execute command %s on %d files", command, psiFiles.size())))
@@ -223,4 +230,18 @@ public class Engine {
         return false;
     }
 
+    /**
+     * Should properly fix #402 according to @krasa's recommendation in #109.
+     *
+     * @param psiFile            of type PsiFile
+     * @param psiDocumentManager
+     */
+    private void commitDocumentAndSave(PsiFile psiFile, PsiDocumentManager psiDocumentManager) {
+        Document document = psiDocumentManager.getDocument(psiFile);
+        if (document != null) {
+            psiDocumentManager.doPostponedOperationsAndUnblockDocument(document);
+            psiDocumentManager.commitDocument(document);
+            FileDocumentManager.getInstance().saveDocument(document);
+        }
+    }
 }

@@ -29,6 +29,7 @@ import com.dubreuia.core.service.SaveActionsService;
 import com.intellij.codeInspection.GlobalInspectionContext;
 import com.intellij.codeInspection.InspectionEngine;
 import com.intellij.codeInspection.InspectionManager;
+import com.intellij.codeInspection.LocalInspectionEP;
 import com.intellij.codeInspection.LocalInspectionTool;
 import com.intellij.codeInspection.ProblemDescriptor;
 import com.intellij.codeInspection.QuickFix;
@@ -39,7 +40,6 @@ import com.intellij.openapi.project.IndexNotReadyException;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -50,14 +50,13 @@ import java.util.stream.Collectors;
 /**
  * Implements a runnable for inspections commands.
  */
-class InspectionRunnable implements Runnable, Serializable {
+class InspectionRunnable implements Runnable {
 
     private static final Logger LOGGER = Logger.getInstance(SaveActionsService.class);
-    private static final long serialVersionUID = -9189508316598162392L;
 
     private final Project project;
     private final Set<PsiFile> psiFiles;
-    private final InspectionToolWrapper toolWrapper;
+    private final InspectionToolWrapper<LocalInspectionTool, LocalInspectionEP> toolWrapper;
 
     InspectionRunnable(Project project, Set<PsiFile> psiFiles, LocalInspectionTool inspectionTool) {
         this.project = project;
@@ -79,7 +78,7 @@ class InspectionRunnable implements Runnable, Serializable {
         try {
             return InspectionEngine.runInspectionOnFile(psiFile, toolWrapper, context);
         } catch (IndexNotReadyException exception) {
-            LOGGER.error(String.format("Cannot inspect file %s: index not ready (%s)",
+            LOGGER.info(String.format("Cannot inspect file %s: index not ready (%s)",
                     psiFile.getName(),
                     exception.getMessage()));
             return Collections.emptyList();

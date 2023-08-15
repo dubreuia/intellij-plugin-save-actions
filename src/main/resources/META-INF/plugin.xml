@@ -4,7 +4,7 @@
 
     <id>com.dubreuia</id>
     <name>Save Actions</name>
-    <version>2.4.0</version>
+    <version>2.6.0</version>
     <vendor email="dubreuil.alex@gmail.com" url="https://www.github.com/dubreuia">Alexandre DuBreuil</vendor>
 
     <description><![CDATA[
@@ -53,12 +53,12 @@
 
     <change-notes><![CDATA[
 <ul>
-  <li>Release notes: <a href="https://github.com/dubreuia/intellij-plugin-save-actions/releases">https://github.com/dubreuia/intellij-plugin-save-actions/releases/tag/v2.4.0</a></li>
+  <li>Release notes: <a href="https://github.com/dubreuia/intellij-plugin-save-actions/releases">https://github.com/dubreuia/intellij-plugin-save-actions/releases/tag/v2.5.0</a></li>
 </ul>
     ]]>
     </change-notes>
 
-    <idea-version since-build="212"/>
+    <idea-version since-build="231"/>
 
     <!-- Other product support activated in plugin page during upload at https://plugins.jetbrains.com -->
     <depends optional="true" config-file="plugin-java.xml">com.intellij.modules.java</depends>
@@ -66,8 +66,7 @@
     <extensions defaultExtensionNs="com.intellij">
         <applicationService serviceImplementation="com.dubreuia.core.service.impl.SaveActionsDefaultService"/>
 
-        <projectService serviceImplementation="com.dubreuia.model.Storage"/>
-        <projectConfigurable id="settings.saveactions" instance="com.dubreuia.ui.Configuration" dynamic="true"/>
+        <projectConfigurable id="settings.saveactions" instance="com.dubreuia.ui.Configuration" dynamic="true" displayName="Save Action"/>
     </extensions>
 
     <projectListeners>

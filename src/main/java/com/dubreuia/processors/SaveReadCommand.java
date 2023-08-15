@@ -33,6 +33,7 @@ import com.intellij.psi.PsiFile;
 import java.util.Set;
 import java.util.function.BiFunction;
 
+import static com.dubreuia.processors.ResultCode.FAILED;
 import static com.dubreuia.processors.ResultCode.OK;
 
 /**
@@ -41,17 +42,20 @@ import static com.dubreuia.processors.ResultCode.OK;
 public class SaveReadCommand extends SaveCommand {
 
   public SaveReadCommand(
-      Project project, Set<PsiFile> psiFiles, Set<ExecutionMode> modes, Action action,
-      BiFunction<Project, PsiFile[], Runnable> command) {
+          Project project, Set<PsiFile> psiFiles, Set<ExecutionMode> modes, Action action,
+          BiFunction<Project, PsiFile[], Runnable> command) {
 
     super(project, psiFiles, modes, action, command);
   }
 
   @Override
-  public Result<ResultCode> execute() {
-
-    getCommand().apply(getProject(), getPsiFilesAsArray()).run();
-    return new Result<>(OK);
+  public synchronized Result<ResultCode> execute() {
+    try {
+      getCommand().apply(getProject(), getPsiFilesAsArray()).run();
+      return new Result<>(OK);
+    } catch (Exception e) {
+      return new Result<>(FAILED);
+    }
   }
 
 }

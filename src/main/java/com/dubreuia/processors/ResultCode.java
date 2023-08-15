@@ -30,6 +30,7 @@ package com.dubreuia.processors;
  */
 public enum ResultCode {
 
-    OK
+    OK,
+    FAILED
 
 }

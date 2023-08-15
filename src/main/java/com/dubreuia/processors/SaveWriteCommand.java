@@ -34,6 +34,7 @@ import com.intellij.psi.PsiFile;
 import java.util.Set;
 import java.util.function.BiFunction;
 
+import static com.dubreuia.processors.ResultCode.FAILED;
 import static com.dubreuia.processors.ResultCode.OK;
 
 /**
@@ -48,11 +49,13 @@ public class SaveWriteCommand extends SaveCommand {
     }
 
     @Override
-    public Result<ResultCode> execute() {
-        WriteCommandAction.writeCommandAction(getProject(), getPsiFilesAsArray())
-                .run(() -> getCommand().apply(getProject(), getPsiFilesAsArray()).run());
-
-        return new Result<>(OK);
+    public synchronized Result<ResultCode> execute() {
+        try {
+            WriteCommandAction.writeCommandAction(getProject(), getPsiFilesAsArray())
+                    .run(() -> getCommand().apply(getProject(), getPsiFilesAsArray()).run());
+            return new Result<>(OK);
+        } catch (Exception e) {
+            return new Result<>(FAILED);
+        }
     }
-
 }
